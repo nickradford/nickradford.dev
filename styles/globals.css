@@ -43,6 +43,18 @@ a {
   @apply bg-white text-black shadow-xl font-bold;
 }
 
+.header-link-button.blue:hover {
+  @apply text-blue-600;
+}
+
+.header-link-button.purple:hover {
+  @apply text-purple-600;
+}
+
+.header-link-button.red:hover {
+  @apply text-red-600;
+}
+
 @screen md {
   .header-link-button {
     @apply mr-2 mb-0;
