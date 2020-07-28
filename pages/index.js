@@ -90,7 +90,9 @@ export default function Home({ projects }) {
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen">
           <div>
-            <h2 className="text-4xl mb-8 border-b-4 inline-block">Projects</h2>
+            <h2 className="text-4xl mb-8 border-b-4 inline-block fancy-border">
+              Projects
+            </h2>
 
             {projects.items &&
               projects.items.map((project) => (

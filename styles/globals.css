@@ -64,3 +64,11 @@ a {
     @apply mr-0;
   }
 }
+
+.fancy-border {
+  /* fallback to white */
+  border-color: white;
+
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, #00d1ff, #fa00ff);
+}
