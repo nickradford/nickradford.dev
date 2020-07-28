@@ -1,11 +1,16 @@
 import Head from "next/head";
+import { createClient } from "contentful";
+
 import ParticleSystem from "../components/particleSystem";
-
 import BlackWave from "../components/blackWave";
-
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+import config from "../contentful.json";
+
+const client = createClient(config);
+
+export default function Home({ projects }) {
+  console.log(projects);
   return (
     <>
       <div className={`${styles.container} w-full relative`}>
@@ -73,11 +78,24 @@ export default function Home() {
       </div>
       <div className="bg-black text-white">
         <section className="container m-auto min-h-screen">
-          <div className={styles.projects}>
-            <h2>Projects</h2>
+          <div>
+            <h2 className="text-3xl">Projects</h2>
+
+            {projects.items &&
+              projects.items.map((project) => (
+                <div key={project.sys.id}>{project.fields.name}</div>
+              ))}
           </div>
         </section>
       </div>
     </>
   );
 }
+
+export const getStaticProps = async () => {
+  const projects = await client.getEntries({
+    content_type: "project",
+  });
+
+  return { props: { projects } };
+};
