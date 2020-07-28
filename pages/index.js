@@ -11,7 +11,9 @@ import config from "../contentful.json";
 const client = createClient(config);
 
 const Emphasis = (props) => (
-  <span className="text-white border-b-4 pb-1">{props.children}</span>
+  <span className="text-white border-b-4 pb-1 border-white">
+    {props.children}
+  </span>
 );
 
 export default function Home({ projects }) {
