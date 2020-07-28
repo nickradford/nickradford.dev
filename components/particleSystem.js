@@ -6,7 +6,7 @@ export default function ParticleSystem() {
       params={{
         particles: {
           number: {
-            value: 160,
+            value: 260,
             density: {
               enable: false,
             },
@@ -15,7 +15,7 @@ export default function ParticleSystem() {
             value: 3,
             random: true,
             anim: {
-              speed: 4,
+              speed: 3,
               size_min: 0.3,
             },
           },
@@ -32,11 +32,11 @@ export default function ParticleSystem() {
         interactivity: {
           events: {
             onhover: {
-              enable: true,
+              enable: false,
               mode: "bubble",
             },
             onclick: {
-              enable: true,
+              enable: false,
               mode: "repulse",
             },
           },

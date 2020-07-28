@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { createClient } from "contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
@@ -24,17 +25,20 @@ export default function Home({ projects }) {
         <BlackWave
           style={{
             position: "absolute",
-            width: "calc(100% + 2px)",
+            width: "calc(100% + 20px)",
             zIndex: 10,
-            bottom: -1,
-            left: -1,
-            right: -1,
+            bottom: -5,
+            left: -10,
+            right: -10,
           }}
         />
         <div className="container m-auto relative z-50">
           <main
             className="text-white text-xl px-3 flex flex-col justify-center"
-            style={{ minHeight: "calc(100vh - 100px)" }}
+            style={{
+              minHeight: "calc(100vh - 100px)",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, .2)",
+            }}
           >
             <div className="">
               <h1 className="text-3xl md:text-5xl mb-4">
@@ -53,14 +57,14 @@ export default function Home({ projects }) {
                 My Github
               </a>
               <a
-                href="https://github.com/nickradford"
+                href="https://www.linkedin.com/in/nickradford"
                 className="header-link-button"
               >
                 My LinkedIn
               </a>
 
               <a
-                href="https://github.com/nickradford"
+                href="https://standardresume.co/nickradford"
                 className="header-link-button"
               >
                 My Resume
@@ -76,14 +80,36 @@ export default function Home({ projects }) {
           </main>
         </div>
       </div>
-      <div className="bg-black text-white">
+      <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen">
           <div>
-            <h2 className="text-3xl">Projects</h2>
+            <h2 className="text-4xl mb-3">Projects</h2>
 
             {projects.items &&
               projects.items.map((project) => (
-                <div key={project.sys.id}>{project.fields.name}</div>
+                <div
+                  key={project.sys.id}
+                  className="flex flex-col lg:flex-row border border-gray-900 p-3 rounded"
+                >
+                  <div className="flex-1 mb-4">
+                    <div className="text-2xl mb-4">{project.fields.name}</div>
+                    <div
+                      className="prose"
+                      dangerouslySetInnerHTML={{
+                        __html: documentToHtmlString(
+                          project.fields.description
+                        ),
+                      }}
+                    ></div>
+                  </div>
+
+                  <div className="lg:pl-8">
+                    <img
+                      className="h-auto max-w-full lg:max-w-xl rounded"
+                      src={project.fields.image.fields.file.url}
+                    />
+                  </div>
+                </div>
               ))}
           </div>
         </section>

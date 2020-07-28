@@ -19,7 +19,12 @@ a {
 }
 
 .header-link-button {
+  transition: all 200ms ease;
   @apply bg-transparent flex-1 mb-2 cursor-pointer border-4 rounded text-center lowercase border-white px-3 py-2;
+}
+
+.header-link-button:hover {
+  @apply bg-white text-black shadow-xl font-bold;
 }
 
 @screen md {
