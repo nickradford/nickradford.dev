@@ -1,9 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Merriweather", serif;
 }
 
 a {
@@ -13,4 +16,18 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.header-link-button {
+  @apply bg-transparent flex-1 mb-2 cursor-pointer border-4 rounded text-center lowercase border-white px-3 py-2;
+}
+
+@screen md {
+  .header-link-button {
+    @apply mr-2 mb-0;
+  }
+
+  .header-link-button:last-child {
+    @apply mr-0;
+  }
 }

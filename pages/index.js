@@ -1,65 +1,83 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import ParticleSystem from "../components/particleSystem";
+
+import BlackWave from "../components/blackWave";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
+    <>
+      <div className={`${styles.container} w-full relative`}>
+        <Head>
+          <title>
+            Nick Radford | Hire Me! | Software Engineer in San Francisco
+          </title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <ParticleSystem />
+        <BlackWave
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 10,
+            bottom: -1,
+            left: 0,
+            right: 0,
+          }}
+        />
+        <div className="container m-auto relative z-50">
+          <main
+            className="text-white text-xl px-3 flex flex-col justify-center"
+            style={{ minHeight: "calc(100vh - 100px)" }}
           >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            <div className="">
+              <h1 className="text-3xl md:text-5xl mb-4">
+                Hi, I'm Nick Radford 👋
+              </h1>
+              <h2>
+                I'm a software engineer based in San Francisco, California, and
+                I am currently available for remote work.
+              </h2>
+            </div>
+            <div className="flex flex-col md:flex-row mt-20">
+              <a
+                href="https://github.com/nickradford"
+                className="header-link-button"
+              >
+                My Github
+              </a>
+              <a
+                href="https://github.com/nickradford"
+                className="header-link-button"
+              >
+                My LinkedIn
+              </a>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+              <a
+                href="https://github.com/nickradford"
+                className="header-link-button"
+              >
+                My Resume
+              </a>
+
+              <a
+                href="https://github.com/nickradford"
+                className="header-link-button"
+              >
+                Contact Me
+              </a>
+            </div>
+          </main>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+      </div>
+      <div className="bg-black text-white">
+        <section className="container m-auto min-h-screen">
+          <div className={styles.projects}>
+            <h2>Projects</h2>
+          </div>
+        </section>
+      </div>
+    </>
+  );
 }
