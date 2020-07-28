@@ -42,7 +42,7 @@ export default function Home({ projects }) {
           >
             <div className="">
               <h1 className="text-3xl md:text-5xl mb-4">
-                Hi, I'm Nick Radford 👋
+                Hi, I'm Nick Radford <div className="wave inline-block">👋</div>
               </h1>
               <h2>
                 I'm a software engineer based in San Francisco, California, and
@@ -91,23 +91,40 @@ export default function Home({ projects }) {
                   key={project.sys.id}
                   className="flex flex-col lg:flex-row border border-gray-900 p-3 rounded"
                 >
-                  <div className="flex-1 mb-4">
-                    <div className="text-2xl mb-4">{project.fields.name}</div>
+                  <div className="flex-1 mb-4 lg:mb-0 flex flex-col">
+                    <div className="text-2xl mb-4">
+                      <a
+                        href={project.fields.url}
+                        className="transition duration-100 hover:text-pink"
+                      >
+                        {project.fields.name}
+                      </a>
+                    </div>
                     <div
-                      className="prose"
+                      className="prose flex-1"
                       dangerouslySetInnerHTML={{
                         __html: documentToHtmlString(
                           project.fields.description
                         ),
                       }}
                     ></div>
+                    <div className="mt-6 mb-2 flex md:block">
+                      <a
+                        href={project.fields.url}
+                        className="header-link-button"
+                      >
+                        visit {project.fields.name}
+                      </a>
+                    </div>
                   </div>
 
                   <div className="lg:pl-8">
-                    <img
-                      className="h-auto max-w-full lg:max-w-xl rounded"
-                      src={project.fields.image.fields.file.url}
-                    />
+                    <a href={project.fields.url}>
+                      <img
+                        className="h-auto max-w-full lg:max-w-xl rounded"
+                        src={project.fields.image.fields.file.url}
+                      />
+                    </a>
                   </div>
                 </div>
               ))}

@@ -1,7 +1,11 @@
 module.exports = {
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        pink: "#FA00FF",
+      },
+    },
     typography: {
       default: {
         css: {
