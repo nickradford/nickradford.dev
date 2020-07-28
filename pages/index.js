@@ -27,8 +27,8 @@ export default function Home({ projects }) {
             width: "100%",
             zIndex: 10,
             bottom: -1,
-            left: 0,
-            right: 0,
+            left: -1,
+            right: -1,
           }}
         />
         <div className="container m-auto relative z-50">
