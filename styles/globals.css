@@ -29,6 +29,7 @@ a {
 }
 
 .wave {
+  will-change: transform;
   transform: rotate(-4deg);
   animation: 0.3s ease-in-out infinite alternate wave;
 }

@@ -10,6 +10,10 @@ import config from "../contentful.json";
 
 const client = createClient(config);
 
+const Emphasis = (props) => (
+  <span className="text-white border-b-4 pb-1">{props.children}</span>
+);
+
 export default function Home({ projects }) {
   console.log(projects);
   return (
@@ -41,12 +45,13 @@ export default function Home({ projects }) {
             }}
           >
             <div className="">
-              <h1 className="text-3xl md:text-5xl mb-4">
+              <h1 className="text-3xl md:text-5xl mb-8">
                 Hi, I'm Nick Radford <div className="wave inline-block">👋</div>
               </h1>
-              <h2>
-                I'm a software engineer based in San Francisco, California, and
-                I am currently available for remote work.
+              <h2 className="text-gray-200">
+                I'm a <Emphasis>software engineer</Emphasis> based in{" "}
+                <Emphasis>San Francisco, California</Emphasis>, and I am
+                currently <Emphasis>available for remote work</Emphasis>.
               </h2>
             </div>
             <div className="flex flex-col md:flex-row mt-20">
