@@ -113,7 +113,7 @@ export default function Home({ projects }) {
                         ),
                       }}
                     ></div>
-                    <div className="mt-6 mb-2 flex md:block">
+                    <div className="mt-6 mb-2 flex flex-col md:block">
                       <a
                         href={project.fields.url}
                         className="header-link-button"
