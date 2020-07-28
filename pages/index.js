@@ -45,10 +45,10 @@ export default function Home({ projects }) {
             }}
           >
             <div className="">
-              <h1 className="text-3xl md:text-5xl mb-8">
+              <h1 className="text-3xl md:text-6xl mb-8">
                 Hi, I'm Nick Radford <div className="wave inline-block">👋</div>
               </h1>
-              <h2 className="text-gray-200">
+              <h2 className="text-2xl text-gray-200 leading-loose">
                 I'm a <Emphasis>software engineer</Emphasis> based in{" "}
                 <Emphasis>San Francisco, California</Emphasis>, and I am
                 currently <Emphasis>available for remote work</Emphasis>.
@@ -88,13 +88,13 @@ export default function Home({ projects }) {
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen">
           <div>
-            <h2 className="text-4xl mb-3">Projects</h2>
+            <h2 className="text-4xl mb-8 border-b-4 inline-block">Projects</h2>
 
             {projects.items &&
               projects.items.map((project) => (
                 <div
                   key={project.sys.id}
-                  className="flex flex-col lg:flex-row border border-gray-900 p-3 rounded"
+                  className="flex flex-col lg:flex-row border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner"
                 >
                   <div className="flex-1 mb-4 lg:mb-0 flex flex-col">
                     <div className="text-2xl mb-4">
@@ -102,11 +102,11 @@ export default function Home({ projects }) {
                         href={project.fields.url}
                         className="transition duration-100 hover:text-pink"
                       >
-                        {project.fields.name}
+                        {project.fields.title}
                       </a>
                     </div>
                     <div
-                      className="prose flex-1"
+                      className="prose flex-1 mb-4"
                       dangerouslySetInnerHTML={{
                         __html: documentToHtmlString(
                           project.fields.description
@@ -118,7 +118,13 @@ export default function Home({ projects }) {
                         href={project.fields.url}
                         className="header-link-button"
                       >
-                        visit {project.fields.name}
+                        visit {project.fields.title}
+                      </a>
+                      <a
+                        href={project.fields.sourceUrl}
+                        className="header-link-button"
+                      >
+                        view source
                       </a>
                     </div>
                   </div>
@@ -126,7 +132,7 @@ export default function Home({ projects }) {
                   <div className="lg:pl-8">
                     <a href={project.fields.url}>
                       <img
-                        className="h-auto max-w-full lg:max-w-xl rounded"
+                        className="h-auto max-w-full lg:max-w-xl border-4 border-gray-900 rounded shadow-2xl"
                         src={project.fields.image.fields.file.url}
                       />
                     </a>

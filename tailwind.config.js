@@ -13,6 +13,9 @@ module.exports = {
           a: {
             color: "#FA00FF",
           },
+          code: {
+            color: "#FFF",
+          },
         },
       },
     },
