@@ -13,7 +13,7 @@ export default function Home({ projects }) {
   console.log(projects);
   return (
     <>
-      <div className={`${styles.container} w-full relative`}>
+      <div className={`${styles.container} w-full relative overflow-hidden `}>
         <Head>
           <title>
             Nick Radford | Hire Me! | Software Engineer in San Francisco
@@ -24,7 +24,7 @@ export default function Home({ projects }) {
         <BlackWave
           style={{
             position: "absolute",
-            width: "100%",
+            width: "calc(100% + 2px)",
             zIndex: 10,
             bottom: -1,
             left: -1,
