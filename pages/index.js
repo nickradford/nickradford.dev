@@ -16,6 +16,13 @@ const Emphasis = (props) => (
   </span>
 );
 
+const Tag = (props) => (
+  <span
+    className="text-sm mr-2 bg-gray-900 px-2 py-1 bg-opacity-50 rounded last:mr-0 font-mono flex-shrink mb-2"
+    {...props}
+  />
+);
+
 export default function Home({ projects }) {
   console.log(projects);
   return (
@@ -23,7 +30,8 @@ export default function Home({ projects }) {
       <div className={`${styles.container} w-full relative overflow-hidden `}>
         <Head>
           <title>
-            Nick Radford | Hire Me! | Software Engineer in San Francisco
+            Nick Radford | Available for Work | Software Engineer in San
+            Francisco
           </title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -98,48 +106,59 @@ export default function Home({ projects }) {
               projects.items.map((project) => (
                 <div
                   key={project.sys.id}
-                  className="flex flex-col lg:flex-row border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner"
+                  className="flex flex-col border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner"
                 >
-                  <div className="flex-1 mb-4 lg:mb-0 flex flex-col">
-                    <div className="text-2xl mb-4">
-                      <a
-                        href={project.fields.url}
-                        className="transition duration-100 hover:text-pink"
-                      >
-                        {project.fields.title}
-                      </a>
-                    </div>
+                  <div className="text-3xl mb-4 w-full flex flex-col md:flex-row justify-between">
+                    <a
+                      href={project.fields.url}
+                      className="transition duration-100 hover:text-pink"
+                    >
+                      {project.fields.title}
+                    </a>
                     <div
-                      className="prose flex-1 mb-4"
-                      dangerouslySetInnerHTML={{
-                        __html: documentToHtmlString(
-                          project.fields.description
-                        ),
-                      }}
-                    ></div>
-                    <div className="mt-6 mb-2 flex flex-col md:block">
-                      <a
-                        href={project.fields.url}
-                        className="header-link-button"
-                      >
-                        visit {project.fields.title}
-                      </a>
-                      <a
-                        href={project.fields.sourceUrl}
-                        className="header-link-button"
-                      >
-                        view source
-                      </a>
+                      className="flex flex-wrap md:items-center"
+                      style={{ position: "relative", top: 6 }}
+                    >
+                      {project.fields.technologiesUsed.map((t) => (
+                        <Tag key={t}>{t}</Tag>
+                      ))}
                     </div>
                   </div>
+                  <div className="flex flex-col lg:flex-row">
+                    <div className="flex-1 mb-4 lg:mb-0 flex flex-col">
+                      <div
+                        className="prose flex-1 mb-4"
+                        dangerouslySetInnerHTML={{
+                          __html: documentToHtmlString(
+                            project.fields.description
+                          ),
+                        }}
+                      ></div>
 
-                  <div className="lg:pl-8">
-                    <a href={project.fields.url}>
-                      <img
-                        className="h-auto max-w-full lg:max-w-xl border-4 border-gray-900 rounded shadow-2xl"
-                        src={project.fields.image.fields.file.url}
-                      />
-                    </a>
+                      <div className="mt-6 mb-2 flex flex-col md:block">
+                        <a
+                          href={project.fields.url}
+                          className="header-link-button"
+                        >
+                          visit {project.fields.title}
+                        </a>
+                        <a
+                          href={project.fields.sourceUrl}
+                          className="header-link-button"
+                        >
+                          view source
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="lg:pl-8">
+                      <a href={project.fields.url}>
+                        <img
+                          className="h-auto max-w-full lg:max-w-md xl:max-w-xl border-4 border-gray-900 rounded shadow-2xl"
+                          src={project.fields.image.fields.file.url}
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
