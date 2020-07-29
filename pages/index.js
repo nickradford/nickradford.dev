@@ -87,12 +87,7 @@ export default function Home({ projects, pl }) {
                 My Résumé
               </a>
 
-              <a
-                href="https://github.com/nickradford"
-                className="header-link-button red"
-              >
-                Contact Me
-              </a>
+              <button className="header-link-button red">Contact Me</button>
             </div>
           </main>
         </div>
