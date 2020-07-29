@@ -22,6 +22,7 @@ module.exports = {
   },
   variants: {
     margin: ["responsive", "last"],
+    display: ["responsive", "group-hover"],
   },
   plugins: [require("@tailwindcss/typography")],
 };

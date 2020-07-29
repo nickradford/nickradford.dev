@@ -26,11 +26,10 @@ const Tag = (props) => (
   />
 );
 
-export default function Home({ projects, pl }) {
-  console.log(projects);
+export default function Home({ projects }) {
+  // console.log(projects);
   const [modalShowing, setModalShowing] = useState(false);
 
-  console.log(pl);
   return (
     <>
       <div className={`${styles.container} w-full relative overflow-hidden`}>
@@ -52,7 +51,7 @@ export default function Home({ projects, pl }) {
             right: -10,
           }}
         />
-        <div className="container m-auto relative z-30">
+        <div className="container m-auto relative z-30" id="#">
           <main
             className="text-white text-xl px-3 flex flex-col justify-center"
             style={{
@@ -107,8 +106,19 @@ export default function Home({ projects, pl }) {
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen pb-12">
           <div>
-            <h2 className="text-4xl mb-8 border-b-4 inline-block fancy-border">
-              Projects
+            <h2
+              className="text-4xl mb-8 border-b-4 inline-block fancy-border group"
+              id="projects"
+            >
+              <a href="/#projects" className="relative">
+                <span
+                  className="px-2 hidden group-hover:inline text-xl text-gray-500 absolute"
+                  style={{ left: -28, top: 8 }}
+                >
+                  #
+                </span>
+                Projects
+              </a>
             </h2>
 
             {projects &&
