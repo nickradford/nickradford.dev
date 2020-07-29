@@ -136,18 +136,22 @@ export default function Home({ projects }) {
                       ></div>
 
                       <div className="mt-6 mb-2 flex flex-col md:block">
-                        <a
-                          href={project.fields.url}
-                          className="header-link-button"
-                        >
-                          visit {project.fields.title}
-                        </a>
-                        <a
-                          href={project.fields.sourceUrl}
-                          className="header-link-button"
-                        >
-                          view source
-                        </a>
+                        {project.fields.url ? (
+                          <a
+                            href={project.fields.url}
+                            className="header-link-button"
+                          >
+                            visit {project.fields.title}
+                          </a>
+                        ) : null}
+                        {project.fields.sourceUrl ? (
+                          <a
+                            href={project.fields.sourceUrl}
+                            className="header-link-button"
+                          >
+                            view source
+                          </a>
+                        ) : null}
                       </div>
                     </div>
 
@@ -174,7 +178,13 @@ export const getStaticProps = async () => {
     content_type: "project",
   });
 
-  const projectList = projects.items.reverse();
+  const projectList = projects.items.sort((a, b) =>
+    a.fields.sortOrder < b.fields.sortOrder
+      ? -1
+      : a.fields.sortOrder === b.fields.sortOrder
+      ? 0
+      : 1
+  );
 
   return { props: { projects: projectList } };
 };
