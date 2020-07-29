@@ -52,7 +52,7 @@ export default function Home({ projects, pl }) {
             right: -10,
           }}
         />
-        <div className="container m-auto relative z-50">
+        <div className="container m-auto relative z-30">
           <main
             className="text-white text-xl px-3 flex flex-col justify-center"
             style={{
@@ -103,10 +103,7 @@ export default function Home({ projects, pl }) {
           </main>
         </div>
       </div>
-      <ContactModal
-        visible={modalShowing}
-        onModalHide={() => setModalShowing(false)}
-      />
+
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen pb-12">
           <div>
@@ -181,6 +178,10 @@ export default function Home({ projects, pl }) {
           </div>
         </section>
       </div>
+      <ContactModal
+        visible={modalShowing}
+        onModalHide={() => setModalShowing(false)}
+      />
     </>
   );
 }

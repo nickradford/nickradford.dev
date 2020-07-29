@@ -18,11 +18,12 @@ export const ContactModal = ({ visible, onModalHide }) => {
 
   return (
     <div
-      className="fixed top-0 right-0 bottom-0 left-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
+      className="absolute top-0 right-0 left-0 h-full bg-black bg-opacity-50 z-50 md:justify-center md:grid "
+      style={{ placeItems: "center" }}
       onClick={() => onModalHide()}
     >
       <div
-        className="bg-gray-800 w-full max-w-2xl rounded p-8 shadow-2xl flex flex-col text-white"
+        className="bg-gray-800 w-full h-full md:h-auto max-w-3xl md:rounded p-8 shadow-2xl lg:flex flex-col text-white overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <header className="flex justify-between">
@@ -37,14 +38,15 @@ export const ContactModal = ({ visible, onModalHide }) => {
             <CloseIcon width={32} className="relative" style={{ top: 3 }} />
           </button>
         </header>
-        <main className="mt-8 flex-1">
+        <main className="mt-8 block">
           <aside className="prose">
             <p>Hi there!</p>
             <p>
               Before you fill out this contact form, please read over{" "}
               <a
                 className="whitespace-no-wrap"
-                href="https://resume.nickradford.dev"
+                target="_blank"
+                href="https://standardresume.co/r/nickradford"
               >
                 My Resume
               </a>
@@ -72,7 +74,7 @@ export const ContactModal = ({ visible, onModalHide }) => {
             ></textarea>
           </div>
         </main>
-        <footer className="flex justify-end pt-8">
+        <footer className="flex justify-end pt-8 mb-8 md:mb-0">
           <button className="contact-form-button">send email</button>
         </footer>
       </div>
