@@ -141,7 +141,7 @@ export default function Home({ projects }) {
                             href={project.fields.url}
                             className="header-link-button"
                           >
-                            visit {project.fields.title}
+                            open {project.fields.title}
                           </a>
                         ) : null}
                         {project.fields.sourceUrl ? (
