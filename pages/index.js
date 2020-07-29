@@ -6,7 +6,10 @@ import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
 import styles from "../styles/Home.module.css";
 
+import { ContactModal } from "../components/contactModal";
+
 import config from "../contentful.json";
+import { useState } from "react";
 
 const client = createClient(config);
 
@@ -25,11 +28,12 @@ const Tag = (props) => (
 
 export default function Home({ projects, pl }) {
   console.log(projects);
+  const [modalShowing, setModalShowing] = useState(false);
 
   console.log(pl);
   return (
     <>
-      <div className={`${styles.container} w-full relative overflow-hidden `}>
+      <div className={`${styles.container} w-full relative overflow-hidden`}>
         <Head>
           <title>
             Nick Radford | Available for Work | Software Engineer in San
@@ -87,11 +91,22 @@ export default function Home({ projects, pl }) {
                 My Résumé
               </a>
 
-              <button className="header-link-button red">Contact Me</button>
+              <button
+                className="header-link-button red"
+                onClick={() => {
+                  setModalShowing(!modalShowing);
+                }}
+              >
+                Contact Me
+              </button>
             </div>
           </main>
         </div>
       </div>
+      <ContactModal
+        visible={modalShowing}
+        onModalHide={() => setModalShowing(false)}
+      />
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen pb-12">
           <div>
