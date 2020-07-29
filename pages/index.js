@@ -102,11 +102,11 @@ export default function Home({ projects }) {
               Projects
             </h2>
 
-            {projects.items &&
-              projects.items.map((project) => (
+            {projects &&
+              projects.map((project) => (
                 <div
                   key={project.sys.id}
-                  className="flex flex-col border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner"
+                  className="flex flex-col border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner mb-8"
                 >
                   <div className="text-3xl mb-4 w-full flex flex-col md:flex-row justify-between">
                     <a
@@ -174,5 +174,7 @@ export const getStaticProps = async () => {
     content_type: "project",
   });
 
-  return { props: { projects } };
+  const projectList = projects.items.reverse();
+
+  return { props: { projects: projectList } };
 };
