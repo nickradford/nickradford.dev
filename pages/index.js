@@ -96,7 +96,7 @@ export default function Home({ projects }) {
         </div>
       </div>
       <div className="bg-black text-white px-3">
-        <section className="container m-auto min-h-screen">
+        <section className="container m-auto min-h-screen pb-12">
           <div>
             <h2 className="text-4xl mb-8 border-b-4 inline-block fancy-border">
               Projects
