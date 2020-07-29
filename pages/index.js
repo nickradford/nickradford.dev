@@ -23,8 +23,10 @@ const Tag = (props) => (
   />
 );
 
-export default function Home({ projects }) {
+export default function Home({ projects, pl }) {
   console.log(projects);
+
+  console.log(pl);
   return (
     <>
       <div className={`${styles.container} w-full relative overflow-hidden `}>
@@ -174,17 +176,7 @@ export default function Home({ projects }) {
 }
 
 export const getStaticProps = async () => {
-  const projects = await client.getEntries({
-    content_type: "project",
-  });
+  const projects = await client.getEntry("6mYI8AwTSfEL6L9rolYP1p");
 
-  const projectList = projects.items.sort((a, b) =>
-    a.fields.sortOrder < b.fields.sortOrder
-      ? -1
-      : a.fields.sortOrder === b.fields.sortOrder
-      ? 0
-      : 1
-  );
-
-  return { props: { projects: projectList } };
+  return { props: { projects: projects.fields.project } };
 };
