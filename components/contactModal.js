@@ -18,7 +18,7 @@ export const ContactModal = ({ visible, onModalHide }) => {
 
   return (
     <div
-      className="absolute top-0 right-0 left-0 h-full bg-black bg-opacity-50 z-50 md:justify-center md:grid "
+      className="fixed top-0 right-0 left-0 h-full bg-black bg-opacity-50 z-50 md:justify-center md:grid "
       style={{ placeItems: "center" }}
       onClick={() => onModalHide()}
     >
