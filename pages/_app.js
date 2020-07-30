@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           property="og:image"
-          content="https://nickradford.dev/social.png?v=1"
+          content="https://nickradford.dev/social.png?v=2"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           property="twitter:image"
-          content="https://nickradford.dev/social.png?v=1"
+          content="https://nickradford.dev/social.png?v=2"
         />
       </Head>
       <Component {...pageProps} />
