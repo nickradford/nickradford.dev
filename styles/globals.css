@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "merriweather.css";
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Merriweather", serif;
+  font-family: "merriweatherregular", serif;
   scroll-behavior: smooth;
 }
 
