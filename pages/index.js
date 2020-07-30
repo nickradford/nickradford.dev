@@ -104,14 +104,14 @@ export default function Home({ projects }) {
         <span className="lowercase">
           <a
             href="https://github.com/nickradford"
-            className="hidden lg:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            className="hidden lg:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
           >
             My Github
           </a>
           <a
             href="https://www.linkedin.com/in/nickradford"
-            className="hidden md:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            className="hidden md:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
           >
             My LinkedIn
@@ -119,7 +119,7 @@ export default function Home({ projects }) {
 
           <a
             href="https://standardresume.co/r/nickradford"
-            className="hidden sm:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            className="hidden sm:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
           >
             My Résumé
@@ -128,7 +128,7 @@ export default function Home({ projects }) {
             onClick={() => {
               setModalShowing(!modalShowing);
             }}
-            className="border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white"
+            className="lowercase border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white"
           >
             Contact Me
           </button>

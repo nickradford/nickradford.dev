@@ -34,10 +34,12 @@ const StickyHeader = (props) => {
     <div
       className={`${extraClasses} fixed bg-white p-4 shadow-2xl top-0 left-0 right-0 transition duration-300 z-40 border-b-4 fancy-border`}
     >
-      <div className="container flex justify-between items-center m-auto">
+      <div className="container flex whitespace-no-wrap justify-between items-center m-auto">
         <a className="text-2xl" href="/">
           NickRadford.dev{" "}
-          <div className="wave inline-block text-xl md:text-3xl ml-2">👋</div>
+          <div className="wave inline-block text-xl md:text-3xl ml-2 mr-4">
+            👋
+          </div>
         </a>
         <div className="flex">{props.children}</div>
       </div>
