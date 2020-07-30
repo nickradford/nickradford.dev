@@ -210,7 +210,8 @@ export default function Home({ projects }) {
                       <a href={project.fields.url} className="group">
                         <img
                           className="h-auto max-w-full lg:max-w-md xl:max-w-xl border-4 border-gray-900 rounded transition duration-200 shadow hover:shadow-2xl hover:border-blue-500"
-                          src={project.fields.image.fields.file.url}
+                          alt={project.fields.image.fields.description}
+                          src={`${project.fields.image.fields.file.url}?fm=webp&w=576&q=100`}
                         />
                       </a>
                     </div>
