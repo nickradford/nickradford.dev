@@ -5,7 +5,7 @@ import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
 import styles from "../styles/Home.module.css";
 
-import { ContactModal } from "../components/contactModal";
+import ContactModal from "../components/contactModal";
 import StickyHeader from "../components/stickyHeader";
 
 const Emphasis = (props) => (
