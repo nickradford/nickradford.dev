@@ -1,17 +1,15 @@
-import { createClient } from "contentful";
+import dynamic from "next/dynamic";
+import { useState, useRef } from "react";
+
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
 import styles from "../styles/Home.module.css";
 
-import { ContactModal } from "../components/contactModal";
+const ContactModal = dynamic(import("../components/contactModal"));
 
-import config from "../contentful.json";
-import { useState, useRef } from "react";
 import StickyHeader from "../components/stickyHeader";
-
-const client = createClient(config);
 
 const Emphasis = (props) => (
   <span className="text-white border-b-4 pb-1 border-white">
@@ -231,16 +229,22 @@ export default function Home({ projects }) {
           </div>
         </section>
       </div>
-      <ContactModal
-        visible={modalShowing}
-        onModalHide={() => setModalShowing(false)}
-      />
-      {/* <ConditionalFooter domRef={projectsRef} threshold={100} /> */}
+      {modalShowing ? (
+        <ContactModal
+          visible={modalShowing}
+          onModalHide={() => setModalShowing(false)}
+        />
+      ) : null}
     </>
   );
 }
 
 export const getStaticProps = async () => {
+  const { createClient } = require("contentful");
+  const config = require("../contentful.json");
+
+  const client = createClient(config);
+
   const projects = await client.getEntry("6mYI8AwTSfEL6L9rolYP1p");
 
   return { props: { projects: projects.fields.project } };

@@ -23,7 +23,7 @@ const CustomErrorMessage = (props) => (
   />
 );
 
-export const ContactModal = ({ visible, onModalHide }) => {
+const ContactModal = ({ visible, onModalHide }) => {
   const [isShowing, setIsShowing] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -193,3 +193,5 @@ export const ContactModal = ({ visible, onModalHide }) => {
     </div>
   );
 };
+
+export default ContactModal;
