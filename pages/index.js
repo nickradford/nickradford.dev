@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { createClient } from "contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
@@ -33,13 +32,6 @@ export default function Home({ projects }) {
   return (
     <>
       <div className={`${styles.container} w-full relative overflow-hidden`}>
-        <Head>
-          <title>
-            Nick Radford | Available for Work | Software Engineer in San
-            Francisco
-          </title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <ParticleSystem />
         <BlackWave
           style={{
