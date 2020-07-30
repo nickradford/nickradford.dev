@@ -73,19 +73,22 @@ export default function Home({ projects }) {
               <a
                 href="https://github.com/nickradford"
                 className="header-link-button"
+                target="_blank"
               >
                 My Github
               </a>
               <a
                 href="https://www.linkedin.com/in/nickradford"
                 className="header-link-button blue"
+                target="_blank"
               >
                 My LinkedIn
               </a>
 
               <a
-                href="https://standardresume.co/nickradford"
+                href="https://standardresume.co/r/nickradford"
                 className="header-link-button purple"
+                target="_blank"
               >
                 My Résumé
               </a>
