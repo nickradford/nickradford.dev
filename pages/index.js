@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 import ParticleSystem from "../components/particleSystem";
@@ -29,6 +29,14 @@ export default function Home({ projects }) {
   const [modalShowing, setModalShowing] = useState(false);
 
   const projectsRef = useRef(null);
+
+  useEffect(() => {
+    if (modalShowing) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [modalShowing]);
 
   return (
     <>
@@ -229,10 +237,12 @@ export default function Home({ projects }) {
           </div>
         </section>
       </div>
-      <ContactModal
-        visible={modalShowing}
-        onModalHide={() => setModalShowing(false)}
-      />
+      {modalShowing && (
+        <ContactModal
+          visible={modalShowing}
+          onModalHide={() => setModalShowing(false)}
+        />
+      )}
     </>
   );
 }

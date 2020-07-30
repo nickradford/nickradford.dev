@@ -12,6 +12,9 @@ module.exports = {
           color: "#EDF2F7",
           a: {
             color: "#FA00FF",
+            background: "#000000",
+            padding: "4px 6px",
+            borderRadius: 3,
           },
           code: {
             color: "#FFF",

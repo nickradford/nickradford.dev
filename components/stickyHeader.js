@@ -6,9 +6,6 @@ const StickyHeader = (props) => {
   if (process.browser) {
     const test = debounce(
       () => {
-        // console.log(
-        //   props.domRef.current && props.domRef.current.getBoundingClientRect()
-        // );
         const refBounds = props.domRef.current.getBoundingClientRect();
         if (refBounds.top < props.threshold && !visible) {
           setVisible(true);

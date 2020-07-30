@@ -23,22 +23,8 @@ const CustomErrorMessage = (props) => (
   />
 );
 
-const ContactModal = ({ visible, onModalHide }) => {
-  const [isShowing, setIsShowing] = useState(false);
+const ContactModal = ({ onModalHide }) => {
   const [sent, setSent] = useState(false);
-
-  React.useEffect(() => {
-    setIsShowing(visible);
-    if (visible) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [visible]);
-
-  if (!isShowing) {
-    return null;
-  }
 
   return (
     <div
