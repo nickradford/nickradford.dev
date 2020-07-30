@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
@@ -5,8 +6,10 @@ import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
 import styles from "../styles/Home.module.css";
 
-import ContactModal from "../components/contactModal";
 import StickyHeader from "../components/stickyHeader";
+const ContactModal = dynamic(() => import("../components/contactModal"), {
+  ssr: false,
+});
 
 const Emphasis = (props) => (
   <span className="text-white border-b-4 pb-1 border-white">
