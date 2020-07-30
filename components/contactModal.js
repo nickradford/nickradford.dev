@@ -1,3 +1,6 @@
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import yup from "yup";
+
 import { CloseIcon } from "./closeIcon";
 
 export const ContactModal = ({ visible, onModalHide }) => {
@@ -23,7 +26,7 @@ export const ContactModal = ({ visible, onModalHide }) => {
       onClick={() => onModalHide()}
     >
       <div
-        className="bg-gray-800 w-full h-full md:h-auto max-w-3xl md:rounded p-8 shadow-2xl lg:flex flex-col text-white overflow-auto"
+        className="bg-gray-800 w-full h-full md:h-auto max-w-3xl md:rounded px-8 pt-8 shadow-2xl lg:flex flex-col text-white overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <header className="flex justify-between">
@@ -31,7 +34,7 @@ export const ContactModal = ({ visible, onModalHide }) => {
             Contact Me 📧
           </h1>
           <button
-            className="hover:bg-black transition duration-100 rounded-full w-12 flex bg-gray-900 justify-center hover:shadow-xl"
+            className="hover:bg-black transition duration-100 rounded-full w-12 flex border-gray-400 border-2 hover:border-black justify-center hover:shadow-xl"
             title="Close contact form"
             onClick={() => onModalHide()}
           >
@@ -48,35 +51,64 @@ export const ContactModal = ({ visible, onModalHide }) => {
                 target="_blank"
                 href="https://standardresume.co/r/nickradford"
               >
-                My Resume
+                my résumé
               </a>
               , to ensure that your needs and my skills are at least somewhat
               aligned.
             </p>
           </aside>
-          <div className="text-white flex flex-col text-xl mt-8">
-            <input
-              className="mb-2 px-3 py-2 rounded bg-gray-700 shadow-inner transition duration-100 focus:bg-gray-900"
-              placeholder="Name"
-            />
-            <input
-              className="mb-2 px-3 py-2 rounded bg-gray-700 shadow-inner transition duration-100 focus:bg-gray-900 "
-              placeholder="Email address"
-            />
-            <input
-              className="mb-2 px-3 py-2 rounded bg-gray-700 shadow-inner transition duration-100 focus:bg-gray-900 "
-              placeholder="Subject"
-            />
-            <textarea
-              className="mb-2 px-3 py-2 rounded bg-gray-700 shadow-inner transition duration-100 focus:bg-gray-900"
-              rows={8}
-              placeholder="Your message"
-            ></textarea>
+          <div className="text-white text-xl mt-8">
+            <Formik
+              initialValues={{ name: "", email: "", subject: "", message: "" }}
+              onSubmit={async ({ message, ...values }, { setSubmitting }) => {
+                const response = await fetch(
+                  "https://api.nickradford.dev/api/sendmail",
+                  {
+                    method: "POST",
+                    body: JSON.stringify({ ...values, feedback: message }),
+                  }
+                );
+
+                if (response.ok) {
+                  setSubmitting(false);
+                }
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="flex flex-col">
+                  <Field
+                    name="name"
+                    className="contact-form-input"
+                    placeholder="Name"
+                  />
+                  <Field
+                    name="email"
+                    type="email"
+                    className="contact-form-input"
+                    placeholder="Email address"
+                  />
+                  <Field
+                    name="subject"
+                    className="contact-form-input"
+                    placeholder="Subject"
+                  />
+                  <Field
+                    as="textarea"
+                    name="message"
+                    className="contact-form-input"
+                    placeholder="Your message"
+                    rows={8}
+                  />
+                  <div className="flex justify-end mt-8 pb-8">
+                    <button className="contact-form-button" type="submit">
+                      send email
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </main>
-        <footer className="flex justify-end pt-8 mb-8 md:mb-0">
-          <button className="contact-form-button">send email</button>
-        </footer>
       </div>
     </div>
   );
