@@ -69,6 +69,7 @@ export default function Home({ projects }) {
                 href="https://github.com/nickradford"
                 className="header-link-button"
                 target="_blank"
+                rel="noopener"
               >
                 My Github
               </a>
@@ -76,6 +77,7 @@ export default function Home({ projects }) {
                 href="https://www.linkedin.com/in/nickradford"
                 className="header-link-button blue"
                 target="_blank"
+                rel="noopener"
               >
                 My LinkedIn
               </a>
@@ -84,6 +86,7 @@ export default function Home({ projects }) {
                 href="https://standardresume.co/r/nickradford"
                 className="header-link-button purple"
                 target="_blank"
+                rel="noopener"
               >
                 My Résumé
               </a>
@@ -106,6 +109,7 @@ export default function Home({ projects }) {
             href="https://github.com/nickradford"
             className="hidden lg:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
+            rel="noopener"
           >
             My Github
           </a>
@@ -113,6 +117,7 @@ export default function Home({ projects }) {
             href="https://www.linkedin.com/in/nickradford"
             className="hidden md:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
+            rel="noopener"
           >
             My LinkedIn
           </a>
@@ -121,6 +126,7 @@ export default function Home({ projects }) {
             href="https://standardresume.co/r/nickradford"
             className="hidden sm:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
             target="_blank"
+            rel="noopener"
           >
             My Résumé
           </a>
