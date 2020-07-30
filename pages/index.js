@@ -175,9 +175,9 @@ export default function Home({ projects }) {
                     </div>
 
                     <div className="lg:pl-8">
-                      <a href={project.fields.url}>
+                      <a href={project.fields.url} className="group">
                         <img
-                          className="h-auto max-w-full lg:max-w-md xl:max-w-xl border-4 border-gray-900 rounded shadow-2xl"
+                          className="h-auto max-w-full lg:max-w-md xl:max-w-xl border-4 border-gray-900 rounded transition duration-200 shadow hover:shadow-2xl hover:border-blue-500"
                           src={project.fields.image.fields.file.url}
                         />
                       </a>
