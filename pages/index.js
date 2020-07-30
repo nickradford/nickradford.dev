@@ -8,7 +8,8 @@ import styles from "../styles/Home.module.css";
 import { ContactModal } from "../components/contactModal";
 
 import config from "../contentful.json";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import StickyHeader from "../components/stickyHeader";
 
 const client = createClient(config);
 
@@ -28,6 +29,8 @@ const Tag = (props) => (
 export default function Home({ projects }) {
   // console.log(projects);
   const [modalShowing, setModalShowing] = useState(false);
+
+  const projectsRef = useRef(null);
 
   return (
     <>
@@ -97,6 +100,40 @@ export default function Home({ projects }) {
           </main>
         </div>
       </div>
+      <StickyHeader domRef={projectsRef} threshold={200}>
+        <span className="lowercase">
+          <a
+            href="https://github.com/nickradford"
+            className="hidden lg:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            target="_blank"
+          >
+            My Github
+          </a>
+          <a
+            href="https://www.linkedin.com/in/nickradford"
+            className="hidden md:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            target="_blank"
+          >
+            My LinkedIn
+          </a>
+
+          <a
+            href="https://standardresume.co/r/nickradford"
+            className="hidden sm:inline-block border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
+            target="_blank"
+          >
+            My Résumé
+          </a>
+          <button
+            onClick={() => {
+              setModalShowing(!modalShowing);
+            }}
+            className="border-4 border-black rounded px-3 py-2 transition duration-100 hover:bg-black hover:text-white"
+          >
+            Contact Me
+          </button>
+        </span>
+      </StickyHeader>
 
       <div className="bg-black text-white px-3">
         <section className="container m-auto min-h-screen pb-12">
@@ -105,7 +142,7 @@ export default function Home({ projects }) {
               className="text-4xl mb-8 border-b-4 inline-block fancy-border group"
               id="projects"
             >
-              <a href="/#projects" className="relative">
+              <a href="/#projects" className="relative" ref={projectsRef}>
                 <span
                   className="px-2 hidden group-hover:inline text-xl text-gray-500 absolute"
                   style={{ left: -28, top: 8 }}
@@ -187,6 +224,7 @@ export default function Home({ projects }) {
         visible={modalShowing}
         onModalHide={() => setModalShowing(false)}
       />
+      {/* <ConditionalFooter domRef={projectsRef} threshold={100} /> */}
     </>
   );
 }
