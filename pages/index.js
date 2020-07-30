@@ -1,14 +1,11 @@
-import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
-
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 import ParticleSystem from "../components/particleSystem";
 import BlackWave from "../components/blackWave";
 import styles from "../styles/Home.module.css";
 
-const ContactModal = dynamic(import("../components/contactModal"));
-
+import { ContactModal } from "../components/contactModal";
 import StickyHeader from "../components/stickyHeader";
 
 const Emphasis = (props) => (
@@ -229,12 +226,10 @@ export default function Home({ projects }) {
           </div>
         </section>
       </div>
-      {modalShowing ? (
-        <ContactModal
-          visible={modalShowing}
-          onModalHide={() => setModalShowing(false)}
-        />
-      ) : null}
+      <ContactModal
+        visible={modalShowing}
+        onModalHide={() => setModalShowing(false)}
+      />
     </>
   );
 }
