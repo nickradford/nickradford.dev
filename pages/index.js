@@ -237,6 +237,40 @@ export default function Home({ projects }) {
           </div>
         </section>
       </div>
+      <footer className={`${styles.footer} py-3 text-white bg-opacity-75`}>
+        <div className="container m-auto flex flex-col sm:flex-row items-center justify-between">
+          <span>© 2020 Nick Radford</span>
+          <span>
+            Made with{" "}
+            <a
+              href="https://nextjs.org"
+              target="_blank"
+              rel="noreferrer"
+              className="border-b-2 pb-1"
+            >
+              Next.js
+            </a>
+            ,{" "}
+            <a
+              href="https://tailwindcss.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="border-b-2 pb-1"
+            >
+              Tailwind.css
+            </a>
+            , and{" "}
+            <a
+              href="https://www.contentful.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="border-b-2 pb-1"
+            >
+              Contentful
+            </a>
+          </span>
+        </div>
+      </footer>
       {modalShowing && (
         <ContactModal
           visible={modalShowing}
