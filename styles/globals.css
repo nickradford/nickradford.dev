@@ -10,6 +10,7 @@ body {
   margin: 0;
   font-family: "merriweatherregular", serif;
   scroll-behavior: smooth;
+  background: linear-gradient(90deg, #00d1ff 0%, #fa00ff 100%);
 }
 
 a {
