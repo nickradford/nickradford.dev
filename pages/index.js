@@ -147,7 +147,7 @@ export default function Home({ projects }) {
         </span>
       </StickyHeader>
 
-      <div className="bg-black text-white px-3">
+      <div className={`${styles["container-shadow"]} bg-black text-white px-3`}>
         <section className="container m-auto min-h-screen pb-12">
           <div>
             <h2
@@ -238,7 +238,7 @@ export default function Home({ projects }) {
         </section>
       </div>
       <footer className={`${styles.footer} py-3 text-white bg-opacity-75`}>
-        <div className="container m-auto flex flex-col sm:flex-row items-center justify-between">
+        <div className="container m-auto flex flex-col sm:flex-row items-center justify-between text-center">
           <span>© 2020 Nick Radford</span>
           <span>
             Made with{" "}
