@@ -17,7 +17,7 @@ const ContactFormSchema = Yup.object().shape({
 
 const CustomErrorMessage = (props) => (
   <div
-    className="bg-gray-900 text-yellow-100 px-3 py-2 text-sm rounded-b relative"
+    className="relative px-3 py-2 text-sm text-yellow-100 bg-gray-900 rounded-b"
     style={{ top: -2 }}
     {...props}
   />
@@ -28,27 +28,27 @@ const ContactModal = ({ onModalHide }) => {
 
   return (
     <div
-      className="fixed top-0 right-0 left-0 h-full bg-black bg-opacity-50 z-50 md:justify-center md:grid "
+      className="fixed top-0 left-0 right-0 z-50 h-full bg-black bg-opacity-50 md:justify-center md:grid "
       style={{ placeItems: "center" }}
       onClick={() => onModalHide()}
     >
       <div
-        className="bg-gray-800 w-full h-full md:h-auto max-w-3xl md:rounded px-8 pt-8 shadow-2xl lg:flex flex-col text-white overflow-auto"
+        className="flex-col w-full h-full max-w-3xl px-8 pt-8 overflow-auto text-white bg-gray-800 shadow-2xl md:h-auto md:rounded lg:flex"
         onClick={(e) => e.stopPropagation()}
       >
         <header className="flex justify-between">
-          <h1 className="border-b-4 fancy-border text-3xl inline-block">
+          <h1 className="inline-block text-3xl border-b-4 fancy-border">
             Contact Me 📧
           </h1>
           <button
-            className="hover:bg-black transition duration-100 rounded-full w-12 flex border-gray-400 border-2 hover:border-black justify-center hover:shadow-xl"
+            className="flex justify-center w-12 transition duration-100 border-2 border-gray-400 rounded-full hover:bg-black hover:border-black hover:shadow-xl"
             title="Close contact form"
             onClick={() => onModalHide()}
           >
             <CloseIcon width={32} className="relative" style={{ top: 3 }} />
           </button>
         </header>
-        <main className="mt-8 block">
+        <main className="block mt-8">
           {sent ? (
             <div className="mb-8">
               <p>{sent.name}, thanks so much for your email!</p>
@@ -70,11 +70,10 @@ const ContactModal = ({ onModalHide }) => {
                   >
                     my résumé
                   </a>
-                  , to ensure that your needs and my skills are at least
-                  somewhat aligned.
+                  , to ensure that your needs and my skills aligned.
                 </p>
               </aside>
-              <div className="text-white text-xl mt-8">
+              <div className="mt-8 text-xl text-white">
                 <Formik
                   initialValues={{
                     name: "",
@@ -155,7 +154,7 @@ const ContactModal = ({ onModalHide }) => {
                         component={CustomErrorMessage}
                       />
 
-                      <div className="flex justify-end mt-8 pb-8">
+                      <div className="flex justify-end pb-8 mt-8">
                         {isSubmitting ? (
                           <div>Sending your email!</div>
                         ) : (
