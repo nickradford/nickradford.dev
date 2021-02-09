@@ -70,7 +70,7 @@ const ContactModal = ({ onModalHide }) => {
                   >
                     my résumé
                   </a>
-                  , to ensure that your needs and my skills aligned.
+                  , to ensure that your needs and my skills are aligned.
                 </p>
               </aside>
               <div className="mt-8 text-xl text-white">
