@@ -12,6 +12,13 @@ class MyDocument extends Document {
             as="font"
             crossOrigin=""
           />
+          <script
+            async
+            defer
+            data-domains="nickradford.dev,localhost"
+            data-website-id="d9280562-fa01-4566-bc78-a5687578db60"
+            src="https://stats.nickradford.dev/umami.js"
+          ></script>
         </Head>
         <body>
           <Main />
