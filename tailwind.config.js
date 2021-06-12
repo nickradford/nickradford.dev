@@ -2,8 +2,13 @@ module.exports = {
   purge: ["./components/**/*.js", "./pages/**/*.js"],
   theme: {
     extend: {
+      fontFamily: {
+        handwriting: ["Kalam"],
+        scp: ["Source Code Pro", "monospace"],
+      },
       colors: {
         pink: "#FA00FF",
+        primary: "#FEEE16",
       },
     },
     typography: {
