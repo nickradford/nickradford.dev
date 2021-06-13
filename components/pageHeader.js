@@ -11,7 +11,7 @@ const PageHeader = () => {
   return (
     <div className="sticky top-0">
       <div className="relative">
-        <header className="text-2xl text-white font-scp bg-black bg-opacity-60 sticky backdrop-filter backdrop-blur-md top-0 right-0 left-0 px-4 py-3 w-screen shadow z-10">
+        <header className="text-2xl relative text-white font-scp bg-black bg-opacity-60 backdrop-filter backdrop-blur-md px-4 py-3 w-screen shadow z-10">
           <div className="bg-red-60 max-w-3xl m-auto flex justify-between items-center">
             <h1 style={{ textShadow: "0 0 6px rgba(255, 255, 255, .75)" }}>
               Nick Radford
