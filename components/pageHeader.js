@@ -17,7 +17,7 @@ const PageHeader = () => {
               Nick Radford
             </h1>
             <div className="inline-flex">
-              <span className="hidden md:inline">
+              <span className="hidden md:inline text-base">
                 <Navigation />
               </span>
               <span className="md:hidden">
@@ -34,7 +34,12 @@ const PageHeader = () => {
               initial={{ top: "-200px" }}
               animate={{ top: "4rem" }}
               exit={{ top: "-200px" }}
-              className="absolute text-primary bg-black bg-opacity-60 backdrop-filter backdrop-blur-md left-0 right-0 z-0 p-4 shadow md:hidden"
+              transition={{
+                type: "spring",
+                stiffness: 420,
+                damping: 38,
+              }}
+              className="absolute text-primary bg-black bg-opacity-60 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
             >
               <Navigation />
             </motion.div>
