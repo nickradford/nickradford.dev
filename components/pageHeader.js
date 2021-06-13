@@ -3,13 +3,16 @@ import { Menu, X } from "react-feather";
 import { LightGray } from "./typography";
 import Navigation from "./navigation";
 import { Button } from "./button";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import useOnClickOutside from "use-onclickoutside";
 
 const PageHeader = () => {
   const [menuShowing, setMenuShowing] = useState(false);
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setMenuShowing(false));
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0" ref={ref}>
       <div className="relative">
         <header className="text-2xl relative text-white font-scp bg-black bg-opacity-60 backdrop-filter backdrop-blur-md px-4 py-3 w-screen shadow z-10">
           <div className="bg-red-60 max-w-3xl m-auto flex justify-between items-center">
