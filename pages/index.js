@@ -18,6 +18,8 @@ export default function Home({ projects }) {
             className="w-1/2 self-center sm:w-32"
             width={240}
             height={240}
+            loading="eager"
+            priority={true}
           />
           <div className="text-lg">
             <p className="mb-2">
