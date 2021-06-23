@@ -1,5 +1,63 @@
 import Page from "../components/page";
+import Project from "../components/project";
 
-export default function ClientWork() {
-  return <Page pageTitle="Client Work">Client work!</Page>;
+export default function ClientWork({ projects }) {
+  return (
+    <Page pageTitle="Client Work">
+      <ul>
+        {projects.projectCollection.items.map((project) => (
+          <li>
+            <Project {...project} />
+          </li>
+        ))}
+      </ul>
+      {/* <pre>{JSON.stringify(projects, null, 4)}</pre> */}
+    </Page>
+  );
+}
+
+const gql = `query ClientProjects {
+  projects(id: "1CCbFBUWo0xqRVCbtrMtWK") {
+    name
+    projectCollection{
+      items {
+        ...on Project{
+          title
+          image {
+            title
+            description
+            url
+            width
+            height
+          }
+          description {
+            json
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export async function getStaticProps() {
+  const space = process.env.CONTENTFUL_SPACE_ID;
+  const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
+
+  const url = `https://graphql.contentful.com/content/v1/spaces/${space}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ query: gql }),
+  };
+
+  const resp = await fetch(url, options);
+  const { data } = await resp.json();
+
+  console.log(data);
+
+  return { props: data };
 }
