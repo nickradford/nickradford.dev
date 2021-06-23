@@ -14,8 +14,6 @@ const LinkButton = ({
     router.pathname === href
       ? "bg-primary text-black"
       : "bg-transparent text-white";
-  console.log(isActivePath);
-  console.log(router.pathname, href);
   return (
     <a
       href={href}

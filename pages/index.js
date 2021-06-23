@@ -1,5 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import Page from "../components/page";
+
+// import memoji from "../public/me.png";
 
 const Bold = ({ children }) => (
   <span className="text-primary font-bold whitespace-nowrap">{children}</span>
@@ -10,7 +13,12 @@ export default function Home({ projects }) {
     <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-end mb-4">
-          <img src="/me.png" className="w-1/2 self-center sm:w-32" />
+          <Image
+            src="/me.png"
+            className="w-1/2 self-center sm:w-32"
+            width={240}
+            height={240}
+          />
           <div className="text-lg">
             <p className="mb-2">
               Hey there! I'm Nick Radford and I'm a{" "}
