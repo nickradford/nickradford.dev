@@ -1,5 +1,5 @@
 const buttonClasses =
-  "font-scp bg-whit font-bold text-white hover:text-black px-2 py-2 block text-center hover:bg-primary transition-colors";
+  "font-scp bg-transparent font-bold text-white hover:text-black px-2 py-2 block text-center hover:bg-primary hover:transition-colors";
 
 const LinkButton = ({
   children,
