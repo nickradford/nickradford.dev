@@ -11,6 +11,8 @@ function MyApp({ Component, pageProps, router }) {
       <Head>
         <link rel="icon" href="/favicon.ico" />
 
+        <meta name="viewport" content="viewport-fit=cover" />
+
         {/* <!-- Primary Meta Tags --> */}
         <title>
           Nick Radford | Available for Work | Software Engineer in San Francisco
