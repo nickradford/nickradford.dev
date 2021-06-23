@@ -7,7 +7,7 @@ const buttonClasses =
 const LinkButton = ({
   children,
   href,
-  additionalClasses = "",
+  className = "",
   target = href.startsWith("/") ? "" : "_blank",
   onClick = () => {},
 }) => {
@@ -21,7 +21,7 @@ const LinkButton = ({
       <a
         rel="noopener"
         target={target}
-        className={`${isActivePath} ${buttonClasses} ${additionalClasses} `}
+        className={`${isActivePath} ${buttonClasses} ${className} `}
         onClick={onClick}
       >
         {children}

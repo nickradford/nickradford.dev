@@ -16,8 +16,9 @@ module.exports = {
             color: "white",
             maxWidth: "80ch",
             a: {
-              color: "#FA00FF",
-              background: "#000000",
+              color: "#FEEE16",
+              // background: "#000000",
+              fontFamily: "Source Code Pro",
               padding: "4px 6px",
               borderRadius: 3,
             },

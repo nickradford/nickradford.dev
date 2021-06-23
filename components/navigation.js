@@ -9,34 +9,26 @@ const Navigation = ({ className, onClick = noop }) => {
     <div
       className={`md:grid md:grid-cols-4 gap-2 border-opacity-50 ${className}`}
     >
-      <LinkButton
-        additionalClasses={classNames}
-        href="/client-work"
-        onClick={onClick}
-      >
+      <LinkButton className={classNames} href="/client-work" onClick={onClick}>
         Client Work
       </LinkButton>
-      <LinkButton
-        additionalClasses={classNames}
-        href="/projects"
-        onClick={onClick}
-      >
+      <LinkButton className={classNames} href="/projects" onClick={onClick}>
         Projects
       </LinkButton>
       {/* <LinkButton
-        additionalClasses="md:border-0 border-t border-primary border-opacity-70"
+        className="md:border-0 border-t border-primary border-opacity-70"
         href="https://github.com/nickradford"
       >
         My Github
       </LinkButton>
       <LinkButton
-        additionalClasses="md:border-0 border-t border-primary border-opacity-70"
+        className="md:border-0 border-t border-primary border-opacity-70"
         href="https://www.linkedin.com/in/nickradford"
       >
         My LinkedIn
       </LinkButton> */}
       <LinkButton
-        additionalClasses={classNames}
+        className={classNames}
         href="https://standardresume.co/r/nickradford"
         onClick={onClick}
       >
@@ -44,7 +36,7 @@ const Navigation = ({ className, onClick = noop }) => {
       </LinkButton>
       <LinkButton
         href="/contact"
-        additionalClasses="md:border-0 border-t border-b border-primary border-opacity-70"
+        className="md:border-0 border-t border-b border-primary border-opacity-70"
         onClick={onClick}
       >
         Contact Me

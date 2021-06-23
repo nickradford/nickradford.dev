@@ -4,6 +4,8 @@ import Project from "../components/project";
 export default function ClientWork({ projects }) {
   return (
     <Page pageTitle="Client Work">
+      <h1 className="font-scp text-2xl mb-6">{projects.name}</h1>
+
       <ul>
         {projects.projectCollection.items.map((project) => (
           <li>
@@ -23,6 +25,9 @@ const gql = `query ClientProjects {
       items {
         ...on Project{
           title
+          url
+          technologiesUsed
+          sourceUrl
           image {
             title
             description
