@@ -13,14 +13,16 @@ export default function Home({ projects }) {
     <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-end mb-4">
-          <Image
-            src="/me.png"
-            className="w-1/2 self-center sm:w-32"
-            width={240}
-            height={240}
-            loading="eager"
-            priority={true}
-          />
+          <div className="m-auto sm:m-0">
+            <Image
+              src="/me.png"
+              layout="intrinsic"
+              width={240}
+              height={240}
+              loading="eager"
+              priority={true}
+            />
+          </div>
           <div className="text-lg">
             <p className="mb-2">
               Hey there! I'm Nick Radford and I'm a{" "}
