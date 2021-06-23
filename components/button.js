@@ -21,7 +21,7 @@ const LinkButton = ({
       <a
         rel="noopener"
         target={target}
-        className={`${isActivePath} ${buttonClasses} ${className} `}
+        className={`${isActivePath} ${buttonClasses} ${className}`}
         onClick={onClick}
       >
         {children}
@@ -31,7 +31,11 @@ const LinkButton = ({
 };
 
 const Button = ({ children, className = "", ...rest }) => (
-  <button className={`bg-transparent ${buttonClasses} ${className}`} {...rest}>
+  <button
+    className={`bg-transparent ${buttonClasses} ${className} disabled:opacity-50`}
+    {...rest}
+    tabIndex={0}
+  >
     {children}
   </button>
 );

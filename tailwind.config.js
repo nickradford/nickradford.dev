@@ -1,4 +1,5 @@
 module.exports = {
+  mode: "jit",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -38,6 +39,14 @@ module.exports = {
   variants: {
     margin: ["responsive", "last"],
     display: ["responsive", "group-hover"],
+    opacity: [
+      "responsive",
+      "group-hover",
+      "focus-within",
+      "hover",
+      "focus",
+      "disabled",
+    ],
   },
   plugins: [require("@tailwindcss/typography")],
 };

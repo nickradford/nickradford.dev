@@ -7,7 +7,7 @@ export default function Projects({ projects }) {
       <h1 className="font-scp text-2xl mb-6">{projects.name}</h1>
       <ul>
         {projects.projectCollection.items.map((project) => (
-          <li>
+          <li key={project.name}>
             <Project
               {...project}
               showSource={

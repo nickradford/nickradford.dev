@@ -32,11 +32,11 @@ export default function Contact() {
   return (
     <Page pageTitle="Contact">
       <h1 className="font-scp text-2xl mb-6">Contact Me</h1>
-      <p>
+      <p className="mb-2">
         Hi! I'm currently available for <Bold>Full Time Employment</Bold> and{" "}
         <Bold>Freelance Projects</Bold>.
       </p>
-      <p>
+      <p className="mb-2">
         Please take a look at my Client Work, Projects, and Résumé to see if
         your needs and my skills might be a match.
       </p>
@@ -74,20 +74,26 @@ export default function Contact() {
       >
         {({ isSubmitting, errors, touched, isValid, dirty }) => (
           <Form className="flex flex-col">
-            <Field
-              name="name"
-              className="contact-form-input"
-              placeholder="Your name"
-            />
-            <ErrorMessage name="name" component={CustomErrorMessage} />
-
-            <Field
-              name="email"
-              type="email"
-              className="contact-form-input"
-              placeholder="Email address"
-            />
-            <ErrorMessage name="email" component={CustomErrorMessage} />
+            <div className="sm:grid grid-cols-2 gap-2">
+              <div className="flex flex-col">
+                <Field
+                  name="name"
+                  className="contact-form-input"
+                  placeholder="Your name"
+                  autocomplete="name"
+                />
+                <ErrorMessage name="name" component={CustomErrorMessage} />
+              </div>
+              <div className="flex flex-col">
+                <Field
+                  name="email"
+                  type="email"
+                  className="contact-form-input"
+                  placeholder="Email address"
+                />
+                <ErrorMessage name="email" component={CustomErrorMessage} />
+              </div>
+            </div>
 
             <Field
               name="subject"
@@ -107,10 +113,10 @@ export default function Contact() {
 
             <div className="flex justify-end pb-8 mt-8">
               {isSubmitting ? (
-                <div>Sending your email!</div>
+                <div className="font-scp">Sending your email...</div>
               ) : (
                 <Button
-                  className="border hover:border-primary"
+                  className="border transition-all hover:border-primary disabled:hover:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white disabled:hover:text-white "
                   type="submit"
                   disabled={!dirty || !isValid}
                 >
