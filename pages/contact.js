@@ -68,64 +68,87 @@ export default function Contact() {
 
           if (response.ok) {
             setSubmitting(false);
-            setSent(values);
+            setSent([true, values]);
           }
         }}
       >
-        {({ isSubmitting, errors, touched, isValid, dirty }) => (
-          <Form className="flex flex-col">
-            <div className="sm:grid grid-cols-2 gap-2">
-              <div className="flex flex-col">
-                <Field
-                  name="name"
-                  className="contact-form-input"
-                  placeholder="Your name"
-                  autocomplete="name"
-                />
-                <ErrorMessage name="name" component={CustomErrorMessage} />
+        {({ isSubmitting, errors, touched, isValid, dirty, resetForm }) =>
+          sent[0] ? (
+            <div className="text-lg font-scp bg-black bg-opacity-50 p-4 mt-8 flex flex-col">
+              <div>
+                Thanks for the email, {sent[1].name}, I'll get back to you as
+                soon as I can!
               </div>
-              <div className="flex flex-col">
-                <Field
-                  name="email"
-                  type="email"
-                  className="contact-form-input"
-                  placeholder="Email address"
-                />
-                <ErrorMessage name="email" component={CustomErrorMessage} />
+              <Button
+                className="self-end border mt-4 hover:border-primary w-full sm:w-auto"
+                onClick={() => {
+                  resetForm();
+                  setSent([false, sent[1]]);
+                }}
+              >
+                Send Another Email
+              </Button>
+            </div>
+          ) : (
+            <Form className="flex flex-col">
+              <div className="sm:grid grid-cols-2 gap-2">
+                <div className="flex flex-col">
+                  <Field
+                    name="name"
+                    className="contact-form-input"
+                    placeholder="Your name"
+                    autocomplete="name"
+                    autoFocus={true}
+                  />
+                  <ErrorMessage name="name" component={CustomErrorMessage} />
+                </div>
+                <div className="flex flex-col">
+                  <Field
+                    name="email"
+                    type="email"
+                    className="contact-form-input"
+                    placeholder="Email address"
+                  />
+                  <ErrorMessage name="email" component={CustomErrorMessage} />
+                </div>
               </div>
-            </div>
 
-            <Field
-              name="subject"
-              className="contact-form-input"
-              placeholder="Subject"
-            />
-            <ErrorMessage name="subject" component={CustomErrorMessage} />
+              <Field
+                name="subject"
+                className="contact-form-input"
+                placeholder="Subject"
+              />
+              <ErrorMessage name="subject" component={CustomErrorMessage} />
 
-            <Field
-              as="textarea"
-              name="message"
-              className="contact-form-input"
-              placeholder="Your message"
-              rows={8}
-            />
-            <ErrorMessage name="message" component={CustomErrorMessage} />
+              <Field
+                as="textarea"
+                name="message"
+                className="contact-form-input"
+                placeholder="Your message"
+                rows={8}
+              />
+              <ErrorMessage name="message" component={CustomErrorMessage} />
 
-            <div className="flex justify-end pb-8 mt-8">
-              {isSubmitting ? (
-                <div className="font-scp">Sending your email...</div>
-              ) : (
-                <Button
-                  className="border transition-all hover:border-primary disabled:hover:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white disabled:hover:text-white "
-                  type="submit"
-                  disabled={!dirty || !isValid}
-                >
-                  <Send className="inline" /> Send Email
-                </Button>
-              )}
-            </div>
-          </Form>
-        )}
+              <div className="flex justify-end pb-8 mt-8">
+                {isSubmitting ? (
+                  <div className="font-scp">Sending your email...</div>
+                ) : (
+                  <Button
+                    className="border transition-all hover:border-primary focus:bg-primary focus:border-primary focus:text-black disabled:hover:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white disabled:hover:text-white"
+                    type="submit"
+                    style={{
+                      boxShadow:
+                        !dirty || !isValid ? "none" : "0px 0px 8px white",
+                    }}
+                    disabled={!dirty || !isValid}
+                  >
+                    <Send className="inline" /> Send Email
+                  </Button>
+                )}
+              </div>
+            </Form>
+          )
+        }
       </Formik>
     </Page>
   );
