@@ -16,7 +16,7 @@ const PageHeader = () => {
     <div className="sticky top-0 z-20" ref={ref}>
       <div className="relative">
         <header className="text-2xl relative text-white font-scp bg-black bg-opacity-60 backdrop-filter backdrop-blur-md px-4 py-3 w-screen shadow z-10">
-          <div className="bg-red-60 max-w-3xl m-auto flex justify-between items-center">
+          <div className="max-w-3xl m-auto flex justify-between items-center">
             <Link href="/">
               <a className="" onClick={() => setMenuShowing(false)}>
                 <h1 style={{ textShadow: "0 0 6px rgba(255, 255, 255, .75)" }}>
