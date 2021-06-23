@@ -11,7 +11,10 @@ function MyApp({ Component, pageProps, router }) {
       <Head>
         <link rel="icon" href="/favicon.ico" />
 
-        <meta name="viewport" content="viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
 
         {/* <!-- Primary Meta Tags --> */}
         <title>
