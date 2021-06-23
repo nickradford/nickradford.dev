@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Page from "../components/page";
 
-// import memoji from "../public/me.png";
-
 const Bold = ({ children }) => (
   <span className="text-primary font-bold whitespace-nowrap">{children}</span>
 );
