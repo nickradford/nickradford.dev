@@ -6,4 +6,9 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+
+  .min-h-fill-available {
+    min-height: -webkit-fill-available;
+    min-height: 100vh;
+  }
 }
