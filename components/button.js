@@ -1,5 +1,5 @@
 const buttonClasses =
-  "font-scp bg-transparent font-bold text-white hover:text-black px-2 py-2 block text-center hover:bg-primary hover:transition-colors";
+  "font-scp font-bold text-white hover:text-black px-2 py-2 block text-center hover:bg-primary transition-colors";
 
 const LinkButton = ({
   children,
@@ -11,14 +11,14 @@ const LinkButton = ({
     href={href}
     rel="noopener"
     target={target}
-    className={`${buttonClasses} ${additionalClasses} `}
+    className={`bg-transparent ${buttonClasses} ${additionalClasses} `}
   >
     {children}
   </a>
 );
 
 const Button = ({ children, className = "", ...rest }) => (
-  <button className={`${buttonClasses} ${className}`} {...rest}>
+  <button className={`bg-transparent ${buttonClasses} ${className}`} {...rest}>
     {children}
   </button>
 );
