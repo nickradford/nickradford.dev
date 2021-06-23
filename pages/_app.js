@@ -75,9 +75,10 @@ function MyApp({ Component, pageProps, router }) {
         <AnimatePresence exitBeforeEnter>
           <motion.main
             key={router.route}
-            initial={{ opacity: 0, left: "-2rem" }}
+            initial={{ opacity: 0, left: "-5vw" }}
             animate={{ opacity: 1, left: 0 }}
-            exit={{ opacity: 0, left: "2rem" }}
+            exit={{ opacity: 0, left: "5vw" }}
+            transition={{ duration: 0.25 }}
             className="w-screen text-white px-4 py-6 md:px-0 flex flex-1 flex-col max-w-3xl relative"
           >
             <Component {...pageProps} />

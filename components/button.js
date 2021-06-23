@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 const buttonClasses =
@@ -15,14 +16,15 @@ const LinkButton = ({
       ? "bg-primary text-black"
       : "bg-transparent text-white";
   return (
-    <a
-      href={href}
-      rel="noopener"
-      target={target}
-      className={`${isActivePath} ${buttonClasses} ${additionalClasses} `}
-    >
-      {children}
-    </a>
+    <Link href={href}>
+      <a
+        rel="noopener"
+        target={target}
+        className={`${isActivePath} ${buttonClasses} ${additionalClasses} `}
+      >
+        {children}
+      </a>
+    </Link>
   );
 };
 
