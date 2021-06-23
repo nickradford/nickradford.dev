@@ -9,7 +9,7 @@
 
   @supports (-webkit-touch-callout: none) {
     .pb-safe {
-      padding-bottom: env(safe-area-inset-bottom, inherit);
+      padding-bottom: env(safe-area-inset-bottom, 1rem);
     }
 
     .min-h-fill-available {
