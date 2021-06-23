@@ -7,7 +7,7 @@ const Bold = ({ children }) => (
 
 export default function Home({ projects }) {
   return (
-    <Page>
+    <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-end mb-4">
           <img src="/me.png" className="w-1/2 self-center sm:w-32" />
