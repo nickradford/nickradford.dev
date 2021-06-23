@@ -5,7 +5,7 @@ const LinkButton = ({
   children,
   href,
   additionalClasses = "",
-  target = "_blank",
+  target = href.startsWith("/") ? "" : "_blank",
 }) => (
   <a
     href={href}
@@ -17,8 +17,8 @@ const LinkButton = ({
   </a>
 );
 
-const Button = ({ children, additionalClasses = "", ...rest }) => (
-  <button className={`${buttonClasses} ${additionalClasses}`} {...rest}>
+const Button = ({ children, className = "", ...rest }) => (
+  <button className={`${buttonClasses} ${className}`} {...rest}>
     {children}
   </button>
 );

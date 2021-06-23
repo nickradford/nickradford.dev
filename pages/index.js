@@ -4,9 +4,7 @@ import { LinkButton } from "../components/button";
 import PageHeader from "../components/pageHeader";
 
 const Bold = ({ children }) => (
-  <span className="text-primary text-base font-bold whitespace-nowrap">
-    {children}
-  </span>
+  <span className="text-primary font-bold whitespace-nowrap">{children}</span>
 );
 
 export default function Home({ projects }) {
@@ -19,11 +17,11 @@ export default function Home({ projects }) {
       }}
     >
       <PageHeader />
-      <main className="w-screen text-white px-4 py-6 md:px-0 flex flex-col max-w-3xl">
+      <main className="w-screen text-white px-4 py-6 md:px-0 flex flex-1 flex-col max-w-3xl">
         <section className="pb-8 flex flex-col">
           <div className="flex flex-col sm:flex-row sm:items-end mb-4">
             <img src="/me.png" className="w-1/2 self-center sm:w-32" />
-            <div>
+            <div className="text-lg">
               <p className="mb-2">
                 Hey there! I'm Nick Radford and I'm a{" "}
                 <Bold>Software Engineer</Bold> and <Bold>Web Developer</Bold>{" "}
@@ -76,6 +74,28 @@ export default function Home({ projects }) {
           </Link>
         </div> */}
       </main>
+      <footer className="text-white font-scp p-4 bg-black bg-opacity-70 w-full">
+        <div className="max-w-3xl m-auto grid grid-cols-3 items-center">
+          <h4 className="text-lg col-span-2">© Nick Radford 2021</h4>
+          <nav className="">
+            {/* <h4 className="text-lg font-bold border-b border-dashed mb-2 border-gray-400">
+              Links
+            </h4> */}
+            <ul className="grid grid-cols-2 gap-2">
+              <li className="flex-1">
+                <LinkButton href="https://www.linkedin.com/in/nickradford">
+                  LinkedIn
+                </LinkButton>
+              </li>
+              <li className="flex-1">
+                <LinkButton href="https://github.com/nickradford">
+                  GitHub
+                </LinkButton>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </footer>
     </div>
   );
 }
