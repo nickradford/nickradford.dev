@@ -32,6 +32,6 @@ html {
   @apply bg-black bg-opacity-20 border text-white font-scp mt-2 px-2 py-1 transition-colors;
 }
 
-.contact-form-input:not(:empty) {
+.contact-form-input:not(:placeholder-shown) {
   @apply bg-black bg-opacity-70;
 }
