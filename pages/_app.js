@@ -1,4 +1,4 @@
-import "tailwindcss/tailwind.css";
+import "../styles/tailwind.css";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 
