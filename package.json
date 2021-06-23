@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^14.1.1",
+    "@contentful/rich-text-react-renderer": "^15.0.0",
     "@tailwindcss/typography": "^0.4.1",
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.11",
