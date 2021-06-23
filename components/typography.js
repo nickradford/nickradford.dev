@@ -2,4 +2,8 @@ const LightGray = ({ children }) => (
   <span className="text-gray-400 text-base">{children}</span>
 );
 
-export { LightGray };
+const Bold = ({ children }) => (
+  <span className="text-primary font-bold whitespace-nowrap">{children}</span>
+);
+
+export { LightGray, Bold };
