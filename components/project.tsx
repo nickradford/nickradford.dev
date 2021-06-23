@@ -31,7 +31,7 @@ const Project = ({
   sourceUrl,
   showSource,
 }: ProjectProps) => (
-  <div className="mb-2 p-4 bg-black bg-opacity-70 grid grid-cols-4 relative">
+  <div className="mb-2 p-4 bg-black bg-opacity-70 sm:grid grid-cols-4 relative">
     <div className="col-span-3">
       <h2 className="text-2xl font-scp pb-4">{title}</h2>
       <Image
@@ -47,7 +47,7 @@ const Project = ({
         {documentToReactComponents(description.json)}
       </article>
     </div>
-    <div className="pl-4 relative">
+    <div className="sm:pl-4 relative">
       <div className="sticky top-20">
         <LinkButton href={url} className="border hover:border-primary mb-4">
           View Site
@@ -63,7 +63,7 @@ const Project = ({
         <h3 className="font-scp">Technologies Used</h3>
         <div className="pt-2 flex flex-col items-start">
           {technologiesUsed.sort(byLength).map((tech) => (
-            <span className="py-1 px-2 border mb-2 font-scp text-sm">
+            <span className="py-1 px-2 border border-primary border-opacity-50 mb-2 font-scp text-sm">
               {tech}
             </span>
           ))}

@@ -19,7 +19,7 @@ module.exports = {
               color: "#FEEE16",
               // background: "#000000",
               fontFamily: "Source Code Pro",
-              padding: "4px 6px",
+              // padding: "4px 6px",
               borderRadius: 3,
             },
             ul: { paddingLeft: "1em" },
