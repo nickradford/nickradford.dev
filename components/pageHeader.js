@@ -13,7 +13,7 @@ const PageHeader = () => {
   const ref = useRef(null);
   useOnClickOutside(ref, () => setMenuShowing(false));
   return (
-    <div className="sticky top-0" ref={ref}>
+    <div className="sticky top-0 z-20" ref={ref}>
       <div className="relative">
         <header className="text-2xl relative text-white font-scp bg-black bg-opacity-60 backdrop-filter backdrop-blur-md px-4 py-3 w-screen shadow z-10">
           <div className="bg-red-60 max-w-3xl m-auto flex justify-between items-center">
@@ -47,7 +47,11 @@ const PageHeader = () => {
               }}
               className="absolute text-primary bg-black bg-opacity-60 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
             >
-              <Navigation />
+              <Navigation
+                onClick={() => {
+                  setMenuShowing(false);
+                }}
+              />
             </motion.div>
           )}
         </AnimatePresence>
