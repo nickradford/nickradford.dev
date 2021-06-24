@@ -42,7 +42,7 @@ export async function getStaticPaths() {
   const allPosts = await getAllPostsWithSlug();
   return {
     paths: allPosts?.map(({ slug }) => `/blog/${slug}`) ?? [],
-    fallback: true,
+    fallback: false,
   };
 }
 
