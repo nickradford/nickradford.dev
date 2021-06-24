@@ -16,6 +16,22 @@ const Blog = ({ preview, post }) => (
         name="description"
         content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
       />
+      <meta name="author" content="Nick Radford" />
+
+      <meta property="og:title" content={post.title} />
+      <meta property="og:type" content="article" />
+      <meta
+        property="og:description"
+        content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
+      />
+      <meta property="article:published_time" content={post.date} />
+      <meta property="article:author" content="Nick Radford" />
+
+      <meta property="twitter:title" content={post.title} />
+      <meta
+        property="twitter:description"
+        content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
+      />
     </Head>
     <article className="bg-black bg-opacity-70 p-4 sm:p-8">
       <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
