@@ -1,6 +1,8 @@
+import Head from "next/head";
 import TimeAgo from "react-timeago";
 import ReactMarkdown from "react-markdown";
 import Highlight from "rehype-highlight";
+import removeMarkdown from "remove-markdown";
 
 import "highlight.js/styles/a11y-dark.css";
 
@@ -9,6 +11,12 @@ import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
 
 const Blog = ({ preview, post }) => (
   <Page pageTitle={post.title}>
+    <Head>
+      <meta
+        name="description"
+        content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
+      />
+    </Head>
     <article className="bg-black bg-opacity-70 p-4 sm:p-8">
       <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
       <p className="font-scp mb-2 text-sm">
