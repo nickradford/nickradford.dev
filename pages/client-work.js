@@ -62,7 +62,7 @@ export async function getStaticProps() {
   const resp = await fetch(url, options);
   const { data } = await resp.json();
 
-  console.log(data);
+  // console.log(data);
 
   return { props: data };
 }

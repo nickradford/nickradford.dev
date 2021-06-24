@@ -15,24 +15,24 @@ const Navigation = ({ className, onClick = noop }) => {
       <LinkButton className={classNames} href="/projects" onClick={onClick}>
         Projects
       </LinkButton>
-      {/* <LinkButton
-        className="md:border-0 border-t border-primary border-opacity-70"
-        href="https://github.com/nickradford"
-      >
-        My Github
-      </LinkButton>
-      <LinkButton
-        className="md:border-0 border-t border-primary border-opacity-70"
-        href="https://www.linkedin.com/in/nickradford"
-      >
-        My LinkedIn
-      </LinkButton> */}
       <LinkButton
         className={classNames}
         href="https://standardresume.co/r/nickradford"
         onClick={onClick}
       >
         My Résumé
+      </LinkButton>
+      <LinkButton
+        className={`${classNames} sm:hidden`}
+        href="https://github.com/nickradford"
+      >
+        My Github
+      </LinkButton>
+      <LinkButton
+        className={`${classNames} sm:hidden`}
+        href="https://www.linkedin.com/in/nickradford"
+      >
+        My LinkedIn
       </LinkButton>
       <LinkButton
         href="/contact"

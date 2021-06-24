@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import TimeAgo from "react-timeago";
+
+import { getAllPostsForHome } from "../lib/api";
 import Page from "../components/page";
 import { Bold } from "../components/typography";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-export default function Home({ projects }) {
+export default function Home({ posts }) {
+  const latestPost = posts[0];
   return (
     <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
@@ -35,21 +40,16 @@ export default function Home({ projects }) {
           Latest Blog Post
         </h2>
         <article className="flex flex-col">
-          <Link href="/blog/post">
+          <Link href={`/blog/${latestPost.slug}`}>
             <a className="group">
               <div className="group-hover:bg-gray-700 group-hover:bg-opacity-50 p-4 transition-colors">
                 <h3 className="font-scp font-bold text-lg group-hover:text-primary transition-colors">
-                  Post Title
+                  {latestPost.title}
                 </h3>
                 <div className="font-scp italic font-extralight">
-                  3 hours ago...
+                  <TimeAgo date={latestPost.date} />
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                  consectetur nisi quae temporibus veritatis rerum, repellat
-                  optio omnis minus maxime sit doloribus sapiente voluptas
-                  quisquam error, pariatur accusantium consequuntur corrupti.
-                </p>
+                {documentToReactComponents(latestPost.content.json)[0]}
               </div>
             </a>
           </Link>
@@ -60,12 +60,8 @@ export default function Home({ projects }) {
 }
 
 export const getStaticProps = async () => {
-  const { createClient } = require("contentful");
-  const config = require("../contentful.json");
+  const posts = await getAllPostsForHome();
+  // console.log(posts);
 
-  const client = createClient(config);
-
-  const projects = await client.getEntry("6mYI8AwTSfEL6L9rolYP1p");
-
-  return { props: { projects: projects.fields.project } };
+  return { props: { posts } };
 };

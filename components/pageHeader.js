@@ -37,9 +37,9 @@ const PageHeader = () => {
         <AnimatePresence>
           {menuShowing && (
             <motion.div
-              initial={{ top: "-200px" }}
+              initial={{ top: "-300px" }}
               animate={{ top: "4rem" }}
-              exit={{ top: "-200px" }}
+              exit={{ top: "-300px" }}
               transition={{
                 type: "spring",
                 stiffness: 420,
