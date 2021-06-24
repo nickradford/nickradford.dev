@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import TimeAgo from "react-timeago";
+import ReactMarkdown from "react-markdown";
 
 import { getAllPostsForHome } from "../lib/api";
 import Page from "../components/page";
@@ -8,6 +9,7 @@ import { Bold } from "../components/typography";
 
 export default function Home({ posts }) {
   const latestPost = posts[0];
+
   return (
     <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
@@ -45,11 +47,14 @@ export default function Home({ posts }) {
                 <h3 className="font-scp font-bold text-xl group-hover:text-primary transition-colors">
                   {latestPost.title}
                 </h3>
-                <div className="font-scp italic font-extralight">
+                <div className="font-scp text-sm">
                   <TimeAgo date={latestPost.date} />
                 </div>
                 <div className="flex prose-lg pt-4">
-                  {latestPost.excerpt.split("\n")[0].substring(0, 240)}...
+                  <ReactMarkdown>
+                    {latestPost.content.split("\n")[0].substring(0, 325) +
+                      "..."}
+                  </ReactMarkdown>
                 </div>
                 <p className="text-right font-scp">Read more...</p>
               </div>

@@ -1,3 +1,25 @@
+const TYPOGRAPHY = {
+  css: {
+    color: "white",
+    maxWidth: "80ch",
+    a: {
+      color: "#FEEE16",
+      // background: "#000000",
+      fontFamily: "Source Code Pro",
+      // padding: "4px 6px",
+      borderRadius: 3,
+    },
+    code: {
+      fontFamily: "Source Code Pro",
+    },
+    ul: { paddingLeft: "1em" },
+    "li > p": { margin: ".5rem !important" },
+    li: {
+      margin: 0,
+    },
+  },
+};
+
 module.exports = {
   mode: "jit",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
@@ -12,41 +34,10 @@ module.exports = {
         primary: "#FEEE16",
       },
       typography: {
-        DEFAULT: {
-          css: {
-            color: "white",
-            maxWidth: "80ch",
-            a: {
-              color: "#FEEE16",
-              // background: "#000000",
-              fontFamily: "Source Code Pro",
-              // padding: "4px 6px",
-              borderRadius: 3,
-            },
-            ul: { paddingLeft: "1em" },
-            "li > p": { margin: ".5rem !important" },
-            li: {
-              margin: 0,
-            },
-            code: {
-              color: "#FFF",
-            },
-          },
-        },
+        DEFAULT: TYPOGRAPHY,
+        lg: TYPOGRAPHY,
       },
     },
-  },
-  variants: {
-    margin: ["responsive", "last"],
-    display: ["responsive", "group-hover"],
-    opacity: [
-      "responsive",
-      "group-hover",
-      "focus-within",
-      "hover",
-      "focus",
-      "disabled",
-    ],
   },
   plugins: [require("@tailwindcss/typography")],
 };

@@ -1,26 +1,25 @@
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import TimeAgo from "react-timeago";
+import ReactMarkdown from "react-markdown";
+import Highlight from "rehype-highlight";
+
+import "highlight.js/styles/a11y-dark.css";
 
 import Page from "../../components/page";
-import {
-  getAllPostsWithSlug,
-  getPostAndMorePosts,
-  getPostBySlug,
-} from "../../lib/api";
-import { renderOptions } from "../../lib/contentful";
+import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
 
 const Blog = ({ preview, post }) => (
-  <Page pageTitle="This is the blog">
-    <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
-    <p className="font-scp mb-2 text-sm">
-      Published <TimeAgo date={post.date} />
-    </p>
-    <div className="prose">
-      {documentToReactComponents(
-        post.content.json,
-        renderOptions(post.content.links)
-      )}
-    </div>
+  <Page pageTitle={post.title}>
+    <article className="bg-black bg-opacity-70 p-8">
+      <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
+      <p className="font-scp mb-2 text-sm">
+        Published <TimeAgo date={post.date} />
+      </p>
+      <div className="prose-lg">
+        <ReactMarkdown rehypePlugins={[Highlight]}>
+          {post.content}
+        </ReactMarkdown>
+      </div>
+    </article>
     {/* <pre>{JSON.stringify(post.content.json, null, 4)}</pre> */}
   </Page>
 );
