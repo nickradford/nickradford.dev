@@ -50,7 +50,7 @@ export default function Home({ posts }) {
                 <div className="font-scp text-sm">
                   <TimeAgo date={latestPost.date} />
                 </div>
-                <div className="flex prose-lg pt-4">
+                <div className="flex prose sm:prose-lg pt-4">
                   <ReactMarkdown>
                     {latestPost.content.split("\n")[0].substring(0, 325) +
                       "..."}

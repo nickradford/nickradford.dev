@@ -9,12 +9,12 @@ import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
 
 const Blog = ({ preview, post }) => (
   <Page pageTitle={post.title}>
-    <article className="bg-black bg-opacity-70 p-8">
+    <article className="bg-black bg-opacity-70 p-4 sm:p-8">
       <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
       <p className="font-scp mb-2 text-sm">
         Published <TimeAgo date={post.date} />
       </p>
-      <div className="prose-lg">
+      <div className="prose sm:prose-lg">
         <ReactMarkdown rehypePlugins={[Highlight]}>
           {post.content}
         </ReactMarkdown>

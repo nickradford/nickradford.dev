@@ -9,8 +9,13 @@ const TYPOGRAPHY = {
       // padding: "4px 6px",
       borderRadius: 3,
     },
+    strong: {
+      color: "white",
+      textDecoration: "underline",
+    },
     code: {
       fontFamily: "Source Code Pro",
+      color: "white",
     },
     ul: { paddingLeft: "1em" },
     "li > p": { margin: ".5rem !important" },
