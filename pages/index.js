@@ -5,7 +5,6 @@ import TimeAgo from "react-timeago";
 import { getAllPostsForHome } from "../lib/api";
 import Page from "../components/page";
 import { Bold } from "../components/typography";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export default function Home({ posts }) {
   const latestPost = posts[0];
@@ -43,13 +42,16 @@ export default function Home({ posts }) {
           <Link href={`/blog/${latestPost.slug}`}>
             <a className="group">
               <div className="group-hover:bg-gray-700 group-hover:bg-opacity-50 p-4 transition-colors">
-                <h3 className="font-scp font-bold text-lg group-hover:text-primary transition-colors">
+                <h3 className="font-scp font-bold text-xl group-hover:text-primary transition-colors">
                   {latestPost.title}
                 </h3>
                 <div className="font-scp italic font-extralight">
                   <TimeAgo date={latestPost.date} />
                 </div>
-                {documentToReactComponents(latestPost.content.json)[0]}
+                <div className="flex prose-lg pt-4">
+                  {latestPost.excerpt.split("\n")[0].substring(0, 240)}...
+                </div>
+                <p className="text-right font-scp">Read more...</p>
               </div>
             </a>
           </Link>
@@ -61,7 +63,6 @@ export default function Home({ posts }) {
 
 export const getStaticProps = async () => {
   const posts = await getAllPostsForHome();
-  // console.log(posts);
 
   return { props: { posts } };
 };
