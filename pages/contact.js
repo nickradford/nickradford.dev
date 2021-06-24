@@ -97,7 +97,7 @@ export default function Contact() {
                     name="name"
                     className="contact-form-input"
                     placeholder="Your name"
-                    autocomplete="name"
+                    autoComplete="name"
                     autoFocus={true}
                   />
                   <ErrorMessage name="name" component={CustomErrorMessage} />

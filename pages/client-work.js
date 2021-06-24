@@ -8,7 +8,7 @@ export default function ClientWork({ projects }) {
 
       <ul>
         {projects.projectCollection.items.map((project) => (
-          <li key={project.name}>
+          <li key={project.title}>
             <Project {...project} />
           </li>
         ))}
