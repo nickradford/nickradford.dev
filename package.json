@@ -9,19 +9,32 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^14.1.1",
-    "@tailwindcss/typography": "^0.2.0",
+    "@contentful/rich-text-react-renderer": "^15.0.0",
+    "@tailwindcss/typography": "^0.4.1",
+    "@types/node": "^15.12.4",
+    "@types/react": "^17.0.11",
+    "autoprefixer": "^10.2.6",
     "contentful": "^8.3.1",
     "formik": "^2.1.5",
+    "framer-motion": "^4.1.17",
+    "highlight.js": "^10.7.3",
     "lodash.debounce": "^4.0.8",
-    "next": "10.2.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "next": "^10.2.3",
+    "postcss": "^8.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-feather": "^2.0.9",
+    "react-markdown": "^6.0.2",
     "react-particles-js": "^3.3.0",
+    "react-timeago": "^6.2.1",
+    "rehype-highlight": "^4.1.0",
+    "typescript": "^4.3.4",
+    "use-onclickoutside": "^0.3.2",
     "yup": "^0.29.2"
   },
   "devDependencies": {
     "@types/yup": "^0.29.3",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^1.5.2"
+    "tailwindcss": "^2.2.2"
   }
 }

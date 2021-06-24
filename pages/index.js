@@ -1,293 +1,73 @@
-import dynamic from "next/dynamic";
-import { useEffect, useState, useRef } from "react";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import Image from "next/image";
+import Link from "next/link";
+import TimeAgo from "react-timeago";
+import ReactMarkdown from "react-markdown";
 
-import ParticleSystem from "../components/particleSystem";
-import BlackWave from "../components/blackWave";
-import styles from "../styles/Home.module.css";
+import { getAllPostsForHome } from "../lib/api";
+import Page from "../components/page";
+import { Bold } from "../components/typography";
 
-import StickyHeader from "../components/stickyHeader";
-const ContactModal = dynamic(() => import("../components/contactModal"), {
-  ssr: false,
-});
-
-const Emphasis = (props) => (
-  <span className="text-white border-b-4 pb-1 border-white">
-    {props.children}
-  </span>
-);
-
-const Tag = (props) => (
-  <span
-    className="text-sm mr-2 bg-gray-900 px-2 py-1 bg-opacity-50 rounded last:mr-0 font-mono flex-shrink mb-2"
-    {...props}
-  />
-);
-
-export default function Home({ projects }) {
-  // console.log(projects);
-  const [modalShowing, setModalShowing] = useState(false);
-
-  const projectsRef = useRef(null);
-
-  useEffect(() => {
-    if (modalShowing) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [modalShowing]);
+export default function Home({ posts }) {
+  const latestPost = posts[0];
 
   return (
-    <>
-      <div className={`${styles.container} w-full relative overflow-hidden`}>
-        <ParticleSystem />
-        <BlackWave
-          style={{
-            position: "absolute",
-            width: "calc(100% + 20px)",
-            zIndex: 10,
-            bottom: -5,
-            left: -10,
-            right: -10,
-          }}
-        />
-        <div className="container m-auto relative z-30" id="#">
-          <main
-            className="text-white text-xl px-3 flex flex-col justify-center"
-            style={{
-              minHeight: "calc(100vh - 100px)",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, .2)",
-            }}
-          >
-            <div className="">
-              <h1 className="text-3xl md:text-6xl mb-8">
-                Hi, I'm Nick Radford <div className="wave inline-block">👋</div>
-              </h1>
-              <h2 className="text-2xl text-gray-200 leading-loose">
-                I'm a <Emphasis>software engineer</Emphasis> based in{" "}
-                <Emphasis>San Francisco, California</Emphasis>, and I am
-                currently <Emphasis>available for remote work</Emphasis>.
-              </h2>
-            </div>
-            <div className="flex flex-col md:flex-row mt-20">
-              <a
-                href="https://github.com/nickradford"
-                className="header-link-button"
-                target="_blank"
-                rel="noopener"
-              >
-                My Github
-              </a>
-              <a
-                href="https://www.linkedin.com/in/nickradford"
-                className="header-link-button blue"
-                target="_blank"
-                rel="noopener"
-              >
-                My LinkedIn
-              </a>
-
-              <a
-                href="https://standardresume.co/r/nickradford"
-                className="header-link-button purple"
-                target="_blank"
-                rel="noopener"
-              >
-                My Résumé
-              </a>
-
-              <button
-                className="header-link-button red"
-                onClick={() => {
-                  setModalShowing(!modalShowing);
-                }}
-              >
-                Contact Me
-              </button>
-            </div>
-          </main>
-        </div>
-      </div>
-      <StickyHeader domRef={projectsRef} threshold={200}>
-        <span className="lowercase">
-          <a
-            href="https://github.com/nickradford"
-            className="hidden lg:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
-            target="_blank"
-            rel="noopener"
-          >
-            My Github
-          </a>
-          <a
-            href="https://www.linkedin.com/in/nickradford"
-            className="hidden md:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
-            target="_blank"
-            rel="noopener"
-          >
-            My LinkedIn
-          </a>
-
-          <a
-            href="https://standardresume.co/r/nickradford"
-            className="hidden sm:inline-block border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white mr-2"
-            target="_blank"
-            rel="noopener"
-          >
-            My Résumé
-          </a>
-          <button
-            onClick={() => {
-              setModalShowing(!modalShowing);
-            }}
-            className="lowercase border-4 border-black rounded whitespace-no-wrap px-3 py-2 transition duration-100 hover:bg-black hover:text-white"
-          >
-            Contact Me
-          </button>
-        </span>
-      </StickyHeader>
-
-      <div className={`${styles["container-shadow"]} bg-black text-white px-3`}>
-        <section className="container m-auto min-h-screen pb-12">
-          <div>
-            <h2
-              className="text-4xl mb-8 border-b-4 inline-block fancy-border group"
-              id="projects"
-            >
-              <a href="/#projects" className="relative" ref={projectsRef}>
-                <span
-                  className="px-2 hidden group-hover:inline text-xl text-gray-500 absolute"
-                  style={{ left: -28, top: 8 }}
-                >
-                  #
-                </span>
-                Projects
-              </a>
-            </h2>
-
-            {projects &&
-              projects.map((project) => (
-                <div
-                  key={project.sys.id}
-                  className="flex flex-col border border-gray-900 bg-blue-900 p-6 rounded items-center shadow-inner mb-8"
-                >
-                  <div className="text-3xl mb-4 w-full flex flex-col md:flex-row justify-between">
-                    <a
-                      href={project.fields.url}
-                      className="transition duration-100 hover:text-pink"
-                    >
-                      {project.fields.title}
-                    </a>
-                    <div
-                      className="flex flex-wrap md:items-center"
-                      style={{ position: "relative", top: 6 }}
-                    >
-                      {project.fields.technologiesUsed.map((t) => (
-                        <Tag key={t}>{t}</Tag>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row">
-                    <div className="flex-1 mb-4 lg:mb-0 flex flex-col">
-                      <div
-                        className="prose flex-1 mb-4"
-                        dangerouslySetInnerHTML={{
-                          __html: documentToHtmlString(
-                            project.fields.description
-                          ),
-                        }}
-                      ></div>
-
-                      <div className="mt-6 mb-2 flex flex-col md:block">
-                        {project.fields.url ? (
-                          <a
-                            href={project.fields.url}
-                            className="header-link-button"
-                          >
-                            open {project.fields.title}
-                          </a>
-                        ) : null}
-                        {project.fields.sourceUrl ? (
-                          <a
-                            href={project.fields.sourceUrl}
-                            className="header-link-button"
-                          >
-                            view source
-                          </a>
-                        ) : null}
-                      </div>
-                    </div>
-
-                    <div className="lg:pl-8">
-                      <a
-                        href={project.fields.url}
-                        className="group bg-gray-900"
-                      >
-                        <img
-                          className="h-auto max-w-full lg:max-w-md xl:max-w-xl border-4 border-gray-900 rounded transition duration-200 shadow hover:shadow-2xl hover:border-blue-500"
-                          alt={project.fields.image.fields.description}
-                          src={`${project.fields.image.fields.file.url}?fm=webp&w=576&q=100`}
-                          loading="lazy"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
+    <Page includeNameInpageTitle={false}>
+      <section className="pb-8 flex flex-col">
+        <div className="flex flex-col sm:flex-row sm:items-end mb-4">
+          <div className="m-auto sm:m-0">
+            <Image
+              src="/me.png"
+              layout="intrinsic"
+              width={240}
+              height={240}
+              loading="eager"
+              priority={true}
+            />
           </div>
-        </section>
-      </div>
-      <footer className={`${styles.footer} py-3 text-white bg-opacity-75`}>
-        <div className="container m-auto flex flex-col sm:flex-row items-center justify-between text-center">
-          <span>© 2020 Nick Radford</span>
-          <span>
-            Made with{" "}
-            <a
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noreferrer"
-              className="border-b-2 pb-1"
-            >
-              Next.js
-            </a>
-            ,{" "}
-            <a
-              href="https://tailwindcss.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="border-b-2 pb-1"
-            >
-              Tailwind.css
-            </a>
-            , and{" "}
-            <a
-              href="https://www.contentful.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="border-b-2 pb-1"
-            >
-              Contentful
-            </a>
-          </span>
+          <div className="text-lg">
+            <p className="mb-2">
+              Hey there! I'm Nick Radford and I'm a{" "}
+              <Bold>Software Engineer</Bold> and <Bold>Web Developer</Bold> from{" "}
+              <Bold>San Francisco, California</Bold>.
+            </p>
+            <p>
+              I'm currently <Bold>available for remote work</Bold>.
+            </p>
+          </div>
         </div>
-      </footer>
-      {modalShowing && (
-        <ContactModal
-          visible={modalShowing}
-          onModalHide={() => setModalShowing(false)}
-        />
-      )}
-    </>
+        <hr className="border-dashed" />
+
+        <h2 className="font-scp font-bold text-2xl mt-6 mb-2">
+          Latest Blog Post
+        </h2>
+        <article className="flex flex-col">
+          <Link href={`/blog/${latestPost.slug}`}>
+            <a className="group">
+              <div className="group-hover:bg-gray-700 group-hover:bg-opacity-50 p-4 transition-colors">
+                <h3 className="font-scp font-bold text-xl group-hover:text-primary transition-colors">
+                  {latestPost.title}
+                </h3>
+                <div className="font-scp text-sm">
+                  <TimeAgo date={latestPost.date} />
+                </div>
+                <div className="flex prose-lg pt-4">
+                  <ReactMarkdown>
+                    {latestPost.content.split("\n")[0].substring(0, 325) +
+                      "..."}
+                  </ReactMarkdown>
+                </div>
+                <p className="text-right font-scp">Read more...</p>
+              </div>
+            </a>
+          </Link>
+        </article>
+      </section>
+    </Page>
   );
 }
 
 export const getStaticProps = async () => {
-  const { createClient } = require("contentful");
-  const config = require("../contentful.json");
+  const posts = await getAllPostsForHome();
 
-  const client = createClient(config);
-
-  const projects = await client.getEntry("6mYI8AwTSfEL6L9rolYP1p");
-
-  return { props: { projects: projects.fields.project } };
+  return { props: { posts } };
 };
