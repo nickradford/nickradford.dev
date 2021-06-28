@@ -63,7 +63,10 @@ const Project = ({
         <h3 className="font-scp">Technologies Used</h3>
         <div className="pt-2 sm:flex sm:flex-col sm:items-start">
           {technologiesUsed.sort(byLength).map((tech) => (
-            <span className="py-1 px-2 border border-primary border-opacity-50 mb-2 font-scp text-sm inline-block mr-2">
+            <span
+              className="py-1 px-2 border border-primary border-opacity-50 mb-2 font-scp text-sm inline-block mr-2"
+              key={tech}
+            >
               {tech}
             </span>
           ))}

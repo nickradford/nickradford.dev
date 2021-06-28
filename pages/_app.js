@@ -62,12 +62,6 @@ function MyApp({ Component, pageProps, router }) {
           property="twitter:image"
           content="https://nickradford.dev/social.png?v=3"
         />
-
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,400;0,700;1,200;1,700&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <div className="bg-gray-800 flex flex-col min-h-screen min-h-fill-available items-center w-full">
         <div

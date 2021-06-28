@@ -6,11 +6,10 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            rel="preload"
-            href="/fonts/merriweather-regular-webfont.woff2"
-            as="font"
-            crossOrigin=""
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,400;0,700;1,200;1,700&display=swap"
+            rel="stylesheet"
           />
           <script
             async

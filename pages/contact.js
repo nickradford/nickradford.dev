@@ -33,8 +33,8 @@ export default function Contact() {
     <Page pageTitle="Contact">
       <h1 className="font-scp text-2xl mb-6">Contact Me</h1>
       <p className="mb-2">
-        Hi! I'm currently available for <Bold>Full Time Employment</Bold> and{" "}
-        <Bold>Freelance Projects</Bold>.
+        Hi! I&apos;m currently available for <Bold>Full Time Employment</Bold>{" "}
+        and <Bold>Freelance Projects</Bold>.
       </p>
       <p className="mb-2">
         Please take a look at my Client Work, Projects, and Résumé to see if
@@ -76,8 +76,8 @@ export default function Contact() {
           sent[0] ? (
             <div className="text-lg font-scp bg-black bg-opacity-50 p-4 mt-8 flex flex-col">
               <div>
-                Thanks for the email, {sent[1].name}, I'll get back to you as
-                soon as I can!
+                Thanks for the email, {sent[1].name}, I&apos;ll get back to you
+                as soon as I can!
               </div>
               <Button
                 className="self-end border mt-4 hover:border-primary w-full sm:w-auto"

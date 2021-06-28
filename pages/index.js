@@ -22,16 +22,17 @@ export default function Home({ posts }) {
               height={240}
               loading="eager"
               priority={true}
+              alt="My MeMoji waving to you :D"
             />
           </div>
           <div className="text-lg">
             <p className="mb-2">
-              Hey there! I'm Nick Radford and I'm a{" "}
+              Hey there! I&apos;m Nick Radford and I&apos;m a{" "}
               <Bold>Software Engineer</Bold> and <Bold>Web Developer</Bold> from{" "}
               <Bold>San Francisco, California</Bold>.
             </p>
             <p>
-              I'm currently <Bold>available for remote work</Bold>.
+              I&apos;m currently <Bold>available for remote work</Bold>.
             </p>
           </div>
         </div>
