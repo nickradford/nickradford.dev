@@ -6,6 +6,9 @@ import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 
 function MyApp({ Component, pageProps, router }) {
+  if (router.route === "/blog/preview") {
+    return <Component {...pageProps} />;
+  }
   return (
     <>
       <Head>
@@ -40,10 +43,6 @@ function MyApp({ Component, pageProps, router }) {
           property="og:description"
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
-        <meta
-          property="og:image"
-          content="https://nickradford.dev/social.png?v=3"
-        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
 
@@ -58,12 +57,8 @@ function MyApp({ Component, pageProps, router }) {
           property="twitter:description"
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
-        <meta
-          property="twitter:image"
-          content="https://nickradford.dev/social.png?v=3"
-        />
       </Head>
-      <div className="bg-gray-800 flex flex-col min-h-screen min-h-fill-available items-center w-full">
+      <div className="flex flex-col items-center w-full min-h-screen bg-gray-800 min-h-fill-available">
         <div
           className="fixed inset-0"
           style={{
@@ -79,7 +74,7 @@ function MyApp({ Component, pageProps, router }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="w-screen text-white px-4 py-6 md:px-0 flex flex-1 flex-col max-w-4xl relative"
+            className="relative flex flex-col flex-1 w-screen max-w-4xl px-4 py-6 text-white md:px-0"
           >
             <Component {...pageProps} />
           </motion.main>

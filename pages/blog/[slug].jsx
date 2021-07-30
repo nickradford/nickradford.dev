@@ -21,6 +21,11 @@ const Blog = ({ preview, post }) => (
       <meta property="og:title" content={post.title} />
       <meta property="og:type" content="article" />
       <meta
+        property="og:image"
+        content={`/api/generate-preview-image?slug=${post.slug}`}
+      />
+      <meta property="twitter:image" />
+      <meta
         property="og:description"
         content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
       />
@@ -33,9 +38,9 @@ const Blog = ({ preview, post }) => (
         content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
       />
     </Head>
-    <article className="bg-black bg-opacity-70 p-4 sm:p-8">
-      <h1 className="text-2xl font-scp capitalize mb-2">{post.title}</h1>
-      <p className="font-scp mb-2 text-sm">
+    <article className="p-4 bg-black bg-opacity-70 sm:p-8">
+      <h1 className="mb-2 text-2xl capitalize font-scp">{post.title}</h1>
+      <p className="mb-2 text-sm font-scp">
         Published <TimeAgo date={post.date} />
       </p>
       <div className="prose sm:prose-lg">
@@ -50,8 +55,12 @@ const Blog = ({ preview, post }) => (
 
 export async function getStaticProps({ params, preview = false }) {
   const data = await getPostBySlug(params.slug, preview);
+  const url = `${process.env.VERCEL_URL}/api/generate-preview-image?slug=${data[0]?.slug}`;
 
-  // console.log(preview, data, params.slug);
+  if (process.env.NODE_ENV === "production") {
+    // Cause the image to be generated during the build
+    await fetch(url);
+  }
 
   return {
     props: {
