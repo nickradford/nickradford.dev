@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Twitter } from "react-feather";
+import { format } from "date-fns";
 
 const Preview = () => {
   const router = useRouter();
   const { title, date, slug } = router.query;
+  const d = new Date(date as string);
+
   return (
     <div
       className="text-white h-screen w-full flex flex-col justify-center p-12 pb-0"
@@ -15,7 +18,7 @@ const Preview = () => {
     >
       <h1 className="font-scp text-8xl text-primary flex-1 flex flex-col justify-center">
         <div>{title}</div>
-        <p className="text-3xl text-gray-400 mt-4">{date}</p>
+        <p className="text-3xl text-gray-400 mt-4">{format(d, "PPPP")}</p>
       </h1>
       <footer className=" left-4 flex items-end">
         <Image
