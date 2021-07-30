@@ -43,10 +43,20 @@ function MyApp({ Component, pageProps, router }) {
           property="og:description"
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
+        <meta
+          key="og:image"
+          property="og:image"
+          content="https://nickradford.dev/social.png?v=3"
+        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
 
         {/* <!-- Twitter --> */}
+        <meta
+          key="twitter:image"
+          property="twitter:image"
+          content="https://nickradford.dev/social.png?v=3"
+        />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://nickradford.dev/" />
         <meta
