@@ -17,7 +17,10 @@ export default async function GeneratePreviewImage(req, res) {
   const image = await getImage(`/blog/preview?${params.toString()}`);
 
   res.setHeader("Content-Type", "image/png");
-  res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate=86400");
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=86400, stale-while-revalidate=86400"
+  );
 
   res.send(image);
 }
