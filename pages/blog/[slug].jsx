@@ -9,7 +9,9 @@ import "highlight.js/styles/a11y-dark.css";
 import Page from "../../components/page";
 import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000";
+const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? "nickradford.dev"
+  : "localhost:3000";
 
 const Blog = ({ preview, post }) => (
   <Page pageTitle={post.title}>
