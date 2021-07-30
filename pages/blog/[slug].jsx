@@ -34,6 +34,10 @@ const Blog = ({ preview, post }) => (
         property="og:image"
         content={`https://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
+
+      <meta key="og:image:width" property="og:image:width" content="1200" />
+      <meta key="og:image:height" property="og:image:height" content="628" />
+
       <meta
         key="twitter:image"
         property="twitter:image"
