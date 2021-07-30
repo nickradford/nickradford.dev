@@ -43,3 +43,9 @@ const Preview = () => {
 };
 
 export default Preview;
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}
