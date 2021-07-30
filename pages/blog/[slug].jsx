@@ -9,7 +9,7 @@ import "highlight.js/styles/a11y-dark.css";
 import Page from "../../components/page";
 import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
+const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000";
 
 const Blog = ({ preview, post }) => (
   <Page pageTitle={post.title}>
@@ -25,12 +25,12 @@ const Blog = ({ preview, post }) => (
       <meta
         key="og:image"
         property="og:image"
-        content={`${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
+        content={`//${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
       <meta
         key="twitter:image"
         property="twitter:image"
-        content={`${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
+        content={`//${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
       <meta
         property="og:description"
