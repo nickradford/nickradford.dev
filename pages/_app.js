@@ -33,13 +33,19 @@ function MyApp({ Component, pageProps, router }) {
         />
 
         {/* <!-- Open Graph / Facebook --> */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://nickradford.dev/" />
+        <meta key="og:type" property="og:type" content="website" />
         <meta
+          key="og:url"
+          property="og:url"
+          content="https://nickradford.dev/"
+        />
+        <meta
+          key="og:title"
           property="og:title"
           content="Nick Radford | Available for Work | Software Engineer in San Francisco"
         />
         <meta
+          key="og:description"
           property="og:description"
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />

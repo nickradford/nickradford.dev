@@ -22,8 +22,13 @@ const Blog = ({ preview, post }) => (
       />
       <meta name="author" content="Nick Radford" />
 
-      <meta property="og:title" content={post.title} />
-      <meta property="og:type" content="article" />
+      <meta key="og:title" property="og:title" content={post.title} />
+      <meta key="og:type" property="og:type" content="article" />
+      <meta
+        key="og:url"
+        property="og:url"
+        content={`https://${BASE_URL}/blog/${post.slug}`}
+      />
       <meta
         key="og:image"
         property="og:image"
@@ -35,6 +40,7 @@ const Blog = ({ preview, post }) => (
         content={`http://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
       <meta
+        key="og:description"
         property="og:description"
         content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
       />
