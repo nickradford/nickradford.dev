@@ -25,12 +25,12 @@ const Blog = ({ preview, post }) => (
       <meta
         key="og:image"
         property="og:image"
-        content={`//${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
+        content={`https://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
       <meta
         key="twitter:image"
         property="twitter:image"
-        content={`//${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
+        content={`http://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
       />
       <meta
         property="og:description"
