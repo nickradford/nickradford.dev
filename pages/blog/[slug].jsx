@@ -24,7 +24,10 @@ const Blog = ({ preview, post }) => (
         property="og:image"
         content={`/api/generate-preview-image?slug=${post.slug}`}
       />
-      <meta property="twitter:image" />
+      <meta
+        property="twitter:image"
+        content={`/api/generate-preview-image?slug=${post.slug}`}
+      />
       <meta
         property="og:description"
         content={removeMarkdown(post.content.split("\n")[0]).substring(0, 200)}
