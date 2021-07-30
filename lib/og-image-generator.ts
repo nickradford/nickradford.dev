@@ -2,7 +2,7 @@ import { launchChromium } from "playwright-aws-lambda";
 
 export async function getImage(
   path = "",
-  baseUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}`
+  baseUrl = `https://${process.env.VERCEL_URL || "http://localhost:3000"}`
 ) {
   //if (process.env.NODE_ENV === "development") {
   //return "OG image will only be generated in prod";
