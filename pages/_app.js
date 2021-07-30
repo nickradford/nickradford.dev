@@ -54,8 +54,8 @@ function MyApp({ Component, pageProps, router }) {
           property="og:image"
           content="https://nickradford.dev/social.png?v=3"
         />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="628" />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="628" />
 
         {/* <!-- Twitter --> */}
         <meta
