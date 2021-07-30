@@ -55,16 +55,6 @@ const Blog = ({ preview, post }) => (
 
 export async function getStaticProps({ params, preview = false }) {
   const data = await getPostBySlug(params.slug, preview);
-  const url = `${
-    process.env.VERCEL_URL || "https://localhost:3000"
-  }/api/generate-preview-image?slug=${data[0]?.slug}`;
-
-  console.log(url);
-
-  if (process.env.NODE_ENV === "production") {
-    // Cause the image to be generated during the build
-    await fetch(url);
-  }
 
   return {
     props: {
