@@ -8,8 +8,6 @@ import Page from "../components/page";
 import { Bold } from "../components/typography";
 
 export default function Home({ posts }) {
-  const latestPost = posts[0];
-
   return (
     <Page includeNameInpageTitle={false}>
       <section className="pb-8 flex flex-col">
@@ -39,29 +37,30 @@ export default function Home({ posts }) {
         <hr className="border-dashed" />
 
         <h2 className="font-scp font-bold text-2xl mt-6 mb-2">
-          Latest Blog Post
+          Latest Blog Posts
         </h2>
-        <article className="flex flex-col">
-          <Link href={`/blog/${latestPost.slug}`}>
-            <a className="group">
-              <div className="group-hover:bg-gray-700 group-hover:bg-opacity-50 p-4 transition-colors">
-                <h3 className="font-scp font-bold text-xl group-hover:text-primary transition-colors">
-                  {latestPost.title}
-                </h3>
-                <div className="font-scp text-sm">
-                  <TimeAgo date={latestPost.date} />
+        {posts.map((post) => (
+          <article className="flex flex-col" key={post.slug}>
+            <Link href={`/blog/${post.slug}`}>
+              <a className="group">
+                <div className="group-hover:bg-gray-700 group-hover:bg-opacity-50 p-4 transition-colors">
+                  <h3 className="font-scp font-bold text-xl group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <div className="font-scp text-sm">
+                    <TimeAgo date={post.date} />
+                  </div>
+                  <div className="flex prose sm:prose-lg pt-4">
+                    <ReactMarkdown>
+                      {post.content.split("\n")[0].substring(0, 325) + "..."}
+                    </ReactMarkdown>
+                  </div>
+                  <p className="text-right font-scp">Read more...</p>
                 </div>
-                <div className="flex prose sm:prose-lg pt-4">
-                  <ReactMarkdown>
-                    {latestPost.content.split("\n")[0].substring(0, 325) +
-                      "..."}
-                  </ReactMarkdown>
-                </div>
-                <p className="text-right font-scp">Read more...</p>
-              </div>
-            </a>
-          </Link>
-        </article>
+              </a>
+            </Link>
+          </article>
+        ))}
       </section>
     </Page>
   );
