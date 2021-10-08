@@ -22,6 +22,13 @@ const TYPOGRAPHY = {
     li: {
       margin: 0,
     },
+    blockquote: {
+      color: "white",
+      borderColor: "#FEEE16",
+      background: "#FEEE1644",
+      fontSize: "1.15rem",
+      padding: "0.4rem",
+    },
   },
 };
 
