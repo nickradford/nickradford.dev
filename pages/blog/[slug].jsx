@@ -16,11 +16,12 @@ const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
 
 const Blog = ({ preview, post }) => {
   const DisqusConfig = {
-    url: `${BASE_URL}/blog/${post.slug}`,
+    url: `${BASE_URL}`,
     identifier: post.sys.id,
     title: post.title,
-    language: "en_US",
   };
+
+  console.log(DisqusConfig);
   return (
     <Page pageTitle={post.title}>
       <Head>
