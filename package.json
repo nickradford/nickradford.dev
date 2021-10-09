@@ -17,6 +17,7 @@
     "@types/react": "^17.0.11",
     "autoprefixer": "^10.2.6",
     "contentful": "^8.3.1",
+    "disqus-react": "^1.1.2",
     "formik": "^2.1.5",
     "framer-motion": "^4.1.17",
     "highlight.js": "^10.7.3",
