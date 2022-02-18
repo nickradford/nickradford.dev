@@ -5,7 +5,7 @@ import { LinkButton } from "./button";
 
 export default function Page({
   children,
-  pageTitle = "Nick Radford | Available for Work",
+  pageTitle = "Nick Radford | SF Based Full Stack Engineer",
   includeNameInpageTitle = true,
 }) {
   return (

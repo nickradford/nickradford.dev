@@ -20,12 +20,10 @@ function MyApp({ Component, pageProps, router }) {
         />
 
         {/* <!-- Primary Meta Tags --> */}
-        <title>
-          Nick Radford | Available for Work | Software Engineer in San Francisco
-        </title>
+        <title>Nick Radford | Software Engineer in San Francisco</title>
         <meta
           name="title"
-          content="Nick Radford | Available for Work | Software Engineer in San Francisco"
+          content="Nick Radford | Software Engineer in San Francisco"
         />
         <meta
           name="description"
@@ -42,7 +40,7 @@ function MyApp({ Component, pageProps, router }) {
         <meta
           key="og:title"
           property="og:title"
-          content="Nick Radford | Available for Work | Software Engineer in San Francisco"
+          content="Nick Radford | Software Engineer in San Francisco"
         />
         <meta
           key="og:description"
@@ -67,7 +65,7 @@ function MyApp({ Component, pageProps, router }) {
         <meta property="twitter:url" content="https://nickradford.dev/" />
         <meta
           property="twitter:title"
-          content="Nick Radford | Available for Work | Software Engineer in San Francisco"
+          content="Nick Radford | Software Engineer in San Francisco"
         />
         <meta
           property="twitter:description"
