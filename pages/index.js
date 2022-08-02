@@ -30,10 +30,8 @@ export default function Home({ posts }) {
               <Bold>San Francisco, California</Bold>.
             </p>
             <p>
-              I&apos;m currently making digital gifting better with{" "}
-              <Link href="https://govalo.com">
-                <Bold>Govalo</Bold>
-              </Link>
+              I&apos;m currently looking for full-time remote work.
+              Check out my <Bold><a href="https://standardresume.co/nickradford" target="_blank" rel="noreferrer noopener">resume</a></Bold>.
             </p>
           </div>
         </div>
