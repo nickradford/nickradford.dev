@@ -3,7 +3,7 @@ import { LinkButton } from "./button";
 const Footer = () => (
   <footer className="text-white font-scp p-4 bg-black bg-opacity-70 w-full pb-safe z-10">
     <div className="max-w-4xl m-auto grid grid-cols-3 items-center">
-      <h4 className="text-lg col-span-2">© Nick Radford 2021</h4>
+      <h4 className="text-lg col-span-2">© Nick Radford 2022</h4>
       <nav className="">
         <ul className="sm:grid grid-cols-2 gap-2 hidden">
           <li className="flex-1">
