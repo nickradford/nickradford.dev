@@ -16,7 +16,7 @@ const PageHeader = () => {
   return (
     <div className="sticky top-0 z-20 w-full" ref={ref}>
       <div className="relative">
-        <header className="text-2xl relative text-text bg-mantle inter font-thin px-4 py-3 w-full">
+        <header className="text-2xl relative text-text bg-mantle inter font-thin px-4 py-3 w-full z-50">
           <div className="max-w-4xl m-auto flex justify-between items-center relative">
             <Link href="/">
               <a className="" onClick={() => setMenuShowing(false)}>
@@ -47,7 +47,7 @@ const PageHeader = () => {
                 stiffness: 420,
                 damping: 38,
               }}
-              className="absolute text-red bg-black bg-opacity-80 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
+              className="absolute text-red bg-crust bg-opacity-90 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
             >
               <Navigation
                 onClick={() => {

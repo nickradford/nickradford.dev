@@ -4,7 +4,7 @@ import { LinkButton } from "./button";
 const noop = () => {};
 
 const Navigation = ({ className, onClick = noop }) => {
-  const classNames = `md:border-0 border-t border-primary border-opacity-70`;
+  const classNames = `md:border-0 border-t border-surface0`;
   return (
     <div
       className={`md:grid md:grid-cols-4 gap-2 border-opacity-50 ${className}`}
@@ -36,7 +36,7 @@ const Navigation = ({ className, onClick = noop }) => {
       </LinkButton>
       <LinkButton
         href="/contact"
-        className="md:border-0 border-t border-b border-primary border-opacity-70"
+        className={classNames}
         onClick={onClick}
       >
         Contact Me
