@@ -6,7 +6,7 @@ export default function ClientWork({ projects }) {
     <Page pageTitle="Client Work">
       <h1 className="font-scp text-2xl mb-6">{projects.name}</h1>
 
-      <ul>
+      <ul className="grid grid-cols-1 gap-6">
         {projects.projectCollection.items.map((project) => (
           <li key={project.title}>
             <Project {...project} />

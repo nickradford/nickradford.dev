@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const buttonClasses =
-  "font-scp font-bold  hover:text-black px-2 py-2 block text-center hover:bg-primary transition-colors";
+  "font-scp font-bold hover:text-base px-2 py-2 block text-center hover:bg-red transition-colors rounded";
 
 const LinkButton = ({
   children,
@@ -14,8 +14,8 @@ const LinkButton = ({
   const router = useRouter();
   const isActivePath =
     router.pathname === href
-      ? "bg-primary text-black"
-      : "bg-transparent text-white";
+      ? "bg-red text-black"
+      : "bg-transparent text-text";
   return (
     <Link href={href}>
       <a

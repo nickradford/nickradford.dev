@@ -3,7 +3,7 @@ const LightGray = ({ children }) => (
 );
 
 const Bold = ({ children }) => (
-  <span className="text-primary font-bold whitespace-nowrap">{children}</span>
+  <span className="text-green font-bold whitespace-nowrap">{children}</span>
 );
 
 export { LightGray, Bold };

@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,400;0,700;1,200;1,700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100,400,800&family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
           <script
@@ -19,7 +19,7 @@ class MyDocument extends Document {
             src="https://stats.nickradford.dev/umami.js"
           ></script>
         </Head>
-        <body>
+        <body className="mocha">
           <Main />
           <NextScript />
         </body>

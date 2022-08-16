@@ -3,9 +3,6 @@ import TimeAgo from "react-timeago";
 import ReactMarkdown from "react-markdown";
 import Highlight from "rehype-highlight";
 import removeMarkdown from "remove-markdown";
-import { DiscussionEmbed } from "disqus-react";
-
-import "highlight.js/styles/a11y-dark.css";
 
 import Page from "../../components/page";
 import { getAllPostsWithSlug, getPostBySlug } from "../../lib/api";
@@ -15,13 +12,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
   : "localhost:3000";
 
 const Blog = ({ preview, post }) => {
-  const DisqusConfig = {
-    url: `${BASE_URL}`,
-    identifier: post.sys.id,
-    title: post.title,
-  };
 
-  console.log(DisqusConfig);
   return (
     <Page pageTitle={post.title}>
       <Head>
@@ -53,7 +44,7 @@ const Blog = ({ preview, post }) => {
         <meta
           key="twitter:image"
           property="twitter:image"
-          content={`http://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
+          content={`https://${BASE_URL}/api/generate-preview-image?slug=${post.slug}`}
         />
         <meta
           key="og:description"
@@ -75,10 +66,11 @@ const Blog = ({ preview, post }) => {
           )}
         />
       </Head>
-      <article className="p-4 bg-black bg-opacity-70 sm:p-8">
+      <article className="p-4 bg-crust bg-opacity-70 sm:p-8 rounded-lg shadow-lg">
         <h1 className="mb-2 text-2xl capitalize font-scp">{post.title}</h1>
         <p className="mb-2 text-sm font-scp">
           Published <TimeAgo date={post.date} />
+
         </p>
         <div className="prose sm:prose-lg">
           <ReactMarkdown rehypePlugins={[Highlight]}>
@@ -86,8 +78,6 @@ const Blog = ({ preview, post }) => {
           </ReactMarkdown>
         </div>
       </article>
-      <DiscussionEmbed shortname="nickradford-dev" config={DisqusConfig} />
-      {/* <pre>{JSON.stringify(post.content.json, null, 4)}</pre> */}
     </Page>
   );
 };

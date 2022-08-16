@@ -12,16 +12,17 @@ const PageHeader = () => {
   const [menuShowing, setMenuShowing] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setMenuShowing(false));
+
   return (
     <div className="sticky top-0 z-20 w-full" ref={ref}>
       <div className="relative">
-        <header className="text-2xl relative text-white font-scp bg-black bg-opacity-80 backdrop-filter backdrop-blur-md px-4 py-3 w-full shadow z-10">
+        <header className="text-2xl relative text-text bg-mantle inter font-thin px-4 py-3 w-full">
           <div className="max-w-4xl m-auto flex justify-between items-center relative">
             <Link href="/">
               <a className="" onClick={() => setMenuShowing(false)}>
-                <h1 className='relative' style={{ textShadow: "0 0 6px rgba(255, 255, 255, .75)" }}>
+                <h1>
                   Nick Radford
-                <span className="absolute top-0 whitespace-nowrap px-1 py-0.5 text-xs bg-primary text-black">for hire</span>
+                  <span className="absolute top-0 font-scp font-bold whitespace-nowrap px-1 py-0.5 ml-2 text-xs bg-red text-black">for hire</span>
                 </h1>
               </a>
             </Link>
@@ -46,7 +47,7 @@ const PageHeader = () => {
                 stiffness: 420,
                 damping: 38,
               }}
-              className="absolute text-primary bg-black bg-opacity-80 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
+              className="absolute text-red bg-black bg-opacity-80 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
             >
               <Navigation
                 onClick={() => {

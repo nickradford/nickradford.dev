@@ -5,7 +5,7 @@ export default function Projects({ projects }) {
   return (
     <Page pageTitle="Personal Projects">
       <h1 className="font-scp text-2xl mb-6">{projects.name}</h1>
-      <ul>
+      <ul className="grid grid-cols-1 gap-6">
         {projects.projectCollection.items.map((project) => (
           <li key={project.title}>
             <Project

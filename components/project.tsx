@@ -31,7 +31,7 @@ const Project = ({
   sourceUrl,
   showSource,
 }: ProjectProps) => (
-  <div className="mb-2 p-4 bg-black bg-opacity-70 sm:grid grid-cols-4 relative">
+  <div className="p-6 bg-crust bg-opacity-70 sm:grid grid-cols-4 relative rounded-lg">
     <div className="col-span-3">
       <h2 className="text-2xl font-scp pb-4">{title}</h2>
       <Image
@@ -49,13 +49,13 @@ const Project = ({
     </div>
     <div className="sm:pl-4 pt-4 sm:pt-0 relative">
       <div className="sticky top-20">
-        <LinkButton href={url} className="border hover:border-primary mb-4">
+        <LinkButton href={url} className="border hover:border-red mb-4">
           View Site
         </LinkButton>
         {showSource ? (
           <LinkButton
             href={sourceUrl}
-            className="border hover:border-primary mb-4"
+            className="border hover:border-red mb-4"
           >
             View Source
           </LinkButton>
@@ -64,7 +64,7 @@ const Project = ({
         <div className="pt-2 sm:flex sm:flex-col sm:items-start">
           {technologiesUsed.sort(byLength).map((tech) => (
             <span
-              className="py-1 px-2 border border-primary border-opacity-50 mb-2 font-scp text-sm inline-block mr-2"
+              className="py-1 px-2 border border-yellow border-opacity-50 mb-2 font-scp text-sm inline-block mr-2"
               key={tech}
             >
               {tech}

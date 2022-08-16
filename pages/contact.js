@@ -20,7 +20,7 @@ const ContactFormSchema = Yup.object().shape({
 
 const CustomErrorMessage = (props) => (
   <div
-    className="relative px-3 py-2 text-sm text-primary bg-black font-scp border-l border-b border-r "
+    className="relative px-3 py-2 text-sm text-red bg-crust font-scp border-l border-b border-r border-surface0 peer-focus:border-surface1 rounded-b border-t"
     style={{ top: -2 }}
     {...props}
   />
@@ -95,7 +95,7 @@ export default function Contact() {
                 <div className="flex flex-col">
                   <Field
                     name="name"
-                    className="contact-form-input"
+                    className="contact-form-input peer"
                     placeholder="Your name"
                     autoComplete="name"
                     autoFocus={true}
@@ -106,7 +106,7 @@ export default function Contact() {
                   <Field
                     name="email"
                     type="email"
-                    className="contact-form-input"
+                    className="contact-form-input peer"
                     placeholder="Email address"
                   />
                   <ErrorMessage name="email" component={CustomErrorMessage} />
@@ -115,7 +115,7 @@ export default function Contact() {
 
               <Field
                 name="subject"
-                className="contact-form-input"
+                className="contact-form-input peer"
                 placeholder="Subject"
               />
               <ErrorMessage name="subject" component={CustomErrorMessage} />
@@ -123,7 +123,7 @@ export default function Contact() {
               <Field
                 as="textarea"
                 name="message"
-                className="contact-form-input"
+                className="contact-form-input peer"
                 placeholder="Your message"
                 rows={8}
               />
@@ -134,12 +134,8 @@ export default function Contact() {
                   <div className="font-scp">Sending your email...</div>
                 ) : (
                   <Button
-                    className="border transition-all hover:border-primary focus:bg-primary focus:border-primary focus:text-black disabled:hover:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white disabled:hover:text-white"
+                    className={`border transition-all hover:border-green focus:bg-green focus:border-green hover:bg-green focus:text-black disabled:hover:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white disabled:hover:text-white ${dirty && isValid && 'shadow shadow-lg shadow-green'}`}
                     type="submit"
-                    style={{
-                      boxShadow:
-                        !dirty || !isValid ? "none" : "0px 0px 8px white",
-                    }}
                     disabled={!dirty || !isValid}
                   >
                     <Send className="inline" /> Send Email

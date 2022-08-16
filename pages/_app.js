@@ -72,14 +72,7 @@ function MyApp({ Component, pageProps, router }) {
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
       </Head>
-      <div className="flex flex-col items-center w-full min-h-screen bg-gray-800 min-h-fill-available">
-        <div
-          className="fixed inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(200deg, rgba(171, 171, 171,0.05) 0%, rgba(171, 171, 171,0.05) 23%,rgba(90, 90, 90,0.05) 23%, rgba(90, 90, 90,0.05) 48%,rgba(65, 65, 65,0.05) 48%, rgba(65, 65, 65,0.05) 61%,rgba(232, 232, 232,0.05) 61%, rgba(232, 232, 232,0.05) 100%),linear-gradient(126deg, rgba(194, 194, 194,0.05) 0%, rgba(194, 194, 194,0.05) 11%,rgba(127, 127, 127,0.05) 11%, rgba(127, 127, 127,0.05) 33%,rgba(117, 117, 117,0.05) 33%, rgba(117, 117, 117,0.05) 99%,rgba(248, 248, 248,0.05) 99%, rgba(248, 248, 248,0.05) 100%),linear-gradient(144deg, rgba(64, 64, 64,0.05) 0%, rgba(64, 64, 64,0.05) 33%,rgba(211, 211, 211,0.05) 33%, rgba(211, 211, 211,0.05) 50%,rgba(53, 53, 53,0.05) 50%, rgba(53, 53, 53,0.05) 75%,rgba(144, 144, 144,0.05) 75%, rgba(144, 144, 144,0.05) 100%),linear-gradient(329deg, hsl(148,0%,0%),hsl(148,0%,0%))",
-          }}
-        ></div>
+      <div className="flex flex-col items-center w-full min-h-screen bg-base text-text min-h-fill-available">
         <PageHeader />
         <AnimatePresence exitBeforeEnter>
           <motion.main
@@ -88,7 +81,7 @@ function MyApp({ Component, pageProps, router }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="relative flex flex-col flex-1 w-screen max-w-4xl px-4 py-6 text-white md:px-0"
+            className="relative flex flex-col flex-1 w-screen max-w-4xl px-4 py-6 md:px-0"
           >
             <Component {...pageProps} />
           </motion.main>

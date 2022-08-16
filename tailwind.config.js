@@ -1,6 +1,5 @@
 const TYPOGRAPHY = {
   css: {
-    color: "white",
     maxWidth: "80ch",
     a: {
       color: "#FEEE16",
@@ -38,7 +37,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        handwriting: ["Kalam"],
+        inter: ["Inter", "sans-serif"],
         scp: ["Source Code Pro", "monospace"],
       },
       colors: {
@@ -51,5 +50,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@catppuccin/tailwindcss")({prefix: false, defaultFlavour: "frappe"})
+  ],
 };
