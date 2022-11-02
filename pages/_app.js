@@ -1,5 +1,7 @@
 import "../styles/tailwind.css";
+
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import PageHeader from "../components/pageHeader";
@@ -89,6 +91,7 @@ function MyApp({ Component, pageProps, router }) {
 
         <Footer />
       </div>
+      <Analytics />
     </>
   );
 }
