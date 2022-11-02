@@ -32,8 +32,10 @@ const TYPOGRAPHY = {
 };
 
 module.exports = {
-  mode: "jit",
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -52,6 +54,9 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/typography"),
-    require("@catppuccin/tailwindcss")({prefix: false, defaultFlavour: "frappe"})
+    require("@catppuccin/tailwindcss")({
+      prefix: false,
+      defaultFlavour: "frappe",
+    }),
   ],
 };

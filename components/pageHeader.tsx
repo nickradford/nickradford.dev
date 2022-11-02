@@ -1,7 +1,6 @@
 import { Menu, X } from "react-feather";
 import Link from "next/link";
 
-import { LightGray } from "./typography";
 import Navigation from "./navigation";
 import { Button } from "./button";
 import { useState, useRef } from "react";
@@ -19,12 +18,12 @@ const PageHeader = () => {
         <header className="text-2xl relative text-text bg-mantle inter font-thin px-4 py-3 w-full z-50">
           <div className="max-w-4xl m-auto flex justify-between items-center relative">
             <Link href="/">
-              <a className="" onClick={() => setMenuShowing(false)}>
-                <h1>
-                  Nick Radford
-                  <span className="absolute top-0 font-scp font-bold whitespace-nowrap px-1 py-0.5 ml-2 text-xs bg-red text-black">for hire</span>
-                </h1>
-              </a>
+              <h1 onClick={() => setMenuShowing(false)}>
+                Nick Radford
+                <span className="absolute top-0 font-scp font-bold whitespace-nowrap px-1 py-0.5 ml-2 text-xs bg-red text-black">
+                  for hire
+                </span>
+              </h1>
             </Link>
 
             <Navigation className="hidden md:inline text-base" />

@@ -13,19 +13,16 @@ const LinkButton = ({
 }) => {
   const router = useRouter();
   const isActivePath =
-    router.pathname === href
-      ? "bg-red text-black"
-      : "bg-transparent text-text";
+    router.pathname === href ? "bg-red text-black" : "bg-transparent text-text";
   return (
-    <Link href={href}>
-      <a
-        rel="noopener"
-        target={target}
-        className={`${isActivePath} ${buttonClasses} ${className}`}
-        onClick={onClick}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      rel="noopener"
+      target={target}
+      className={`${isActivePath} ${buttonClasses} ${className}`}
+      onClick={onClick}
+    >
+      {children}
     </Link>
   );
 };
