@@ -30,6 +30,7 @@ const PageHeader = () => {
             <Button
               className="md:hidden"
               onClick={() => setMenuShowing(!menuShowing)}
+              ariaLabel="Toggle Menu"
             >
               {menuShowing ? <X /> : <Menu />}
             </Button>

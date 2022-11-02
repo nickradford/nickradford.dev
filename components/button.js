@@ -27,11 +27,12 @@ const LinkButton = ({
   );
 };
 
-const Button = ({ children, className = "", ...rest }) => (
+const Button = ({ children, className = "", ariaLabel = "", ...rest }) => (
   <button
     className={`bg-transparent ${buttonClasses} ${className} disabled:opacity-50`}
     {...rest}
     tabIndex={0}
+    aria-label={ariaLabel}
   >
     {children}
   </button>
