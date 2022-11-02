@@ -3,7 +3,7 @@ import { LinkButton } from "./button";
 
 const noop = () => {};
 
-const Navigation = ({ className, onClick = noop }) => {
+const Navigation = ({ className = "", onClick = noop }) => {
   const classNames = `md:border-0 border-t border-surface0`;
   return (
     <div
@@ -34,11 +34,7 @@ const Navigation = ({ className, onClick = noop }) => {
       >
         My LinkedIn
       </LinkButton>
-      <LinkButton
-        href="/contact"
-        className={classNames}
-        onClick={onClick}
-      >
+      <LinkButton href="/contact" className={classNames} onClick={onClick}>
         Contact Me
       </LinkButton>
     </div>

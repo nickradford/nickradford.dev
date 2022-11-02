@@ -2,6 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import TimeAgo from "react-timeago";
 import ReactMarkdown from "react-markdown";
+import unlink from "remark-unlink";
 
 import { getAllPostsForHome } from "../lib/api";
 import Page from "../components/page";
@@ -65,25 +66,23 @@ export default function Home({ posts }) {
         </h2>
         {posts.map((post) => (
           <article className="flex flex-col" key={post.slug}>
-            <Link href={`/blog/${post.slug}`} legacyBehavior>
-              <a className="group">
-                <div className="p-4 transition-colors group-hover:bg-gray-700 group-hover:bg-opacity-50">
-                  <h3 className="text-2xl font-bold transition-colors font-scp text-red">
-                    {post.title}
-                  </h3>
-                  <div className="text-sm font-scp mt-1">
-                    <TimeAgo date={post.date} />
-                  </div>
-                  <div className="flex pt-4 prose sm:prose-lg">
-                    <ReactMarkdown>
-                      {post.content.split("\n")[0].substring(0, 325) + "..."}
-                    </ReactMarkdown>
-                  </div>
-                  <p className="text-right font-scp group-hover:text-red">
-                    Read more...
-                  </p>
+            <Link href={`/blog/${post.slug}`}>
+              <div className="p-4 transition-colors group-hover:bg-gray-700 group-hover:bg-opacity-50 group">
+                <h3 className="text-2xl font-bold transition-colors font-scp text-red">
+                  {post.title}
+                </h3>
+                <div className="text-sm font-scp mt-1">
+                  <TimeAgo date={post.date} />
                 </div>
-              </a>
+                <div className="flex pt-4 prose sm:prose-lg">
+                  <ReactMarkdown remarkPlugins={[unlink]}>
+                    {post.content.split("\n")[0].substring(0, 325) + "..."}
+                  </ReactMarkdown>
+                </div>
+                <p className="text-right font-scp group-hover:text-red">
+                  Read more...
+                </p>
+              </div>
             </Link>
           </article>
         ))}
