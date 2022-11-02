@@ -32,7 +32,6 @@ export default function Home({ posts }) {
                 width={300}
                 height={300}
                 loading="eager"
-                priority={true}
                 alt="My MeMoji waving to you :D"
               />
             </span>
