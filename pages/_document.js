@@ -19,7 +19,7 @@ class MyDocument extends Document {
             data-website-id="d9280562-fa01-4566-bc78-a5687578db60"
             src="https://stats.nickradford.dev/umami.js"
           ></script>
-          <a rel="me" href="https://hachyderm.io/@nickradford" />
+          <link rel="me" href="https://hachyderm.io/@nickradford" />
         </Head>
         <body className="mocha">
           <Main />
@@ -29,4 +29,5 @@ class MyDocument extends Document {
     );
   }
 }
+
 export default MyDocument;
