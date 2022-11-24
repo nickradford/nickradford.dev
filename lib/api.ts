@@ -1,12 +1,12 @@
 const POST_GRAPHQL_FIELDS = `
-slug
-title
-date
-content
-sys {
-  firstPublishedAt
-  id
-}
+  slug
+  title
+  date
+  content
+  sys {
+    firstPublishedAt
+    id
+  }
 `;
 
 async function fetchGraphQL(query, preview = false) {
@@ -31,7 +31,18 @@ function extractPost(fetchResponse) {
   return fetchResponse?.data?.blogPostCollection?.items?.[0];
 }
 
-function extractPostEntries(fetchResponse) {
+type BlogPost = {
+  title: string;
+  date: string;
+  slug: string;
+  content: string;
+  sys: {
+    firstPublishedAt: string;
+    id: string;
+  };
+};
+
+function extractPostEntries(fetchResponse): BlogPost[] {
   return fetchResponse?.data?.blogPostCollection?.items;
 }
 
@@ -46,7 +57,6 @@ export async function getPreviewPostBySlug(slug) {
     }`,
     true
   );
-  // console.log(entry);
   return extractPost(entry);
 }
 
@@ -64,7 +74,6 @@ export async function getPostBySlug(slug, preview = false) {
     preview
   );
 
-  // console.log(entries);
   return extractPostEntries(entries);
 }
 
@@ -81,7 +90,20 @@ export async function getAllPostsWithSlug() {
   return extractPostEntries(entries);
 }
 
-export async function getAllPostsForHome(preview) {
+export async function getAllPosts() {
+  const entries = await fetchGraphQL(
+    `query {
+      blogPostCollection(order: date_DESC) {
+        items {
+          ${POST_GRAPHQL_FIELDS}
+        }
+      }
+    }`
+  );
+  return extractPostEntries(entries);
+}
+
+export async function getAllPostsForHome(preview = false) {
   const entries = await fetchGraphQL(
     `query {
       blogPostCollection(limit: 3, order: date_DESC, preview: ${

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const buttonClasses =
-  "font-scp font-bold hover:text-base px-2 py-2 block text-center hover:bg-red transition-colors rounded";
+  "font-scp font-bold hover:text-base px-2 py-2 block text-center hover:bg-red transition-colors";
 
 const LinkButton = ({
   children,
