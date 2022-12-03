@@ -4,6 +4,8 @@ import {
   BuildingOffice2Icon,
 } from "@heroicons/react/24/outline";
 
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
+
 import ReactMarkdown from "react-markdown";
 import unlink from "remark-unlink";
 
@@ -29,7 +31,7 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
         alt="me"
         className="w-20 mb-6 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
       />
-      <h1 className="mb-6 text-2xl md:text-6xl">
+      <h1 className="mb-6 text-2xl tracking-tighter md:text-6xl">
         Software engineer, pool player, and
         <br className="hidden md:block" /> amateur improviser.
       </h1>
@@ -59,7 +61,10 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
               >
                 {post.content.split(/\n/)[0]}
               </ReactMarkdown>
-              <p>Read full article</p>
+              <p className="flex items-center gap-1 text-sm pointer-events-none text-zinc-300">
+                Read article{" "}
+                <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
+              </p>
             </article>
           ))}
         </section>

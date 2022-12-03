@@ -2,12 +2,9 @@ import "../styles/tailwind.css";
 
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
-import { AnimatePresence, motion } from "framer-motion";
-
-import PageHeader from "../components/pageHeader";
-import Footer from "../components/footer";
 
 import MDXProvider from "components/MDXProvider";
+import PageHeader from "components/pageHeader";
 
 function MyApp({ Component, pageProps, router }) {
   if (router.route === "/blog/preview") {
@@ -16,6 +13,7 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <Head>
+        {/* Todo: Replace w/ next-seo */}
         <link rel="icon" href="/favicon.ico" />
 
         <meta
