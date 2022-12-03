@@ -32,8 +32,10 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
       <header className="mb-16 space-y-6">
         <Image
           src={headshot}
+          placeholder="blur"
           alt="me"
           className="w-20 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
+          priority
         />
         <h1 className="text-2xl tracking-tighter md:text-6xl">
           Software engineer, pool shark, and
