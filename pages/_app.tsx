@@ -1,3 +1,4 @@
+import { IBM_Plex_Sans as Plex } from "@next/font/google";
 import "../styles/tailwind.css";
 
 import Head from "next/head";
@@ -8,6 +9,11 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 import MDXProvider from "components/MDXProvider";
 import PageHeader from "components/pageHeader";
+
+const plex = Plex({
+  variable: "--font-plex",
+  weight: ["400", "500", "600", "700"],
+});
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
@@ -79,7 +85,9 @@ function MyApp({ Component, pageProps, router }) {
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
       </Head>
-      <div className="flex flex-col items-center w-full min-h-screen min-h-fill-available">
+      <div
+        className={`flex flex-col items-center w-full min-h-screen min-h-fill-available ${plex.variable}`}
+      >
         <PageHeader />
 
         <MDXProvider>

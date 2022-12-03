@@ -55,7 +55,7 @@ const jobs: JobItemProps[] = [
   },
   {
     company: "Dell",
-    role: "Software Development Staff Engineer",
+    role: "Software Development Engineer",
     startDate: "Apr 2011",
     endDate: "Mar 2015",
     img: dell,

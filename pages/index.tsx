@@ -37,9 +37,8 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
           className="w-20 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
           priority
         />
-        <h1 className="text-2xl tracking-tighter md:text-6xl">
-          Software engineer, pool shark, and
-          <br className="hidden md:block" /> amateur improviser.
+        <h1 className="text-2xl tracking-tighter md:text-6xl md:leading-tight font-plex max-w-[28ch]">
+          Software engineer, pool shark, and amateur improviser.
         </h1>
 
         <p className="max-w-[80ch] leading-8  text-zinc-400">{`I'm Nick, a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.`}</p>
@@ -74,7 +73,7 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
               </time>
               <Link href={`/posts/${post.slug}`} className="block">
                 <span className="absolute -inset-5" />
-                <h3 className="text-base font-semibold tracking-tight text-zinc-100">
+                <h3 className="text-base font-semibold tracking-tight text-zinc-100 font-plex">
                   {post.title}
                 </h3>
               </Link>
@@ -95,7 +94,9 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
           <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-700/75 top-16">
             <h3 className="flex items-end gap-4">
               <BuildingOffice2Icon className="w-6 h-6" />
-              <span className="text-sm font-semibold text-zinc-100">Work</span>
+              <span className="text-sm font-semibold text-zinc-100 font-plex">
+                Work
+              </span>
             </h3>
             <ol className="space-y-4">
               {jobs.map((job) => (

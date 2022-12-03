@@ -19,7 +19,7 @@
 }
 
 html {
-  @apply bg-black scroll-smooth font-inter text-zinc-200;
+  @apply bg-black scroll-smooth text-zinc-200;
 }
 /* 
 ::selection {

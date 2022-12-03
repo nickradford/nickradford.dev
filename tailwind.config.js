@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        plex: ["var(--font-plex)", "sans-serif"],
         inter: ["Inter", "sans-serif"],
         scp: ["Source Code Pro", "monospace"],
       },

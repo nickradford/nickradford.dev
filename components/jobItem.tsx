@@ -24,7 +24,9 @@ export function JobItem(props: JobItemProps) {
         <dd className="flex-none w-full text-sm font-medium text-zinc-100">
           {props.company}{" "}
           {props.extraInfo && (
-            <span className="text-xs">({props.extraInfo})</span>
+            <span className="text-xs font-normal text-zinc-400">
+              ({props.extraInfo})
+            </span>
           )}
         </dd>
         <dt className="sr-only">Role</dt>
