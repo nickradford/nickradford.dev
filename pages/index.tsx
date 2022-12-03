@@ -11,7 +11,8 @@ import { Button } from "../components/button";
 import { JobItem } from "../components/jobItem";
 import Page from "../components/page";
 
-import { BlogPost, getAllPostsForHome } from "../lib/api";
+import { getAllPostsForHome } from "../lib/api";
+import type { BlogPost } from "../lib/api";
 
 import jobs from "../jobs";
 import headshot from "../public/headshot.jpg";
