@@ -31,7 +31,7 @@ function extractPost(fetchResponse) {
   return fetchResponse?.data?.blogPostCollection?.items?.[0];
 }
 
-type BlogPost = {
+export type BlogPost = {
   title: string;
   date: string;
   slug: string;
