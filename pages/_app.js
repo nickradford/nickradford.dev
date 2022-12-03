@@ -74,22 +74,10 @@ function MyApp({ Component, pageProps, router }) {
           content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
         />
       </Head>
-      <div className="flex flex-col items-center w-full min-h-screen bg-base text-text min-h-fill-available">
+      <div className="flex flex-col items-center w-full min-h-screen min-h-fill-available">
         <PageHeader />
-        <AnimatePresence exitBeforeEnter>
-          <motion.main
-            key={router.route}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="relative flex flex-col flex-1 w-screen max-w-4xl px-4 py-6 md:px-0"
-          >
-            <Component {...pageProps} />
-          </motion.main>
-        </AnimatePresence>
 
-        <Footer />
+        <Component {...pageProps} />
       </div>
       <Analytics />
     </>

@@ -1,91 +1,72 @@
-import Image from "next/legacy/image";
-import Link from "next/link";
-import TimeAgo from "react-timeago";
+import Image from "next/image";
+import {
+  ArrowDownTrayIcon,
+  BuildingOffice2Icon,
+} from "@heroicons/react/24/outline";
+
 import ReactMarkdown from "react-markdown";
 import unlink from "remark-unlink";
 
-import { getAllPostsForHome } from "../lib/api";
+import { Button } from "../components/button";
+import { JobItem } from "../components/jobItem";
 import Page from "../components/page";
-import { Bold } from "../components/typography";
 
-export default function Home({ posts }) {
+import { BlogPost, getAllPostsForHome } from "../lib/api";
+
+import jobs from "../jobs";
+import headshot from "../public/headshot.jpg";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
+
+export default function Home({ posts }: { posts: BlogPost[] }) {
   return (
     <Page includeNameInpageTitle={false}>
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-8 py-8 sm:flex-row sm:items-center">
-          <div className="m-auto overflow-hidden border-4 rounded-full sm:m-0 bg-gradient-to-br from-green via-teal to-sapphire group">
-            <span className="relative top-3 group-hover:hidden">
-              <Image
-                src="/wave.png"
-                width={300}
-                height={300}
-                loading="eager"
-                priority={true}
-                alt="My MeMoji waving to you :D"
-              />
-            </span>
-            <span className="relative hidden top-3 group-hover:block">
-              <Image
-                src="/heart.png"
-                width={300}
-                height={300}
-                loading="eager"
-                alt="My MeMoji waving to you :D"
-              />
-            </span>
-          </div>
-          <div className="text-lg">
-            <p className="mb-2">
-              Hey there! I&apos;m Nick Radford and I&apos;m a{" "}
-              <Bold>Software Engineer</Bold> and <Bold>Web Developer</Bold> from{" "}
-              <Bold>San Francisco, California</Bold>.
-            </p>
-            <p>
-              I&apos;m currently looking for full-time remote work. Check out my{" "}
-              <Bold>
-                <a
-                  className="underline text-red"
-                  href="https://standardresume.co/nickradford"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  résumé
-                </a>
-              </Bold>
-              .
-            </p>
-          </div>
-        </div>
-        <hr className="border-dashed border-surface1" />
+      {/* Hero section */}
+      <Image
+        src={headshot}
+        alt="me"
+        className="w-20 mb-6 rounded-full shadow-md bg-zinc-700"
+      />
+      <h1 className="mb-6 text-5xl">
+        Software engineer, pool player,
+        <br /> and improviser.
+      </h1>
 
-        <div className="flex items-baseline justify-between">
-          <h2 className="py-4 text-4xl font-thin tracking-wide font-inter">
-            Latest Blog Posts
-          </h2>
-        </div>
-        {posts.map((post) => (
-          <article className="flex flex-col" key={post.slug}>
-            <Link href={`/blog/${post.slug}`} className="group">
-              <div className="p-4 transition-colors group-hover:bg-gray-700 group-hover:bg-opacity-50 group">
-                <h3 className="text-2xl font-bold transition-colors font-scp text-red">
-                  {post.title}
-                </h3>
-                <div className="mt-1 text-sm font-scp">
-                  <TimeAgo date={post.date} />
-                </div>
-                <div className="flex pt-4 prose sm:prose-lg">
-                  <ReactMarkdown remarkPlugins={[unlink]}>
-                    {post.content.split("\n")[0].substring(0, 325) + "..."}
-                  </ReactMarkdown>
-                </div>
-                <p className="text-right font-scp group-hover:text-red">
-                  Read more...
-                </p>
-              </div>
-            </Link>
-          </article>
-        ))}
-      </section>
+      <p className="max-w-[60ch] leading-8 mb-20">{`I'm Nick, a software engineer based in San Francisco. I'm currently looking for full time, remote work, and I have 10 years experience working with teams small and large. Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deleniti reprehenderit quidem? `}</p>
+
+      <div className="grid grid-cols-5 gap-5">
+        <section className="col-span-3 space-y-6">
+          {posts.map((post) => (
+            <article key={post.slug} className="space-y-2">
+              <time className="px-4 text-sm border-l-4 border-zinc-500 text-zinc-500">
+                {dateFormatter.format(new Date(post.date))}
+              </time>
+              <h3 className="text-sm font-semibold text-zinc-100">
+                {post.title}
+              </h3>
+              <ReactMarkdown remarkPlugins={[unlink]}>
+                {post.content}
+              </ReactMarkdown>
+            </article>
+          ))}
+        </section>
+        <section className="col-span-2">
+          <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-700/75 top-16">
+            <h3 className="flex items-end gap-4">
+              <BuildingOffice2Icon className="w-6 h-6" />
+              <span className="text-sm font-semibold text-zinc-100">Work</span>
+            </h3>
+            <ol className="space-y-4">
+              {jobs.map((job) => (
+                <JobItem key={job.company} {...job} />
+              ))}
+            </ol>
+            <Button>
+              Download Resume <ArrowDownTrayIcon className="w-5 h-5" />
+            </Button>
+          </div>
+        </section>
+      </div>
     </Page>
   );
 }

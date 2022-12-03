@@ -19,14 +19,12 @@
 }
 
 html {
-  @apply scroll-smooth font-inter;
+  @apply scroll-smooth font-inter bg-black text-zinc-200;
 }
-
+/* 
 ::selection {
-  /*color: black;*/
-  /*background: #feee16;*/
   @apply bg-red text-crust;
-}
+} */
 
 .contact-form-input {
   @apply bg-crust border text-white font-scp mt-2 px-2 py-1 transition-colors rounded border-surface0 focus:ring-0 outline-0 focus:border-surface1;
@@ -52,12 +50,11 @@ html {
   @apply font-scp;
 }
 
-/*!
+/*
    Theme: Catppuccin
    Author: (c) Nick Radford
    Maintainer: @nickradford
    Updated: 2022-08-15
-
 */
 
 .hljs {
@@ -124,7 +121,7 @@ html {
 .hljs-keyword,
 .hljs-literal,
 .hljs-selector-tag {
-  @apply text-pink
+  @apply text-pink;
 }
 
 .hljs-code,
@@ -158,7 +155,8 @@ html {
 .hljs-operator,
 .hljs-params,
 .hljs-property,
-.hljs-punctuation {}
+.hljs-punctuation {
+}
 
 .hljs-subst {
   color: #fff;

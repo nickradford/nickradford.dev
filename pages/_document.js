@@ -7,11 +7,11 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          {/* <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;800&family=Source+Code+Pro&display=swap"
             rel="stylesheet"
-          />
+          /> */}
           <script
             async
             defer
@@ -21,7 +21,7 @@ class MyDocument extends Document {
           ></script>
           <link rel="me" href="https://hachyderm.io/@nickradford" />
         </Head>
-        <body className="mocha">
+        <body className="">
           <Main />
           <NextScript />
         </body>

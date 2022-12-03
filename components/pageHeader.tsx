@@ -13,51 +13,15 @@ const PageHeader = () => {
   useOnClickOutside(ref, () => setMenuShowing(false));
 
   return (
-    <div className="sticky top-0 z-20 w-full" ref={ref}>
-      <div className="relative">
-        <header className="text-2xl relative text-text bg-mantle inter font-thin px-4 py-3 w-full z-50">
-          <div className="max-w-4xl m-auto flex justify-between items-center relative">
-            <Link href="/">
-              <h1 onClick={() => setMenuShowing(false)}>
-                Nick Radford
-                <span className="absolute top-0 font-scp font-bold whitespace-nowrap px-1 py-0.5 ml-2 text-xs bg-red text-black">
-                  for hire
-                </span>
-              </h1>
-            </Link>
-
-            <Navigation className="hidden md:inline text-base" />
-            <Button
-              className="md:hidden"
-              onClick={() => setMenuShowing(!menuShowing)}
-              ariaLabel="Toggle Menu"
-            >
-              {menuShowing ? <X /> : <Menu />}
-            </Button>
-          </div>
-        </header>
-        <AnimatePresence>
-          {menuShowing && (
-            <motion.div
-              initial={{ top: "-300px" }}
-              animate={{ top: "4rem" }}
-              exit={{ top: "-300px" }}
-              transition={{
-                type: "spring",
-                stiffness: 420,
-                damping: 38,
-              }}
-              className="absolute text-red bg-crust bg-opacity-90 backdrop-filter backdrop-blur-md left-0 right-0 z-0 shadow md:hidden text-xl"
-            >
-              <Navigation
-                onClick={() => {
-                  setMenuShowing(false);
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+    <div className="absolute top-0 z-20 w-full" ref={ref}>
+      <nav className="flex justify-center">
+        <ul className="flex gap-6 p-2 px-8 mt-6 text-sm border rounded-full shadow-md bg-zinc-800 border-zinc-700/75 ">
+          <li>Home</li>
+          <li>Blog</li>
+          <li>Projects</li>
+          <li>Contact</li>
+        </ul>
+      </nav>
     </div>
   );
 };
