@@ -1,10 +1,4 @@
-import { Menu, X } from "react-feather";
-import Link from "next/link";
-
-import Navigation from "./navigation";
-import { Button } from "./button";
 import { useState, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import useOnClickOutside from "use-onclickoutside";
 
 const PageHeader = () => {
