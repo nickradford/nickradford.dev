@@ -2,6 +2,7 @@ import Image, { StaticImageData } from "next/image";
 
 export type JobItemProps = {
   company: string;
+  extraInfo?: string;
   img: StaticImageData;
   role: string;
   startDate: string;
@@ -21,7 +22,10 @@ export function JobItem(props: JobItemProps) {
       <dl className="flex flex-wrap flex-auto gap-x-2">
         <dt className="sr-only">Company</dt>
         <dd className="flex-none w-full text-sm font-medium text-zinc-900 dark:text-zinc-100">
-          {props.company}
+          {props.company}{" "}
+          {props.extraInfo && (
+            <span className="text-xs">({props.extraInfo})</span>
+          )}
         </dd>
         <dt className="sr-only">Role</dt>
         <dd className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -29,7 +33,7 @@ export function JobItem(props: JobItemProps) {
         </dd>
         <dt className="sr-only">Date</dt>
         <dd
-          className="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
+          className="text-xs md:ml-auto text-zinc-400 dark:text-zinc-500"
           aria-label="2021 until Present"
         >
           <time dateTime={props.startDate}>{props.startDate}</time>{" "}

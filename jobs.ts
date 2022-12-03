@@ -31,14 +31,16 @@ const jobs: JobItemProps[] = [
     img: unity,
   },
   {
-    company: "Idean, Inc (now frog)",
+    company: "Idean, Inc",
+    extraInfo: "now frog",
     role: "Senior UI Developer (Contract)",
     startDate: "Oct 2016",
     endDate: "May 2017",
     img: idean,
   },
   {
-    company: "Euclid Analytics (acq. by WeWork)",
+    company: "Euclid Analytics",
+    extraInfo: "acq. by WeWork",
     role: "Software Engineer",
     startDate: "Feb 2016",
     endDate: "Sep 2016",

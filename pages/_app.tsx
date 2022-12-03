@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 
+import MDXProvider from "components/MDXProvider";
+
 function MyApp({ Component, pageProps, router }) {
   if (router.route === "/blog/preview") {
     return <Component {...pageProps} />;
@@ -77,7 +79,9 @@ function MyApp({ Component, pageProps, router }) {
       <div className="flex flex-col items-center w-full min-h-screen min-h-fill-available">
         <PageHeader />
 
-        <Component {...pageProps} />
+        <MDXProvider>
+          <Component {...pageProps} />
+        </MDXProvider>
       </div>
       <Analytics />
     </>

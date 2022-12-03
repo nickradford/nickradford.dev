@@ -15,6 +15,7 @@ import { BlogPost, getAllPostsForHome } from "../lib/api";
 
 import jobs from "../jobs";
 import headshot from "../public/headshot.jpg";
+import Link from "next/link";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
 
@@ -25,28 +26,39 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
       <Image
         src={headshot}
         alt="me"
-        className="w-20 mb-6 rounded-full shadow-md bg-zinc-700"
+        className="w-20 mb-6 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
       />
-      <h1 className="mb-6 text-5xl">
-        Software engineer, pool player,
-        <br /> and improviser.
+      <h1 className="mb-6 text-2xl md:text-6xl">
+        Software engineer, pool player, and
+        <br className="hidden md:block" /> amateur improviser.
       </h1>
 
-      <p className="max-w-[60ch] leading-8 mb-20">{`I'm Nick, a software engineer based in San Francisco. I'm currently looking for full time, remote work, and I have 10 years experience working with teams small and large. Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deleniti reprehenderit quidem? `}</p>
+      <p className="max-w-[80ch] leading-8 mb-20 text-zinc-400">{`Hi, I'm Nick! I'm a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.`}</p>
 
-      <div className="grid grid-cols-5 gap-5">
-        <section className="col-span-3 space-y-6">
+      <div className="flex flex-col grid-cols-5 gap-20 md:grid">
+        <section className="col-span-3 space-y-12">
           {posts.map((post) => (
-            <article key={post.slug} className="space-y-2">
-              <time className="px-4 text-sm border-l-4 border-zinc-500 text-zinc-500">
+            <article
+              key={post.slug}
+              className="relative space-y-4 group isolate"
+            >
+              <div className="absolute transition-all scale-95 rounded-2xl -z-10 group-hover:bg-zinc-800/50 -inset-6 group-hover:scale-100"></div>
+              <time className="px-4 text-sm border-l-4 border-zinc-500 text-zinc-500 ">
                 {dateFormatter.format(new Date(post.date))}
               </time>
-              <h3 className="text-sm font-semibold text-zinc-100">
-                {post.title}
-              </h3>
-              <ReactMarkdown remarkPlugins={[unlink]}>
-                {post.content}
+              <Link href={`/posts/${post.slug}`} className="block">
+                <span className="absolute -inset-5" />
+                <h3 className="text-base font-semibold tracking-tight text-zinc-100">
+                  {post.title}
+                </h3>
+              </Link>
+              <ReactMarkdown
+                remarkPlugins={[unlink]}
+                className="text-sm text-zinc-400"
+              >
+                {post.content.split(/\n/)[0]}
               </ReactMarkdown>
+              <p>Read full article</p>
             </article>
           ))}
         </section>

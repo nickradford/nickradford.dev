@@ -54,9 +54,9 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/typography"),
-    require("@catppuccin/tailwindcss")({
-      prefix: false,
-      defaultFlavour: "frappe",
-    }),
+    // require("@catppuccin/tailwindcss")({
+    //   prefix: false,
+    //   defaultFlavour: "frappe",
+    // }),
   ],
 };
