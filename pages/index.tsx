@@ -36,7 +36,7 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
           className="w-20 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
         />
         <h1 className="text-2xl tracking-tighter md:text-6xl">
-          Software engineer, pool player, and
+          Software engineer, pool shark, and
           <br className="hidden md:block" /> amateur improviser.
         </h1>
 
