@@ -3,8 +3,13 @@ import "../styles/tailwind.css";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 
+import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
+import { config } from "@fortawesome/fontawesome-svg-core";
+
 import MDXProvider from "components/MDXProvider";
 import PageHeader from "components/pageHeader";
+
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 function MyApp({ Component, pageProps, router }) {
   if (router.route === "/blog/preview") {

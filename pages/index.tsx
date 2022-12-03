@@ -1,24 +1,27 @@
 import Image from "next/image";
+import Link from "next/link";
+
 import {
   ArrowDownTrayIcon,
   BuildingOffice2Icon,
 } from "@heroicons/react/24/outline";
-
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ReactMarkdown from "react-markdown";
 import unlink from "remark-unlink";
 
-import { Button } from "../components/button";
-import { JobItem } from "../components/jobItem";
-import Page from "../components/page";
+import { Button } from "@/components/button";
+import { ExternalLink } from "@/components/ExternalLink";
+import { JobItem } from "@/components/jobItem";
+import Page from "@/components/page";
 
-import { getAllPostsForHome } from "../lib/api";
-import type { BlogPost } from "../lib/api";
+import { getAllPostsForHome } from "lib/api";
+import type { BlogPost } from "lib/api";
 
-import jobs from "../jobs";
-import headshot from "../public/headshot.jpg";
-import Link from "next/link";
+import headshot from "public/headshot.jpg";
+import jobs from "jobs";
+import { links } from "links";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
 
@@ -26,17 +29,35 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
   return (
     <Page includeNameInpageTitle={false}>
       {/* Hero section */}
-      <Image
-        src={headshot}
-        alt="me"
-        className="w-20 mb-6 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
-      />
-      <h1 className="mb-6 text-2xl tracking-tighter md:text-6xl">
-        Software engineer, pool player, and
-        <br className="hidden md:block" /> amateur improviser.
-      </h1>
+      <header className="mb-16 space-y-6">
+        <Image
+          src={headshot}
+          alt="me"
+          className="w-20 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
+        />
+        <h1 className="text-2xl tracking-tighter md:text-6xl">
+          Software engineer, pool player, and
+          <br className="hidden md:block" /> amateur improviser.
+        </h1>
 
-      <p className="max-w-[80ch] leading-8 mb-20 text-zinc-400">{`Hi, I'm Nick! I'm a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.`}</p>
+        <p className="max-w-[80ch] leading-8  text-zinc-400">{`I'm Nick, a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.`}</p>
+
+        <ul className="flex">
+          {links.map(([href, label, icon]) => (
+            <ExternalLink
+              key={href}
+              href={href}
+              className="p-2 first-of-type:-ml-2 group"
+            >
+              <FontAwesomeIcon
+                icon={icon}
+                className="transition-colors text-zinc-300 group-hover:text-sky-600"
+                size="lg"
+              />
+            </ExternalLink>
+          ))}
+        </ul>
+      </header>
 
       <div className="flex flex-col grid-cols-5 gap-20 md:grid">
         <section className="col-span-3 space-y-12">
@@ -61,7 +82,7 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
               >
                 {post.content.split(/\n/)[0]}
               </ReactMarkdown>
-              <p className="flex items-center gap-1 text-sm pointer-events-none text-zinc-300">
+              <p className="flex items-center gap-1 text-sm pointer-events-none text-zinc-300 text-sky-600">
                 Read article{" "}
                 <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
               </p>

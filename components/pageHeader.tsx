@@ -42,7 +42,7 @@ function NavItem({ label, href }: NavItemProps) {
       <Link className={classes} href={href}>
         {label}
         {isActive && (
-          <span className="absolute inset-x-0 h-[1px] -bottom-[1px] bg-gradient-to-r via-zinc-400 from-transparent to-transparent" />
+          <span className="absolute inset-x-0 h-[1px] -bottom-[1px] bg-gradient-to-r via-sky-600 from-transparent to-transparent" />
         )}
       </Link>
     </li>
