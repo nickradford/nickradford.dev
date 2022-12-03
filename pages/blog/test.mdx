@@ -1,0 +1,35 @@
+export const meta = {
+  author: "Nick Radford",
+  date: "2022-12-03",
+  tags: ["test"],
+};
+
+import BlogPage from "components/BlogPage";
+import { Button } from "components/button";
+import { JobItem } from "components/jobItem";
+import cruise from "public/cruise.png";
+
+export default ({ children }) => <BlogPage meta={meta}>{children}</BlogPage>;
+
+# This is a test of using MDX
+
+## H2 test
+
+### H3 test
+
+- One list item
+- Two list items
+
+by: {meta.author}
+
+date: {meta.date}
+
+<div className=" w-96 p-4 border rounded-xl border-zinc-800/75">
+  <JobItem
+    img={cruise}
+    company="Cruise"
+    role="Senior Software Engineer"
+    startDate="2018"
+    endDate="2019"
+  />
+</div>

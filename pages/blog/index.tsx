@@ -1,27 +1,16 @@
-import Page from "../../components/page";
-import { BlogPost, getAllPosts } from "../../lib/api";
+import Page from "@/components/page";
+import { getContent } from "lib/content";
 
-function BlogPage({ posts }: { posts: BlogPost[] }) {
-  return (
-    <Page>
-      <h1 className="text-3xl font-thin">Blog</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.sys.id}>
-            <a href={`/blog/${post.slug}`}>{post.title}</a>
-          </li>
-        ))}
-      </ul>
-    </Page>
-  );
+function Index() {
+  return <Page>List of posts</Page>;
 }
 
-export const getStaticProps = async () => {
-  const posts = await getAllPosts();
+export default Index;
 
-  console.log(posts);
-
-  return { props: { posts } };
-};
-
-export default BlogPage;
+export async function getStaticProps() {
+  const files = await getContent();
+  console.log(files);
+  return {
+    props: {},
+  };
+}

@@ -8,5 +8,5 @@ const components = {
 };
 
 export default function MDXProvider({ children }) {
-  return <BaseProvier components={components}>{children}</BaseProvier>;
+  return <BaseProvier>{children}</BaseProvier>;
 }
