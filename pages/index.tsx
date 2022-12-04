@@ -26,7 +26,6 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 });
 
 export default function Home({ posts = [] }: { posts: BlogPost[] }) {
-  console.log(posts);
   return (
     <Page includeNameInpageTitle={false}>
       {/* Hero section */}
@@ -81,7 +80,7 @@ export default function Home({ posts = [] }: { posts: BlogPost[] }) {
                 <p className="text-sm whitespace-pre-line text-zinc-400">
                   {post.excerpt}
                 </p>
-                {console.log(post.excerpt)}
+
                 <p className="flex items-center gap-1 text-sm pointer-events-none text-sky-600">
                   Read article{" "}
                   <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
@@ -115,9 +114,6 @@ export default function Home({ posts = [] }: { posts: BlogPost[] }) {
 
 export async function getServerSideProps(context) {
   const files = await getLatestPosts();
-  console.log(files.map((f) => `${f.title} - ${f.date}`));
-
-  console.log(files);
 
   return {
     props: { posts: files },

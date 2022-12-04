@@ -12,8 +12,6 @@ export default async function GeneratePreviewImage(req, res) {
     date: post[0].date,
   });
 
-  console.log(params);
-
   const image = await getImage(`/blog/preview?${params.toString()}`);
 
   res.setHeader("Content-Type", "image/png");

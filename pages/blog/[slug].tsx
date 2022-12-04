@@ -8,7 +8,6 @@ import { getFileBySlug, getFiles } from "@/lib/content";
 import "prism-themes/themes/prism-vsc-dark-plus.css";
 
 function BlogPost(props) {
-  console.log(props);
   const Component = useMemo(
     () => getMDXComponent(props.post.code),
     [props.post.code]

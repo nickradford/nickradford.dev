@@ -13,6 +13,7 @@ import PageHeader from "components/pageHeader";
 const plex = Plex({
   variable: "--font-plex",
   weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
 });
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
