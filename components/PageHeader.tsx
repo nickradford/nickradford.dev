@@ -4,9 +4,9 @@ import cn from "classnames";
 
 export const PageHeader = () => {
   return (
-    <div className="absolute top-0 z-20 w-full">
+    <div className="fixed top-0 z-20 w-full">
       <nav className="flex justify-center">
-        <ul className="flex px-8 mt-6 space-x-3 text-sm border rounded-full shadow-md bg-zinc-800 border-zinc-700/75">
+        <ul className="flex px-8 mt-6 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-800/70 backdrop-blur backdrop-saturate-150 border-zinc-700/75">
           <NavItem label="Home" href="/" />
           <NavItem label="Blog" href="/blog" />
           <NavItem label="Projects" href="/projects" />
@@ -32,7 +32,7 @@ function NavItem({ label, href }: NavItemProps) {
     `relative inline-block h-full px-2 py-2 text-zinc-400 transition-colors`,
     `hover:text-zinc-300`,
     {
-      "text-zinc-100": isActive,
+      "!text-zinc-100": isActive,
     }
   );
 
