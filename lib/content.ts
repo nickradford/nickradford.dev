@@ -36,11 +36,11 @@ export async function getFileBySlug(slug: string) {
     cwd: process.cwd(),
     grayMatterOptions(options) {
       options.excerpt = true;
-      // options.excerpt_separator = "{/* excerpt */}";
+      options.excerpt_separator = "{/* excerpt */}";
       return options;
     },
     mdxOptions(options) {
-      options.remarkPlugins = [...(options.remarkPlugins ?? []), embedImages];
+      // options.remarkPlugins = [...(options.remarkPlugins ?? []), embedImages];
 
       options.rehypePlugins = [
         ...(options.rehypePlugins ?? []),
