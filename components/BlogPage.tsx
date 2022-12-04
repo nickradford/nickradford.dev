@@ -28,8 +28,8 @@ function BlogPage({ children, meta }: BlogPageProps) {
   const router = useRouter();
 
   const backBtnClasses = cn(
-    "fixed bottom-8 right-0 mr-8 z-50 no-underline bg-black p-2 rounded-full text-zinc-200 cursor-pointer hover:bg-zinc-700 transition-colors"
-    // "md:absolute mr-8 no-underline bg-zinc-800 p-2 rounded-full text-zinc-400 cursor-pointer hover:bg-zinc-700 transition-colors"
+    "fixed bottom-8 right-0 mr-8 z-50 no-underline bg-black p-2 rounded-full text-zinc-200 cursor-pointer hover:bg-zinc-700 transition-colors",
+    "md:absolute md:top-0 md:left-0 md:bottom-auto md:right-auto md:bg-zinc-800 md:-translate-x-[calc(100%+2rem)]"
   );
 
   const articleClasses = cn(
