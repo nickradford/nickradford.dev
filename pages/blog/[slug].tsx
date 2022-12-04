@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import Image from "next/image";
 import { getMDXComponent } from "mdx-bundler/client";
 
 import BlogPage from "@/components/BlogPage";
@@ -14,7 +13,7 @@ function BlogPost(props) {
   );
 
   return (
-    <BlogPage meta={props.post.frontmatter}>
+    <BlogPage meta={props.post}>
       <Component />
     </BlogPage>
   );

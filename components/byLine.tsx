@@ -13,7 +13,7 @@ function ByLine({ meta }: ByLineProps) {
       <div className="flex items-center gap-2 ">
         <Image
           src={headshot}
-          alt={meta.author}
+          alt="Nick Radford"
           className="rounded-full w-7 h-7 ring-1 ring-zinc-300/75"
         />
         <div>Nick Radford</div>

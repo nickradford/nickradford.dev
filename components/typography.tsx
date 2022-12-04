@@ -1,31 +1,48 @@
-export type HeadingProps = {
+import classnames from "classnames";
+
+export type TextProps = {
   children: React.ReactNode;
   className?: string;
 };
 
-export function H1(props: HeadingProps) {
-  return (
-    <h1 className="text-5xl font-semibold tracking-tight">{props.children}</h1>
+export function H1(props: TextProps) {
+  const classes = classnames(
+    "text-3xl font-semibold tracking-tighter",
+    "md:text-6xl md:leading-tight",
+    props.className
   );
+  return <h1 className={classes}>{props.children}</h1>;
 }
 
-export function H2(props: HeadingProps) {
-  return (
-    <h2 className="text-3xl font-semibold tracking-tight">{props.children}</h2>
+export function H2(props: TextProps) {
+  const classes = classnames(
+    "text-3xl font-semibold tracking-tight",
+    props.className
   );
+  return <h2 className={classes}>{props.children}</h2>;
 }
 
-export function H3(props: HeadingProps) {
-  return (
-    <h3 className="text-xl font-semibold tracking-tight">{props.children}</h3>
+export function H3(props: TextProps) {
+  const classes = classnames(
+    "text-xl font-semibold tracking-tight",
+    props.className
   );
+  return <h3 className={classes}>{props.children}</h3>;
 }
 
-export function LightGray({ children }: HeadingProps) {
+export function Text(props: TextProps) {
+  const classes = classnames(
+    "max-w-[80ch] leading-8 text-zinc-400",
+    props.className
+  );
+  return <p className={classes}>{props.children}</p>;
+}
+
+export function LightGray({ children }: TextProps) {
   return <span className="text-base text-gray-400">{children}</span>;
 }
 
-export function Bold({ children }: HeadingProps) {
+export function Bold({ children }: TextProps) {
   return (
     <span className="font-bold text-green whitespace-nowrap">{children}</span>
   );

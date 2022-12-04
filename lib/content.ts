@@ -8,24 +8,34 @@ import readingTime from "reading-time";
 import { remark } from "remark";
 import strip from "strip-markdown";
 
-// Remark plugins
-import embedImages from "remark-embed-images";
-
 // Rehype plugins
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodetitles from "rehype-code-titles";
 import rehypePrism from "rehype-prism-plus";
 import rehypeExternalLinks from "rehype-external-links";
-import { parseWithOptions } from "date-fns/fp";
 
 const removeMarkdown = remark().use(strip);
+
+export type BlogPost = {
+  title: string;
+  date: string;
+  slug: string;
+  excerpt: string;
+  readingTime: {
+    text: string;
+    minutes: number;
+    time: number;
+    words: number;
+  };
+  code: string;
+};
 
 export async function getFiles(filePath: string) {
   return fs.readdir(path.join(process.cwd(), filePath));
 }
 
-export async function getFileBySlug(slug: string) {
+export async function getFileBySlug(slug: string): Promise<BlogPost> {
   const source = await fs.readFile(
     path.join(process.cwd(), "posts", `${slug}.mdx`),
     "utf8"
@@ -40,8 +50,6 @@ export async function getFileBySlug(slug: string) {
       return options;
     },
     mdxOptions(options) {
-      // options.remarkPlugins = [...(options.remarkPlugins ?? []), embedImages];
-
       options.rehypePlugins = [
         ...(options.rehypePlugins ?? []),
         rehypeSlug,
@@ -62,22 +70,23 @@ export async function getFileBySlug(slug: string) {
       return options;
     },
   });
-  const excerpt = await (
-    await removeMarkdown.process(matter.excerpt)
-  ).toString();
+  const excerpt = (await removeMarkdown.process(matter.excerpt)).toString();
+
+  const meta = {
+    title: frontmatter.title,
+    date: frontmatter.date,
+  };
 
   return {
     code,
-    frontmatter: {
-      ...frontmatter,
-      readingTime: readingTime(source),
-      slug,
-      excerpt,
-    },
+    ...meta,
+    readingTime: readingTime(source),
+    slug,
+    excerpt,
   };
 }
 
-export async function getLatestPosts(count: number = 5) {
+export async function getLatestPosts(count: number = 5): Promise<BlogPost[]> {
   const slugs = (await getFiles("posts")).map((file) =>
     file.replace(".mdx", "")
   );
@@ -87,7 +96,7 @@ export async function getLatestPosts(count: number = 5) {
   for (const slug of slugs) {
     const content = await getFileBySlug(slug);
 
-    contentArr.push(content.frontmatter);
+    contentArr.push(content);
   }
 
   contentArr.sort(comparator);
@@ -95,7 +104,7 @@ export async function getLatestPosts(count: number = 5) {
   return contentArr.slice(0, count);
 }
 
-function comparator(a, b) {
+function comparator(a: BlogPost, b: BlogPost) {
   if (a.date < b.date) {
     return 1;
   } else if (a.date > b.date) {
