@@ -7,8 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { config } from "@fortawesome/fontawesome-svg-core";
 
-import MDXProvider from "components/MDXProvider";
-import PageHeader from "components/pageHeader";
+import { MDXProvider, PageHeader } from "@/components";
 
 const plex = Plex({
   variable: "--font-plex",
@@ -16,7 +15,8 @@ const plex = Plex({
   subsets: ["latin"],
 });
 
-config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+// Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+config.autoAddCss = false;
 
 function MyApp({ Component, pageProps, router }) {
   if (router.route === "/blog/preview") {

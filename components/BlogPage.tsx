@@ -1,10 +1,6 @@
-import { useRouter } from "next/router";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import cn from "classnames";
 
-import Page from "./page";
-import ByLine from "./byLine";
-import BackButton from "./BackButton";
+import { BackButton, ByLine, Page } from "./index";
 
 export type BlogPageMeta = {
   title: string;
@@ -25,7 +21,7 @@ type BlogPageProps = {
   meta: BlogPageMeta;
 };
 
-function BlogPage({ children, meta }: BlogPageProps) {
+export function BlogPage({ children, meta }: BlogPageProps) {
   const articleClasses = cn(
     `relative m-auto mt-8 prose prose-zinc !prose-invert`,
     `prose-headings:font-plex prose-headings:text-zinc-100`
@@ -41,5 +37,3 @@ function BlogPage({ children, meta }: BlogPageProps) {
     </Page>
   );
 }
-
-export default BlogPage;

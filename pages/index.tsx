@@ -8,18 +8,22 @@ import {
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Button } from "@/components/button";
-import { ExternalLink } from "@/components/ExternalLink";
-import { JobItem } from "@/components/jobItem";
-import Page from "@/components/page";
-import { H1, Text } from "@/components/typography";
+import {
+  BlogPostPreview,
+  Button,
+  ExternalLink,
+  H1,
+  JobItem,
+  Page,
+  Text,
+} from "@/components";
 
 import { getLatestPosts, BlogPost } from "lib/content";
 
 import jobs from "jobs";
 import { links } from "links";
+
 import headshot from "public/headshot.jpg";
-import BlogPostPreview from "@/components/BlogPostPreview";
 
 export default function Home({ posts = [] }: { posts: BlogPost[] }) {
   return (

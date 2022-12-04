@@ -2,7 +2,7 @@ import cn from "classnames";
 import { links } from "links";
 import { ExternalLink } from "./ExternalLink";
 
-export default function Footer() {
+export function Footer() {
   const linkClasses = cn(
     "text-zinc-200  transition-colors p-2 inline-block",
     "hover:text-sky-600",

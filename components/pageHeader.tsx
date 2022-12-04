@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import cn from "classnames";
 
-const PageHeader = () => {
+export const PageHeader = () => {
   return (
     <div className="absolute top-0 z-20 w-full">
       <nav className="flex justify-center">
@@ -48,5 +47,3 @@ function NavItem({ label, href }: NavItemProps) {
     </li>
   );
 }
-
-export default PageHeader;

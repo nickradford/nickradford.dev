@@ -1,7 +1,8 @@
 import Head from "next/head";
-import Footer from "./footer";
 
-export default function Page({
+import { Footer } from "./index";
+
+export function Page({
   children,
   pageTitle = "Nick Radford",
   includeNameInpageTitle = true,

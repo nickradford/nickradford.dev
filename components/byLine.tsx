@@ -7,7 +7,7 @@ type ByLineProps = {
   meta: BlogPageMeta;
 };
 
-function ByLine({ meta }: ByLineProps) {
+export function ByLine({ meta }: ByLineProps) {
   return (
     <div className="flex items-center justify-between my-10 text-sm not-prose text-zinc-400">
       <div className="flex items-center gap-2 ">
@@ -39,5 +39,3 @@ function ByLine({ meta }: ByLineProps) {
     </div>
   );
 }
-
-export default ByLine;

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
 
-import BlogPage from "@/components/BlogPage";
+import { BlogPage } from "@/components";
 import { getFileBySlug, getFiles } from "@/lib/content";
 
 import "prism-themes/themes/prism-vsc-dark-plus.css";

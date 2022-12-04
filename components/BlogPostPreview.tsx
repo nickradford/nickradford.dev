@@ -1,6 +1,7 @@
-import { BlogPost } from "@/lib/content";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
+
+import { BlogPost } from "@/lib/content";
 
 type BlogPostPreviewProps = {
   post: BlogPost;
@@ -11,7 +12,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "GMT",
 });
 
-function BlogPostPreview({ post }: BlogPostPreviewProps): JSX.Element {
+export function BlogPostPreview({ post }: BlogPostPreviewProps) {
   return (
     <article key={post.slug} className="relative space-y-4 group isolate">
       <>
@@ -37,5 +38,3 @@ function BlogPostPreview({ post }: BlogPostPreviewProps): JSX.Element {
     </article>
   );
 }
-
-export default BlogPostPreview;

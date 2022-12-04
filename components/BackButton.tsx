@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useRouter } from "next/router";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
-function BackButton() {
+export function BackButton() {
   const router = useRouter();
 
   const backBtnClasses = cn(
@@ -15,5 +15,3 @@ function BackButton() {
     </a>
   );
 }
-
-export default BackButton;

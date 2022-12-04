@@ -1,4 +1,4 @@
-import Page from "@/components/page";
+import { Page } from "@/components";
 
 function Index() {
   return <Page>List of posts</Page>;
