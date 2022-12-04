@@ -29,6 +29,7 @@ export type BlogPost = {
     words: number;
   };
   code: string;
+  draft?: boolean;
 };
 
 export async function getFiles(filePath: string) {
@@ -75,6 +76,7 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
   const meta = {
     title: frontmatter.title,
     date: frontmatter.date,
+    draft: frontmatter.draft ?? false,
   };
 
   return {
@@ -86,7 +88,10 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
   };
 }
 
-export async function getLatestPosts(count: number = 5): Promise<BlogPost[]> {
+export async function getLatestPosts(
+  count: number = -1,
+  preview: boolean = false
+): Promise<{ posts: BlogPost[]; hasMore: boolean }> {
   const slugs = (await getFiles("posts")).map((file) =>
     file.replace(".mdx", "")
   );
@@ -96,12 +101,18 @@ export async function getLatestPosts(count: number = 5): Promise<BlogPost[]> {
   for (const slug of slugs) {
     const content = await getFileBySlug(slug);
 
-    contentArr.push(content);
+    // filter out drafts
+    if (preview || !content.draft) {
+      contentArr.push(content);
+    }
   }
 
   contentArr.sort(comparator);
 
-  return contentArr.slice(0, count);
+  return {
+    posts: count > 0 ? contentArr.slice(0, count) : contentArr,
+    hasMore: count > 0 && contentArr.length > count,
+  };
 }
 
 function comparator(a: BlogPost, b: BlogPost) {

@@ -25,7 +25,13 @@ import { links } from "links";
 
 import headshot from "public/headshot.jpg";
 
-export default function Home({ posts = [] }: { posts: BlogPost[] }) {
+export default function Home({
+  posts = [],
+  hasMore = false,
+}: {
+  posts: BlogPost[];
+  hasMore: boolean;
+}) {
   return (
     <Page includeNameInpageTitle={false}>
       {/* Hero section */}
@@ -64,6 +70,14 @@ export default function Home({ posts = [] }: { posts: BlogPost[] }) {
           {posts.map((post) => (
             <BlogPostPreview key={post.slug} post={post} />
           ))}
+          {hasMore && (
+            <Link
+              href="/blog"
+              className="flex items-center gap-2 text-sm font-semibold text-zinc-300 font-plex"
+            >
+              More posts <ChevronRightIcon className="w-5 h-5" />
+            </Link>
+          )}
         </section>
         <section className="col-span-2">
           <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-700/75 top-16">
@@ -89,9 +103,9 @@ export default function Home({ posts = [] }: { posts: BlogPost[] }) {
 }
 
 export async function getStaticProps() {
-  const files = await getLatestPosts();
+  const { posts, hasMore } = await getLatestPosts(3);
 
   return {
-    props: { posts: files },
+    props: { posts, hasMore },
   };
 }
