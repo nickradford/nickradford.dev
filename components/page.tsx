@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Footer } from "./index";
+import { Footer } from "./Footer";
 
 export function Page({
   children,

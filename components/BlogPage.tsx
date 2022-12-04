@@ -1,24 +1,13 @@
 import cn from "classnames";
 
-import { BackButton, ByLine, Page } from "./index";
-
-export type BlogPageMeta = {
-  title: string;
-  description: string;
-  date: string;
-  slug: string;
-  author: string;
-  readingTime: {
-    text: string;
-    minutes: number;
-    time: number;
-    words: number;
-  };
-};
+import { Page } from "./Page";
+import { ByLine } from "./ByLine";
+import { BackButton } from "./BackButton";
+import { BlogPost } from "@/lib/content";
 
 type BlogPageProps = {
   children: React.ReactNode;
-  meta: BlogPageMeta;
+  meta: BlogPost;
 };
 
 export function BlogPage({ children, meta }: BlogPageProps) {

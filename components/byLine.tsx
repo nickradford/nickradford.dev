@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 import headshot from "public/headshot.jpg";
-import { BlogPageMeta } from "./BlogPage";
+import { BlogPost } from "lib/content";
 
 type ByLineProps = {
-  meta: BlogPageMeta;
+  meta: BlogPost;
 };
 
 export function ByLine({ meta }: ByLineProps) {
