@@ -1,8 +1,9 @@
 import cn from "classnames";
 
-import { Page } from "./Page";
 import { ByLine } from "./ByLine";
 import { BackButton } from "./BackButton";
+import { Page } from "./Page";
+
 import { BlogPost } from "@/lib/content";
 
 type BlogPageProps = {
