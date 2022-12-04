@@ -83,7 +83,7 @@ export default function Home({ posts }: { posts: BlogPost[] }) {
               >
                 {post.content.split(/\n/)[0]}
               </ReactMarkdown>
-              <p className="flex items-center gap-1 text-sm pointer-events-none text-zinc-300 text-sky-600">
+              <p className="flex items-center gap-1 text-sm pointer-events-none text-sky-600">
                 Read article{" "}
                 <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
               </p>

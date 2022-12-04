@@ -23,7 +23,8 @@ export default function Footer() {
         ))}
       </nav>
       <span className="text-sm text-zinc-400">
-        &copy; {new Date().getFullYear()} Nick Radford, All rights reserved.
+        &copy; {new Date().getFullYear()} Nick Radford &bull; All rights
+        reserved
       </span>
     </footer>
   );

@@ -1,0 +1,47 @@
+---
+title: Tailwind Just-In-Time Compiler
+date: "2021-06-24"
+---
+
+[Tailwind.css](https://tailwindcss.com) added a compilation mode in v. 2.1 to allow Just-in-Time compilation of the library, removing the need for enabling/disabling different variants or creating new styles for quirky one-offs, in favor of allowing the runtime to determine which styles to package into the build.
+
+The best benefit in my opinion is that all variants are enabled by default, and the unused ones are purged from the final build. This leads to a more natural coding style, as you assume the classes you type will work, instead of needing to stray into configuration to enable the write combination.
+
+Say goodbye to your variants block in `tailwind.config.js`
+
+```diff:tailwind.config.js
+- variants: {
+- margin: ["responsive", "last"],
+- display: ["responsive", "group-hover"],
+- opacity: [
+-      "responsive",
+-      "group-hover",
+-      "focus-within",
+-      "hover",
+-      "focus",
+-      "disabled",
+-   ],
+- },
+```
+
+Instead, just write the classes you need to use in your HTML, and the compiler will figure it out!
+
+```tsx:pages/contact.tsx
+// Real example from my contact page
+<Button className="disabled:hover:bg-transparent">Send Email</Button>
+```
+
+The next best benefit of using the JIT mode is the arbitrary value support. Have
+you ever been coding up a UI, just to have an element that sits off the grid, or
+would just look better if it was scooched to the left 3 pixels?
+
+```tsx
+<img src="some-asset.png" className="relative left-[-3px]" />
+```
+
+With Just-in-Time compilation, you can pass arbitrary values into class names, which
+will be parsed into its own new class and applied to the element.
+
+It's worth noting that you cannot compute these values, they **must** be static text in your HTML.
+
+Want to learn more? Read the [Tailwind JIT Docs](https://v2.tailwindcss.com/docs/just-in-time-mode)

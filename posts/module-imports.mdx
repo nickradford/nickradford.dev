@@ -1,0 +1,75 @@
+---
+title: "Module Import Patterns in Javascript and Typescript"
+date: "2021-10-09"
+---
+
+I'm curious if anyone else has preferences on how imports are ordered in Javascript / Typescript files in the age of bundlers.
+
+It seems over time I've landed on something like this:
+
+```ts:pages/index.tsx
+// 3rd party javascript
+import { useState, FC } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { gql } from "graphql-request";
+import useSWR from "swr";
+
+// 3rd party css
+import "swiper/css";
+
+// My components
+import Page from "@components/Page";
+import FrostedCard from "@components/FrostedCard";
+import MarkdownComponents from "@components/MarkdownComponents";
+
+// My utils
+import { gqlFetcher } from "@util/gql";
+import { makePageTitle } from "@util/pageTitle";
+import { formatDate, Formats } from "@util/formatDate";
+
+// My css (I'm using Tailwind these days, so usually nothing here)
+
+// My types
+import type {
+  Page as PageType,
+  UpcomingShows,
+  UpcomingShowsConnection,
+} from "~types/generated";
+```
+
+Because I stick to this structure for my imports, my mental model of what all is being included in a page is clear, or if not clear, easy to reason about.
+
+I event implicitly order imports within the sections. For instance in my 3rd party packages, it's React imports first, then anything from the larger framework, in this case Next.js. There's no order after that, but I always put the framework imports at the tope.
+
+Need to add a new package, just put it in the correct section and move on with your day.
+
+I've also noticed that I usually don't have default exports for utils, but almost always do for components.
+
+`</stream-of-conscious>`
+
+---
+
+## Update
+
+I found a prettier plugin from Trivago which does exactly this.
+
+`npm i -D @trivago/prettier-plugin-sort-imports`
+
+Then I added this to my `.prettierrc`
+
+```json:.prettierrc
+"importOrder": [
+    "^(next|react).*$",
+    "^(?!next|react|@components|@hooks|@util|@styles|~types).*(?<!css)$",
+    "^(?!next|react|@components|@hooks|@util|@styles|~types).*.css$",
+    "^@components/.*$",
+    "^@hooks/.*$",
+    "^@util/.*$",
+    "^@styles/.*$",
+    "^~types/.*$"
+],
+"importOrderSeparation": true
+```
