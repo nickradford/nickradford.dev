@@ -36,6 +36,7 @@ export type BlogPost = {
   date: string;
   slug: string;
   content: string;
+  excerpt: string;
   sys: {
     firstPublishedAt: string;
     id: string;
