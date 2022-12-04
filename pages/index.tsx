@@ -112,7 +112,7 @@ export default function Home({ posts = [] }: { posts: BlogPost[] }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   const files = await getLatestPosts();
 
   return {
