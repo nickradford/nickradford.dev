@@ -1,12 +1,14 @@
-import classnames from "classnames";
-import { useNowPlaying } from "@/hooks/useNowPlaying";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpotify } from "@fortawesome/free-brands-svg-icons";
-import { Progress } from "./Progress";
-import Image from "next/image";
-import { useCallback, useEffect, useRef } from "react";
-import Link from "next/link";
+import classnames from "classnames";
+
 import { ExternalLink } from "./ExternalLink";
+import { Progress } from "./Progress";
+
+import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { useOnScreen } from "@/hooks/useOnScreen";
 
 type NowPlayingProps = {
