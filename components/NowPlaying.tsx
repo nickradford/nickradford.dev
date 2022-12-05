@@ -39,9 +39,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
   useEffect(() => {
     const timer = setTimeout(refetch, interval / 2);
     return () => clearTimeout(timer);
-  }, [nowPlaying.id]);
-
-  // if (isError) return null;
+  }, [interval, nowPlaying.id, refetch]);
 
   const classes = classnames(
     nowPlayingClasses,

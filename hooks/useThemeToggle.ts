@@ -6,18 +6,24 @@ export enum THEME {
 }
 
 export function useThemeToggle() {
-  const [theme, setTheme] = useState<THEME>(THEME.light);
+  const [theme, setTheme] = useState<THEME>(null);
+
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme) {
       setTheme(theme as THEME);
+    } else {
+      // infer the theme from the media query
+      const prefersDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const theme = prefersDarkMode ? THEME.dark : THEME.light;
+      setTheme(theme);
     }
-
-    console.log("theme", theme);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === THEME.light ? THEME.dark : THEME.light;
+    const newTheme = theme === THEME.dark ? THEME.light : THEME.dark;
     document.documentElement.classList.remove(theme);
     document.documentElement.classList.add(newTheme);
     localStorage.setItem("theme", newTheme);

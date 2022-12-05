@@ -5,14 +5,12 @@ type ProgressProps = {
   value: number;
   animationDuration?: number;
   refId?: string;
-  onProgressReset?: () => void;
 };
 
 export function Progress({
   value,
   animationDuration = 5000,
   refId,
-  onProgressReset,
 }: ProgressProps) {
   const bar = useRef<HTMLDivElement>();
   const [lastValue, setLastValue] = useState(0);
@@ -34,20 +32,18 @@ export function Progress({
     // New song
     if (bar.current && refId) {
       const timer = setWithDuration(0);
-      onProgressReset?.();
       setLastValue(0);
       return () => clearTimeout(timer);
     }
-  }, [refId]);
+  }, [refId, setWithDuration]);
 
   useEffect(() => {
     // Progress update
     const percentageDifference = Math.abs(value - lastValue);
 
-    if (percentageDifference > 20) {
+    if (percentageDifference > 20 || lastValue === 0) {
       const timer = setWithDuration(value, 100);
       setLastValue(value);
-      onProgressReset?.();
       return () => clearTimeout(timer);
     } else if (value > lastValue) {
       const timer = setWithDuration(value, animationDuration);
@@ -56,10 +52,10 @@ export function Progress({
     } else if (value < lastValue) {
       const timer = setWithDuration(value, 100);
       setLastValue(value);
-      onProgressReset?.();
       return () => clearTimeout(timer);
     }
-  }, [value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animationDuration, setWithDuration, value]);
 
   const containerClasses = classNames(
     "relative w-full h-0.5 transition-colors duration-500 shadow",
