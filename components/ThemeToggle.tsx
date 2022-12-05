@@ -12,7 +12,7 @@ export function ThemeToggle() {
   );
 
   const iconStyles =
-    "absolute top-0 p-2 opacity-0 transition-opacity duration-300";
+    "absolute top-0 scale-[60%] opacity-0 transition-opacity duration-300 box-border";
   const moonStyles = classNames(iconStyles, {
     "!opacity-100": theme === THEME.light,
   });
