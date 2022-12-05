@@ -4,16 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { Progress } from "./Progress";
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ExternalLink } from "./ExternalLink";
+import { useOnScreen } from "@/hooks/useOnScreen";
 
 type NowPlayingProps = {
   interval?: number;
 };
 export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
+  const ref = useRef<HTMLDivElement>();
+  const isOnScreen = useOnScreen(ref);
   const { nowPlaying, isError, refetch } = useNowPlaying({
     interval,
+    enabled: isOnScreen,
   });
   const nowPlayingClasses = classnames(
     "transition-all flex items-center gap-3 duration-500 bg-transparent rounded-md px-2 group relative border border-transparent"
@@ -32,7 +36,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
     return () => clearTimeout(timer);
   }, [nowPlaying.id]);
 
-  if (isError) return null;
+  // if (isError) return null;
 
   const classes = classnames(
     nowPlayingClasses,
@@ -44,7 +48,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
   );
 
   return (
-    <div className={classes}>
+    <div className={classes} ref={ref}>
       {nowPlaying.isPlaying ? (
         <>
           {SpotifyIcon}

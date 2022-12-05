@@ -1,6 +1,9 @@
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  return await res.json();
+};
 
 type NowPlaying = {
   item: {
@@ -24,12 +27,15 @@ type NowPlaying = {
   progress_ms: number;
 };
 
-export function useNowPlaying({ interval = 2000 }: { interval?: number } = {}) {
+export function useNowPlaying({
+  interval = 2000,
+  enabled = true,
+}: { interval?: number; enabled?: boolean } = {}) {
   const {
     data: song,
     error,
     mutate: refetch,
-  } = useSWR<NowPlaying>("/api/spotify", fetcher, {
+  } = useSWR<NowPlaying>(enabled ? "/api/spotify" : null, fetcher, {
     refreshInterval: interval,
   });
 
