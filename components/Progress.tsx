@@ -17,13 +17,12 @@ export function Progress({
   const [lastValue, setLastValue] = useState(0);
 
   const setWithDuration = useCallback(
-    (value, duration = 0) => {
-      console.log("setting", value, duration);
+    (value = 0, duration = 0) => {
       const currentDuration = bar.current.style.transitionDuration;
       bar.current.style.transitionDuration = `${duration}ms`;
       bar.current.style.width = `${value}%`;
       return setTimeout(
-        () => (bar.current.style.transitionDuration = currentDuration),
+        () => (bar.current.style.transitionDuration = `${currentDuration}ms`),
         100
       );
     },
@@ -33,7 +32,6 @@ export function Progress({
   useEffect(() => {
     // New song
     if (bar.current && refId) {
-      console.log("resetting", refId);
       const timer = setWithDuration(0);
       onProgressReset?.();
       setLastValue(0);
@@ -51,7 +49,9 @@ export function Progress({
       onProgressReset?.();
       return () => clearTimeout(timer);
     } else if (value > lastValue) {
+      const timer = setWithDuration(value, animationDuration);
       setLastValue(value);
+      return () => clearTimeout(timer);
     } else if (value < lastValue) {
       const timer = setWithDuration(value, 100);
       setLastValue(value);
