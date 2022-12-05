@@ -13,8 +13,9 @@ export function Footer() {
   );
 
   const footerClasses = cn(
-    `z-10 flex flex-col items-center justify-between w-full gap-4 py-6 mt-8 border-t border-zinc-800/75`,
-    `md:flex-row`
+    `z-10 flex flex-col items-center justify-between w-full gap-4 py-6 mt-8 border-t border-t-zinc-300`,
+    `md:flex-row`,
+    `dark:border-zinc-800/75`
   );
 
   return (
