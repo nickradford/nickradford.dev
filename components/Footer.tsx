@@ -1,6 +1,8 @@
 import cn from "classnames";
 import { links } from "links";
+
 import { ExternalLink } from "./ExternalLink";
+import { NowPlaying } from "./NowPlaying";
 
 export function Footer() {
   const linkClasses = cn(
@@ -13,6 +15,7 @@ export function Footer() {
     `z-10 flex flex-col items-center justify-between w-full gap-2 py-6 mt-8 border-t border-zinc-800/75`,
     `md:flex-row`
   );
+
   return (
     <footer className={footerClasses}>
       <nav className="flex gap-6 text-sm text-zinc-400">
@@ -21,6 +24,7 @@ export function Footer() {
             {label}
           </ExternalLink>
         ))}
+        <NowPlaying />
       </nav>
       <span className="text-sm text-zinc-400">
         &copy; {new Date().getFullYear()} Nick Radford &bull; All rights

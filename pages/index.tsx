@@ -24,6 +24,8 @@ import jobs from "jobs";
 import { links } from "links";
 
 import headshot from "public/headshot.jpg";
+import { useEffect } from "react";
+import { getNowPlaying } from "@/lib/spotify";
 
 export default function Home({
   posts = [],
