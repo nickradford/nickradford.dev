@@ -106,7 +106,7 @@ export default function Home({
 
 export async function getStaticProps() {
   const { posts, hasMore } = await getLatestPosts(3);
-
+  console.log(posts.map((p) => p.tags));
   return {
     props: { posts, hasMore },
   };

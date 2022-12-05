@@ -28,6 +28,7 @@ export type BlogPost = {
   };
   code: string;
   draft?: boolean;
+  tags?: string[];
 };
 
 export async function getFiles(filePath: string) {
@@ -77,6 +78,7 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
     title: frontmatter.title,
     date: frontmatter.date,
     draft: frontmatter.draft ?? false,
+    tags: frontmatter.tags ?? [],
   };
 
   return {

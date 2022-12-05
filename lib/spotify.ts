@@ -21,15 +21,11 @@ const getAccessToken = async () => {
     }),
   });
 
-  console.log(response.ok, response.status);
-
   return response.json();
 };
 
 export const getNowPlaying = async () => {
   const { access_token } = await getAccessToken();
-
-  console.log(access_token);
 
   return fetch(NOW_PLAYING_ENDPOINT, {
     headers: {
