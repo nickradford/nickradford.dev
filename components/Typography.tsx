@@ -1,13 +1,18 @@
-import classnames from "classnames";
+import classNames from "classnames";
 
 export type TextProps = {
   children: React.ReactNode;
   className?: string;
 };
 
+const baseHeadingClasses = classNames(
+  "font-plex font-semibold text-zinc-900 dark:text-zinc-100"
+);
+
 export function H1(props: TextProps) {
-  const classes = classnames(
-    "text-3xl font-semibold tracking-tighter",
+  const classes = classNames(
+    baseHeadingClasses,
+    "text-3xl tracking-tighter",
     "md:text-6xl md:leading-tight",
     props.className
   );
@@ -15,24 +20,27 @@ export function H1(props: TextProps) {
 }
 
 export function H2(props: TextProps) {
-  const classes = classnames(
-    "text-3xl font-semibold tracking-tight",
+  const classes = classNames(
+    baseHeadingClasses,
+    "text-3xl tracking-tight",
     props.className
   );
   return <h2 className={classes}>{props.children}</h2>;
 }
 
 export function H3(props: TextProps) {
-  const classes = classnames(
-    "text-xl font-semibold tracking-tight",
+  const classes = classNames(
+    baseHeadingClasses,
+    "text-xl tracking-tight text-zinc-800",
     props.className
   );
   return <h3 className={classes}>{props.children}</h3>;
 }
 
 export function Text(props: TextProps) {
-  const classes = classnames(
-    "max-w-[80ch] leading-8 text-zinc-400",
+  const classes = classNames(
+    "max-w-[80ch] leading-8 text-zinc-500",
+    "dark:text-zinc-400",
     props.className
   );
   return <p className={classes}>{props.children}</p>;

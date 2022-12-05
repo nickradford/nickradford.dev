@@ -22,12 +22,15 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
     enabled: isOnScreen,
   });
   const nowPlayingClasses = classnames(
-    "transition-all flex items-center gap-3 duration-500 bg-transparent rounded-md px-2 group relative border border-transparent"
+    "transition-all flex items-center gap-3 duration-500 bg-transparent rounded-md px-2 group relative border border-transparent",
+    "text-zinc-700",
+    "dark:text-zinc-300"
   );
 
   const isPlayingClasses = classnames(
     `cursor-pointer`,
-    "hover:bg-zinc-800/75 hover:border-zinc-700/75",
+    "hover:bg-zinc-200/50 hover:shadow-md hover-border-zinc-300/75",
+    "dark:hover:bg-zinc-800/75 dark:hover:border-zinc-700/75",
     {
       "opacity-100": !isError,
     }
@@ -49,6 +52,12 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
     <FontAwesomeIcon icon={faSpotify} className="text-emerald-600 " size="xl" />
   );
 
+  const popoverClasses = classnames(
+    "absolute p-4 mb-4 space-y-2 transition-all duration-500 -translate-x-1/2 translate-y-2 border opacity-0 pointer-events-none group-hover:translate-y-0 left-1/2 bottom-full backdrop-blur rounded-xl group-hover:opacity-100",
+    "bg-zinc-200/50 text-zinc-700 border-zinc-300/75 shadow-lg",
+    "dark:border-zinc-700/75 dark:bg-zinc-800/50 dark:text-zinc-200"
+  );
+
   return (
     <div className={classes} ref={ref}>
       {nowPlaying.isPlaying ? (
@@ -66,7 +75,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
             />
           </ExternalLink>
 
-          <div className="absolute p-4 mb-4 space-y-2 transition-all duration-500 -translate-x-1/2 translate-y-2 border opacity-0 pointer-events-none group-hover:translate-y-0 left-1/2 bottom-full bg-zinc-800/50 backdrop-blur rounded-xl group-hover:opacity-100 border-zinc-700/75">
+          <div className={popoverClasses}>
             <Image
               src={nowPlaying.albumImageUrl}
               width={nowPlaying.albumImageDimensions.width}
@@ -76,7 +85,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
               className="min-w-[256px] !w-64 rounded-md"
             />
             <figcaption>
-              <p className="text-sm text-zinc-200">{nowPlaying.album}</p>
+              <p className="text-sm ">{nowPlaying.album}</p>
               <p className="text-xs whitespace-nowrap">{nowPlaying.artist}</p>
             </figcaption>
           </div>

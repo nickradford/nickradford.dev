@@ -19,7 +19,8 @@
 }
 
 html {
-  @apply bg-black  text-zinc-200;
+  @apply bg-zinc-200 text-zinc-900;
+  @apply dark:bg-black dark:text-zinc-200;
 }
 
 h1,
@@ -29,7 +30,7 @@ h3 {
 }
 
 .prose-anchor {
-  @apply no-underline !text-zinc-100;
+  @apply no-underline !text-zinc-800 dark:!text-zinc-100;
 }
 
 /* 

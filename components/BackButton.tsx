@@ -8,8 +8,12 @@ export function BackButton() {
   const containerClasses = classnames("sticky top-[22px] z-50");
 
   const backBtnClasses = classnames(
-    "fixed bottom-8 right-0 mr-8 z-50 no-underline bg-black p-2 rounded-full border border-zinc-700  text-zinc-200 cursor-pointer hover:bg-zinc-700 transition-colors",
-    "md:absolute md:top-0 md:left-0 md:bottom-auto md:right-auto md:bg-zinc-800/80 md:-translate-x-[calc(100%+2rem)]"
+    "fixed bottom-8 right-0 mr-8 z-50 no-underline p-2 rounded-full border cursor-pointer transition-colors",
+    "bg-zinc-100 border-zinc-300 text-zinc-800 hover:bg-zinc-200 hover:border-zinc-400",
+    "dark:bg-black dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-700",
+    "md:absolute md:top-0 md:left-0 md:bottom-auto md:right-auto md:-translate-x-[calc(100%+2rem)]",
+    "md:bg-zinc-50 md:shadow-lg",
+    "md:dark:bg-zinc-800/80 "
   );
   return (
     <div className={containerClasses}>

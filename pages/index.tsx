@@ -42,7 +42,7 @@ export default function Home({
           src={headshot}
           placeholder="blur"
           alt="me"
-          className="w-20 rounded-full shadow-md bg-zinc-700 ring-2 ring-zinc-300"
+          className="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500"
           priority
         />
         <H1 className="max-w-[28ch]">
@@ -60,7 +60,7 @@ export default function Home({
             >
               <FontAwesomeIcon
                 icon={icon}
-                className="transition-colors text-zinc-300 group-hover:text-sky-600 "
+                className="transition-colors text-zinc-500 dark:text-zinc-300 group-hover:text-sky-600 "
                 size="lg"
               />
             </ExternalLink>
@@ -82,10 +82,10 @@ export default function Home({
           )}
         </section>
         <section className="col-span-2">
-          <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-700/75 top-16">
+          <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-300/75 dark:border-zinc-700/75 top-16">
             <h3 className="flex items-end gap-4">
               <BuildingOffice2Icon className="w-6 h-6" />
-              <span className="text-sm font-semibold text-zinc-100 font-plex">
+              <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-100 font-plex">
                 Work
               </span>
             </h3>

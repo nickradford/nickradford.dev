@@ -9,12 +9,12 @@ type ByLineProps = {
 
 export function ByLine({ meta }: ByLineProps) {
   return (
-    <div className="flex items-center justify-between my-10 text-sm not-prose text-zinc-400">
+    <div className="flex items-center justify-between my-10 text-sm not-prose text-zinc-500 dark:text-zinc-400">
       <div className="flex items-center gap-2 ">
         <Image
           src={headshot}
           alt="Nick Radford"
-          className="rounded-full w-7 h-7 ring-1 ring-zinc-300/75"
+          className="rounded-full w-7 h-7 ring-1 ring-zinc-500 dark:ring-zinc-300/75"
         />
         <div>Nick Radford</div>
         <span>&bull;</span>

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type ProgressProps = {
@@ -60,8 +61,14 @@ export function Progress({
     }
   }, [value]);
 
+  const containerClasses = classNames(
+    "relative w-full h-0.5 transition-colors duration-500 shadow",
+    "bg-zinc-400 group-hover:bg-zinc-100",
+    "dark:bg-zinc-800 dark:group-hover:bg-zinc-900"
+  );
+
   return (
-    <div className="relative w-full h-0.5 bg-zinc-800 group-hover:bg-zinc-900 transition-colors">
+    <div className={containerClasses}>
       <div
         ref={bar}
         className="absolute top-0 left-0 h-full transition-all ease-linear bg-emerald-600"

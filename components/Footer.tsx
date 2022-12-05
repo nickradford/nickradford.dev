@@ -6,7 +6,8 @@ import { NowPlaying } from "./NowPlaying";
 
 export function Footer() {
   const linkClasses = cn(
-    "text-zinc-200  transition-colors p-2 inline-block",
+    "text-zinc-600 transition-colors p-2 inline-block",
+    "dark:text-zinc-200",
     "hover:text-sky-600",
     "first-of-type:-ml-2"
   );
@@ -27,7 +28,7 @@ export function Footer() {
 
         <NowPlaying interval={10000} />
       </nav>
-      <span className="text-sm text-zinc-400">
+      <span className="text-sm text-zinc-600 dark:text-zinc-400">
         &copy; {new Date().getFullYear()} Nick Radford &bull; All rights
         reserved
       </span>
