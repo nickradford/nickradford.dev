@@ -1,27 +1,33 @@
-import Page from "../../components/page";
-import { BlogPost, getAllPosts } from "../../lib/api";
+import { BlogPostPreview, H1, H2, H3, Page, Text } from "@/components";
+import { BlogPost, getLatestPosts } from "@/lib/content";
 
-function BlogPage({ posts }: { posts: BlogPost[] }) {
+function Index({ posts }: { posts: BlogPost[] }) {
   return (
-    <Page>
-      <h1 className="text-3xl font-thin">Blog</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.sys.id}>
-            <a href={`/blog/${post.slug}`}>{post.title}</a>
-          </li>
-        ))}
-      </ul>
+    <Page pageTitle="Blog">
+      <header className="mb-16 space-y-6">
+        <H1>All posts</H1>
+        <Text>
+          A collection of my random musings; usually centered around frontend
+          topics. Join me as I explore new technologies, share my experiences,
+          and learn from others.
+        </Text>
+      </header>
+      <div className="flex flex-col grid-cols-5 md:grid">
+        <section className="col-span-3 space-y-12">
+          {posts.map((post) => (
+            <BlogPostPreview key={post.slug} post={post} />
+          ))}
+        </section>
+      </div>
     </Page>
   );
 }
 
-export const getStaticProps = async () => {
-  const posts = await getAllPosts();
+export default Index;
 
-  console.log(posts);
-
-  return { props: { posts } };
-};
-
-export default BlogPage;
+export async function getStaticProps() {
+  const { posts } = await getLatestPosts();
+  return {
+    props: { posts },
+  };
+}

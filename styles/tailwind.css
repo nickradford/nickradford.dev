@@ -19,163 +19,92 @@
 }
 
 html {
-  @apply scroll-smooth font-inter;
+  @apply scroll-smooth;
 }
 
+h1,
+h2,
+h3 {
+  @apply !font-plex;
+}
+
+.prose-anchor {
+  @apply no-underline !text-zinc-800 dark:!text-zinc-100;
+}
+
+/* 
 ::selection {
-  /*color: black;*/
-  /*background: #feee16;*/
   @apply bg-red text-crust;
+} */
+
+pre {
+  overflow-x: auto;
 }
 
-.contact-form-input {
-  @apply bg-crust border text-white font-scp mt-2 px-2 py-1 transition-colors rounded border-surface0 focus:ring-0 outline-0 focus:border-surface1;
+pre[class*="language-"] {
+  @apply !bg-zinc-800 !mt-0;
 }
 
-.contact-form-input:not(:placeholder-shown) {
-  @apply bg-crust bg-opacity-70;
+.headroom {
+  @apply relative transition will-change-transform ease-in-out duration-300;
 }
 
-.prose p {
-  @apply text-text;
+.headroom--pinned {
+  @apply translate-y-0 scale-100;
 }
 
-.prose a {
-  @apply text-yellow font-scp;
+.headroom--unpinned {
+  @apply -translate-y-16 scale-90;
 }
 
-.prose pre {
-  @apply bg-base shadow-inner;
+.rehype-code-title:has(+ pre) + pre {
+  @apply !rounded-t-none;
 }
 
-.prose code {
-  @apply font-scp;
+.rehype-code-title {
+  @apply bg-sky-800 px-4 py-2 font-mono rounded-t-md text-sm text-sky-100 font-semibold;
 }
 
-/*!
-   Theme: Catppuccin
-   Author: (c) Nick Radford
-   Maintainer: @nickradford
-   Updated: 2022-08-15
-
-*/
-
-.hljs {
-  @apply bg-base text-text;
+/**
+ * Inspired by gatsby remark prism - https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/
+ * 1. Make the element just wide enough to fit its content.
+ * 2. Always fill the visible space in .code-highlight.
+ */
+.code-highlight {
+  float: left; /* 1 */
+  min-width: 100%; /* 2 */
 }
 
-.hljs-doctag,
-.hljs-meta-keyword,
-.hljs-name,
-.hljs-strong {
-  font-weight: bold;
+.code-line {
+  display: block;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-left: -16px;
+  margin-right: -16px;
+  border-left: 4px solid rgba(0, 0, 0, 0); /* Set placeholder for highlight accent border color to transparent */
 }
 
-.hljs-code,
-.hljs-emphasis {
-  font-style: italic;
+.code-line.inserted {
+  background-color: rgba(16, 185, 129, 0.2); /* Set inserted line (+) color */
 }
 
-.hljs-section,
-.hljs-tag {
-  color: #62c8f3;
+.code-line.deleted {
+  background-color: rgba(239, 68, 68, 0.2); /* Set deleted line (-) color */
 }
 
-.hljs-selector-class,
-.hljs-selector-id,
-.hljs-template-variable,
-.hljs-variable {
-  color: #ade5fc;
+.highlight-line {
+  margin-left: -16px;
+  margin-right: -16px;
+  background-color: rgba(55, 65, 81, 0.5); /* Set highlight bg color */
+  border-left: 4px solid rgb(59, 130, 246); /* Set highlight accent border color */
 }
 
-.hljs-meta-string,
-.hljs-string {
-  @apply text-teal;
-  /*color: #a2fca2;*/
-}
-
-.hljs-attr,
-.hljs-quote,
-.hljs-selector-attr {
-  color: #7bd694;
-}
-
-.hljs-tag .hljs-attr {
-  color: inherit;
-}
-
-.hljs-attribute,
-.hljs-title,
-.hljs-type {
-  color: #ffa;
-}
-
-.hljs-number,
-.hljs-symbol {
-  color: #d36363;
-}
-
-.hljs-bullet,
-.hljs-template-tag {
-  color: #b8d8a2;
-}
-
-.hljs-built_in,
-.hljs-keyword,
-.hljs-literal,
-.hljs-selector-tag {
-  @apply text-pink
-}
-
-.hljs-code,
-.hljs-comment,
-.hljs-formula {
-  /*color: #888;*/
-  @apply text-text/50;
-}
-
-.hljs-link,
-.hljs-selector-pseudo,
-.hljs-regexp {
-  color: #c6b4f0;
-}
-
-.hljs-meta {
-  color: #fc9b9b;
-}
-
-.hljs-deletion {
-  background: #fc9b9b;
-  color: #333;
-}
-
-.hljs-addition {
-  background: #a2fca2;
-  color: #333;
-}
-
-/* Purposely ignored */
-.hljs-operator,
-.hljs-params,
-.hljs-property,
-.hljs-punctuation {}
-
-.hljs-subst {
-  color: #fff;
-}
-
-/* This applies only if HTML auto-merging plugin is enabled by user (#2889) */
-.hljs a {
-  color: inherit;
-}
-
-.hljs a:focus,
-.hljs a:hover {
-  color: inherit;
-  text-decoration: underline;
-}
-
-.hljs mark {
-  background: #555;
-  color: inherit;
+.line-number::before {
+  display: inline-block;
+  width: 1rem;
+  text-align: right;
+  margin-right: 16px;
+  margin-left: -8px;
+  color: rgb(156, 163, 175); /* Line number color */
+  content: attr(line);
 }

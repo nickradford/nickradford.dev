@@ -1,97 +1,113 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
-import TimeAgo from "react-timeago";
-import ReactMarkdown from "react-markdown";
-import unlink from "remark-unlink";
 
-import { getAllPostsForHome } from "../lib/api";
-import Page from "../components/page";
-import { Bold } from "../components/typography";
+import {
+  ArrowDownTrayIcon,
+  BuildingOffice2Icon,
+} from "@heroicons/react/24/outline";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Home({ posts }) {
+import {
+  BlogPostPreview,
+  Button,
+  ExternalLink,
+  H1,
+  JobItem,
+  Page,
+  Text,
+} from "@/components";
+
+import { getLatestPosts, BlogPost } from "lib/content";
+
+import jobs from "jobs";
+import { links } from "links";
+
+import headshot from "public/headshot.jpg";
+import { useEffect } from "react";
+import { getNowPlaying } from "@/lib/spotify";
+
+export default function Home({
+  posts = [],
+  hasMore = false,
+}: {
+  posts: BlogPost[];
+  hasMore: boolean;
+}) {
   return (
     <Page includeNameInpageTitle={false}>
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-8 py-8 sm:flex-row sm:items-center">
-          <div className="m-auto overflow-hidden border-4 rounded-full sm:m-0 bg-gradient-to-br from-green via-teal to-sapphire group">
-            <span className="relative top-3 group-hover:hidden">
-              <Image
-                src="/wave.png"
-                width={300}
-                height={300}
-                loading="eager"
-                priority={true}
-                alt="My MeMoji waving to you :D"
-              />
-            </span>
-            <span className="relative hidden top-3 group-hover:block">
-              <Image
-                src="/heart.png"
-                width={300}
-                height={300}
-                loading="eager"
-                alt="My MeMoji waving to you :D"
-              />
-            </span>
-          </div>
-          <div className="text-lg">
-            <p className="mb-2">
-              Hey there! I&apos;m Nick Radford and I&apos;m a{" "}
-              <Bold>Software Engineer</Bold> and <Bold>Web Developer</Bold> from{" "}
-              <Bold>San Francisco, California</Bold>.
-            </p>
-            <p>
-              I&apos;m currently looking for full-time remote work. Check out my{" "}
-              <Bold>
-                <a
-                  className="underline text-red"
-                  href="https://standardresume.co/nickradford"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  résumé
-                </a>
-              </Bold>
-              .
-            </p>
-          </div>
-        </div>
-        <hr className="border-dashed border-surface1" />
+      {/* Hero section */}
+      <header className="mb-16 space-y-6">
+        <Image
+          src={headshot}
+          placeholder="blur"
+          alt="me"
+          className="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500"
+          priority
+        />
+        <H1 className="max-w-[28ch]">
+          Software engineer, pool shark, and amateur improviser.
+        </H1>
 
-        <div className="flex items-baseline justify-between">
-          <h2 className="py-4 text-4xl font-thin tracking-wide font-inter">
-            Latest Blog Posts
-          </h2>
-        </div>
-        {posts.map((post) => (
-          <article className="flex flex-col" key={post.slug}>
-            <Link href={`/blog/${post.slug}`} className="group">
-              <div className="p-4 transition-colors group-hover:bg-gray-700 group-hover:bg-opacity-50 group">
-                <h3 className="text-2xl font-bold transition-colors font-scp text-red">
-                  {post.title}
-                </h3>
-                <div className="mt-1 text-sm font-scp">
-                  <TimeAgo date={post.date} />
-                </div>
-                <div className="flex pt-4 prose sm:prose-lg">
-                  <ReactMarkdown remarkPlugins={[unlink]}>
-                    {post.content.split("\n")[0].substring(0, 325) + "..."}
-                  </ReactMarkdown>
-                </div>
-                <p className="text-right font-scp group-hover:text-red">
-                  Read more...
-                </p>
-              </div>
+        <Text>{`I'm Nick, a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.`}</Text>
+
+        <ul className="flex">
+          {links.map(([href, , icon]) => (
+            <ExternalLink
+              key={href}
+              href={href}
+              className="p-2 first-of-type:-ml-2 group"
+            >
+              <FontAwesomeIcon
+                icon={icon}
+                className="transition-colors text-zinc-500 dark:text-zinc-300 group-hover:text-sky-600 "
+                size="lg"
+              />
+            </ExternalLink>
+          ))}
+        </ul>
+      </header>
+      <div className="flex flex-col grid-cols-5 gap-20 md:grid">
+        <section className="col-span-3 space-y-12">
+          {posts.map((post) => (
+            <BlogPostPreview key={post.slug} post={post} />
+          ))}
+          {hasMore && (
+            <Link
+              href="/blog"
+              className="flex items-center gap-2 text-sm font-semibold text-zinc-300 font-plex"
+            >
+              More posts <ChevronRightIcon className="w-5 h-5" />
             </Link>
-          </article>
-        ))}
-      </section>
+          )}
+        </section>
+        <section className="col-span-2">
+          <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-300/75 dark:border-zinc-700/75 top-16">
+            <h3 className="flex items-end gap-4">
+              <BuildingOffice2Icon className="w-6 h-6" />
+              <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-100 font-plex">
+                Work
+              </span>
+            </h3>
+            <ol className="space-y-4">
+              {jobs.map((job) => (
+                <JobItem key={job.company} {...job} />
+              ))}
+            </ol>
+            {/* <Button>
+              Download Resume <ArrowDownTrayIcon className="w-5 h-5" />
+            </Button> */}
+          </div>
+        </section>
+      </div>
     </Page>
   );
 }
 
-export const getStaticProps = async () => {
-  const posts = await getAllPostsForHome();
+export async function getStaticProps() {
+  const { posts, hasMore } = await getLatestPosts(3);
 
-  return { props: { posts } };
-};
+  return {
+    props: { posts, hasMore },
+  };
+}
