@@ -12,19 +12,20 @@ export function Footer() {
   );
 
   const footerClasses = cn(
-    `z-10 flex flex-col items-center justify-between w-full gap-2 py-6 mt-8 border-t border-zinc-800/75`,
+    `z-10 flex flex-col items-center justify-between w-full gap-4 py-6 mt-8 border-t border-zinc-800/75`,
     `md:flex-row`
   );
 
   return (
     <footer className={footerClasses}>
-      <nav className="flex gap-6 text-sm text-zinc-400">
+      <nav className="flex flex-wrap justify-center text-sm gap-x-6 gap-y-1 text-zinc-400">
         {links.map(([href, label]) => (
           <ExternalLink key={href} href={href} className={linkClasses}>
             {label}
           </ExternalLink>
         ))}
-        <NowPlaying />
+
+        <NowPlaying interval={10000} />
       </nav>
       <span className="text-sm text-zinc-400">
         &copy; {new Date().getFullYear()} Nick Radford &bull; All rights

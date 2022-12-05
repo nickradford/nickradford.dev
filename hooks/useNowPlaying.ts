@@ -4,6 +4,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 type NowPlaying = {
   item: {
+    id: string;
     album: {
       images: {
         height: number;
@@ -23,9 +24,13 @@ type NowPlaying = {
   progress_ms: number;
 };
 
-export function useNowPlaying() {
-  const { data: song, error } = useSWR<NowPlaying>("/api/spotify", fetcher, {
-    refreshInterval: 2000,
+export function useNowPlaying({ interval = 2000 }: { interval?: number } = {}) {
+  const {
+    data: song,
+    error,
+    mutate: refetch,
+  } = useSWR<NowPlaying>("/api/spotify", fetcher, {
+    refreshInterval: interval,
   });
 
   const isPlaying = song?.is_playing;
@@ -41,6 +46,7 @@ export function useNowPlaying() {
   const currentProgress = song?.progress_ms;
   const duration = song?.item.duration_ms;
   const progress = (currentProgress / duration) * 100;
+  const id = song?.item.id;
 
   return {
     nowPlaying: {
@@ -52,8 +58,10 @@ export function useNowPlaying() {
       albumImageDimensions,
       songUrl,
       progress,
+      id,
     },
     isLoading: !error && !song,
     isError: error,
+    refetch,
   };
 }
