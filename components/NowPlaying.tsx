@@ -51,7 +51,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
   );
 
   const popoverClasses = classnames(
-    "absolute p-4 mb-4 space-y-2 transition-all duration-500 -translate-x-1/2 translate-y-2 border opacity-0 pointer-events-none group-hover:translate-y-0 left-1/2 bottom-full backdrop-blur rounded-xl group-hover:opacity-100",
+    "absolute p-4 mb-4 space-y-2 transition-all duration-500 delay-200 -translate-x-1/2 translate-y-2 border opacity-0 pointer-events-none group-hover:translate-y-0 left-1/2 bottom-full backdrop-blur rounded-xl group-hover:opacity-100",
     "bg-zinc-200/50 text-zinc-700 border-zinc-300/75 shadow-lg",
     "dark:border-zinc-700/75 dark:bg-zinc-800/50 dark:text-zinc-200"
   );
