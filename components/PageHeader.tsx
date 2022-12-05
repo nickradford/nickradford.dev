@@ -1,24 +1,30 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import Headroom from "react-headroom";
 import { ThemeToggle } from "./ThemeToggle";
 
 export const PageHeader = () => {
+  const navClasses = classNames(
+    "relative flex items-center justify-center w-full mt-6 transition-transform ease-in-out"
+  );
   const ulClasses = classNames(
-    "flex px-2  space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
+    "flex px-2 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
     "dark:bg-zinc-800/70 dark:border-zinc-700/75"
   );
   return (
-    <div className="fixed top-0 z-20 ">
-      <nav className="relative flex items-center justify-center w-full mt-6">
-        <ul className={ulClasses}>
-          <NavItem label="Home" href="/" />
-          <NavItem label="Blog" href="/blog" />
-          <NavItem label="Projects" href="/projects" />
-          <NavItem label="Contact" href="/contact" />
-        </ul>
-        <ThemeToggle />
-      </nav>
+    <div className="fixed top-0 z-20">
+      <Headroom downTolerance={200} upTolerance={25} disableInlineStyles>
+        <nav className={navClasses}>
+          <ul className={ulClasses}>
+            <NavItem label="Home" href="/" />
+            <NavItem label="Blog" href="/blog" />
+            {/* <NavItem label="Projects" href="/projects" /> */}
+            {/* <NavItem label="Contact" href="/contact" /> */}
+          </ul>
+          <ThemeToggle />
+        </nav>
+      </Headroom>
     </div>
   );
 };
@@ -49,7 +55,7 @@ function NavItem({ label, href }: NavItemProps) {
       <Link className={classes} href={href}>
         {label}
         {isActive && (
-          <span className="absolute inset-x-0  h-[2px] -bottom-[1px] dark:h-[1px] dark:-bottom-[1px] bg-gradient-to-r dark:via-sky-600 via-sky-500 from-transparent to-transparent" />
+          <span className="absolute inset-x-0  h-[2px] -bottom-[1px]  bg-gradient-to-r from-transparent via-sky-500 to-transparent" />
         )}
       </Link>
     </li>
