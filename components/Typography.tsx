@@ -6,7 +6,7 @@ export type TextProps = {
 };
 
 const baseHeadingClasses = classNames(
-  "font-plex font-semibold text-zinc-900 dark:text-zinc-100"
+  "font-plex font-semibold text-zinc-900 dark:text-zinc-100 transition-colors"
 );
 
 export function H1(props: TextProps) {

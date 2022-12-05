@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import { ThemeToggle } from "./ThemeToggle";
 
 export const PageHeader = () => {
   const ulClasses = classNames(
-    "flex px-8 mt-6 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
-    /* dark */ "dark:bg-zinc-800/70 dark:border-zinc-700/75"
+    "flex px-2  space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
+    "dark:bg-zinc-800/70 dark:border-zinc-700/75"
   );
   return (
-    <div className="fixed top-0 z-20 w-full">
-      <nav className="flex justify-center">
+    <div className="fixed top-0 z-20 ">
+      <nav className="relative flex items-center justify-center w-full mt-6">
         <ul className={ulClasses}>
           <NavItem label="Home" href="/" />
           <NavItem label="Blog" href="/blog" />
           <NavItem label="Projects" href="/projects" />
           <NavItem label="Contact" href="/contact" />
         </ul>
+        <ThemeToggle />
       </nav>
     </div>
   );

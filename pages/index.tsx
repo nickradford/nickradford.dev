@@ -94,9 +94,9 @@ export default function Home({
                 <JobItem key={job.company} {...job} />
               ))}
             </ol>
-            <Button>
+            {/* <Button>
               Download Resume <ArrowDownTrayIcon className="w-5 h-5" />
-            </Button>
+            </Button> */}
           </div>
         </section>
       </div>
