@@ -1,4 +1,4 @@
-import cn from "classnames";
+import classnames from "classnames";
 
 import { ByLine } from "./ByLine";
 import { BackButton } from "./BackButton";
@@ -12,9 +12,9 @@ type BlogPageProps = {
 };
 
 export function BlogPage({ children, meta }: BlogPageProps) {
-  const articleClasses = cn(
+  const articleClasses = classnames(
     `relative m-auto mt-8 prose prose-zinc !prose-invert`,
-    `prose-headings:font-plex prose-headings:text-zinc-100`
+    `prose-headings:font-plex prose-headings:!text-zinc-100`
   );
   return (
     <Page pageTitle={meta.title}>

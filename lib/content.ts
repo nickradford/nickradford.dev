@@ -2,11 +2,9 @@ import fs from "fs/promises";
 import path from "path";
 
 import { bundleMDX } from "mdx-bundler";
-
-import readingTime from "reading-time";
-
 import { remark } from "remark";
 import strip from "strip-markdown";
+import readingTime from "reading-time";
 
 // Rehype plugins
 import rehypeSlug from "rehype-slug";
@@ -15,7 +13,7 @@ import rehypeCodetitles from "rehype-code-titles";
 import rehypePrism from "rehype-prism-plus";
 import rehypeExternalLinks from "rehype-external-links";
 
-const removeMarkdown = remark().use(strip);
+const removeMarkdown = remark().use(strip).process;
 
 export type BlogPost = {
   title: string;
@@ -33,7 +31,9 @@ export type BlogPost = {
 };
 
 export async function getFiles(filePath: string) {
-  return fs.readdir(path.join(process.cwd(), filePath));
+  return (await fs.readdir(path.join(process.cwd(), filePath))).filter((p) =>
+    p.endsWith(".mdx")
+  );
 }
 
 export async function getFileBySlug(slug: string): Promise<BlogPost> {
@@ -71,7 +71,7 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
       return options;
     },
   });
-  const excerpt = (await removeMarkdown.process(matter.excerpt)).toString();
+  const excerpt = (await removeMarkdown(matter.excerpt)).toString();
 
   const meta = {
     title: frontmatter.title,
@@ -96,7 +96,7 @@ export async function getLatestPosts(
     file.replace(".mdx", "")
   );
 
-  const contentArr = [];
+  const contentArr: BlogPost[] = [];
 
   for (const slug of slugs) {
     const content = await getFileBySlug(slug);
