@@ -10,9 +10,9 @@ export default function handler(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
-    const title = searchParams.get("title");
-    const date = searchParams.get("date");
-    const readTime = searchParams.get("readTime");
+    const title = decodeURIComponent(searchParams.get("title"));
+    const date = decodeURIComponent(searchParams.get("date"));
+    const readTime = decodeURIComponent(searchParams.get("readTime"));
 
     return new ImageResponse(
       (
@@ -21,12 +21,15 @@ export default function handler(req: NextRequest) {
             height: "100%",
             width: "100%",
             backgroundImage:
-              "radial-gradient(circle at 25px 25px, rgb(39, 39, 42) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgb(39, 39, 42) 2%, transparent 0%)",
+              "radial-gradient(circle at 25px 25px, #e4e4e7 2%, transparent 0%), radial-gradient(circle at 75px 75px, #e4e4e7 2%, transparent 0%)",
             backgroundSize: "100px 100px",
           }}
-          tw="bg-zinc-900 text-zinc-100 border-b-8 border-sky-700 p-10 justify-center flex flex-col"
+          tw="bg-zinc-100 text-zinc-500 border-b-[18px] border-l-[18px] border-sky-400 p-10 justify-center flex flex-col"
         >
-          <div tw="absolute top-8 left-10 right-10 flex justify-between text-xl items-center text-zinc-600">
+          <div
+            tw="absolute top-8 left-10 right-10 flex justify-between text-xl items-center"
+            style={{ letterSpacing: "0.125rem" }}
+          >
             <time tw="">
               {Intl.DateTimeFormat("en-us", {
                 dateStyle: "long",
@@ -35,10 +38,12 @@ export default function handler(req: NextRequest) {
             </time>
             <span>{readTime}</span>
           </div>
-          <h1 tw="text-5xl leading-tight">{title}</h1>
-          <div tw="absolute bottom-2 left-10 right-10 flex justify-between text-xl items-center">
-            <h3 tw="text-3xl text-zinc-300">Nick Radford</h3>
-            <p tw="text-zinc-500">nickradford.dev</p>
+          <h1 tw="text-5xl leading-tight text-zinc-900">{title}</h1>
+          <div tw="absolute bottom-2 left-10 right-10 flex justify-between text-xl items-baseline">
+            <h3 tw="text-3xl text-zinc-900">Nick Radford</h3>
+            <p style={{ letterSpacing: "0.125rem" }} tw="">
+              nickradford.dev
+            </p>
           </div>
         </div>
       ),
