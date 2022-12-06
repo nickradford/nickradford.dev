@@ -45,7 +45,11 @@ function BlogPost({ post }: BlogPostProps) {
           images: [
             {
               url: encodeURI(
-                `/api/og?title=${post.title}&date=${post.date}&readTime=${post.readingTime.text}`
+                `${
+                  process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000"
+                }/api/og?title=${post.title}&date=${post.date}&readTime=${
+                  post.readingTime.text
+                }`
               ),
               width: 800,
               height: 400,
