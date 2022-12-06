@@ -12,7 +12,7 @@ function Index({ posts }: { posts: BlogPost[] }) {
           and learn from others.
         </Text>
       </header>
-      <div className="flex flex-col grid-cols-5 md:grid bg-zinc-800">
+      <div className="flex flex-col grid-cols-5 md:grid">
         <section className="col-span-3 space-y-12">
           {posts.map((post) => (
             <BlogPostPreview key={post.slug} post={post} />
