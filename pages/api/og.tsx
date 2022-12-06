@@ -50,7 +50,7 @@ export default function handler(req: NextRequest) {
           <div
             style={{
               backgroundImage:
-                "linear-gradient(90deg, rgba(2,0,36,0) 0%, transparent 0%, rgba(2,132,199,1) 100%)",
+                "linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(2,0,36,0) 50%, rgba(2,132,199,1) 100%)",
             }}
             tw="absolute -bottom-8 left-0 right-0 h-8"
           ></div>
