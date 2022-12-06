@@ -47,6 +47,8 @@ function BlogPost({ post }: BlogPostProps) {
               url: encodeURI(
                 `/api/og?title=${post.title}&date=${post.date}&readTime=${post.readingTime.text}`
               ),
+              width: 800,
+              height: 400,
             },
           ],
         }}
