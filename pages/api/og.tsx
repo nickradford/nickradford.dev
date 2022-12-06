@@ -24,17 +24,18 @@ export default function handler(req: NextRequest) {
               "radial-gradient(circle at 25px 25px, #e4e4e7 2%, transparent 0%), radial-gradient(circle at 75px 75px, #e4e4e7 2%, transparent 0%)",
             backgroundSize: "100px 100px",
           }}
-          tw="bg-zinc-100 text-zinc-500 border-b-[18px] border-l-[18px] border-sky-400 p-10 justify-center flex flex-col"
+          tw="bg-zinc-100 text-zinc-500 border-b-[18px] border-sky-400 p-10 justify-center flex flex-col"
         >
           <div
             tw="absolute top-8 left-10 right-10 flex justify-between text-xl items-center"
             style={{ letterSpacing: "0.125rem" }}
           >
             <time tw="">
-              {Intl.DateTimeFormat("en-us", {
-                dateStyle: "long",
-                timeZone: "GMT",
-              }).format(new Date(date))}
+              {date &&
+                Intl.DateTimeFormat("en-us", {
+                  dateStyle: "long",
+                  timeZone: "GMT",
+                }).format(new Date(date))}
             </time>
             <span>{readTime}</span>
           </div>
@@ -45,6 +46,14 @@ export default function handler(req: NextRequest) {
               nickradford.dev
             </p>
           </div>
+
+          <div
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(2,0,36,0) 0%, transparent 0%, rgba(2,132,199,1) 100%)",
+            }}
+            tw="absolute -bottom-8 left-0 right-0 h-8"
+          ></div>
         </div>
       ),
       {
