@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
+import { NextSeo } from "next-seo";
 
 import { BlogPage, H1, H2 } from "@/components";
-import { getFileBySlug, getFiles } from "@/lib/content";
+import { BlogPost, getFileBySlug, getFiles } from "@/lib/content";
 
 import "prism-themes/themes/prism-vsc-dark-plus.css";
 
@@ -17,14 +18,39 @@ const Components = {
   ),
 };
 
-function BlogPost(props) {
-  const Component = useMemo(
-    () => getMDXComponent(props.post.code),
-    [props.post.code]
-  );
+type BlogPostProps = {
+  post: BlogPost;
+};
+
+function BlogPost({ post }: BlogPostProps) {
+  const Component = useMemo(() => getMDXComponent(post.code), [post.code]);
 
   return (
-    <BlogPage meta={props.post}>
+    <BlogPage meta={post}>
+      <NextSeo
+        title={post.title}
+        description={post.excerpt}
+        openGraph={{
+          title: post.title,
+          description: post.excerpt,
+          url: `https://nickradford.dev/blog/${post.slug}`,
+          type: "article",
+          article: {
+            publishedTime: post.date,
+            authors: [
+              "https://nickradford.dev",
+              "https://twitter.com/nick_radford",
+            ],
+          },
+          images: [
+            {
+              url: encodeURI(
+                `/api/og?title=${post.title}&date=${post.date}&readTime=${post.readingTime.text}`
+              ),
+            },
+          ],
+        }}
+      />
       <Component components={Components} />
     </BlogPage>
   );

@@ -1,4 +1,4 @@
-import { BlogPostPreview, H1, H2, H3, Page, Text } from "@/components";
+import { BlogPostPreview, H1, Page, Text } from "@/components";
 import { BlogPost, getLatestPosts } from "@/lib/content";
 
 function Index({ posts }: { posts: BlogPost[] }) {
@@ -12,7 +12,7 @@ function Index({ posts }: { posts: BlogPost[] }) {
           and learn from others.
         </Text>
       </header>
-      <div className="flex flex-col grid-cols-5 md:grid">
+      <div className="flex flex-col grid-cols-5 md:grid bg-zinc-800">
         <section className="col-span-3 space-y-12">
           {posts.map((post) => (
             <BlogPostPreview key={post.slug} post={post} />
