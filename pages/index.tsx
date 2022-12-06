@@ -24,8 +24,8 @@ import jobs from "jobs";
 import { links } from "links";
 
 import headshot from "public/headshot.jpg";
-import { useEffect } from "react";
-import { getNowPlaying } from "@/lib/spotify";
+import { NextSeo } from "next-seo";
+import { getImage } from "@/lib/og";
 
 export default function Home({
   posts = [],
@@ -35,7 +35,17 @@ export default function Home({
   hasMore: boolean;
 }) {
   return (
-    <Page includeNameInpageTitle={false}>
+    <Page>
+      <NextSeo
+        description="Nick Radford is a software engineer with over 10 years experience building applications people love to use."
+        openGraph={{
+          images: [
+            {
+              url: getImage({ showName: false, showSubtitle: true }),
+            },
+          ],
+        }}
+      />
       {/* Hero section */}
       <header className="mb-16 space-y-6">
         <Image

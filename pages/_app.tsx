@@ -3,6 +3,8 @@ import "../styles/tailwind.css";
 
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
+import { DefaultSeo } from "next-seo";
+import defaulSeoConfig from "next-seo.config";
 
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -32,56 +34,11 @@ function MyApp({ Component, pageProps, router }) {
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
-
-        {/* <!-- Primary Meta Tags --> */}
-        <title>Nick Radford | Software Engineer in San Francisco</title>
-        <meta
-          name="title"
-          content="Nick Radford | Software Engineer in San Francisco"
-        />
-        <meta
-          name="description"
-          content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
-        />
-
-        {/* <!-- Open Graph / Facebook --> */}
-        <meta key="og:type" property="og:type" content="website" />
-        <meta
-          key="og:url"
-          property="og:url"
-          content="https://nickradford.dev/"
-        />
-        <meta
-          key="og:title"
-          property="og:title"
-          content="Nick Radford | Software Engineer in San Francisco"
-        />
-        <meta
-          key="og:description"
-          property="og:description"
-          content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
-        />
-
-        {/* <!-- Twitter --> */}
-        <meta
-          key="twitter:image"
-          property="twitter:image"
-          content="https://nickradford.dev/social.png?v=3"
-        />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://nickradford.dev/" />
-        <meta
-          property="twitter:title"
-          content="Nick Radford | Software Engineer in San Francisco"
-        />
-        <meta
-          property="twitter:description"
-          content="10 years of frontend & full stack software engineering experience. Currently available for full time remote job opportunities."
-        />
       </Head>
       <div
         className={`flex flex-col items-center w-full min-h-screen min-h-fill-available ${plex.variable}`}
       >
+        <DefaultSeo {...defaulSeoConfig} />
         <PageHeader />
 
         <MDXProvider>

@@ -7,12 +7,26 @@ export const config = {
 };
 
 export default function handler(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
+  const { searchParams } = new URL(req.url);
+  function get<T>(key: string, defaultValue: T) {
+    const value = (searchParams.get(key) as T) ?? defaultValue;
 
-    const title = decodeURIComponent(searchParams.get("title"));
-    const date = decodeURIComponent(searchParams.get("date"));
-    const readTime = decodeURIComponent(searchParams.get("readTime"));
+    if (typeof defaultValue === "boolean" && typeof value === "string") {
+      return value === "1" ? true : false;
+    }
+    return value;
+  }
+
+  try {
+    const title = get<string>("title", "Nick Radford");
+    const subtitle = get<string>(
+      "subtitle",
+      "Software engineer, pool shark, and amateur improviser."
+    );
+    const date = get("date", null);
+    const readTime = get<string>("readTime", null);
+    const showName = get<boolean>("showName", true);
+    const showSubtitle = get<boolean>("showSubtitle", false);
 
     return new ImageResponse(
       (
@@ -40,8 +54,9 @@ export default function handler(req: NextRequest) {
             <span>{readTime}</span>
           </div>
           <h1 tw="text-5xl leading-tight text-zinc-900">{title}</h1>
+          {subtitle && showSubtitle && <h2 tw="text-2xl">{subtitle}</h2>}
           <div tw="absolute bottom-2 left-10 right-10 flex justify-between text-xl items-baseline">
-            <h3 tw="text-3xl text-zinc-900">Nick Radford</h3>
+            <h3 tw="text-3xl text-zinc-900">{showName && "Nick Radford"}</h3>
             <p style={{ letterSpacing: "0.125rem" }} tw="">
               nickradford.dev
             </p>

@@ -6,6 +6,7 @@ import { BlogPage, H1, H2 } from "@/components";
 import { BlogPost, getFileBySlug, getFiles } from "@/lib/content";
 
 import "prism-themes/themes/prism-vsc-dark-plus.css";
+import { getImage } from "@/lib/og";
 
 const Components = {
   h1: (props) => <H1 {...props} />,
@@ -44,15 +45,11 @@ function BlogPost({ post }: BlogPostProps) {
           },
           images: [
             {
-              url: encodeURI(
-                `//${
-                  process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000"
-                }/api/og?title=${post.title}&date=${post.date}&readTime=${
-                  post.readingTime.text
-                }`
-              ),
-              width: 800,
-              height: 400,
+              url: getImage({
+                title: post.title,
+                date: post.date,
+                readTime: post.readingTime.text,
+              }),
             },
           ],
         }}

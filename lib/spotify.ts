@@ -21,15 +21,19 @@ const getAccessToken = async () => {
     }),
   });
 
-  return response.json();
+  return await response.json();
 };
 
 export const getNowPlaying = async () => {
   const { access_token } = await getAccessToken();
 
-  return fetch(NOW_PLAYING_ENDPOINT, {
+  const response = await fetch(NOW_PLAYING_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
   });
+  if (response.status === 200) {
+    return response.json();
+  }
+  return null;
 };
