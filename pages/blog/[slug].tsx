@@ -45,8 +45,8 @@ function BlogPost({ post }: BlogPostProps) {
           images: [
             {
               url: encodeURI(
-                `${
-                  process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000"
+                `//${
+                  process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000"
                 }/api/og?title=${post.title}&date=${post.date}&readTime=${
                   post.readingTime.text
                 }`
