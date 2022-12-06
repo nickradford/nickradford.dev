@@ -8,13 +8,14 @@ export const config = {
 
 export default function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+
   function get<T>(key: string, defaultValue: T) {
-    const value = (searchParams.get(key) as T) ?? defaultValue;
+    const value = searchParams.get(key) ?? defaultValue;
 
     if (typeof defaultValue === "boolean" && typeof value === "string") {
-      return value === "1" ? true : false;
+      return (value === "1" ? true : false) as unknown as T;
     }
-    return value;
+    return value as unknown as T;
   }
 
   try {

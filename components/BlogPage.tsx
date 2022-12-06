@@ -19,7 +19,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
     "dark:prose-headings:!text-zinc-100`
   );
   return (
-    <Page pageTitle={meta.title}>
+    <Page>
       <article className={articleClasses}>
         <BackButton />
         <H2>{meta.title}</H2>
