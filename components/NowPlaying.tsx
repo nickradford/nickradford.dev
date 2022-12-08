@@ -58,7 +58,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
 
   return (
     <div className={classes} ref={ref}>
-      {nowPlaying.isPlaying ? (
+      {nowPlaying.isPlaying && nowPlaying.nowPlayingType === "track" ? (
         <>
           {SpotifyIcon}
           <ExternalLink
