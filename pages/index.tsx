@@ -104,9 +104,22 @@ export default function Home({
                 <JobItem key={job.company} {...job} />
               ))}
             </ol>
-            {/* <Button>
+            <Button onClick={async () => {
+              const blob = await fetch("/nick-radford-resume-2022-12-08.pdf").then(r => r.blob());
+              const anchor = document.createElement("a");
+              anchor.style.display = "none";
+              document.body.appendChild(anchor);
+
+              anchor.href = window.URL.createObjectURL(blob);
+              anchor.setAttribute("download", "nick-radford-resume.pdf");
+
+              anchor.click();
+
+              window.URL.revokeObjectURL(anchor.href);
+              document.body.removeChild(anchor);              
+            }}>
               Download Resume <ArrowDownTrayIcon className="w-5 h-5" />
-            </Button> */}
+            </Button>
           </div>
         </section>
       </div>
