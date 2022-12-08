@@ -3,7 +3,7 @@ title: 2022 in Review
 date: "2022-12-04"
 ---
 
-Another year has come and gone, and I've decided to redesign and reimplement certain features of this site. Lets start with a post-mortem of sorts since the last time I wrote something here.
+Another year has come and gone, and I've decided to redesign and reimplement certain features of this site. Let's start with a postmortem of sorts since the last time I wrote something here.
 
 {/* excerpt */}
 
@@ -13,11 +13,11 @@ Stuck in the midst of the pandemic and absent from the tech industry proper due 
 
 I had been following [@kvlly](https://twitter.com/kvlly) on Twitter for a while, and she was teasing a new company called Govalo. She had posted a link to the website, and while she and her cofounder [@rhiankatie](https://twitter.com/rhiankatie) were still in stealth about the company, I was intrigued.
 
-The interview was set, Monday October 11th, at noon. I was nervous, but I was also excited. This wouldn't be my first interview since my last job, but I was prepared. Leading up to this, I completely bombed an interview with one startup and had an intro call with a founder who negged me about my _kitschy_ website then lowballed me on salary.
+The interview was set, Monday, October 11th, at noon. I was nervous, but I was also excited. This wouldn't be my first interview since my last job, but I was prepared. Leading up to this, I completely bombed an interview with one startup and had an intro call with a founder who negged me about my _kitschy_ website then lowballed me on salary.
 
-I had also recently done some client work for some friends as well as built a Twilio-powered SMS forwarder for when I was working solo as a stage manager for a small improv theater. I was ready to talk about my experience, and I was ready to talk about what I wanted to do.
+I had also recently done some client work for some friends, as well as built a Twilio-powered SMS forwarder for when I was working solo as a stage manager for a small improv theater. I was ready to talk about my experience, and I was ready to talk about what I wanted to do.
 
-The day of the interview arrives, I sit down on Zoom with Kelly and Rhian and we have a wonderful discussion. We talk about my experience and my goals, and I learn how Govalo is planning on disrupting gifting in the ecommerce space.
+The day of the interview arrives, I sit down on Zoom with Kelly and Rhian, and we have a wonderful discussion. We talk about my experience and my goals, and I learn how Govalo is planning to disrupt gifting in the ecommerce space.
 
 **FIFTEEN MINUTES LATER**
 
@@ -33,7 +33,7 @@ It's _really fun_ to join a startup early. You get to see the product grow from 
 
 ### Race to the First Pull Request
 
-As an aside, I alway challenge myself at every new job.
+As an aside, I always challenge myself at every new job.
 
 1. How quickly can I get my environment set up?
 2. How quickly can I get my first PR opened?
@@ -45,7 +45,7 @@ While my first PR wasn't a full feature, it was a tiny change to some copy in th
 
 ### Personal Growth
 
-Since beginning my career back in 2010 with Quest Software (later acquired by Dell), I've mostly focused on being really good at building the front end of applications. Yes, those roles where my title was "Full stack" too. Even when I was studying compilers in college, I went as far as building a user interface for my final project with QT.
+Since beginning my career back in 2010 with Quest Software (later acquired by Dell), I've focused on being great at building the front end of applications. Yes, those roles where my title was "Full stack" too. Even when I was studying compilers in college, I went as far as building a user interface for my final project with QT.
 
 I didn't have the luxury, if you could call it that, of focusing solely on the UI at Govalo. Nor did I really want to. I would always preface conversations about backend development with interviewers with "I know enough to get into trouble", but that would change.
 
@@ -53,9 +53,9 @@ I didn't have the luxury, if you could call it that, of focusing solely on the U
 
 We were a small but pretty mighty team at Govalo. Our customer base was growing pretty rapidly and we needed to make sure our application could scale to meet demand.
 
-We were already using [BullMQ](https://github.com/taskforcesh/bullmq) to send emails to gift card recipients, but we were handling webhooks coming from Shopify synchronously. At scale, this could end up impacting the performance of our admin app. We already had workers sending emails, why not use that infrastructure to handle the more critical parts of our business asnchronously.
+We were already using [BullMQ](https://github.com/taskforcesh/bullmq) to send emails to gift card recipients, but we were handling webhooks coming from Shopify synchronously. At scale, this could end up impacting the performance of our admin app. We already had workers sending emails, why not use that infrastructure to handle the more critical parts of our business asynchronously.
 
-Within a few days, I had a PR open which would add `process-webhook` jobs to BullMQ and they would be asynchronous processed by a `WebhookProcessor` function later. Over the next couple weeks this expanded to issuing the proper product (gift card or store credit), sending emails (or email events to configured 3rd party providers like Klaviyo or Omnisend), tracking timeline events.
+Within a few days, I had a PR open which would add `process-webhook` jobs to BullMQ, and they would be asynchronously processed by a `WebhookProcessor` function later. Over the next couple of weeks this expanded to issuing the proper product (gift card or store credit), sending emails (or email events to configured 3rd party providers like Klaviyo or Omnisend), tracking timeline events.
 
 Each `JobProcessor` dovetailed into the next step - passing along the relevant IDs or other static data so the next processor could look up the latest data for that item.
 
@@ -73,9 +73,9 @@ This feature hooked into the async job processing described above and enqueued j
 
 One major benefit to enqueing jobs and processing them later is that if something failed (eg: a 500 response from Shopify or Klaviyo), it was easier than groking a ton of logs to try to figure out what happened. Well - it would become easier.
 
-This project went through a couple iterations. At first it was a command line script that we could run inside a container on Heroku. It would get all the failed jobs from BullMQ, and list them in a table. But because we were connecting data from Shopify and our own database all over the place, there was still a lot of manual digging required. It wasn't as convenient as it could be.
+This project went through a couple of iterations. At first, it was a command line script that we could run inside a container on Heroku. It would get all the failed jobs from BullMQ, and list them in a table. But because we were connecting data from Shopify and our own database all over the place, there was still a lot of manual digging required. It wasn't as convenient as it could be.
 
-So I built an internal tool we could use to list failed jobs and link to the relevant DB rows. The tool would also allow our product team to create promo codes or change the product pricing (both features I implemented the front and back ends of).
+So, I built an internal tool we could use to list failed jobs and link to the relevant DB rows. The tool would also allow our product team to create promo codes or change the product pricing (both features I implemented the front and back ends of).
 
 ## August 2nd, 2022
 
@@ -83,12 +83,13 @@ Anyone who had been paying attention to the startup space regarding fundraising 
 
 The morning of August 2nd, after I had just reviewed a PR from our principal engineer, I got a message on Slack asking if I could join a Zoom call. I thought that was weird because we had switched to using Google Meet as a company. I opened the link, and as I saw Rhian, the chief of staff, the chief product officer, and my manager on the call - I knew what was happening.
 
-It honestly came out of nowhere. I had initiated and led so many features. I had grown so much as an engineer during my time at the company. I was excited for the future of the product. But none of that mattered at that point - my time at Govalo was at an end.
+It honestly came out of nowhere. I had initiated and led so many features. I had grown so much as an engineer during my time at the company. I was excited about the future of the product. But none of that mattered at that point - my time at Govalo was at an end.
 
 > _The wheels had fallen off the bus_.
 
 ## Today
 
+``
 Looking back now, I am so thankful for my time at Govalo. I worked on some cool shit, with some awesome people, and gained a lot of perspective and skills that will propel me into further success in the future.
 
 I've redesigned this site, probably my favorite thing (apart from the better font choices and information hierarchy) is the Spotify Now Playing component I built and is in the footer of the site. Apologies if I'm not listening to anything right now, so here's a screenshot in case.
