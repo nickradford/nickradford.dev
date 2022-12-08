@@ -17,6 +17,14 @@ const Components = {
       className={`no-underline text-sky-500 background-transparent border-b-2 border-b-transparent pb-1 hover:border-b-sky-400 hover:text-sky-400 transition-colors ${props.className}`}
     />
   ),
+  img: (props) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      alt="image"
+      className="border-8 rounded border-zinc-300 dark:border-zinc-800"
+      {...props}
+    />
+  ),
 };
 
 type BlogPostProps = {
