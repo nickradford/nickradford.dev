@@ -21,7 +21,10 @@ export function getImage(props: ImageProps) {
     ...coerceBoolToString("showSubtitle", props.showSubtitle),
   } as undefined as Record<string, string>);
 
-  return `//${
+  const protocol =
+    process.env.NEXT_PUBLIC_VERCEL_ENV !== undefined ? "https" : "http";
+
+  return `${protocol}://${
     process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000"
   }/api/og?${qs.toString()}`;
 }
