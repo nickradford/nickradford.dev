@@ -95,7 +95,7 @@ export function NowPlaying({ interval = 5000 }: NowPlayingProps) {
             className="text-emerald-600 "
             size="xl"
           />
-          <p>Not playing</p>
+          <p className="whitespace-nowrap">Not playing</p>
         </>
       )}
     </div>
