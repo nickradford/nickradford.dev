@@ -27,7 +27,6 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <Head>
-        {/* Todo: Replace w/ next-seo */}
         <link rel="icon" href="/favicon.ico" />
 
         <meta
