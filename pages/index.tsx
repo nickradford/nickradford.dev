@@ -93,7 +93,7 @@ export default function Home({
         </section>
         <section className="col-span-2">
           <div className="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-300/75 dark:border-zinc-700/75 top-16">
-            <h3 className="flex items-end gap-4">
+            <h3 className="flex items-end gap-4" id="work">
               <BuildingOffice2Icon className="w-6 h-6" />
               <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-100 font-plex">
                 Work
@@ -104,20 +104,24 @@ export default function Home({
                 <JobItem key={job.company} {...job} />
               ))}
             </ol>
-            <Button onClick={async () => {
-              const blob = await fetch("/nick-radford-resume-2022-12-08.pdf").then(r => r.blob());
-              const anchor = document.createElement("a");
-              anchor.style.display = "none";
-              document.body.appendChild(anchor);
+            <Button
+              onClick={async () => {
+                const blob = await fetch(
+                  "/nick-radford-resume-2022-12-08.pdf"
+                ).then((r) => r.blob());
+                const anchor = document.createElement("a");
+                anchor.style.display = "none";
+                document.body.appendChild(anchor);
 
-              anchor.href = window.URL.createObjectURL(blob);
-              anchor.setAttribute("download", "nick-radford-resume.pdf");
+                anchor.href = window.URL.createObjectURL(blob);
+                anchor.setAttribute("download", "nick-radford-resume.pdf");
 
-              anchor.click();
+                anchor.click();
 
-              window.URL.revokeObjectURL(anchor.href);
-              document.body.removeChild(anchor);              
-            }}>
+                window.URL.revokeObjectURL(anchor.href);
+                document.body.removeChild(anchor);
+              }}
+            >
               Download Resume <ArrowDownTrayIcon className="w-5 h-5" />
             </Button>
           </div>

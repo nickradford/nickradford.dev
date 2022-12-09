@@ -6,7 +6,6 @@ export * from "./ByLine";
 export * from "./ExternalLink";
 export * from "./Footer";
 export * from "./JobItem";
-export * from "./MDXProvider";
 export * from "./Page";
 export * from "./PageHeader";
 export * from "./Typography";
