@@ -1,6 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 
+import slugify from "slugify";
+
 import { bundleMDX } from "mdx-bundler";
 import { remark } from "remark";
 import strip from "strip-markdown";
@@ -29,6 +31,12 @@ export type BlogPost = {
   code: string;
   draft?: boolean;
   tags?: string[];
+};
+
+export type TagEntry = {
+  label: string;
+  slug: string;
+  count: number;
 };
 
 export async function getFiles(filePath: string) {
@@ -93,12 +101,17 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
 export async function getLatestPosts(
   count: number = -1,
   preview: boolean = false
-): Promise<{ posts: BlogPost[]; hasMore: boolean }> {
+): Promise<{
+  posts: BlogPost[];
+  hasMore: boolean;
+  tagMap: Record<string, TagEntry>;
+}> {
   const slugs = (await getFiles("posts")).map((file) =>
     file.replace(".mdx", "")
   );
 
   const contentArr: BlogPost[] = [];
+  const tags: string[][] = [];
 
   for (const slug of slugs) {
     const content = await getFileBySlug(slug);
@@ -106,14 +119,31 @@ export async function getLatestPosts(
     // filter out drafts
     if (preview || !content.draft) {
       contentArr.push(content);
+      tags.push(content.tags);
     }
   }
 
   contentArr.sort(comparator);
 
+  console.log(tags);
+  const tagMap = tags
+    .flatMap((tag) => tag)
+    .reduce(
+      (prev, item) => ({
+        ...prev,
+        [item.toLocaleLowerCase()]: {
+          label: item,
+          slug: slugify(item).toLocaleLowerCase(),
+          count: prev[item.toLocaleLowerCase()]?.count + 1 || 1,
+        },
+      }),
+      {}
+    );
+
   return {
     posts: count > 0 ? contentArr.slice(0, count) : contentArr,
     hasMore: count > 0 && contentArr.length > count,
+    tagMap,
   };
 }
 

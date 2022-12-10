@@ -3,9 +3,11 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
 import { BlogPost } from "@/lib/content";
 import { H3 } from "./Typography";
+import { motion } from "framer-motion";
 
 type BlogPostPreviewProps = {
   post: BlogPost;
+  animate: boolean;
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -13,9 +15,19 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "GMT",
 });
 
-export function BlogPostPreview({ post }: BlogPostPreviewProps) {
+export function BlogPostPreview({
+  post,
+  animate = false,
+}: BlogPostPreviewProps) {
   return (
-    <article key={post.slug} className="relative space-y-4 group isolate">
+    <motion.article
+      key={post.slug}
+      className="relative space-y-4 group isolate"
+      initial={animate && { opacity: 0 }}
+      animate={animate && { opacity: 1 }}
+      exit={animate && { opacity: 0 }}
+      layoutId={animate && post.slug}
+    >
       <>
         <div className="absolute transition-all scale-95 rounded-2xl -z-10 group-hover:bg-zinc-200/75 dark:group-hover:bg-zinc-800/50 -inset-6 group-hover:scale-100"></div>
         <time className="px-4 text-sm border-l-4 dark:border-zinc-500 border-zinc-600 dark:text-zinc-500 text-zinc-600 ">
@@ -36,6 +48,6 @@ export function BlogPostPreview({ post }: BlogPostPreviewProps) {
           <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
         </p>
       </>
-    </article>
+    </motion.article>
   );
 }
