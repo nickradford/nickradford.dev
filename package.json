@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "check-types": "tsc --noemit",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "postbuild": "next-sitemap",
-    "lint": "next lint"
+    "lint": "next lint; npm run check-types",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -49,6 +51,7 @@
     "eslint": "^7.29.0",
     "eslint-config-next": "^13.0.1",
     "postcss": "^8.4.19",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "husky": "^8.0.0"
   }
 }

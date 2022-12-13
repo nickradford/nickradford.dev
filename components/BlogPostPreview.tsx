@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 type BlogPostPreviewProps = {
   post: BlogPost;
-  animate: boolean;
+  animate?: boolean;
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
