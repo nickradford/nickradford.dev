@@ -1,12 +1,15 @@
+import { GetServerSideProps } from "next";
+
 import { BlogPostPreview, H1, Page, Text } from "@/components";
 import { BlogPost, getLatestPosts, TagEntry } from "@/lib/content";
 import { getImage } from "@/lib/og";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { NextSeo } from "next-seo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 function sortByCount(a: TagEntry, b: TagEntry) {
   return a.count > b.count ? -1 : a.count < b.count ? 1 : 0;
@@ -29,11 +32,32 @@ function filterByTag(tag: string) {
 function Index({
   posts,
   tagMap,
+  tag,
+  postsByTag,
 }: {
   posts: BlogPost[];
   tagMap: Record<string, TagEntry>;
+  postsByTag: Record<string, BlogPost[]>;
+  tag?: string;
 }) {
-  const [selectedTag, setSelectedTag] = useState<string>(null);
+  const [selectedTag, setSelectedTag] = useState<string>(tag);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (tag !== selectedTag) {
+      // router.push(new URL({ ...router.querysearch: `tag=${selectedTag}` }));
+      router.push({
+        pathname: "/blog",
+        query: selectedTag ? { tag: selectedTag } : null,
+      });
+    }
+  }, [router, selectedTag, tag]);
+
+  let filteredPosts = posts;
+
+  if (selectedTag) {
+    filteredPosts = postsByTag[selectedTag];
+  }
 
   return (
     <Page>
@@ -60,7 +84,7 @@ function Index({
       <div className="flex flex-col grid-cols-5 md:grid">
         <motion.section className="col-span-3 space-y-12" layout>
           <AnimatePresence>
-            {posts.filter(filterByTag(selectedTag)).map((post) => (
+            {filteredPosts.map((post) => (
               <BlogPostPreview key={post.slug} post={post} animate />
             ))}
           </AnimatePresence>
@@ -78,12 +102,12 @@ function Index({
                 <li
                   key={tag.slug}
                   className={`flex justify-between px-3 py-2 transition-colors rounded cursor-pointer dark:hover:bg-zinc-800 dark:hover:text-zinc-300 group hover:bg-zinc-200 ${
-                    selectedTag === tag.label &&
+                    selectedTag === tag.slug &&
                     "dark:bg-zinc-800 dark:text-zinc-300 bg-zinc-200"
                   }`}
                   onClick={() =>
-                    setSelectedTag((label) =>
-                      tag.label === label ? null : tag.label
+                    setSelectedTag((slug) =>
+                      tag.slug === slug ? null : tag.slug
                     )
                   }
                 >
@@ -91,14 +115,14 @@ function Index({
                   <div className="relative">
                     <span
                       className={`absolute right-0 transition-opacity ${
-                        selectedTag == tag.label && "group-hover:opacity-0"
+                        selectedTag == tag.slug && "group-hover:opacity-0"
                       }`}
                     >
                       {tag.count}
                     </span>
                     <span
                       className={`absolute right-0 transition-opacity opacity-0 ${
-                        selectedTag == tag.label && "group-hover:opacity-100"
+                        selectedTag == tag.slug && "group-hover:opacity-100"
                       }`}
                     >
                       <XMarkIcon className="relative w-5 left-1.5" />
@@ -115,9 +139,9 @@ function Index({
 
 export default Index;
 
-export async function getStaticProps() {
-  const { posts, tagMap } = await getLatestPosts();
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { posts, tagMap, postsByTag } = await getLatestPosts();
   return {
-    props: { posts, tagMap },
+    props: { posts, tagMap, postsByTag, tag: query?.tag ?? null },
   };
-}
+};

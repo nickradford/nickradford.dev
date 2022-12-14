@@ -98,55 +98,68 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
   };
 }
 
-export async function getLatestPosts(
-  count: number = -1,
-  preview: boolean = false
-): Promise<{
+export async function getLatestPosts(count: number = -1): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
+  postsByTag: Record<string, BlogPost[]>;
 }> {
   const slugs = (await getFiles("posts")).map((file) =>
     file.replace(".mdx", "")
   );
 
   const contentArr: BlogPost[] = [];
-  const tags: string[][] = [];
+  const tags: Set<string> = new Set();
+  const postsByTag: Record<string, BlogPost[]> = {};
 
   for (const slug of slugs) {
     const content = await getFileBySlug(slug);
 
-    // filter out drafts
-    if (preview || !content.draft) {
-      contentArr.push(content);
-      tags.push(content.tags);
+    if (content.draft) {
+      // Return early if the article isn't ready to be posted
+      return;
     }
+
+    contentArr.push(content);
+
+    content.tags.forEach((tag) => {
+      tags.add(tag);
+      const tagSlug = slugify(tag).toLocaleLowerCase();
+
+      if (!Array.isArray(postsByTag[tagSlug])) {
+        postsByTag[tagSlug] = [];
+      }
+      postsByTag[tagSlug].push(content);
+    });
   }
 
-  contentArr.sort(comparator);
+  contentArr.sort(sortByPublishDate);
 
-  const tagMap = tags
-    .flatMap((tag) => tag)
-    .reduce(
-      (prev, item) => ({
-        ...prev,
-        [item.toLocaleLowerCase()]: {
-          label: item,
-          slug: slugify(item).toLocaleLowerCase(),
-          count: prev[item.toLocaleLowerCase()]?.count + 1 || 1,
-        },
-      }),
-      {}
-    );
+  Object.keys(postsByTag).forEach((tag) =>
+    postsByTag[tag].sort(sortByPublishDate)
+  );
+
+  const tagMap = Array.from(tags).reduce((prev, item) => {
+    const slug = slugify(item).toLocaleLowerCase();
+    return {
+      ...prev,
+      [slug]: {
+        label: item,
+        slug: slug,
+        count: prev[slug]?.count + 1 || 1,
+      },
+    };
+  }, {});
 
   return {
     posts: count > 0 ? contentArr.slice(0, count) : contentArr,
     hasMore: count > 0 && contentArr.length > count,
+    postsByTag,
     tagMap,
   };
 }
 
-function comparator(a: BlogPost, b: BlogPost) {
+function sortByPublishDate(a: BlogPost, b: BlogPost) {
   if (a.date < b.date) {
     return 1;
   } else if (a.date > b.date) {
