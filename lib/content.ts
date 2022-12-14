@@ -125,7 +125,6 @@ export async function getLatestPosts(
 
   contentArr.sort(comparator);
 
-  console.log(tags);
   const tagMap = tags
     .flatMap((tag) => tag)
     .reduce(
