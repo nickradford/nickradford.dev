@@ -138,8 +138,18 @@ function Index({
 }
 
 export default Index;
+const ONE_DAY_IN_SECONDS = 24 * 60 * 60;
+const THIRTY_DAYS_IN_SECONDS = 30 * ONE_DAY_IN_SECONDS;
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  res,
+}) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${THIRTY_DAYS_IN_SECONDS}, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`
+  );
+
   const { posts, tagMap, postsByTag } = await getLatestPosts();
   return {
     props: { posts, tagMap, postsByTag, tag: query?.tag ?? null },
