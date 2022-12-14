@@ -22,7 +22,7 @@ specifiers:
   mdx-bundler: ^9.0.1
   next: ^13.0.1
   next-seo: ^5.15.0
-  next-sitemap: ^1.6.124
+  next-sitemap: ^1.9.12
   postcss: ^8.4.19
   prism-themes: ^1.9.0
   react: ^18.2.0
