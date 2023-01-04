@@ -1,3 +1,5 @@
+import { BASE_URL } from "./url";
+
 type ImageProps = {
   title?: string;
   subtitle?: string;
@@ -21,10 +23,5 @@ export function getImage(props: ImageProps) {
     ...coerceBoolToString("showSubtitle", props.showSubtitle),
   } as undefined as Record<string, string>);
 
-  const protocol =
-    process.env.NEXT_PUBLIC_VERCEL_ENV !== undefined ? "https" : "http";
-
-  return `${protocol}://${
-    process.env.NEXT_PUBLIC_VERCEL_URL || "localhost:3000"
-  }/api/og?${qs.toString()}`;
+  return `${BASE_URL}/api/og?${qs.toString()}`;
 }
