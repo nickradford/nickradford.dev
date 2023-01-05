@@ -7,10 +7,14 @@ export const config = {
 };
 
 export default function handler(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { search } = req.nextUrl;
+
+  // Weirdness with parsing the encoded URI adding an extra `=` to the end.
+  const query = decodeURIComponent(search.replace("?", "")).replace(/=$/, "");
+  const qs = new URLSearchParams(query);
 
   function get<T>(key: string, defaultValue: T) {
-    const value = searchParams.get(key) ?? defaultValue;
+    const value = qs.get(key) ?? defaultValue;
 
     if (typeof defaultValue === "boolean" && typeof value === "string") {
       return (value === "1" ? true : false) as unknown as T;

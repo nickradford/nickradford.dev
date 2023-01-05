@@ -8,8 +8,9 @@ import { TagIcon } from "@heroicons/react/24/outline";
 import { NextSeo } from "next-seo";
 import { useEffect, useState } from "react";
 
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { AtomLink } from "@/components/AtomLink";
 
 function sortByCount(a: TagEntry, b: TagEntry) {
   return a.count > b.count ? -1 : a.count < b.count ? 1 : 0;
@@ -79,7 +80,10 @@ function Index({
       />
       <header className="mb-16 space-y-6">
         <H1>All posts</H1>
-        <Text>{description}</Text>
+        <div>
+          <Text>{description}</Text>
+          <AtomLink />
+        </div>
       </header>
       <div className="flex flex-col grid-cols-5 md:grid">
         <motion.section className="col-span-3 space-y-12" layout>

@@ -6,6 +6,7 @@ import { Page } from "./Page";
 
 import { BlogPost } from "@/lib/content";
 import { H2 } from "./Typography";
+import { AtomLink } from "./AtomLink";
 
 type BlogPageProps = {
   children: React.ReactNode;
@@ -23,7 +24,11 @@ export function BlogPage({ children, meta }: BlogPageProps) {
       <article className={articleClasses}>
         <BackButton />
         <H2>{meta.title}</H2>
-        <ByLine meta={meta} />
+        <div className="my-10 space-y-2">
+          <ByLine meta={meta} />
+          <AtomLink />
+        </div>
+
         {children}
       </article>
     </Page>
