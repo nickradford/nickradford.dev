@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import { BASE_URL } from "@/lib/url";
 import { ExternalLink } from "./ExternalLink";
 

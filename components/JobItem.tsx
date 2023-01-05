@@ -11,8 +11,8 @@ export type JobItemProps = {
 
 export function JobItem(props: JobItemProps) {
   return (
-    <li className="flex items-center gap-4">
-      <div className="relative flex items-center justify-center flex-none w-10 h-10 mt-1 rounded-full shadow-md dark:shadow-zinc-800/5 ring-1 ring-zinc-300/75 bg-zinc-200/75 dark:ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+    <li className="flex items-start gap-4">
+      <div className="relative flex items-center justify-center flex-none w-10 h-10 rounded-full shadow-md dark:shadow-zinc-800/5 ring-1 ring-zinc-300/75 bg-zinc-200/75 dark:ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
         <Image
           src={props.img}
           className="rounded-full w-7 h-7"

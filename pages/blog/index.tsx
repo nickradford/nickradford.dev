@@ -13,7 +13,13 @@ import { useRouter } from "next/router";
 import { AtomLink } from "@/components/AtomLink";
 
 function sortByCount(a: TagEntry, b: TagEntry) {
-  return a.count > b.count ? -1 : a.count < b.count ? 1 : 0;
+  return a.count > b.count
+    ? -1
+    : a.count < b.count
+    ? 1
+    : a.label < b.label
+    ? -1
+    : 1;
 }
 
 const description = `A collection of my random musings; usually centered around frontend

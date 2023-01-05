@@ -1,0 +1,64 @@
+---
+title: New Job, Atom Feeds, 2023 Goals
+date: "2023-01-05"
+tags:
+  - Work
+  - Blogging
+---
+
+The new year has come; a time for new beginnings.
+
+Kevin McCarthy (at time of writing) has failed 6 votes to become speaker of the house, which would be funny if it didn't illustrate how bad the GOP is at actually governing&mldr;
+
+In GoodNews&copy; – I am excited to announce my next role!
+
+{/* excerpt */}
+
+![A hero image for Heyday, showing a bunch of colored hand emoji in different positions with the text "Heyday, your research helping hand"](/heyday-lg.avif)
+
+As of this Monday, I will be a Senior Software Engineer at [Heyday](https://heyday.xyz).
+
+Technically, I started yesterday (Jan 3rd), but because of vacation schedules
+and the like we decided to push the start date.
+
+## Heyday
+
+Heyday is an AI powered memory and learning assistant tailored towards knowledge workers. You can learn more about the company at [Heyday.xyz](https://heyday.xyz)
+
+### Inevitability?
+
+You can see that the branding for Heyday includes these glyphs of hands in various positions; waving, pointing, giving a thumbs up. Coincidentally, I've been using the <span role="image" aria-label="waving hand">👋</span> emoji as my favicon on my website for a couple years, so... I think it was meant to be.
+
+## Atom Feed and Bring Back Blogging
+
+Inspired by [Bring Back Blogging](https://bringback.blog/), I've opted to implement an atom feed here for my blog.
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
+
+[Here is the link to my feed <FontAwesomeIcon
+  icon={faSquareRss}
+  className="transition-colors text-zinc-500 dark:text-zinc-300 group-hover:text-sky-600 "
+  size="lg"
+/>.](https://nickradford.dev/api/feeds/atom.xml)
+
+I built this using [jpmonette/feed](https://www.npmjs.com/package/feed) and referencing this [great blog post by Daan Debie](https://www.daan.fyi/writings/rss).
+
+To power this, I have an API route at `api/feeds/atom.xml` which will
+
+1. Create a feed using the `feed` library
+2. Iterate through my posts using `feed.addItem` to add the relevant content (including the static markup for the post)
+3. Set a `Cache-Control` header to 1 day
+4. Return the xml
+
+![A screenshot of the NetNewsWire RSS Client showing my content](/rss-reader.png)
+
+## New Year, New Goals
+
+A rough list of things I would like to happen in the next 365(ish) days
+
+- Drink less alcohol
+- Play and finish more games (I'm looking at you, Steam Library)
+- Walk to places more than Uber
+- Read more than I did last year (this is a very low bar, unfortunately)
+- Finally, write more here on my blog

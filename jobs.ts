@@ -1,5 +1,6 @@
 import { JobItemProps } from "./components/JobItem";
 
+import heyday from "./public/heyday.png";
 import govalo from "./public/govalo.png";
 import cruise from "./public/cruise.png";
 import unity from "./public/unity.png";
@@ -9,6 +10,13 @@ import walmart from "./public/walmart.png";
 import dell from "./public/dell.png";
 
 const jobs: JobItemProps[] = [
+  {
+    company: "Heyday",
+    role: "Senior Software Engineer",
+    startDate: "Jan 2023",
+    endDate: "now",
+    img: heyday,
+  },
   {
     company: "Govalo",
     role: "Senior Fullstack Engineer",
