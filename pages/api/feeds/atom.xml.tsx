@@ -5,13 +5,9 @@ import { getLatestPosts } from "@/lib/content";
 import { BASE_URL } from "@/lib/url";
 
 import { getMDXComponent } from "mdx-bundler/client";
+import { getImage } from "@/lib/og";
 
-type Type = "rss" | "atom" | "json";
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(_: never, res: NextApiResponse) {
   const feed = new Feed({
     title: "Nick Radford (dot) Dev",
     description:
@@ -19,41 +15,44 @@ export default async function handler(
     copyright: `© ${new Date().getFullYear()} Nick Radford • All rights reserved`,
     id: "https://nickradford.dev",
     link: "https://nickradford.dev",
+    generator: "Next.js + jpmonette/feed",
+    image: `${BASE_URL}/favicon.ico`,
+    author: {
+      name: "Nick Radford",
+      link: "https://nickradford.dev",
+    },
+    language: "en",
   });
 
   const { posts } = await getLatestPosts();
 
-  for (let post of posts) {
+  for (const post of posts) {
     const url = `${BASE_URL}/blog/${post.slug}`;
     const date = new Date(`${post.date}T12:00-0800`);
     const Component = getMDXComponent(post.code);
     const htmlContent = ReactDOMServer.renderToStaticMarkup(<Component />);
+    const [root, query] = getImage({
+      title: post.title,
+      date: post.date,
+      readTime: post.readingTime.text,
+    }).split("?");
+
+    const image = `${root}?${encodeURIComponent(query)}`;
+
     feed.addItem({
       title: post.title,
       description: post.excerpt,
+      image: image,
       content: htmlContent,
       link: url,
       id: url,
       date: date,
       published: date,
+      author: [{ name: "Nick Radford", link: "https://nickradford.dev" }],
     } as Item);
   }
 
-  const type = req.query.type as Type;
-
-  let retValue: string;
-
-  switch (type) {
-    case "atom":
-      retValue = feed.atom1();
-      break;
-    case "json":
-      retValue = feed.json1();
-      break;
-    case "rss":
-    default:
-      retValue = feed.rss2();
-  }
-
-  res.send(retValue);
+  res.setHeader("Content-Type", "text/xml");
+  res.setHeader("Cache-Control", "s-maxage=86400");
+  res.send(feed.atom1());
 }
