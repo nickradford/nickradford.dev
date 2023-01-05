@@ -5,6 +5,7 @@ import {
   IconDefinition,
 } from "@fortawesome/free-brands-svg-icons";
 import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "./lib/url";
 
 import { BASE_URL } from "./lib/url";
 
