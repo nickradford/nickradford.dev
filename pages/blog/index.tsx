@@ -26,15 +26,6 @@ const description = `A collection of my random musings; usually centered around 
 topics. Join me as I explore new technologies, share my experiences,
 and learn from others.`;
 
-function filterByTag(tag: string) {
-  return (post: BlogPost) => {
-    if (!tag) {
-      return true;
-    } else {
-      return post.tags.includes(tag);
-    }
-  };
-}
 
 function Index({
   posts,
@@ -49,6 +40,7 @@ function Index({
 }) {
   const [selectedTag, setSelectedTag] = useState<string>(tag);
   const router = useRouter();
+  console.log(tagMap)
 
   useEffect(() => {
     if (tag !== selectedTag) {

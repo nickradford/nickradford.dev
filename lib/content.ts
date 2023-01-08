@@ -146,7 +146,7 @@ export async function getLatestPosts(count: number = -1): Promise<{
       [slug]: {
         label: item,
         slug: slug,
-        count: prev[slug]?.count + 1 || 1,
+        count: postsByTag[slug].length
       },
     };
   }, {});
