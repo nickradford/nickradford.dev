@@ -40,7 +40,6 @@ function Index({
 }) {
   const [selectedTag, setSelectedTag] = useState<string>(tag);
   const router = useRouter();
-  console.log(tagMap)
 
   useEffect(() => {
     if (tag !== selectedTag) {
