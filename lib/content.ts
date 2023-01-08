@@ -117,7 +117,7 @@ export async function getLatestPosts(count: number = -1): Promise<{
 
     if (content.draft) {
       // Return early if the article isn't ready to be posted
-      return;
+      continue;
     }
 
     contentArr.push(content);
@@ -146,7 +146,7 @@ export async function getLatestPosts(count: number = -1): Promise<{
       [slug]: {
         label: item,
         slug: slug,
-        count: postsByTag[slug].length
+        count: postsByTag[slug].length,
       },
     };
   }, {});
