@@ -85,7 +85,7 @@ export default function Home({
           {hasMore && (
             <Link
               href="/blog"
-              className="flex items-center gap-2 text-sm font-semibold text-zinc-300 font-plex"
+              className="flex items-center gap-2 text-sm font-semibold dark:text-zinc-300 font-plex"
             >
               More posts <ChevronRightIcon className="w-5 h-5" />
             </Link>
