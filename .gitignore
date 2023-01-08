@@ -41,3 +41,7 @@ tsconfig.tsbuildinfo
 
 ./public/robots.txt
 ./public/sitemap.xml
+
+#intellij stuff
+
+.idea
