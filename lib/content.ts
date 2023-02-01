@@ -28,7 +28,7 @@ export type BlogPost = {
     time: number;
     words: number;
   };
-  code: string;
+  code?: string;
   draft?: boolean;
   tags?: string[];
 };
@@ -113,7 +113,8 @@ export async function getLatestPosts(count: number = -1): Promise<{
   const postsByTag: Record<string, BlogPost[]> = {};
 
   for (const slug of slugs) {
-    const content = await getFileBySlug(slug);
+    // the code is all the code needed to render the mdx file, which we don't need here.
+    const { code, ...content } = await getFileBySlug(slug);
 
     if (content.draft) {
       // Return early if the article isn't ready to be posted

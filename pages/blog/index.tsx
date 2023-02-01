@@ -26,7 +26,6 @@ const description = `A collection of my random musings; usually centered around 
 topics. Join me as I explore new technologies, share my experiences,
 and learn from others.`;
 
-
 function Index({
   posts,
   tagMap,
@@ -152,7 +151,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   );
 
   const { posts, tagMap, postsByTag } = await getLatestPosts();
+
   return {
-    props: { posts, tagMap, postsByTag, tag: query?.tag ?? null },
+    props: {
+      posts,
+      tagMap,
+      postsByTag,
+      tag: query?.tag ?? null,
+    },
   };
 };
