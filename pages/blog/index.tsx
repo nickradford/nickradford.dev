@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 
 import { BlogPostPreview, H1, Page, Text } from "@/components";
 import { BlogPost, getLatestPosts, TagEntry } from "@/lib/content";
@@ -138,18 +138,8 @@ function Index({
 }
 
 export default Index;
-const ONE_DAY_IN_SECONDS = 24 * 60 * 60;
-const THIRTY_DAYS_IN_SECONDS = 30 * ONE_DAY_IN_SECONDS;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  res,
-}) => {
-  res.setHeader(
-    "Cache-Control",
-    `public, s-maxage=${THIRTY_DAYS_IN_SECONDS}, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`
-  );
-
+export const getStaticProps: GetStaticProps = async () => {
   const { posts, tagMap, postsByTag } = await getLatestPosts();
 
   return {
@@ -157,7 +147,6 @@ export const getServerSideProps: GetServerSideProps = async ({
       posts,
       tagMap,
       postsByTag,
-      tag: query?.tag ?? null,
     },
   };
 };
