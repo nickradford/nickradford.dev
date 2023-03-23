@@ -46,10 +46,7 @@ function BlogPost({ post }: BlogPostProps) {
           type: "article",
           article: {
             publishedTime: post.date,
-            authors: [
-              "https://nickradford.dev",
-              "https://twitter.com/nick_radford",
-            ],
+            authors: ["Nick Radford", "https://nickradford.dev"],
           },
           images: [
             {
