@@ -6,3 +6,5 @@ export const BASE_URL = Base
   : Vercel
   ? `https://${Vercel}`
   : `http://localhost:3000`;
+
+console.info("BASE_URL", BASE_URL);
