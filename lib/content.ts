@@ -51,9 +51,11 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
     "utf8"
   );
 
+  const cwd = path.join(process.cwd(), "posts");
+
   const { code, frontmatter, matter } = await bundleMDX({
-    source,
-    cwd: process.cwd(),
+    file: `${cwd}/${slug}.mdx`,
+    cwd,
     grayMatterOptions(options) {
       options.excerpt = true;
       options.excerpt_separator = "{/* excerpt */}";
@@ -80,6 +82,7 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
       return options;
     },
   });
+
   const excerpt = (await removeMarkdown(matter.excerpt)).toString();
 
   const meta = {
@@ -98,7 +101,10 @@ export async function getFileBySlug(slug: string): Promise<BlogPost> {
   };
 }
 
-export async function getLatestPosts(count: number = -1): Promise<{
+export async function getLatestPosts(
+  count: number = -1,
+  includeCode: boolean = true
+): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
@@ -121,7 +127,7 @@ export async function getLatestPosts(count: number = -1): Promise<{
       continue;
     }
 
-    contentArr.push(content);
+    contentArr.push({ ...content, code: includeCode ? code : undefined });
 
     content.tags.forEach((tag) => {
       tags.add(tag);

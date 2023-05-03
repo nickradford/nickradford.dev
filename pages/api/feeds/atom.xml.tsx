@@ -24,7 +24,7 @@ export default async function handler(_: never, res: NextApiResponse) {
     language: "en",
   });
 
-  const { posts } = await getLatestPosts();
+  const { posts } = await getLatestPosts(-1, true);
 
   for (const post of posts) {
     const url = `${BASE_URL}/blog/${post.slug}`;
