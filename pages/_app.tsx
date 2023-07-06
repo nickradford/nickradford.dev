@@ -1,4 +1,4 @@
-import { IBM_Plex_Sans as Plex } from "@next/font/google";
+import { IBM_Plex_Sans as Plex } from "next/font/google";
 import "../styles/tailwind.css";
 
 import Head from "next/head";
