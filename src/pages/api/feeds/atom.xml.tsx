@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import ReactDOMServer from "react-dom/server";
 import { Feed, Item } from "feed";
-import { getLatestPosts } from "@/lib/content";
-import { BASE_URL } from "@/lib/url";
+import { getLatestPosts } from "@/src/lib/content";
+import { BASE_URL } from "@/src/lib/url";
 
 import { getMDXComponent } from "mdx-bundler/client";
-import { getImage } from "@/lib/og";
+import { getImage } from "@/src/lib/og";
 
 export default async function handler(_: never, res: NextApiResponse) {
   const feed = new Feed({

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import headshot from "public/headshot.jpg";
-import { BlogPost } from "lib/content";
+import { BlogPost } from "@/src/lib/content";
 
 type ByLineProps = {
   meta: BlogPost;

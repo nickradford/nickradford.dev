@@ -9,7 +9,7 @@ import defaulSeoConfig from "next-seo.config";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { config } from "@fortawesome/fontawesome-svg-core";
 
-import { PageHeader } from "@/components";
+import { PageHeader } from "@/src/components";
 
 const plex = Plex({
   variable: "--font-plex",

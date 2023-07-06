@@ -1,4 +1,4 @@
-import { useThemeToggle, THEME } from "@/hooks/useThemeToggle";
+import { useThemeToggle, THEME } from "@/src/hooks/useThemeToggle";
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 

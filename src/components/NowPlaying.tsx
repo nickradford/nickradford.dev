@@ -8,8 +8,8 @@ import classnames from "classnames";
 import { ExternalLink } from "./ExternalLink";
 import { Progress } from "./Progress";
 
-import { useNowPlaying } from "@/hooks/useNowPlaying";
-import { useOnScreen } from "@/hooks/useOnScreen";
+import { useNowPlaying } from "@/src/hooks/useNowPlaying";
+import { useOnScreen } from "@/src/hooks/useOnScreen";
 
 type NowPlayingProps = {
   interval?: number;

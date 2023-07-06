@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { NextSeo } from "next-seo";
 
-import { BlogPage, H1, H2 } from "@/components";
-import { BlogPost, getFileBySlug, getFiles } from "@/lib/content";
+import { BlogPage, H1, H2 } from "@/src/components";
+import { BlogPost, getFileBySlug, getFiles } from "@/src/lib/content";
 
 import "prism-themes/themes/prism-vsc-dark-plus.css";
-import { getImage } from "@/lib/og";
+import { getImage } from "@/src/lib/og";
 
 const Components = {
   h1: (props) => <H1 {...props} />,

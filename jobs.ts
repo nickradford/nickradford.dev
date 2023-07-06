@@ -1,4 +1,4 @@
-import { JobItemProps } from "./components/JobItem";
+import { JobItemProps } from "./src/components/JobItem";
 
 import heyday from "./public/heyday.png";
 import govalo from "./public/govalo.png";

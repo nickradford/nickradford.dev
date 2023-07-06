@@ -1,8 +1,8 @@
 import { GetServerSideProps, GetStaticProps } from "next";
 
-import { BlogPostPreview, H1, Page, Text } from "@/components";
-import { BlogPost, getLatestPosts, TagEntry } from "@/lib/content";
-import { getImage } from "@/lib/og";
+import { BlogPostPreview, H1, Page, Text } from "@/src/components";
+import { BlogPost, getLatestPosts, TagEntry } from "@/src/lib/content";
+import { getImage } from "@/src/lib/og";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { NextSeo } from "next-seo";
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { AtomLink } from "@/components/AtomLink";
+import { AtomLink } from "@/src/components/AtomLink";
 
 function sortByCount(a: TagEntry, b: TagEntry) {
   return a.count > b.count

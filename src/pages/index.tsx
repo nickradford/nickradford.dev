@@ -16,16 +16,16 @@ import {
   JobItem,
   Page,
   Text,
-} from "@/components";
+} from "@/src/components";
 
-import { getLatestPosts, BlogPost } from "lib/content";
+import { getLatestPosts, BlogPost } from "@/src/lib/content";
 
 import jobs from "jobs";
 import { links } from "links";
 
 import headshot from "public/headshot.jpg";
 import { NextSeo } from "next-seo";
-import { getImage } from "@/lib/og";
+import { getImage } from "@/src/lib/og";
 
 export default function Home({
   posts = [],
