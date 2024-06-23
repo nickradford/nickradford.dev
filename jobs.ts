@@ -14,7 +14,7 @@ const jobs: JobItemProps[] = [
     company: "Heyday",
     role: "Senior Software Engineer",
     startDate: "Jan 2023",
-    endDate: "now",
+    endDate: "Jun 2024",
     img: heyday,
   },
   {
