@@ -107,7 +107,7 @@ export default function Home({
             <Button
               onClick={async () => {
                 const blob = await fetch(
-                  "/nick-radford-resume-2022-12-08.pdf"
+                  "/nick-radford-resume-2025-04-21.pdf"
                 ).then((r) => r.blob());
                 const anchor = document.createElement("a");
                 anchor.style.display = "none";
