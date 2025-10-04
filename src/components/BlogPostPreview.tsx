@@ -1,4 +1,4 @@
-import Link from "next/link";
+import React from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
 import { BlogPost } from "@/src/lib/content";
@@ -33,12 +33,12 @@ export function BlogPostPreview({
         <time className="px-4 text-sm border-l-4 dark:border-zinc-500 border-zinc-600 dark:text-zinc-500 text-zinc-600 ">
           {dateFormatter.format(new Date(post.date))}
         </time>
-        <Link href={`/blog/${post.slug}`} className="block">
+        <a href={`/blog/${post.slug}`} className="block">
           <span className="absolute -inset-5" />
           <H3 className="text-base font-semibold tracking-tight">
             {post.title}
           </H3>
-        </Link>
+        </a>
         <p className="text-sm whitespace-pre-line text-zinc-600 dark:text-zinc-400">
           {post.excerpt}
         </p>

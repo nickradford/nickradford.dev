@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
-import { NextSeo } from "next-seo";
 
 import { BlogPage, H1, H2 } from "@/src/components";
 import { BlogPost, getFileBySlug, getFiles } from "@/src/lib/content";
@@ -36,29 +35,7 @@ function BlogPost({ post }: BlogPostProps) {
 
   return (
     <BlogPage meta={post}>
-      <NextSeo
-        title={post.title}
-        description={post.excerpt}
-        openGraph={{
-          title: post.title,
-          description: post.excerpt,
-          url: `https://nickradford.dev/blog/${post.slug}`,
-          type: "article",
-          article: {
-            publishedTime: post.date,
-            authors: ["Nick Radford", "https://nickradford.dev"],
-          },
-          images: [
-            {
-              url: getImage({
-                title: post.title,
-                date: post.date,
-                readTime: post.readingTime.text,
-              }),
-            },
-          ],
-        }}
-      />
+      {/* SEO handled in Astro layout */}
       <Component components={Components} />
     </BlogPage>
   );

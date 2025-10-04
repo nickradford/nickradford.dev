@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 
 import {
   ArrowDownTrayIcon,
@@ -24,7 +23,6 @@ import jobs from "jobs";
 import { links } from "links";
 
 import headshot from "public/headshot.jpg";
-import { NextSeo } from "next-seo";
 import { getImage } from "@/src/lib/og";
 
 export default function Home({
@@ -36,24 +34,18 @@ export default function Home({
 }) {
   return (
     <Page>
-      <NextSeo
-        description="Nick Radford is a software engineer with over 10 years experience building applications people love to use."
-        openGraph={{
-          images: [
-            {
-              url: getImage({ showName: false, showSubtitle: true }),
-            },
-          ],
-        }}
-      />
+      {/* SEO handled in Astro layout */}
       {/* Hero section */}
       <header className="mb-16 space-y-6">
-        <Image
-          src={headshot}
-          placeholder="blur"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={
+            typeof headshot === "string"
+              ? headshot
+              : (headshot as any).src || "/headshot.jpg"
+          }
           alt="me"
           className="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500"
-          priority
         />
         <H1 className="max-w-[28ch]">
           Software engineer, pool shark, and amateur improviser.
@@ -83,12 +75,12 @@ export default function Home({
             <BlogPostPreview key={post.slug} post={post} />
           ))}
           {hasMore && (
-            <Link
+            <a
               href="/blog"
               className="flex items-center gap-2 text-sm font-semibold dark:text-zinc-300 font-plex"
             >
               More posts <ChevronRightIcon className="w-5 h-5" />
-            </Link>
+            </a>
           )}
         </section>
         <section className="col-span-2">

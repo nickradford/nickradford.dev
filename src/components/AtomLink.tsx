@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
-import { BASE_URL } from "@/src/lib/url";
+import { SITE } from "@/src/lib/site";
 import { ExternalLink } from "./ExternalLink";
 
 export function AtomLink() {
   return (
     <ExternalLink
-      href={`${BASE_URL}/api/feeds/atom.xml`}
+      href={`${SITE}/feeds/atom.xml`}
       className="inline-block p-2 -ml-2 group"
       title="Add to your feed reader"
     >

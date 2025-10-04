@@ -1,10 +1,8 @@
-import { useRouter } from "next/router";
+import React from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import classnames from "classnames";
 
 export function BackButton() {
-  const router = useRouter();
-
   const containerClasses = classnames("sticky top-[22px] z-50");
 
   const backBtnClasses = classnames(
@@ -17,7 +15,12 @@ export function BackButton() {
   );
   return (
     <div className={containerClasses}>
-      <a className={backBtnClasses} onClick={() => router.back()}>
+      <a
+        className={backBtnClasses}
+        onClick={() =>
+          typeof window !== "undefined" ? window.history.back() : null
+        }
+      >
         <ArrowLeftIcon className="w-6 h-6" />
       </a>
     </div>

@@ -1,30 +1,74 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import Headroom from "react-headroom";
+// Removed react-headroom; using CSS sticky header instead
 import { ThemeToggle } from "./ThemeToggle";
 
 export const PageHeader = () => {
+  const [isHidden, setIsHidden] = useState(false);
+  const lastYRef = useRef(0);
+  const downThreshold = 2; // small nudge hides when scrolling down past header
+  const upThreshold = 2; // small nudge shows when scrolling up
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY || 0;
+        const delta = y - lastYRef.current;
+
+        // show when near top
+        if (y < 16) {
+          setIsHidden(false);
+          lastYRef.current = y;
+          ticking = false;
+          return;
+        }
+
+        if (delta > downThreshold && y > 48) {
+          // scrolling down
+          setIsHidden(true);
+        } else if (delta < -upThreshold) {
+          // scrolling up
+          setIsHidden(false);
+        }
+
+        lastYRef.current = y;
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const navClasses = classNames(
-    "relative flex items-center justify-center w-full mt-6 transition-transform ease-in-out"
+    "relative flex items-center justify-center w-full transition-transform ease-in-out"
   );
   const ulClasses = classNames(
     "flex px-2 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
     "dark:bg-zinc-800/70 dark:border-zinc-700/75"
   );
   return (
-    <div className="fixed top-0 z-20">
-      <Headroom downTolerance={200} upTolerance={25} disableInlineStyles>
-        <nav className={navClasses}>
-          <ul className={ulClasses}>
-            <NavItem label="Home" href="/" />
-            <NavItem label="Blog" href="/blog" />
-            {/* <NavItem label="Projects" href="/projects" /> */}
-            {/* <NavItem label="Contact" href="/contact" /> */}
-          </ul>
-          <ThemeToggle />
-        </nav>
-      </Headroom>
+    <div className="fixed top-0 z-20 w-full">
+      <nav
+        className={classNames(
+          navClasses,
+          "transform transition-transform duration-300 will-change-transform",
+          isHidden ? "-translate-y-full" : "translate-y-0"
+        )}
+      >
+        <ul className={ulClasses}>
+          <NavItem label="Home" href="/" />
+          <NavItem label="Blog" href="/blog" />
+          {/* <NavItem label="Projects" href="/projects" /> */}
+          {/* <NavItem label="Contact" href="/contact" /> */}
+        </ul>
+        <ThemeToggle />
+      </nav>
     </div>
   );
 };
@@ -34,11 +78,11 @@ type NavItemProps = {
   href: string;
 };
 function NavItem({ label, href }: NavItemProps) {
-  const router = useRouter();
-  const isRoot = router.pathname === "/" && href === "/";
-  const startsWith = router.pathname.startsWith(href) && href !== "/";
-
-  const isActive = isRoot || startsWith;
+  const isActive =
+    typeof window !== "undefined"
+      ? (window.location.pathname === "/" && href === "/") ||
+        (window.location.pathname.startsWith(href) && href !== "/")
+      : false;
 
   const classes = classNames(
     `relative inline-block h-full px-2 py-2 transition-colors `,
@@ -52,12 +96,12 @@ function NavItem({ label, href }: NavItemProps) {
 
   return (
     <li>
-      <Link className={classes} href={href}>
+      <a className={classes} href={href}>
         {label}
         {isActive && (
           <span className="absolute inset-x-0  h-[2px] -bottom-[1px]  bg-gradient-to-r from-transparent via-sky-500 to-transparent" />
         )}
-      </Link>
+      </a>
     </li>
   );
 }

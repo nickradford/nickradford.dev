@@ -1,8 +1,8 @@
-import Link from "next/link";
+import React from "react";
 
 export function ExternalLink({ href, children, className, title = "" }) {
   return (
-    <Link
+    <a
       href={href}
       className={className}
       target="_blank"
@@ -10,6 +10,6 @@ export function ExternalLink({ href, children, className, title = "" }) {
       title={title}
     >
       {children}
-    </Link>
+    </a>
   );
 }

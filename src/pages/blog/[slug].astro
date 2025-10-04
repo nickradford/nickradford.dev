@@ -1,0 +1,22 @@
+---
+import Base from '@/src/layouts/BaseLayout.astro';
+import { BlogPage } from '@/src/components';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('blog', slug);
+const { Content } = await entry.render();
+---
+<Base title={entry.data.title}>
+  <BlogPage meta={{ title: entry.data.title, date: entry.data.date, slug: entry.slug, excerpt: '', readingTime: { text: '', minutes: 0, time: 0, words: 0 } }}>
+    <Content />
+  </BlogPage>
+  
+</Base>
+
+
