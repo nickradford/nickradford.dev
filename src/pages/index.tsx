@@ -23,7 +23,7 @@ import jobs from "jobs";
 import { links } from "links";
 
 import headshot from "public/headshot.jpg";
-import { getImage } from "@/src/lib/og";
+
 
 export default function Home({
   posts = [],
@@ -124,7 +124,9 @@ export default function Home({
 }
 
 export async function getStaticProps() {
-  const { posts, hasMore } = await getLatestPosts(3);
+  const { posts: allPosts } = await getLatestPosts();
+  const posts = allPosts.slice(0, 3);
+  const hasMore = allPosts.length > 3;
 
   return {
     props: { posts, hasMore },

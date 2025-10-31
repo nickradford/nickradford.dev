@@ -7,7 +7,7 @@ export const PageHeader = () => {
   const [isHidden, setIsHidden] = useState(false);
   const lastYRef = useRef(0);
   const downThreshold = 2; // small nudge hides when scrolling down past header
-  const upThreshold = 2; // small nudge shows when scrolling up
+  const upThreshold = 0; // show immediately when scrolling up
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -46,7 +46,7 @@ export const PageHeader = () => {
   }, []);
 
   const navClasses = classNames(
-    "relative flex items-center justify-center w-full transition-transform ease-in-out"
+    "relative flex items-center justify-center w-full mt-4 transition-transform ease-in-out"
   );
   const ulClasses = classNames(
     "flex px-2 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
@@ -58,7 +58,7 @@ export const PageHeader = () => {
         className={classNames(
           navClasses,
           "transform transition-transform duration-300 will-change-transform",
-          isHidden ? "-translate-y-full" : "translate-y-0"
+          isHidden ? "-translate-y-[calc(100%+1rem)]" : "translate-y-0"
         )}
       >
         <ul className={ulClasses}>
@@ -78,11 +78,14 @@ type NavItemProps = {
   href: string;
 };
 function NavItem({ label, href }: NavItemProps) {
-  const isActive =
-    typeof window !== "undefined"
-      ? (window.location.pathname === "/" && href === "/") ||
-        (window.location.pathname.startsWith(href) && href !== "/")
-      : false;
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    const active =
+      (window.location.pathname === "/" && href === "/") ||
+      (window.location.pathname.startsWith(href) && href !== "/");
+    setIsActive(active);
+  }, [href]);
 
   const classes = classNames(
     `relative inline-block h-full px-2 py-2 transition-colors `,
@@ -98,9 +101,7 @@ function NavItem({ label, href }: NavItemProps) {
     <li>
       <a className={classes} href={href}>
         {label}
-        {isActive && (
-          <span className="absolute inset-x-0  h-[2px] -bottom-[1px]  bg-gradient-to-r from-transparent via-sky-500 to-transparent" />
-        )}
+        <span className={classNames("absolute inset-x-0 h-[2px] -bottom-[1px]", isActive ? "bg-gradient-to-r from-transparent via-sky-500 to-transparent" : "bg-transparent")} />
       </a>
     </li>
   );

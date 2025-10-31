@@ -13,7 +13,8 @@ function boolParam(value: string | null, fallback: boolean): boolean {
 }
 
 export const GET: APIRoute = async ({ request }) => {
-  await initWasm(await (await fetch(wasmUrl)).arrayBuffer());
+  // @ts-ignore
+  initWasm(await (await fetch(wasmUrl)).arrayBuffer());
   const url = new URL(request.url);
   const q = url.searchParams;
 
@@ -27,6 +28,7 @@ export const GET: APIRoute = async ({ request }) => {
   const showSubtitle = boolParam(q.get("showSubtitle"), false);
 
   const svg = await satori(
+    // @ts-ignore
     {
       type: "div",
       props: {
