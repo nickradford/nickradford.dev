@@ -20,9 +20,12 @@ export function BlogPostPreview({
   animate = false,
 }: BlogPostPreviewProps) {
   return (
-    <article
-    key={post.slug}
-    className="relative space-y-4 group isolate"
+  <motion.article
+  key={post.slug}
+  className="relative space-y-4 group isolate"
+    initial={false}
+      animate={{ opacity: 1 }}
+      layoutId={animate ? post.slug : undefined}
     >
     <div className="absolute transition-all scale-95 rounded-2xl -z-10 group-hover:bg-zinc-200/75 dark:group-hover:bg-zinc-800/50 -inset-6 group-hover:scale-100"></div>
     <time className="px-4 text-sm border-l-4 dark:border-zinc-500 border-zinc-600 dark:text-zinc-500 text-zinc-600 ">
@@ -39,9 +42,9 @@ export function BlogPostPreview({
     </p>
 
       <p className="flex items-center gap-1 text-sm pointer-events-none text-sky-600">
-    Read article{" "}
-    <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
-    </p>
-    </article>
+          Read article{" "}
+          <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
+        </p>
+      </motion.article>
   );
 }
