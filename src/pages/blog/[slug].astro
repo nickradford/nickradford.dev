@@ -1,0 +1,26 @@
+---
+import Base from '@/src/layouts/BaseLayout.astro';
+import { BlogPage } from '@/src/components';
+import { getCollection, getEntry } from 'astro:content';
+import { calculateReadingTime } from '@/src/lib/content';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('blog', slug);
+const { Content } = await entry.render();
+const readingTime = calculateReadingTime(entry.body);
+---
+<Base title={entry.data.title}>
+  <BlogPage meta={{ title: entry.data.title, date: entry.data.date, slug: entry.slug, excerpt: '', readingTime }}>
+    <Content />
+  </BlogPage>
+
+</Base>
+
+

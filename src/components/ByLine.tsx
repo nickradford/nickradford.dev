@@ -1,4 +1,4 @@
-import Image from "next/image";
+import React from "react";
 
 import headshot from "public/headshot.jpg";
 import { BlogPost } from "@/src/lib/content";
@@ -11,8 +11,13 @@ export function ByLine({ meta }: ByLineProps) {
   return (
     <div className="flex items-center justify-between text-sm not-prose text-zinc-500 dark:text-zinc-400">
       <div className="flex items-center gap-2 ">
-        <Image
-          src={headshot}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={
+            typeof headshot === "string"
+              ? headshot
+              : (headshot as any).src || "/headshot.jpg"
+          }
           alt="Nick Radford"
           className="rounded-full w-7 h-7 ring-1 ring-zinc-500 dark:ring-zinc-300/75"
         />

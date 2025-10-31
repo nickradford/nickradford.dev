@@ -1,34 +1,30 @@
-import fs from "fs/promises";
-import path from "path";
-
-import slugify from "slugify";
-
-import { bundleMDX } from "mdx-bundler";
+import { getCollection, getEntry } from "astro:content";
 import { remark } from "remark";
 import strip from "strip-markdown";
-import readingTime from "reading-time";
+import slugify from "slugify";
 
-// Rehype plugins
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeCodetitles from "rehype-code-titles";
-import rehypePrism from "rehype-prism-plus";
-import rehypeExternalLinks from "rehype-external-links";
+type ReadingTime = {
+  text: string;
+minutes: number;
+time: number;
+words: number;
+};
 
-const removeMarkdown = remark().use(strip).process;
+export function calculateReadingTime(text: string): ReadingTime {
+  const wordsPerMinute = 200;
+  const words = text.trim().split(/\s+/).length;
+  const minutes = words / wordsPerMinute;
+  const time = minutes * 60 * 1000; // in milliseconds
+  const readingText = `${Math.ceil(minutes)} min read`;
+  return { text: readingText, minutes, time, words };
+}
 
 export type BlogPost = {
   title: string;
   date: string;
   slug: string;
   excerpt: string;
-  readingTime: {
-    text: string;
-    minutes: number;
-    time: number;
-    words: number;
-  };
-  code?: string;
+  readingTime: ReadingTime;
   draft?: boolean;
   tags?: string[];
 };
@@ -39,137 +35,54 @@ export type TagEntry = {
   count: number;
 };
 
-export async function getFiles(filePath: string) {
-  return (await fs.readdir(path.join(process.cwd(), filePath))).filter((p) =>
-    p.endsWith(".mdx")
-  );
+function toExcerpt(md: string) {
+  const [pre] = md.split("{/* excerpt */}");
+  return String(remark().use(strip).processSync(pre));
 }
 
-export async function getFileBySlug(slug: string): Promise<BlogPost> {
-  const source = await fs.readFile(
-    path.join(process.cwd(), "posts", `${slug}.mdx`),
-    "utf8"
-  );
-
-  const cwd = path.join(process.cwd(), "posts");
-
-  const { code, frontmatter, matter } = await bundleMDX({
-    file: `${cwd}/${slug}.mdx`,
-    cwd,
-    grayMatterOptions(options) {
-      options.excerpt = true;
-      options.excerpt_separator = "{/* excerpt */}";
-      return options;
-    },
-    mdxOptions(options) {
-      options.rehypePlugins = [
-        ...(options.rehypePlugins ?? []),
-        rehypeSlug,
-        rehypeCodetitles,
-        [
-          rehypeAutolinkHeadings,
-          {
-            behavior: "wrap",
-            properties: {
-              className: ["prose-anchor"],
-            },
-          },
-        ],
-        [rehypePrism, { showLineNumbers: true }],
-        [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
-      ];
-
-      return options;
-    },
-  });
-
-  const excerpt = (await removeMarkdown(matter.excerpt)).toString();
-
-  const meta = {
-    title: frontmatter.title,
-    date: frontmatter.date,
-    draft: frontmatter.draft ?? false,
-    tags: frontmatter.tags ?? [],
-  };
-
-  return {
-    code,
-    ...meta,
-    readingTime: readingTime(source),
-    slug,
-    excerpt,
-  };
+export async function getPostBySlug(slug: string) {
+  return await getEntry("blog", slug);
 }
 
-export async function getLatestPosts(
-  count: number = -1,
-  includeCode: boolean = true
-): Promise<{
+export async function getLatestPosts(): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
   postsByTag: Record<string, BlogPost[]>;
 }> {
-  const slugs = (await getFiles("posts")).map((file) =>
-    file.replace(".mdx", "")
-  );
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
 
-  const contentArr: BlogPost[] = [];
-  const tags: Set<string> = new Set();
+  const posts: BlogPost[] = entries.map((e) => ({
+    title: e.data.title,
+    date: e.data.date,
+    draft: e.data.draft ?? false,
+    tags: e.data.tags ?? [],
+    slug: e.slug,
+    excerpt: toExcerpt(e.body),
+    readingTime: calculateReadingTime(e.body),
+  }));
+
+  posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+
   const postsByTag: Record<string, BlogPost[]> = {};
+  const tagMap: Record<string, TagEntry> = {};
 
-  for (const slug of slugs) {
-    // the code is all the code needed to render the mdx file, which we don't need here.
-    const { code, ...content } = await getFileBySlug(slug);
-
-    if (content.draft) {
-      // Return early if the article isn't ready to be posted
-      continue;
-    }
-
-    contentArr.push({ ...content, code: includeCode ? code : undefined });
-
-    content.tags.forEach((tag) => {
-      tags.add(tag);
-      const tagSlug = slugify(tag).toLocaleLowerCase();
-
-      if (!Array.isArray(postsByTag[tagSlug])) {
-        postsByTag[tagSlug] = [];
-      }
-      postsByTag[tagSlug].push(content);
+  for (const post of posts) {
+    (post.tags ?? []).forEach((tag) => {
+      const tagSlug = slugify(tag).toLowerCase();
+      (postsByTag[tagSlug] ||= []).push(post);
     });
   }
 
-  contentArr.sort(sortByPublishDate);
-
-  Object.keys(postsByTag).forEach((tag) =>
-    postsByTag[tag].sort(sortByPublishDate)
-  );
-
-  const tagMap = Array.from(tags).reduce((prev, item) => {
-    const slug = slugify(item).toLocaleLowerCase();
-    return {
-      ...prev,
-      [slug]: {
-        label: item,
-        slug: slug,
-        count: postsByTag[slug].length,
-      },
+  for (const [slug, arr] of Object.entries(postsByTag)) {
+    arr.sort((a, b) => (a.date < b.date ? 1 : -1));
+    tagMap[slug] = {
+      label:
+        arr[0].tags?.find((t) => slugify(t).toLowerCase() === slug) || slug,
+      slug,
+      count: arr.length,
     };
-  }, {});
-
-  return {
-    posts: count > 0 ? contentArr.slice(0, count) : contentArr,
-    hasMore: count > 0 && contentArr.length > count,
-    postsByTag,
-    tagMap,
-  };
-}
-
-function sortByPublishDate(a: BlogPost, b: BlogPost) {
-  if (a.date < b.date) {
-    return 1;
-  } else if (a.date > b.date) {
-    return -1;
   }
+
+  return { posts, hasMore: false, postsByTag, tagMap };
 }

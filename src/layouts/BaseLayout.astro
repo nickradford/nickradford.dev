@@ -1,0 +1,32 @@
+---
+import '../styles/tailwind.css';
+import { PageHeader } from '@/src/components';
+const { title = 'Nick Radford (dot) Dev', description = 'Software engineer, pool shark, and amateur improviser.' } = Astro.props as { title?: string; description?: string };
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="me" href="https://hachyderm.io/@nickradford" />
+    <link rel="alternate" type="application/rss+xml" title="Nick Radford (dot) Dev" href={new URL("feeds/atom.xml", Astro.site)} />
+    <script is:inline>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+    <script async defer data-domains="nickradford.dev" data-website-id="d9280562-fa01-4566-bc78-a5687578db60" src="https://stats.nickradford.dev/umami.js"></script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="transition-colors bg-zinc-200 text-zinc-900 dark:bg-black dark:text-zinc-200">
+    <div class="flex flex-col items-center w-full min-h-screen min-h-fill-available">
+      <PageHeader client:load />
+      <slot />
+    </div>
+  </body>
+</html>
+
+

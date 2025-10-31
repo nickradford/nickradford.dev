@@ -2,7 +2,6 @@ import cn from "classnames";
 import { links } from "links";
 
 import { ExternalLink } from "./ExternalLink";
-import { NowPlaying } from "./NowPlaying";
 
 export function Footer() {
   const linkClasses = cn(
@@ -27,7 +26,7 @@ export function Footer() {
           </ExternalLink>
         ))}
 
-        <NowPlaying interval={10000} />
+        {/* NowPlaying removed */}
       </nav>
       <span className="text-sm text-zinc-600 dark:text-zinc-400">
         &copy; {new Date().getFullYear()} Nick Radford &bull; All rights

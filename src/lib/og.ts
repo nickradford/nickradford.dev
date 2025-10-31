@@ -1,4 +1,4 @@
-import { BASE_URL } from "./url";
+import { SITE } from "./site";
 
 type ImageProps = {
   title?: string;
@@ -23,5 +23,5 @@ export function getImage(props: ImageProps) {
     ...coerceBoolToString("showSubtitle", props.showSubtitle),
   } as undefined as Record<string, string>);
 
-  return `${BASE_URL}/api/og?${qs.toString()}`;
+  return `${SITE}/og?${qs.toString()}`;
 }
