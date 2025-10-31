@@ -1,9 +1,5 @@
 import type { APIRoute } from "astro";
 import satori from "satori";
-import initWasm, { Resvg } from "@resvg/resvg-wasm";
-// Vite will resolve this to a URL we can fetch in Workers
-// @ts-ignore
-import wasmUrl from "@resvg/resvg-wasm/index_bg.wasm?url";
 
 export const prerender = false;
 
@@ -13,8 +9,6 @@ function boolParam(value: string | null, fallback: boolean): boolean {
 }
 
 export const GET: APIRoute = async ({ request }) => {
-  // @ts-ignore
-  initWasm(await (await fetch(wasmUrl)).arrayBuffer());
   const url = new URL(request.url);
   const q = url.searchParams;
 
@@ -129,12 +123,10 @@ export const GET: APIRoute = async ({ request }) => {
     { width: 800, height: 400 }
   );
 
-  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 800 } });
-  const pngData = resvg.render().asPng();
-  return new Response(pngData, {
+  return new Response(svg, {
     headers: {
-      "content-type": "image/png",
-      "cache-control": "public, max-age=31536000, immutable",
-    },
+      "content-type": "image/svg+xml",
+    "cache-control": "public, max-age=31536000, immutable",
+  },
   });
 };

@@ -1,15 +1,30 @@
 import { getCollection, getEntry } from "astro:content";
-import readingTime from "reading-time";
 import { remark } from "remark";
 import strip from "strip-markdown";
 import slugify from "slugify";
+
+type ReadingTime = {
+  text: string;
+minutes: number;
+time: number;
+words: number;
+};
+
+export function calculateReadingTime(text: string): ReadingTime {
+  const wordsPerMinute = 200;
+  const words = text.trim().split(/\s+/).length;
+  const minutes = words / wordsPerMinute;
+  const time = minutes * 60 * 1000; // in milliseconds
+  const readingText = `${Math.ceil(minutes)} min read`;
+  return { text: readingText, minutes, time, words };
+}
 
 export type BlogPost = {
   title: string;
   date: string;
   slug: string;
   excerpt: string;
-  readingTime: ReturnType<typeof readingTime>;
+  readingTime: ReadingTime;
   draft?: boolean;
   tags?: string[];
 };
@@ -44,7 +59,7 @@ export async function getLatestPosts(): Promise<{
     tags: e.data.tags ?? [],
     slug: e.slug,
     excerpt: toExcerpt(e.body),
-    readingTime: readingTime(e.body),
+    readingTime: calculateReadingTime(e.body),
   }));
 
   posts.sort((a, b) => (a.date < b.date ? 1 : -1));

@@ -1,41 +1,25 @@
-import type { APIRoute } from "astro";
-import { Feed, Item } from "feed";
-import { getCollection } from "astro:content";
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
+import sanitizeHtml from 'sanitize-html';
+import MarkdownIt from 'markdown-it';
 
-export const prerender = true;
+const parser = new MarkdownIt();
 
-export const GET: APIRoute = async () => {
-  const site = "https://nickradford.dev";
-  const feed = new Feed({
-    title: "Nick Radford (dot) Dev",
-    description:
-      "A collection of my random musings; usually centered around frontend topics. Join me as I explore new technologies, share my experiences, and learn from others.",
-    copyright: `© ${new Date().getFullYear()} Nick Radford • All rights reserved`,
-    id: site,
-    link: site,
-    image: `${site}/favicon.ico`,
-    generator: "Astro + feed",
-    author: { name: "Nick Radford", link: site },
-    language: "en",
+export async function GET(context) {
+  const blog = await getCollection('blog');
+  return rss({
+    title: 'Nick Radford (dot) Dev',
+    description: 'A collection of my random musings; usually centered around frontend topics. Join me as I explore new technologies, share my experiences, and learn from others.',
+    site: context.site,
+    items: blog.map((post) => ({
+      title: post.data.title,
+      pubDate: new Date(`${post.data.date}T12:00:00Z`),
+      description: post.body.slice(0, 300),
+      link: `/blog/${post.slug}`,
+      content: sanitizeHtml(parser.render(post.body), {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+      }),
+    })),
+    customData: `<language>en</language><copyright>© ${new Date().getFullYear()} Nick Radford • All rights reserved</copyright>`,
   });
-
-  const posts = await getCollection("blog");
-  for (const p of posts) {
-    const url = `${site}/blog/${p.slug}`;
-    const date = new Date(`${p.data.date}T12:00:00Z`);
-    const html = p.body; // raw markdown body; replace with rendered HTML if desired
-    feed.addItem({
-      title: p.data.title as string,
-      description: p.body.slice(0, 300),
-      content: html,
-      link: url,
-      id: url,
-      date,
-      author: [{ name: "Nick Radford", link: site }],
-    } as Item);
-  }
-
-  return new Response(feed.atom1(), {
-    headers: { "Content-Type": "text/xml", "Cache-Control": "s-maxage=86400" },
-  });
-};
+}
