@@ -1,16 +1,18 @@
 ---
 export const prerender = true;
+import { Image } from 'astro:assets';
 import Base from '@/src/layouts/BaseLayout.astro';
 import { H1, Text, BlogPostPreview, Page, Button, ExternalLink, JobItem } from '@/src/components';
 import { getLatestPosts } from '@/src/lib/content';
 import jobs from '@/jobs';
 import { links } from '@/links';
+import headshot from '@/src/images/headshot.jpg';
 const { posts, hasMore } = await getLatestPosts();
 ---
 <Base title="Home">
   <Page client:load>
     <header class="mb-16 space-y-6">
-      <img src="/headshot.jpg" alt="me" class="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500" />
+      <Image src={headshot} alt="me" class="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500" />
       <H1 className="max-w-[28ch]">Software engineer, pool shark, and amateur improviser.</H1>
       <Text>I'm Nick, a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use. With a passion for clean code and thoughtful design, I enjoy building intuitive interfaces that make complex problems easy to solve.</Text>
       <ul class="flex">

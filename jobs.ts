@@ -1,13 +1,13 @@
 import { JobItemProps } from "./src/components/JobItem";
 
-import heyday from "./public/heyday.png";
-import govalo from "./public/govalo.png";
-import cruise from "./public/cruise.png";
-import unity from "./public/unity.png";
-import idean from "./public/idean.png";
-import euclid from "./public/euclid-wework.png";
-import walmart from "./public/walmart.png";
-import dell from "./public/dell.png";
+import heyday from "./src/images/heyday.png";
+import govalo from "./src/images/govalo.png";
+import cruise from "./src/images/cruise.png";
+import unity from "./src/images/unity.png";
+import idean from "./src/images/idean.png";
+import euclid from "./src/images/euclid-wework.png";
+import walmart from "./src/images/walmart.png";
+import dell from "./src/images/dell.png";
 
 const jobs: JobItemProps[] = [
   {
