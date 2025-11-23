@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import cloudflare from "@astrojs/cloudflare";
+import vercelStatic from "@astrojs/vercel/static";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
@@ -15,8 +15,10 @@ import markdoc from "@astrojs/markdoc";
 
 export default defineConfig({
   site: "https://nickradford.dev",
-  adapter: cloudflare(),
-  output: "server",
+  adapter: vercelStatic({
+    webAnalytics: true,
+  }),
+  output: "static",
   integrations: [
     react(),
     mdx({
