@@ -1,8 +1,8 @@
 ---
-import Base from '@/src/layouts/BaseLayout.astro';
-import { BlogPage } from '@/src/components';
+import Base from '../../layouts/BaseLayout.astro';
+import { BlogPage } from '../../components';
 import { getCollection, getEntry } from 'astro:content';
-import { calculateReadingTime } from '@/src/lib/content';
+import { calculateReadingTime } from '../../lib/content';
 
 export const prerender = true;
 

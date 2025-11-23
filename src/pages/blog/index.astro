@@ -1,8 +1,8 @@
 ---
 export const prerender = true;
-import Base from '@/src/layouts/BaseLayout.astro';
-import { H1, Text, BlogPostPreview, Page } from '@/src/components';
-import { getLatestPosts } from '@/src/lib/content';
+import Base from '../../layouts/BaseLayout.astro';
+import { H1, Text, BlogPostPreview, Page } from '../../components';
+import { getLatestPosts } from '../../lib/content';
 const description = `A collection of my random musings; usually centered around frontend topics. Join me as I explore new technologies, share my experiences, and learn from others.`;
 const { posts, tagMap, postsByTag } = await getLatestPosts();
 ---

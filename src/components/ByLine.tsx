@@ -1,7 +1,7 @@
 import React from "react";
 
-import headshot from "@/src/images/headshot.jpg";
-import { BlogPost } from "@/src/lib/content";
+import headshot from "../images/headshot.jpg";
+import { BlogPost } from "../lib/content";
 
 type ByLineProps = {
   meta: BlogPost;

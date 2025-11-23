@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
-import { BlogPost } from "@/src/lib/content";
+import { BlogPost } from "../lib/content";
 import { H3 } from "./Typography";
 import { motion } from "framer-motion";
 

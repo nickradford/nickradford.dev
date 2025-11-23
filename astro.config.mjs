@@ -15,6 +15,13 @@ import markdoc from "@astrojs/markdoc";
 
 export default defineConfig({
   site: "https://nickradford.dev",
+  vite: {
+    resolve: {
+      alias: {
+        "@": "./src",
+      },
+    },
+  },
   adapter: vercelStatic({
     webAnalytics: true,
   }),

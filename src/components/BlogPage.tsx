@@ -4,7 +4,7 @@ import { ByLine } from "./ByLine";
 import { BackButton } from "./BackButton";
 import { Page } from "./Page";
 
-import { BlogPost } from "@/src/lib/content";
+import { BlogPost } from "../lib/content";
 import { H2 } from "./Typography";
 import { AtomLink } from "./AtomLink";
 

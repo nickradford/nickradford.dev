@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
-import { SITE } from "@/src/lib/site";
+import { SITE } from "../lib/site";
 import { ExternalLink } from "./ExternalLink";
 
 export function AtomLink() {

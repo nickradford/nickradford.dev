@@ -1,7 +1,7 @@
 ---
 export const prerender = true;
 import { Image } from "astro:assets";
-import Base from "@/src/layouts/BaseLayout.astro";
+import Base from "../layouts/BaseLayout.astro";
 import {
     H1,
     Text,
@@ -10,11 +10,11 @@ import {
     Button,
     ExternalLink,
     JobItem,
-} from "@/src/components";
-import { getLatestPosts } from "@/src/lib/content";
-import jobs from "@/jobs";
-import { links } from "@/links";
-import headshot from "@/src/images/headshot.jpg";
+} from "../components";
+import { getLatestPosts } from "../lib/content";
+import jobs from "../../jobs";
+import { links } from "../../links";
+import headshot from "../images/headshot.jpg";
 const { posts, hasMore } = await getLatestPosts();
 ---
 
