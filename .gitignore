@@ -46,3 +46,6 @@ tsconfig.tsbuildinfo
 #intellij stuff
 
 .idea
+
+# astro
+.astro/

@@ -36,8 +36,15 @@ export type TagEntry = {
 };
 
 function toExcerpt(md: string) {
-  const [pre] = md.split("{/* excerpt */}");
-  return String(remark().use(strip).processSync(pre));
+  // Get the first paragraph (content before first double newline or first 200 characters)
+  const firstParagraph = md.split("\n\n")[0] || md;
+  const stripped = String(remark().use(strip).processSync(firstParagraph)).trim();
+
+  // Limit to 160 characters for a nice excerpt length
+  if (stripped.length > 160) {
+    return stripped.substring(0, 160).trim() + "...";
+  }
+  return stripped;
 }
 
 export async function getPostBySlug(slug: string) {
