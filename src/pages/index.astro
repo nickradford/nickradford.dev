@@ -81,7 +81,7 @@ const { posts, hasMore } = await getLatestPosts();
           <ul class="flex divide-x divide-zinc-200 dark:divide-zinc-800 px-16">
             {
               links.map(([href, label, icon]) => (
-                <li class="group first:border-l last:!border-r">
+                <li class="group first:border-l last:!border-r dark:border-zinc-800">
                   <a
                     href={href}
                     target="_blank"
@@ -121,19 +121,21 @@ const { posts, hasMore } = await getLatestPosts();
       <div
         class="w-full hidden md:flex flex-col space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800"
       >
-        {posts.map((post) => (
-          <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
-            <div class="flex-1"></div>
-            <div class="max-w-4xl w-full">
-              <BlogPostPreview post={post} />
+        {
+          posts.map((post) => (
+            <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+              <div class="flex-1" />
+              <div class="max-w-4xl w-full">
+                <BlogPostPreview post={post} />
+              </div>
+              <div class="flex-1" />
             </div>
-            <div class="flex-1"></div>
-          </div>
-        ))}
+          ))
+        }
         {
           hasMore && (
             <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
-              <div class="flex-1"></div>
+              <div class="flex-1" />
               <div class="max-w-4xl w-full px-8 md:px-16 pt-6 pb-6">
                 <a
                   href="/blog"
@@ -142,7 +144,7 @@ const { posts, hasMore } = await getLatestPosts();
                   view all →
                 </a>
               </div>
-              <div class="flex-1"></div>
+              <div class="flex-1" />
             </div>
           )
         }

@@ -4,7 +4,7 @@ import { Footer } from "./Footer";
 
 export function Page({ children }) {
   const classes = classNames(
-    "flex flex-col w-full min-h-screen bg-ivory transition-colors",
+    "flex flex-col w-full bg-ivory transition-colors",
     "dark:bg-zinc-950",
   );
   return (
