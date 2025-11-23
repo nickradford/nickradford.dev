@@ -9,37 +9,18 @@ type ByLineProps = {
 
 export function ByLine({ meta }: ByLineProps) {
   return (
-    <div className="flex items-center justify-between text-sm not-prose text-zinc-500 dark:text-zinc-400">
-      <div className="flex items-center gap-2 ">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={
-            typeof headshot === "string"
-              ? headshot
-              : (headshot as any).src || "/headshot.jpg"
-          }
-          alt="Nick Radford"
-          className="rounded-full w-7 h-7 ring-1 ring-zinc-500 dark:ring-zinc-300/75"
-        />
-        <div>Nick Radford</div>
-        <span>&bull;</span>
-        <div className="md:hidden">
+    <div className="flex items-center justify-between text-sm not-prose">
+      <div className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400 font-scp">
+        <span>Nick Radford</span>
+        <span className="text-zinc-300 dark:text-zinc-600">&bull;</span>
+        <time dateTime={meta.date ? new Date(meta.date).toISOString() : undefined}>
           {Intl.DateTimeFormat("en-us", { dateStyle: "medium" }).format(
             meta.date ? new Date(meta.date) : new Date()
           )}
-        </div>
-        <div className="hidden md:block">
-          {Intl.DateTimeFormat("en-us", { dateStyle: "long" }).format(
-            meta.date ? new Date(meta.date) : new Date()
-          )}
-        </div>
+        </time>
       </div>
-      <div>
-        <ul className="flex gap-2">
-          <li className="hidden md:block">{meta.readingTime.words} words</li>
-          <li className="hidden md:block">&bull;</li>
-          <li>{meta.readingTime.text}</li>
-        </ul>
+      <div className="hidden md:block text-xs font-scp text-yellow">
+        {meta.readingTime.text}
       </div>
     </div>
   );

@@ -14,8 +14,9 @@ module.exports = {
         scp: ["Source Code Pro", "monospace"],
       },
       colors: {
-        pink: "#FA00FF",
+        yellow: "#ff9500",
         primary: "#FEEE16",
+        ivory: "#FFFFF0",
       },
     },
   },

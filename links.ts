@@ -1,5 +1,4 @@
 import {
-  faMastodon,
   faGithub,
   faLinkedin,
   IconDefinition,
@@ -8,8 +7,8 @@ import { faSquareRss } from "@fortawesome/free-solid-svg-icons";
 import { BASE_URL } from "./src/lib/url";
 
 export const links: [url: string, name: string, icon?: IconDefinition][] = [
-  ["https://hachyderm.io/@nickradford", "Mastodon", faMastodon],
   ["https://github.com/nickradford", "GitHub", faGithub],
   ["https://www.linkedin.com/in/nickradford/", "LinkedIn", faLinkedin],
+  ["/nick-radford-resume-2025-10-30.pdf", "Resume"],
   [`${BASE_URL}/feeds/atom.xml`, "Feed", faSquareRss],
 ];

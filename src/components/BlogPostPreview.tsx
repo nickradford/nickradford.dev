@@ -1,8 +1,5 @@
 import React from "react";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
-
 import { BlogPost } from "../lib/content";
-import { H3 } from "./Typography";
 import { motion } from "framer-motion";
 
 type BlogPostPreviewProps = {
@@ -20,31 +17,32 @@ export function BlogPostPreview({
   animate = false,
 }: BlogPostPreviewProps) {
   return (
-  <motion.article
-  key={post.slug}
-  className="relative space-y-4 group isolate"
-    initial={false}
+    <motion.article
+      key={post.slug}
+      className="space-y-3 group px-8 md:px-16 py-6"
+      initial={false}
       animate={{ opacity: 1 }}
       layoutId={animate ? post.slug : undefined}
     >
-    <div className="absolute transition-all scale-95 rounded-2xl -z-10 group-hover:bg-zinc-200/75 dark:group-hover:bg-zinc-800/50 -inset-6 group-hover:scale-100"></div>
-    <time className="px-4 text-sm border-l-4 dark:border-zinc-500 border-zinc-600 dark:text-zinc-500 text-zinc-600 ">
-    {dateFormatter.format(new Date(post.date))}
-    </time>
-    <a href={`/blog/${post.slug}`} className="block">
-    <span className="absolute -inset-5" />
-    <H3 className="text-base font-semibold tracking-tight">
-    {post.title}
-    </H3>
-    </a>
-    <p className="text-sm whitespace-pre-line text-zinc-600 dark:text-zinc-400">
-    {post.excerpt}
-    </p>
-
-      <p className="flex items-center gap-1 text-sm pointer-events-none text-sky-600">
-          Read article{" "}
-          <ChevronRightIcon className="relative w-4 h-4 top-[0.5px]" />
-        </p>
-      </motion.article>
+      <div className="space-y-2">
+        <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-scp font-medium">
+          {dateFormatter.format(new Date(post.date))}
+        </time>
+        <a href={`/blog/${post.slug}`} className="block group">
+          <h3 className="text-lg md:text-xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors">
+            {post.title}
+          </h3>
+        </a>
+      </div>
+      <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 max-w-2xl pt-1">
+        {post.excerpt}
+      </p>
+      <a
+        href={`/blog/${post.slug}`}
+        className="inline-block text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors pt-2"
+      >
+        Read more →
+      </a>
+    </motion.article>
   );
 }

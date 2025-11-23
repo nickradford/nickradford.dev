@@ -1,0 +1,107 @@
+---
+export const prerender = true;
+import Base from "../layouts/BaseLayout.astro";
+import { H1, Text, Page } from "../components";
+import jobs from "../../jobs";
+
+// Helper to format dates - show full date for first 2 items, year only for rest
+const formatDate = (dateStr: string, index: number) => {
+  if (index < 2) return dateStr;
+  // Extract just the year (last 4 characters)
+  return dateStr.split(' ').pop();
+};
+
+// Format the date range, collapsing if start and end year are the same
+const formatDateRange = (startDate: string, endDate: string, index: number) => {
+  const start = formatDate(startDate, index);
+  const end = formatDate(endDate, index);
+
+  // For newer items (with full dates), always show both
+  if (index < 2) return `${start} — ${end}`;
+
+  // For older items (year only), show just year if they match
+  return start === end ? start : `${start} — ${end}`;
+};
+---
+
+<Base title="Work" description="My professional experience and roles">
+  <Page client:load>
+    <article class="py-16 md:py-24">
+      {/* Header */}
+      <header class="mb-16 space-y-6 max-w-4xl">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <h1 class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">work</h1>
+          <a
+            href="/nick-radford-resume-2025-10-30.pdf"
+            download="Nick-Radford-Resume.pdf"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-scp font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+          >
+            Download resume
+          </a>
+        </div>
+        <Text>
+          A selection of the companies and roles I've had the pleasure of working with over the past decade.
+        </Text>
+      </header>
+
+      {/* Timeline */}
+      <section class="max-w-3xl">
+        <div class="space-y-0">
+          {jobs.map((job, index) => (
+            <div class="group relative">
+              {/* Connection line for visual flow */}
+              {index < jobs.length - 1 && (
+                <div class="absolute left-6 top-12 w-px h-20 bg-gradient-to-b from-zinc-300 to-transparent dark:from-zinc-700"></div>
+              )}
+
+              {/* Main job entry */}
+              <div class="flex gap-6 pb-12 border-b border-amber-200 dark:border-zinc-800 last:border-b-0">
+                {/* Logo */}
+                <div class="flex-none pt-1">
+                  <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
+                    <img
+                      src={(job.img as any).src || job.img}
+                      alt={job.company}
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div class="flex-1 min-w-0">
+                  <div class="space-y-2">
+                    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                      <div class="space-y-1">
+                        <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors">
+                          {job.company}
+                          {job.extraInfo && (
+                            <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
+                              ({job.extraInfo})
+                            </span>
+                          )}
+                        </h3>
+                        <p class="text-xs font-scp text-zinc-700 dark:text-zinc-300">
+                          {job.role}
+                        </p>
+                      </div>
+                      <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                        {formatDateRange(job.startDate, job.endDate, index)}
+                      </time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer section */}
+      <div class="mt-16 pt-8 border-t border-amber-200 dark:border-zinc-800">
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
+          Over a decade building interfaces and products that people love. Specialized in frontend architecture, design systems, and shipping delightful user experiences. Always eager to learn new tools and collaborate with talented teams.
+        </p>
+      </div>
+    </article>
+  </Page>
+</Base>

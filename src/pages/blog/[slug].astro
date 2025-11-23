@@ -17,7 +17,7 @@ const { Content } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
 ---
 <Base title={entry.data.title}>
-  <BlogPage meta={{ title: entry.data.title, date: entry.data.date, slug: entry.slug, excerpt: '', readingTime }}>
+  <BlogPage client:load meta={{ title: entry.data.title, date: entry.data.date, slug: entry.slug, excerpt: '', readingTime }}>
     <Content />
   </BlogPage>
 

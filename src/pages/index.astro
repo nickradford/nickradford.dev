@@ -2,87 +2,170 @@
 export const prerender = true;
 import { Image } from "astro:assets";
 import Base from "../layouts/BaseLayout.astro";
-import {
-    H1,
-    Text,
-    BlogPostPreview,
-    Page,
-    Button,
-    ExternalLink,
-    JobItem,
-} from "../components";
+import { BlogPostPreview, Page, ExternalLink } from "../components";
 import { getLatestPosts } from "../lib/content";
-import jobs from "../../jobs";
 import { links } from "../../links";
 import headshot from "../images/headshot.jpg";
 const { posts, hasMore } = await getLatestPosts();
 ---
 
 <Base title="Nick Radford (dot) dev">
-    <Page client:load>
-        <header class="mb-16 space-y-6">
-            <Image
-                src={headshot}
-                alt="me"
-                class="w-20 rounded-full shadow-xl dark:bg-zinc-700 ring-2 dark:ring-zinc-300 ring-zinc-500"
-            />
-            <H1 className="max-w-[28ch]"
-                >Software engineer, pool shark, and amateur improviser.</H1
+  <Page client:load>
+    <article
+      class="border-l border-r border-zinc-200 dark:border-zinc-800 w-full"
+    >
+      {/* Hero Section */}
+      <header
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 hidden md:flex divide-x divide-zinc-200 dark:divide-zinc-800"
+      >
+        <div class="flex-1 p-8 md:p-16"></div>
+        <div class="max-w-4xl w-full p-8 md:p-16 space-y-6">
+          <div class="relative">
+            <div
+              class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
             >
-            <Text
-                >I'm Nick, a software engineer from San Francisco with over 10
-                years of experience building compelling user interfaces and
-                products that people love to use. With a passion for clean code
-                and thoughtful design, I enjoy building intuitive interfaces
-                that make complex problems easy to solve.</Text
+            </div>
+            <h1
+              class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
             >
-            <ul class="flex">
-                {
-                    links.map(([href, , icon]) => (
-                        <ExternalLink
-                            href={href}
-                            className="p-2 first-of-type:-ml-2 group"
-                        >
-                            <span class="sr-only">{href}</span>
-                        </ExternalLink>
-                    ))
-                }
-            </ul>
-        </header>
-        <div class="flex flex-col grid-cols-5 gap-20 md:grid">
-            <section class="col-span-3 space-y-12">
-                {posts.map((post) => <BlogPostPreview post={post} />)}
-                {
-                    hasMore && (
-                        <a
-                            href="/blog"
-                            class="flex items-center gap-2 text-sm font-semibold dark:text-zinc-300 font-plex"
-                        >
-                            More posts
-                        </a>
-                    )
-                }
-            </section>
-            <section class="col-span-2">
-                <div
-                    class="sticky p-5 space-y-8 border shadow-md rounded-2xl border-zinc-300/75 dark:border-zinc-700/75 top-16"
-                >
-                    <h3 class="flex items-end gap-4" id="work">
-                        <span
-                            class="text-sm font-semibold text-zinc-700 dark:text-zinc-100 font-plex"
-                            >Work</span
-                        >
-                    </h3>
-                    <ol class="space-y-4">
-                        {jobs.map((job) => <JobItem {...job} />)}
-                    </ol>
-                    <Button
-                        href="/nick-radford-resume-2025-10-30.pdf"
-                        download="Nick-Radford-Resume.pdf"
-                        >Download Resume</Button
-                    >
-                </div>
-            </section>
+              Building intuitive interfaces that make complex problems
+              disappear.
+            </h1>
+          </div>
+          <div class="space-y-6">
+            <p
+              class="text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+            >
+              I'm Nick, a software engineer from San Francisco. For over a
+              decade, I've crafted user experiences and products that people
+              genuinely love to use. I'm passionate about clean code and
+              thoughtful design.
+            </p>
+          </div>
         </div>
-    </Page>
+        <div class="flex-1 p-8 md:p-16"></div>
+      </header>
+
+      {/* Hero Section Mobile */}
+      <header
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 md:hidden p-8 space-y-6"
+      >
+        <div class="relative">
+          <div
+            class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
+          >
+          </div>
+          <h1
+            class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+          >
+            Building intuitive interfaces that make complex problems disappear.
+          </h1>
+        </div>
+        <div class="space-y-6">
+          <p
+            class="text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+          >
+            I'm Nick, a software engineer from San Francisco. For over a decade,
+            I've crafted user experiences and products that people genuinely
+            love to use. I'm passionate about clean code and thoughtful design.
+          </p>
+        </div>
+      </header>
+
+      {/* Social Links Section */}
+      <div
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 hidden md:flex divide-x divide-zinc-200 dark:divide-zinc-800"
+      >
+        <div class="flex-1 p-4 md:p-8"></div>
+        <div class="max-w-4xl w-full">
+          <ul class="flex divide-x divide-zinc-200 dark:divide-zinc-800 px-16">
+            {
+              links.map(([href, label, icon]) => (
+                <li class="group first:border-l last:!border-r">
+                  <a
+                    href={href}
+                    target="_blank"
+                    class="block text-sm p-8 font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="flex-1 p-4 md:p-8"></div>
+      </div>
+
+      {/* Social Links Section Mobile */}
+      <div
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 md:hidden px-8 py-6"
+      >
+        <ul class="flex gap-8">
+          {
+            links.map(([href, label, icon]) => (
+              <li>
+                <a
+                  href={href}
+                  class="text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Blog Section */}
+      <div
+        class="w-full hidden md:flex flex-col space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800"
+      >
+        {posts.map((post) => (
+          <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+            <div class="flex-1"></div>
+            <div class="max-w-4xl w-full">
+              <BlogPostPreview post={post} />
+            </div>
+            <div class="flex-1"></div>
+          </div>
+        ))}
+        {
+          hasMore && (
+            <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+              <div class="flex-1"></div>
+              <div class="max-w-4xl w-full px-8 md:px-16 pt-6 pb-6">
+                <a
+                  href="/blog"
+                  class="inline-block text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
+                >
+                  view all →
+                </a>
+              </div>
+              <div class="flex-1"></div>
+            </div>
+          )
+        }
+      </div>
+
+      {/* Blog Section Mobile */}
+      <div
+        class="w-full md:hidden space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800"
+      >
+        {posts.map((post) => <BlogPostPreview post={post} />)}
+        {
+          hasMore && (
+            <div class="px-8 pt-6 pb-6">
+              <a
+                href="/blog"
+                class="inline-block text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
+              >
+                view all →
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </article>
+  </Page>
 </Base>

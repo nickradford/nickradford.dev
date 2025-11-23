@@ -1,75 +1,57 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-// Removed react-headroom; using CSS sticky header instead
 import { ThemeToggle } from "./ThemeToggle";
 
 export const PageHeader = () => {
-  const [isHidden, setIsHidden] = useState(false);
-  const lastYRef = useRef(0);
-  const downThreshold = 2; // small nudge hides when scrolling down past header
-  const upThreshold = 0; // show immediately when scrolling up
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY || 0;
-        const delta = y - lastYRef.current;
-
-        // show when near top
-        if (y < 16) {
-          setIsHidden(false);
-          lastYRef.current = y;
-          ticking = false;
-          return;
-        }
-
-        if (delta > downThreshold && y > 48) {
-          // scrolling down
-          setIsHidden(true);
-        } else if (delta < -upThreshold) {
-          // scrolling up
-          setIsHidden(false);
-        }
-
-        lastYRef.current = y;
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const navClasses = classNames(
-    "relative flex items-center justify-center w-full mt-4 transition-transform ease-in-out"
-  );
-  const ulClasses = classNames(
-    "flex px-2 space-x-3 text-sm border rounded-full shadow-2xl bg-zinc-50/80 border-zinc-200 backdrop-blur backdrop-saturate-150 ",
-    "dark:bg-zinc-800/70 dark:border-zinc-700/75"
-  );
+  const ulClasses = classNames("flex px-0 py-3 space-x-8 text-sm");
   return (
-    <div className="fixed top-0 z-20 w-full">
-      <nav
-        className={classNames(
-          navClasses,
-          "transform transition-transform duration-300 will-change-transform",
-          isHidden ? "-translate-y-[calc(100%+1rem)]" : "translate-y-0"
-        )}
-      >
-        <ul className={ulClasses}>
-          <NavItem label="Home" href="/" />
-          <NavItem label="Blog" href="/blog" />
-          {/* <NavItem label="Projects" href="/projects" /> */}
-          {/* <NavItem label="Contact" href="/contact" /> */}
-        </ul>
-        <ThemeToggle />
-      </nav>
-    </div>
+    <>
+      {/* Desktop Header */}
+      <div className="fixed top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-zinc-200 dark:border-zinc-800 hidden md:flex">
+        <div className="flex-1 pt-6 px-8 md:px-16 border-r dark:border-zinc-800"></div>
+        <nav className="max-w-4xl w-full px-8 md:px-16 flex items-stretch relative divide-x divide-zinc-200 dark:divide-zinc-800 border-r border-zinc-200 dark:border-zinc-800">
+          <div className="flex-1 flex items-center border-zinc-200 dark:border-zinc-800">
+            <a
+              href="/"
+              className="text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+            >
+              nick radford
+            </a>
+          </div>
+          <div className="flex-1 flex items-center justify-center border-r border-zinc-200 dark:border-zinc-800">
+            <ul className={ulClasses}>
+              <NavItem label="home" href="/" />
+              <NavItem label="writing" href="/blog" />
+              <NavItem label="work" href="/work" />
+            </ul>
+          </div>
+          <div className="flex-1 flex items-center justify-end">
+            <ThemeToggle />
+          </div>
+        </nav>
+        <div className="flex-1 pt-6 px-8 md:px-16"></div>
+      </div>
+
+      {/* Mobile Header */}
+      <div className="fixed top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 md:hidden px-6 pt-6">
+        <nav className="flex items-center justify-between relative">
+          <a
+            href="/"
+            className="absolute -top-3 left-1 text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+          >
+            nick radford
+          </a>
+          <ul className={ulClasses}>
+            <NavItem label="home" href="/" />
+            <NavItem label="writing" href="/blog" />
+            <NavItem label="work" href="/work" />
+          </ul>
+          <div>
+            <ThemeToggle />
+          </div>
+        </nav>
+      </div>
+    </>
   );
 };
 
@@ -88,20 +70,21 @@ function NavItem({ label, href }: NavItemProps) {
   }, [href]);
 
   const classes = classNames(
-    `relative inline-block h-full px-2 py-2 transition-colors `,
-    `text-zinc-500 hover:text-zinc-700`,
-    `dark:text-zinc-400 dark:hover:text-zinc-300 `,
+    `relative inline-block py-2 px-1 transition-colors text-sm font-scp font-medium`,
+    `text-zinc-600 hover:text-yellow`,
+    `dark:text-zinc-400 dark:hover:text-yellow`,
     {
-      "dark:!text-zinc-100": isActive,
-      "!text-zinc-900": isActive,
-    }
+      "text-yellow dark:text-yellow": isActive,
+    },
   );
 
   return (
     <li>
       <a className={classes} href={href}>
         {label}
-        <span className={classNames("absolute inset-x-0 h-[2px] -bottom-[1px]", isActive ? "bg-gradient-to-r from-transparent via-sky-500 to-transparent" : "bg-transparent")} />
+        {isActive && (
+          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-yellow" />
+        )}
       </a>
     </li>
   );

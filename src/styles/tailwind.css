@@ -19,23 +19,28 @@
 }
 
 html {
-  @apply scroll-smooth scroll-pt-7;
+  @apply scroll-smooth font-scp;
+  scroll-padding-top: 100px;
+}
+
+body {
+  @apply font-scp;
 }
 
 h1,
 h2,
 h3 {
-  @apply !font-plex;
+  @apply font-scp;
 }
 
 .prose-anchor {
   @apply no-underline !text-zinc-800 dark:!text-zinc-100;
 }
 
-/* 
 ::selection {
-  @apply bg-red text-crust;
-} */
+  background-color: #ff9500;
+  color: #000000;
+}
 
 pre {
   overflow-x: auto;
