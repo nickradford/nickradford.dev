@@ -8,14 +8,48 @@ const { posts, tagMap, postsByTag } = await getLatestPosts();
 ---
 <Base title="Blog" description={description}>
   <Page client:load>
-    <article class="py-16 md:py-24">
-      <header class="mb-16 space-y-6 max-w-4xl">
+    <article class="border-l border-r border-zinc-200 dark:border-zinc-800 w-full">
+      {/* Header Section */}
+      <header
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 hidden md:flex divide-x divide-zinc-200 dark:divide-zinc-800"
+      >
+        <div class="flex-1 p-8 md:p-16"></div>
+        <div class="max-w-4xl w-full p-8 md:p-16 space-y-6">
+          <h1 class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">writing</h1>
+          <Text>{description}</Text>
+        </div>
+        <div class="flex-1 p-8 md:p-16"></div>
+      </header>
+
+      {/* Header Section Mobile */}
+      <header
+        class="w-full border-b border-zinc-200 dark:border-zinc-800 md:hidden p-8 space-y-6"
+      >
         <h1 class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">writing</h1>
         <Text>{description}</Text>
       </header>
-      <section class="space-y-12 max-w-4xl">
+
+      {/* Blog Posts Section */}
+      <div
+        class="w-full hidden md:flex flex-col space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800"
+      >
+        {posts.map((post) => (
+          <div class="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+            <div class="flex-1"></div>
+            <div class="max-w-4xl w-full">
+              <BlogPostPreview post={post} animate />
+            </div>
+            <div class="flex-1"></div>
+          </div>
+        ))}
+      </div>
+
+      {/* Blog Posts Section Mobile */}
+      <div
+        class="w-full md:hidden space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800"
+      >
         {posts.map((post) => (<BlogPostPreview post={post} animate />))}
-      </section>
+      </div>
     </article>
   </Page>
 </Base>

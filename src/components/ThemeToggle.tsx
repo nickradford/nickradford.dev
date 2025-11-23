@@ -1,11 +1,12 @@
 import { useThemeToggle, THEME } from "../hooks/useThemeToggle";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useThemeToggle();
 
   const classes = classNames(
-    "text-sm font-scp font-medium text-zinc-600 hover:text-yellow transition-colors",
+    "text-zinc-600 hover:text-yellow transition-colors",
     "dark:text-zinc-400 dark:hover:text-yellow"
   );
 
@@ -16,7 +17,11 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
       title={theme === THEME.light ? "Dark mode" : "Light mode"}
     >
-      {theme === THEME.light ? "(dark)" : "(light)"}
+      {theme === THEME.light ? (
+        <MoonIcon className="w-5 h-5" />
+      ) : (
+        <SunIcon className="w-5 h-5" />
+      )}
     </button>
   );
 }

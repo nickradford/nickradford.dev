@@ -15,25 +15,62 @@ type BlogPageProps = {
 
 export function BlogPage({ children, meta }: BlogPageProps) {
   const articleClasses = classnames(
-    `relative mt-8 prose prose-zinc dark:prose-invert max-w-4xl`,
+    `relative prose prose-zinc dark:prose-invert max-w-4xl`,
     `prose-headings:font-scp prose-headings:font-bold`,
     "dark:prose-headings:!text-zinc-100"
   );
   return (
     <Page>
-      <article className={articleClasses}>
-        <BackButton />
-        <div className="mb-12 space-y-4">
-          <h1 className="text-3xl md:text-4xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            {meta.title}
-          </h1>
-          <ByLine meta={meta} />
-          <AtomLink />
+      {/* Desktop Layout */}
+      <article className="border-l border-r border-zinc-200 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-zinc-200 dark:divide-zinc-800">
+        {/* Header Section */}
+        <div className="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+          <div className="flex-1 pt-8 px-8 md:px-16"></div>
+          <div className="max-w-4xl w-full px-8 md:px-16 pt-8 pb-8">
+            <BackButton />
+            <div className="mb-8 space-y-4">
+              <h1 className="text-3xl md:text-4xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {meta.title}
+              </h1>
+              <ByLine meta={meta} />
+              <AtomLink />
+            </div>
+          </div>
+          <div className="flex-1 pt-8 px-8 md:px-16"></div>
         </div>
 
-        <div className="my-8 h-px bg-gradient-to-r from-transparent via-amber-200 dark:via-zinc-700 to-transparent"></div>
+        {/* Content Section */}
+        <div className="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+          <div className="flex-1"></div>
+          <div className="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
+            <div className={articleClasses}>
+              {children}
+            </div>
+          </div>
+          <div className="flex-1"></div>
+        </div>
+      </article>
 
-        {children}
+      {/* Mobile Layout */}
+      <article className="md:hidden w-full border-l border-r border-zinc-200 dark:border-zinc-800 space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800">
+        {/* Header Section */}
+        <div className="px-8 py-8">
+          <BackButton />
+          <div className="mb-8 space-y-4">
+            <h1 className="text-3xl md:text-4xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              {meta.title}
+            </h1>
+            <ByLine meta={meta} />
+            <AtomLink />
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="px-8 py-8">
+          <div className={articleClasses}>
+            {children}
+          </div>
+        </div>
       </article>
     </Page>
   );
