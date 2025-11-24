@@ -51,13 +51,15 @@ export async function getPostBySlug(slug: string) {
   return await getEntry("blog", slug);
 }
 
-export async function getLatestPosts(): Promise<{
+export async function getLatestPosts(options?: { includeDrafts?: boolean }): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
   postsByTag: Record<string, BlogPost[]>;
 }> {
-  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  const entries = await getCollection("blog", ({ data }) =>
+    options?.includeDrafts ? true : !data.draft
+  );
 
   const posts: BlogPost[] = entries.map((e) => ({
     title: e.data.title,

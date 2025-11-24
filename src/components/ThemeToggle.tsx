@@ -7,7 +7,7 @@ export function ThemeToggle() {
 
   const classes = classNames(
     "text-zinc-600 hover:text-yellow transition-colors",
-    "dark:text-zinc-400 dark:hover:text-yellow"
+    "dark:text-zinc-400 dark:hover:text-yellow px-4 md:px-8 h-full",
   );
 
   return (

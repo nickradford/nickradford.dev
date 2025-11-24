@@ -27,9 +27,16 @@ export function BlogPostPreview({
     >
       <article className="space-y-3">
         <div className="space-y-2">
-          <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-scp font-medium">
-            {dateFormatter.format(new Date(post.date))}
-          </time>
+          <div className="flex items-center gap-3">
+            <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-scp font-medium">
+              {dateFormatter.format(new Date(post.date))}
+            </time>
+            {post.draft && (
+              <span className="text-xs uppercase tracking-widest font-scp font-medium px-2 py-1 bg-yellow/20 dark:bg-yellow/10 text-yellow rounded">
+                Draft
+              </span>
+            )}
+          </div>
           <h3 className="text-lg md:text-xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors">
             {post.title}
           </h3>

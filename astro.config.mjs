@@ -10,8 +10,8 @@ import rehypeCodeTitles from "rehype-code-titles";
 import rehypePrism from "rehype-prism-plus";
 import rehypeExternalLinks from "rehype-external-links";
 import keystatic from "@keystatic/astro";
-
 import markdoc from "@astrojs/markdoc";
+
 
 export default defineConfig({
   site: "https://nickradford.dev",

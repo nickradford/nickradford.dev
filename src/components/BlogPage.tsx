@@ -22,9 +22,9 @@ export function BlogPage({ children, meta }: BlogPageProps) {
   return (
     <Page>
       {/* Desktop Layout */}
-      <article className="border-l border-r border-zinc-200 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-zinc-200 dark:divide-zinc-800">
+      <article className="border-l border-r border-stone-200 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-stone-200 dark:divide-zinc-800">
         {/* Header Section */}
-        <div className="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+        <div className="flex divide-x divide-stone-200 dark:divide-zinc-800">
           <div className="flex-1 pt-8 px-8 md:px-16"></div>
           <div className="max-w-4xl w-full px-8 md:px-16 pt-8 pb-8">
             <BackButton />
@@ -40,7 +40,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
         </div>
 
         {/* Content Section */}
-        <div className="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+        <div className="flex divide-x divide-stone-200 dark:divide-zinc-800">
           <div className="flex-1"></div>
           <div className="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
             <div className={articleClasses}>
@@ -52,7 +52,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
       </article>
 
       {/* Mobile Layout */}
-      <article className="md:hidden w-full border-l border-r border-zinc-200 dark:border-zinc-800 space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800">
+      <article className="md:hidden w-full border-l border-r border-stone-200 dark:border-zinc-800 space-y-0 divide-y divide-stone-200 dark:divide-zinc-800">
         {/* Header Section */}
         <div className="px-8 py-8">
           <BackButton />
