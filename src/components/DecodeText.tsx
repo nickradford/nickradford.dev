@@ -81,28 +81,16 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
   onComplete,
   className = '',
 }) => {
-  // Display state: current character at each position
-  // Initialize with random characters using the PRNG
-  const [display, setDisplay] = useState<string>(() => {
-    const prng = new SeededRandom(seed);
-    return value
-      .split('')
-      .map((char) => {
-        // Preserve spaces if preserveSpaces is true
-        if (preserveSpaces && char === ' ') {
-          return ' ';
-        }
-        const charPool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-        const randomIdx = Math.floor(prng.next() * charPool.length);
-        return charPool[randomIdx];
-      })
-      .join('');
-  });
+  // Display state: initialize with target value (SSR-safe for non-JS users)
+  const [display, setDisplay] = useState<string>(value);
   
   // Which positions are "locked" (won't shuffle anymore)
   const [lockedIndices, setLockedIndices] = useState<Set<number>>(
     () => new Set()
   );
+  
+  // Track if component is mounted (to detect JS execution)
+  const [isMounted, setIsMounted] = useState(false);
 
   // Refs to manage timers and state persistence
   const prngRef = useRef<SeededRandom>(new SeededRandom(seed));
@@ -238,7 +226,7 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
       wordIndicesRef.current = words;
     }
 
-    // Generate initial display with random characters
+    // Generate initial display with random characters (scramble on mount)
     const initialDisplay = value
       .split('')
       .map((char) => {
@@ -254,6 +242,7 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
       .join('');
 
     setDisplay(initialDisplay);
+    setIsMounted(true);
     // Start with NO positions locked so reveal can unlock them left-to-right
     setLockedIndices(new Set());
     nextRevealIndexRef.current = 0;
@@ -342,11 +331,9 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
         <span
           key={idx}
           data-locked={lockedIndices.has(idx) ? 'true' : 'false'}
-          style={{
-            // Optional: CSS transitions for smooth character locking
-            transition: 'color 0.2s ease-out',
-            color: lockedIndices.has(idx) ? 'currentColor' : 'gray',
-          }}
+          className={`transition-colors duration-200 ${
+            isMounted ? (lockedIndices.has(idx) ? 'text-current' : 'text-gray-500') : 'text-current'
+          }`}
         >
           {char}
         </span>
