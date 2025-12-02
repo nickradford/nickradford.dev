@@ -9,7 +9,6 @@ type BlogPostPreviewProps = {
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
-  timeZone: "GMT",
 });
 
 export function BlogPostPreview({

@@ -54,11 +54,10 @@ export const GET: APIRoute = async ({ request }) => {
               },
               children: [
                 date
-                  ? new Intl.DateTimeFormat("en-us", {
-                      dateStyle: "long",
-                      timeZone: "GMT",
-                    }).format(new Date(date))
-                  : "",
+                   ? new Intl.DateTimeFormat("en-us", {
+                       dateStyle: "long",
+                     }).format(new Date(date))
+                   : "",
                 readTime ?? "",
               ],
             },

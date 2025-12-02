@@ -1,0 +1,88 @@
+---
+title: 'F5: some life updates'
+draft: false
+date: 2025-12-02
+tags: []
+---
+New year (well, more than a year since I really touched this site apart from updating my resume), new me. Also it's December, who cares.
+
+I've done a major redesign of the site, referencing those grid designs that are prevalent on tech product sites thanks to the Vercel design team. I kind of like it.
+
+Since leaving my role at Heyday last year due to \* life \*, I took about 6 months to deal with some stuff, and started applying for jobs around the new year…
+
+This has turned out to be **extremely rough**.&#x20;
+
+As the industry was *really* betting on Devin or some other ai agent to wholly replace engineering competency, paired with some not-so-glamourous gaps in my resumé, it's been nearly impossible to get an interview, or really even a rejection email.&#x20;
+
+But this year, 2025, hasn't been entirely terrible.
+
+I'm finally starting to get back into programming on a regular basis. There are two reasons for this:
+
+1. I'm building a darts scoring app for iPad with my friend.
+
+   [Expo](https://docs.expo.dev/) for react-native is really, really nice to work with. Paired with [Expo Application Services](https://expo.dev/eas) to simplify building apps and submitting to the Apple App Store, you really never need to open Xcode again.
+
+   ![Screenshot of a darts scoring app with two player score segments, and score input buttons below.](/f5-some-life-updates/darts-expo.png)
+
+   Got to use RevenueCat for monetization flows, Posthog for analytics and a slew of other teech while building this out. It's been really fun!
+2. I'm one of 2 Teaching Assistants for a Creative Coding Intensive at Gray Area, an Arts nonprofit here in San Francisco.
+
+   My role is mostly administrative, take attendance, setup zooms and recordings, but because of my background as a web developer, I get to help out on occasion if a student is having issues.&#x20;
+
+   For instance, I've had a couple 1:1 discord convos with a student where I got to explain more in depth how websockets work, and what *exactly* an API is.&#x20;
+
+   I got to help another student understand the difference between a static site and a web service, particularly in the context of Render.com.
+
+   It's really itched the educator / mentor part of my brain. I was even told, *"you're a really good teacher"*, which after the year I've had, was so \_\_fucking heartening\_\_ to hear.
+
+---
+
+## On the Creative Code Intensive
+
+As a TA, I still get to participate and produce a final project (which will be presented on Dec 15, 2025). While I haven't fully started on it, it's going to be something combining generative visuals (and maybe audio) with live transit data. I'm thinking of it like a memory box of your commute on Muni.
+
+With that, I've learned about GTFS, which is the **General Transit Feed Specification**, a standard that basically every transit agency on earth uses to provide near-realtime transit data. When you go to Google Maps and try to see when the next bus is going to be, they're likely using the GTFS data from that transit agency to power that.
+
+GTFS uses protobufs, which are a byte-efficient data transfer medium, where a protobuf can be upwards of 16% the size of the equivalent. Basically its an over-the-wire encoded binary data transport mechanism.&#x20;
+
+511.org, the Bay Area's transit (and traffic) data aggregator provides this near-realtime data in an API, in the GTFS data format, which as I said, is binary and not easily explorable. So I spun up Amp Code to vibe code a little TUI for exploring this data.
+
+![A terminal interface showing 3 columns, the first is a list of routes, the second is a list of vehicles on a selected route, and the third is a read out of certain properties of a selected vehicle, like its id, occupancy, position, and speed.](/f5-some-life-updates/gtfs-explorer.png)
+
+I even included an agency selector. Who knew there were so many transit agencies in the Bay Area?
+
+![A terminal interface showing a list of transit agencies in the Bay Area for the user to select.](/f5-some-life-updates/gtfs-exporer-agency-selector.png)
+
+I told Amp Code to build this using `blessed`, thinking that it was maintained, but wow the last commit was 10 years ago. So I had to do some wrestling with my vibe assistant to refactor to using `opentui`.
+
+Really, this was all just to have an easy way for me to explore the live transit data for SF Muni, in the format I will likely use for my final project, but it was really interesting to put this together. I might bundle it together and put it up on NPM if I get some time.
+
+---
+
+## Back to this site
+
+Yeah, minor redesign, but the major change is that it's now an Astro site, using Keystatic to author `.md` files locally, then I commit the changes and push to github. Keystatic has a nice integrated editor, so I don't have to fuck around with writing Markdown in a code editor, and it has built in schema support. Astro handles the "collection" of articles and statically rendering them, so I was able to pull out a lot of custom code I hobbled together and replaced it with these 3 or so lines
+
+```[slug].astro
+const { slug } = Astro.params;
+const entry = await getEntry('blog', slug);
+const { Content } = await entry.render();
+```
+
+All in all, it's a much nicer authoring experience, so I can just sit down and get my thoughts out.
+
+Apart from the fact there's no way to do **underlines** in keystatic? Double underscores just bolds… weird.
+
+I still need to get OG images working so if/when I post a link to this on Twitter (yes, it's called Twitter, don't @ me), it will look nice.
+
+Oh, and syntax highlighting up ^ there would be nice too.
+
+I event whipped up this fun little `<DecodeText />` component you can see on the home, writing, and work pages of the site (assuming you're not a psychopath who turns off Javascript).
+
+![](/f5-some-life-updates/decode-text.gif)
+
+---
+
+## Job Hunt
+
+I'm still looking for a job. If you or someone you know is hiring a curious, mentorship minded, design oriented, frontend-leaning full-stack engineer, please send them my way, or me their way, either way. My resume is linked all over this site, or visit my [work](/work) page.
