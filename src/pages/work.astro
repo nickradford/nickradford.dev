@@ -1,14 +1,14 @@
 ---
 export const prerender = true;
 import Base from "../layouts/BaseLayout.astro";
-import { H1, Text, Page } from "../components";
+import { H1, Text, Page, DecodeText } from "../components";
 import jobs from "../../jobs";
 
 // Helper to format dates - show full date for first 2 items, year only for rest
 const formatDate = (dateStr: string, index: number) => {
   if (index < 2) return dateStr;
   // Extract just the year (last 4 characters)
-  return dateStr.split(' ').pop();
+  return dateStr.split(" ").pop();
 };
 
 // Format the date range, collapsing if start and end year are the same
@@ -26,57 +26,109 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
 <Base title="Work" description="My professional experience and roles">
   <Page client:load>
-    <article class="border-l border-r border-stone-200 dark:border-zinc-800 w-full">
+    <article
+      class="border-l border-r border-stone-200 dark:border-zinc-800 w-full"
+    >
       {/* Header Section */}
-      <header
-        class="w-full border-b border-stone-200 dark:border-zinc-800 hidden md:flex divide-x divide-stone-200 dark:divide-zinc-800"
-      >
-        <div class="flex-1 p-8 md:p-16"></div>
-        <div class="max-w-4xl w-full p-8 md:p-16 space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <h1 class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">work</h1>
-            <a
-              href="/nick-radford-resume-2025-10-30.pdf"
-              download="Nick-Radford-Resume.pdf"
-              class="inline-flex items-center gap-2 px-6 py-3 text-sm font-scp font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+      <header class="w-full border-b border-stone-200 dark:border-zinc-800">
+        <div
+          class="flex flex-col md:flex-row md:divide-x divide-stone-200 dark:divide-zinc-800"
+        >
+          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
+          <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
+            <div
+              class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
             >
-              Download resume
-            </a>
+              <DecodeText
+                client:load
+                value="work"
+                className="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+              />
+              <a
+                href="/nick-radford-resume-2025-10-30.pdf"
+                download="Nick-Radford-Resume.pdf"
+                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-scp font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+              >
+                Download resume
+              </a>
+            </div>
+            <Text>
+              <span class="hidden md:block">
+                Want the full picture? Download my resume for a comprehensive
+                look at my experience, key projects, achievements, and technical
+                expertise.
+              </span>
+              <span class="md:hidden">
+                A snapshot of my career journey. Each role shaped how I approach
+                product, design, and engineering. I'd love to discuss the full
+                story—the impact, the lessons, and what excites me about
+                building great things with great teams.
+              </span>
+            </Text>
           </div>
-          <Text>
-            Want the full picture? Download my resume for a comprehensive look at my experience, key projects, achievements, and technical expertise.
-          </Text>
+          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
         </div>
-        <div class="flex-1 p-8 md:p-16"></div>
-      </header>
-
-      {/* Header Section Mobile */}
-      <header
-        class="w-full border-b border-stone-200 dark:border-zinc-800 md:hidden p-8 space-y-6"
-      >
-        <div class="flex flex-col gap-6">
-          <h1 class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">work</h1>
-          <a
-            href="/nick-radford-resume-2025-10-30.pdf"
-            download="Nick-Radford-Resume.pdf"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-scp font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
-          >
-            Download resume
-          </a>
-        </div>
-        <Text>
-          A snapshot of my career journey. Each role shaped how I approach product, design, and engineering. I'd love to discuss the full story—the impact, the lessons, and what excites me about building great things with great teams.
-        </Text>
       </header>
 
       {/* Jobs Grid */}
       <div
         class="w-full hidden md:flex flex-col space-y-0 divide-y divide-stone-200 dark:divide-zinc-800"
       >
-        {jobs.map((job, index) => (
-          <div class="flex divide-x divide-stone-200 dark:divide-zinc-800">
-            <div class="flex-1"></div>
-            <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6">
+        {
+          jobs.map((job, index) => (
+            <div class="flex divide-x divide-stone-200 dark:divide-zinc-800">
+              <div class="flex-1" />
+              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6">
+                <div class="flex gap-6">
+                  {/* Logo */}
+                  <div class="flex-none">
+                    <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
+                      <img
+                        src={(job.img as any).src || job.img}
+                        alt={job.company}
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div class="flex-1 min-w-0">
+                    <div class="space-y-2">
+                      <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                        <div class="space-y-1">
+                          <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
+                            {job.company}
+                            {job.extraInfo && (
+                              <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
+                                ({job.extraInfo})
+                              </span>
+                            )}
+                          </h3>
+                          <p class="text-xs font-scp text-zinc-700 dark:text-zinc-300">
+                            {job.role}
+                          </p>
+                        </div>
+                        <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                          {formatDateRange(job.startDate, job.endDate, index)}
+                        </time>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1" />
+            </div>
+          ))
+        }
+      </div>
+
+      {/* Jobs Grid Mobile */}
+      <div
+        class="w-full md:hidden space-y-0 divide-y divide-stone-200 dark:divide-zinc-800"
+      >
+        {
+          jobs.map((job, index) => (
+            <div class="px-8 py-4">
               <div class="flex gap-6">
                 {/* Logo */}
                 <div class="flex-none">
@@ -92,7 +144,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 {/* Content */}
                 <div class="flex-1 min-w-0">
                   <div class="space-y-2">
-                    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                    <div class="flex flex-col gap-2">
                       <div class="space-y-1">
                         <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
                           {job.company}
@@ -106,7 +158,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                           {job.role}
                         </p>
                       </div>
-                      <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                      <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500">
                         {formatDateRange(job.startDate, job.endDate, index)}
                       </time>
                     </div>
@@ -114,72 +166,33 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 </div>
               </div>
             </div>
-            <div class="flex-1"></div>
-          </div>
-        ))}
-      </div>
-
-      {/* Jobs Grid Mobile */}
-      <div
-        class="w-full md:hidden space-y-0 divide-y divide-stone-200 dark:divide-zinc-800"
-      >
-        {jobs.map((job, index) => (
-          <div class="px-8 py-4">
-            <div class="flex gap-6">
-              {/* Logo */}
-              <div class="flex-none">
-                <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
-                  <img
-                    src={(job.img as any).src || job.img}
-                    alt={job.company}
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Content */}
-              <div class="flex-1 min-w-0">
-                <div class="space-y-2">
-                  <div class="flex flex-col gap-2">
-                    <div class="space-y-1">
-                      <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
-                        {job.company}
-                        {job.extraInfo && (
-                          <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
-                            ({job.extraInfo})
-                          </span>
-                        )}
-                      </h3>
-                      <p class="text-xs font-scp text-zinc-700 dark:text-zinc-300">
-                        {job.role}
-                      </p>
-                    </div>
-                    <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500">
-                      {formatDateRange(job.startDate, job.endDate, index)}
-                    </time>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
 
       {/* Footer section */}
-      <div class="w-full hidden md:flex divide-x divide-stone-200 dark:divide-zinc-800 border-t border-stone-200 dark:border-zinc-800">
+      <div
+        class="w-full hidden md:flex divide-x divide-stone-200 dark:divide-zinc-800 border-t border-stone-200 dark:border-zinc-800"
+      >
         <div class="flex-1"></div>
         <div class="max-w-4xl w-full p-8 md:p-16">
           <p class="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
-            My career from 10,000 feet. There's much more to tell—the impact made, the challenges overcome, the teams built. I'd love to chat about what comes next and how we can build something great together.
+            My career from 10,000 feet. There's much more to tell—the impact
+            made, the challenges overcome, the teams built. I'd love to chat
+            about what comes next and how we can build something great together.
           </p>
         </div>
         <div class="flex-1"></div>
       </div>
 
       {/* Footer section Mobile */}
-      <div class="md:hidden px-8 py-8 border-t border-stone-200 dark:border-zinc-800">
+      <div
+        class="md:hidden px-8 py-8 border-t border-stone-200 dark:border-zinc-800"
+      >
         <p class="text-sm text-zinc-600 dark:text-zinc-400">
-          My career from 10,000 feet. There's much more to tell—the impact made, the challenges overcome, the teams built. I'd love to chat about what comes next and how we can build something great together.
+          My career from 10,000 feet. There's much more to tell—the impact made,
+          the challenges overcome, the teams built. I'd love to chat about what
+          comes next and how we can build something great together.
         </p>
       </div>
     </article>

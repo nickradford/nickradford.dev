@@ -8,6 +8,7 @@ import {
   ExternalLink,
   HomepageBlog,
   DraftToggle,
+  DecodeText,
 } from "../components";
 import { getLatestPosts } from "../lib/content";
 import { links } from "../../links";
@@ -21,60 +22,40 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
       class="border-l border-r border-stone-200 dark:border-zinc-800 w-full"
     >
       {/* Hero Section */}
-      <header
-        class="w-full border-b border-stone-200 dark:border-zinc-800 hidden md:flex divide-x divide-stone-200 dark:divide-zinc-800"
-      >
-        <div class="flex-1 p-8 md:p-16"></div>
-        <div class="max-w-4xl w-full p-8 md:p-16 space-y-6">
-          <div class="relative">
-            <div
-              class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
-            >
+      <header class="w-full border-b border-stone-200 dark:border-zinc-800">
+        <div
+          class="flex flex-col md:flex-row md:divide-x divide-stone-200 dark:divide-zinc-800"
+        >
+          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
+          <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
+            <div class="relative">
+              <div
+                class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
+              >
+              </div>
+              <h1
+                class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+              >
+                Making{" "}
+                <DecodeText
+                  client:load
+                  value="complex workflows"
+                  decodeByWord={true}
+                  className="inline"
+                />
+                {" "}feel effortless.
+              </h1>
             </div>
-            <h1
-              class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-            >
-              Building intuitive interfaces that make complex problems
-              disappear.
-            </h1>
+            <div class="space-y-6">
+              <p
+                class="text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+              >
+                Nick Radford — Senior Full‑Stack Engineer in SF. Next.js,
+                TypeScript, DX tooling, AI UI, Eng.&nbsp;Mentorship.
+              </p>
+            </div>
           </div>
-          <div class="space-y-6">
-            <p
-              class="text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
-            >
-              I'm Nick, a software engineer from San Francisco. For over a
-              decade, I've crafted user experiences and products that people
-              genuinely love to use. I'm passionate about clean code and
-              thoughtful design.
-            </p>
-          </div>
-        </div>
-        <div class="flex-1 p-8 md:p-16"></div>
-      </header>
-
-      {/* Hero Section Mobile */}
-      <header
-        class="w-full border-b border-stone-200 dark:border-zinc-800 md:hidden p-8 space-y-6"
-      >
-        <div class="relative">
-          <div
-            class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
-          >
-          </div>
-          <h1
-            class="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-          >
-            Building intuitive interfaces that make complex problems disappear.
-          </h1>
-        </div>
-        <div class="space-y-6">
-          <p
-            class="text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
-          >
-            I'm Nick, a software engineer from San Francisco. For over a decade,
-            I've crafted user experiences and products that people genuinely
-            love to use. I'm passionate about clean code and thoughtful design.
-          </p>
+          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
         </div>
       </header>
 

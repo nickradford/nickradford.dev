@@ -6,14 +6,14 @@ export type TextProps = {
 };
 
 const baseHeadingClasses = classNames(
-  "font-scp font-bold text-zinc-900 dark:text-zinc-50 transition-colors tracking-tight"
+  "font-scp font-bold text-zinc-900 dark:text-zinc-50 transition-colors tracking-tight",
 );
 
 export function H1(props: TextProps) {
   const classes = classNames(
     baseHeadingClasses,
     "text-4xl md:text-5xl leading-tight",
-    props.className
+    props.className,
   );
   return <h1 className={classes}>{props.children}</h1>;
 }
@@ -22,7 +22,7 @@ export function H2(props: TextProps) {
   const classes = classNames(
     baseHeadingClasses,
     "text-2xl md:text-3xl leading-snug",
-    props.className
+    props.className,
   );
   return <h2 className={classes}>{props.children}</h2>;
 }
@@ -31,7 +31,7 @@ export function H3(props: TextProps) {
   const classes = classNames(
     baseHeadingClasses,
     "text-lg md:text-xl",
-    props.className
+    props.className,
   );
   return <h3 className={classes}>{props.children}</h3>;
 }
@@ -40,7 +40,7 @@ export function Text(props: TextProps) {
   const classes = classNames(
     "max-w-[75ch] leading-relaxed text-zinc-700",
     "dark:text-zinc-300",
-    props.className
+    props.className,
   );
   return <p className={classes}>{props.children}</p>;
 }
@@ -56,7 +56,5 @@ export function Bold({ children }: TextProps) {
 }
 
 export function Code({ children }: TextProps) {
-  return (
-    <span className="font-scp text-sm text-yellow">{children}</span>
-  );
+  return <span className="font-scp text-sm text-yellow">{children}</span>;
 }

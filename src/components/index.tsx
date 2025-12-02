@@ -3,6 +3,7 @@ export * from "./BlogPage";
 export * from "./BlogPostPreview";
 export * from "./Button";
 export * from "./ByLine";
+export * from "./DecodeText";
 export * from "./DraftToggle";
 export * from "./ExternalLink";
 export * from "./Footer";
