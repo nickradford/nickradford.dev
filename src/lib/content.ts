@@ -35,7 +35,7 @@ export type TagEntry = {
   count: number;
 };
 
-function toExcerpt(md: string) {
+export function toExcerpt(md: string) {
   // Get the first paragraph (content before first double newline or first 200 characters)
   const firstParagraph = md.split("\n\n")[0] || md;
   const stripped = String(remark().use(strip).processSync(firstParagraph)).trim();

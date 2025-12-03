@@ -5,7 +5,8 @@ import VercelAnalytics from "../components/VercelAnalytics.astro";
 const {
   title = "Nick Radford (dot) Dev",
   description = "Software engineer, pool shark, and amateur improviser.",
-} = Astro.props as { title?: string; description?: string };
+  og = "https://nickradford.dev/og.png",
+} = Astro.props as { title?: string; description?: string; og?: string };
 ---
 
 <html lang="en">
@@ -15,6 +16,22 @@ const {
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+    <!-- other meta tags -->
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={title} />
+
+    <!-- og title and description -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+
     <link rel="icon" href="/favicon.ico" />
     <link
       rel="alternate"

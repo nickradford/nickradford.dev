@@ -1,0 +1,7 @@
+---
+import { SocialCard } from "../components/social-card";
+import { getCollection } from "astro:content";
+const posts = await getCollection("blog");
+---
+
+<SocialCard posts={posts} client:only="react" />

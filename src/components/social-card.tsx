@@ -1,0 +1,56 @@
+import "../styles/tailwind.css";
+
+function getLocalDate(date: Date) {
+  // Adjust for timezone offset to prevent UTC offset issues
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + offset);
+}
+
+export function SocialCard({ posts }: { posts: any[] }) {
+  const searchParams = new URLSearchParams(window.location.search);
+  const slug = searchParams.get("slug");
+  const post = posts.find((post) => post.slug === slug);
+  console.log(post);
+
+  if (!post) {
+    return null;
+  }
+
+  return (
+    <div className="w-[1200px] h-[630px] bg-zinc-950 text-zinc-50 flex font-scp flex-col">
+      <header className="h-24 border-b border-zinc-700 flex *:border-zinc-700 relative">
+        <div className="border-r w-24" />
+        <div className="border-r flex-1" />
+        <div className="w-24" />
+      </header>
+
+      <main className="flex-1 border-zinc-700 flex *:border-zinc-700 border-b">
+        <div className="border-r w-24"></div>
+
+        <div className="text-7xl font-bold leading-tight text-start flex-1 px-12 border-r relative flex items-center">
+          <h1>{post.data.title}</h1>
+          {/*<DitherTriangle className="absolute bottom-0.5 right-0.5 size-44" />
+          <DitherTriangle className="absolute top-0.5 right-0.5 size-44 -rotate-90" />
+          <DitherTriangle className="absolute top-0.5 left-0.5 size-44 -rotate-180" />
+          <DitherTriangle className="absolute bottom-0.5 left-0.5 size-44 rotate-90" />*/}
+        </div>
+        <div className="w-24" />
+      </main>
+
+      <footer className="h-24 border-zinc-700 flex *:border-zinc-700">
+        <div className="border-r w-24" />
+        <div className="border-r flex-1 flex items-center px-12 text-3xl justify-between text-zinc-500">
+          <p className="text-yellow">Nick Radford</p>
+          <p>
+            {getLocalDate(new Date(post.data.date)).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
+        </div>
+        <div className="w-24" />
+      </footer>
+    </div>
+  );
+}

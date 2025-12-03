@@ -1,18 +1,11 @@
 ---
 export const prerender = true;
-import { Image } from "astro:assets";
+
 import Base from "../layouts/BaseLayout.astro";
-import {
-  BlogPostPreview,
-  Page,
-  ExternalLink,
-  HomepageBlog,
-  DraftToggle,
-  DecodeText,
-} from "../components";
+import { Page, HomepageBlog, DraftToggle, DecodeText } from "../components";
 import { getLatestPosts } from "../lib/content";
 import { links } from "../../links";
-import headshot from "../images/headshot.jpg";
+
 const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
 ---
 

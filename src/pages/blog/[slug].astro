@@ -1,26 +1,33 @@
 ---
-import Base from '../../layouts/BaseLayout.astro';
-import { BlogPage } from '../../components';
-import { getCollection, getEntry } from 'astro:content';
-import { calculateReadingTime } from '../../lib/content';
+import Base from "../../layouts/BaseLayout.astro";
+import { BlogPage } from "../../components";
+import { getCollection, getEntry } from "astro:content";
+import { calculateReadingTime, toExcerpt } from "../../lib/content";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection("blog");
   return posts.map((p) => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
-const entry = await getEntry('blog', slug);
+const entry = await getEntry("blog", slug);
 const { Content } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
 ---
-<Base title={entry.data.title}>
-  <BlogPage client:load meta={{ title: entry.data.title, date: entry.data.date, slug: entry.slug, excerpt: '', readingTime }}>
+
+<Base title={entry.data.title} og={`/og/${slug}.png`} description={toExcerpt(entry.body)}>
+  <BlogPage
+    client:load
+    meta={{
+      title: entry.data.title,
+      date: entry.data.date,
+      slug: entry.slug,
+      excerpt: "",
+      readingTime,
+    }}
+  >
     <Content />
   </BlogPage>
-
 </Base>
-
-
