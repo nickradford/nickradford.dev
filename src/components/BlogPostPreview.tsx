@@ -34,7 +34,7 @@ export function BlogPostPreview({
       <article className="flex flex-col space-y-3">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-geist-mono font-medium">
+            <time className="text-xs uppercase tracking-widest text-yellow/75 dark:text-zinc-500 font-geist-mono">
               {dateFormatter.format(displayDate)}
             </time>
             {post.draft && (

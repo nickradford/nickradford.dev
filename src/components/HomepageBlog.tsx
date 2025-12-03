@@ -36,11 +36,11 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
   return (
     <>
       {/* Blog Section Desktop */}
-      <div className="w-full hidden md:flex flex-col space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800">
+      <div className="w-full hidden md:flex flex-col space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
         {filteredPosts.map((post) => (
           <div
             key={post.slug}
-            className="flex divide-x divide-zinc-200 dark:divide-zinc-800"
+            className="flex divide-x divide-yellow/20 dark:divide-zinc-800"
           >
             <div className="flex-1" />
             <div className="max-w-4xl w-full">
@@ -50,7 +50,7 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
           </div>
         ))}
         {hasMore && filteredPosts.length > 0 && (
-          <div className="flex divide-x divide-zinc-200 dark:divide-zinc-800">
+          <div className="flex divide-x divide-yellow/20 dark:divide-zinc-800">
             <div className="flex-1" />
             <div className="max-w-4xl w-full px-8 md:px-16 pt-6 pb-6">
               <a
@@ -66,7 +66,7 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
       </div>
 
       {/* Blog Section Mobile */}
-      <div className="w-full md:hidden space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800">
+      <div className="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
         {filteredPosts.map((post) => (
           <BlogPostPreview key={post.slug} post={post} />
         ))}
