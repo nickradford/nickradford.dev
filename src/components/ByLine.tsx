@@ -1,6 +1,3 @@
-import React from "react";
-
-import headshot from "../images/headshot.jpg";
 import { BlogPost } from "../lib/content";
 
 type ByLineProps = {

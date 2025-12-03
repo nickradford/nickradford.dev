@@ -1,13 +1,16 @@
+import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
+// @ts-ignore
 import sanitizeHtml from "sanitize-html";
+// @ts-ignore
 import MarkdownIt from "markdown-it";
 
 const parser = new MarkdownIt();
 
-export async function GET(context) {
-  const blog = await getCollection("blog");
-  console.log(blog);
+export const GET: APIRoute = async (context) => {
+  const blog = await getCollection("blog", ({ data }) => !data.draft);
+
   return rss({
     title: "Nick Radford (dot) Dev",
     description:

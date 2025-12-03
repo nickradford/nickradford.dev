@@ -1,4 +1,3 @@
-import React from "react";
 import { BlogPost } from "../lib/content";
 import { motion } from "framer-motion";
 

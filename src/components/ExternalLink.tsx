@@ -1,5 +1,3 @@
-import React from "react";
-
 export function ExternalLink({ href, children, className, title = "" }) {
   return (
     <a
