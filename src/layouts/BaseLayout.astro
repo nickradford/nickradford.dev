@@ -2,6 +2,7 @@
 import "../styles/tailwind.css";
 import { PageHeader } from "../components";
 import VercelAnalytics from "../components/VercelAnalytics.astro";
+import VercelSpeedInsights from "../components/VercelSpeedInsights.astro";
 const {
   title = "Nick Radford",
   description = "Senior Full‑Stack Engineer in SF.",
@@ -66,6 +67,7 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <VercelAnalytics />
+    <VercelSpeedInsights />
   </head>
   <body
     class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"
