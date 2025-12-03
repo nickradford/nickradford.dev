@@ -10,7 +10,6 @@ export function SocialCard({ posts }: { posts: any[] }) {
   const searchParams = new URLSearchParams(window.location.search);
   const slug = searchParams.get("slug");
   const post = posts.find((post) => post.slug === slug);
-  console.log(post);
 
   if (!post) {
     return null;
