@@ -21,6 +21,10 @@ const generateSocialCards = async (limit = LIMIT) => {
   const contentPath = join(process.cwd(), CONTENT_FOLDER);
   const outputPath = join(process.cwd(), OUTPUT_FOLDER);
 
+  if (!fs.existsSync(outputPath)) {
+    fs.mkdirSync(outputPath, { recursive: true });
+  }
+
   const postSlugs = fs
     .readdirSync(contentPath, { withFileTypes: true })
     .filter((path) => {
