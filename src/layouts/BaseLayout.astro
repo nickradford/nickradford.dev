@@ -6,7 +6,13 @@ const {
   title = "Nick Radford",
   description = "Senior Full‑Stack Engineer in SF.",
   og = "https://nickradford.dev/og.png",
-} = Astro.props as { title?: string; description?: string; og?: string };
+  type = "website",
+} = Astro.props as {
+  title?: string;
+  description?: string;
+  og?: string;
+  type?: string;
+};
 ---
 
 <html lang="en">
@@ -22,6 +28,8 @@ const {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content={title} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={Astro.url.href} />
 
     <!-- og title and description -->
     <meta property="og:title" content={title} />
@@ -30,7 +38,12 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={og} />
+    <meta
+      name="twitter:image"
+      content={import.meta.env.PROD
+        ? `https://nickradford.dev${og}`
+        : `http://localhost:4321${og}`}
+    />
 
     <link rel="icon" href="/favicon.ico" />
     <link

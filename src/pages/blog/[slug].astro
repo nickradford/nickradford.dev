@@ -17,7 +17,12 @@ const { Content } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
 ---
 
-<Base title={entry.data.title} og={`/og/${slug}.png`} description={toExcerpt(entry.body)}>
+<Base
+  title={entry.data.title}
+  og={`/og/${slug}.png`}
+  description={toExcerpt(entry.body)}
+  type="article"
+>
   <BlogPage
     client:load
     meta={{
