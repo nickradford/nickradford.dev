@@ -10,6 +10,7 @@
     "lint": "astro check; npm run check-types",
     "prepare": "husky install",
     "og": "node scripts/social-card.mjs",
+    "og:regen": "pnpm og:clean && pnpm og",
     "og:clean": "rm public/og/*"
   },
   "dependencies": {
