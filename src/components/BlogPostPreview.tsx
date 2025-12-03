@@ -11,10 +11,18 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
 });
 
+function getLocalDate(date: Date) {
+  // Adjust for timezone offset to prevent UTC offset issues
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + offset);
+}
+
 export function BlogPostPreview({
   post,
   animate = false,
 }: BlogPostPreviewProps) {
+  const displayDate = getLocalDate(new Date(post.date));
+
   return (
     <motion.a
       href={`/blog/${post.slug}`}
@@ -28,7 +36,7 @@ export function BlogPostPreview({
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-scp font-medium">
-              {dateFormatter.format(new Date(post.date))}
+              {dateFormatter.format(displayDate)}
             </time>
             {post.draft && (
               <span className="text-xs uppercase tracking-widest font-scp font-medium px-2 py-1 bg-yellow/20 dark:bg-yellow/10 text-yellow rounded">

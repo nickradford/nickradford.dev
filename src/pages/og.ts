@@ -8,6 +8,12 @@ function boolParam(value: string | null, fallback: boolean): boolean {
   return value === "1" || value === "true";
 }
 
+function getLocalDate(date: Date) {
+  // Adjust for timezone offset to prevent UTC offset issues
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + offset);
+}
+
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const q = url.searchParams;
@@ -56,7 +62,7 @@ export const GET: APIRoute = async ({ request }) => {
                 date
                    ? new Intl.DateTimeFormat("en-us", {
                        dateStyle: "long",
-                     }).format(new Date(date))
+                     }).format(getLocalDate(new Date(date)))
                    : "",
                 readTime ?? "",
               ],
