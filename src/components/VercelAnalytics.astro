@@ -1,0 +1,13 @@
+---
+const isDev = import.meta.env.MODE === 'development';
+
+const src = isDev
+  ? 'https://va.vercel-scripts.com/v1/script.debug.js'
+  : '/api/data';
+---
+
+<script define:vars={{ src }} is:inline>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+
+<script async define:vars={{ src }} src={src} data-endpoint="/api/data"></script>
