@@ -44,43 +44,51 @@ const generateSocialCards = async (limit = LIMIT) => {
       `(Limited to ${LIMIT} posts. Remove LIMIT value to process all posts)`,
     );
 
-  for (const slug of postSlugs) {
-    const outputFile = join(outputPath, `${slug}.png`);
+  const CONCURRENCY = 8;
 
-    if (fs.existsSync(outputFile)) {
-      console.log(`Skipping ${slug} - social card already exists`);
-      continue;
-    }
+  for (let i = 0; i < postSlugs.length; i += CONCURRENCY) {
+    const batch = postSlugs.slice(i, i + CONCURRENCY);
 
-    const url = `${BASE_URL}/open-graph?slug=${slug}`;
+    await Promise.all(
+      batch.map(async (slug) => {
+        const outputFile = join(outputPath, `${slug}.png`);
 
-    try {
-      console.log(`Generating social card for ${slug}`);
-      const page = await browser.newPage();
-      await page.setViewport({
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-        deviceScaleFactor: 1,
-      });
+        if (fs.existsSync(outputFile)) {
+          console.log(`Skipping ${slug} - social card already exists`);
+          return;
+        }
 
-      await page.goto(url);
-      await timeoutFn(TIMEOUT);
+        const url = `${BASE_URL}/open-graph?slug=${slug}`;
 
-      await page.screenshot({
-        path: outputFile,
-        clip: {
-          x: 0,
-          y: 0,
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-        },
-      });
+        try {
+          console.log(`Generating social card for ${slug}`);
+          const page = await browser.newPage();
+          await page.setViewport({
+            width: CARD_WIDTH,
+            height: CARD_HEIGHT,
+            deviceScaleFactor: 1,
+          });
 
-      console.log(`Successfully generated social card for ${slug}`);
-      await page.close();
-    } catch (error) {
-      console.error(`Failed to generate social card for ${slug}:`, error);
-    }
+          await page.goto(url);
+          await timeoutFn(TIMEOUT);
+
+          await page.screenshot({
+            path: outputFile,
+            clip: {
+              x: 0,
+              y: 0,
+              width: CARD_WIDTH,
+              height: CARD_HEIGHT,
+            },
+          });
+
+          console.log(`Successfully generated social card for ${slug}`);
+          await page.close();
+        } catch (error) {
+          console.error(`Failed to generate social card for ${slug}:`, error);
+        }
+      }),
+    );
   }
 
   await browser.close();
