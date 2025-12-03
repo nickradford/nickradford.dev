@@ -3,15 +3,15 @@
  */
 module.exports = {
   darkMode: "class",
-  content: [
-  "./src/**/*.{astro,js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{astro,js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       fontFamily: {
         plex: ["var(--font-plex)", "sans-serif"],
         inter: ["Inter", "sans-serif"],
         scp: ["Source Code Pro", "monospace"],
+        geist: ["Geist", "sans-serif"],
+        "geist-mono": ["Geist Mono", "monospace"],
       },
       colors: {
         yellow: "#ff9500",
@@ -20,11 +20,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/typography"),
-    // require("@catppuccin/tailwindcss")({
-    //   prefix: false,
-    //   defaultFlavour: "frappe",
-    // }),
-  ],
+  plugins: [require("@tailwindcss/typography")],
 };

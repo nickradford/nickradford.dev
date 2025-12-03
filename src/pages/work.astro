@@ -42,12 +42,12 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
               <DecodeText
                 client:load
                 value="work"
-                className="text-4xl md:text-5xl font-scp font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+                className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
               />
               <a
                 href="/nick-radford-resume-2025-10-30.pdf"
                 download="Nick-Radford-Resume.pdf"
-                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-scp font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
               >
                 Download resume
               </a>
@@ -96,7 +96,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                     <div class="space-y-2">
                       <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
                         <div class="space-y-1">
-                          <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
+                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
                             {job.company}
                             {job.extraInfo && (
                               <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
@@ -104,11 +104,11 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                               </span>
                             )}
                           </h3>
-                          <p class="text-xs font-scp text-zinc-700 dark:text-zinc-300">
+                          <p class="text-xs font-geist-mono text-zinc-700 dark:text-zinc-300">
                             {job.role}
                           </p>
                         </div>
-                        <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                        <time class="text-xs font-geist-mono uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
                           {formatDateRange(job.startDate, job.endDate, index)}
                         </time>
                       </div>
@@ -146,7 +146,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                   <div class="space-y-2">
                     <div class="flex flex-col gap-2">
                       <div class="space-y-1">
-                        <h3 class="text-base font-scp font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
+                        <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
                           {job.company}
                           {job.extraInfo && (
                             <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
@@ -154,11 +154,11 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                             </span>
                           )}
                         </h3>
-                        <p class="text-xs font-scp text-zinc-700 dark:text-zinc-300">
+                        <p class="text-xs font-geist-mono text-zinc-700 dark:text-zinc-300">
                           {job.role}
                         </p>
                       </div>
-                      <time class="text-xs font-scp uppercase tracking-wide text-zinc-500 dark:text-zinc-500">
+                      <time class="text-xs font-geist-mono uppercase tracking-wide text-zinc-500 dark:text-zinc-500">
                         {formatDateRange(job.startDate, job.endDate, index)}
                       </time>
                     </div>

@@ -6,7 +6,7 @@ export type TextProps = {
 };
 
 const baseHeadingClasses = classNames(
-  "font-scp font-bold text-zinc-900 dark:text-zinc-50 transition-colors tracking-tight",
+  "font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 transition-colors tracking-tight",
 );
 
 export function H1(props: TextProps) {
@@ -56,5 +56,7 @@ export function Bold({ children }: TextProps) {
 }
 
 export function Code({ children }: TextProps) {
-  return <span className="font-scp text-sm text-yellow">{children}</span>;
+  return (
+    <span className="font-geist-mono text-sm text-yellow">{children}</span>
+  );
 }

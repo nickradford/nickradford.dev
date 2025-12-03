@@ -18,7 +18,9 @@ export function DraftToggle() {
 
     // Dispatch custom event for HomepageBlog to listen to
     window.dispatchEvent(
-      new CustomEvent("draft-toggle-changed", { detail: { enabled: newValue } })
+      new CustomEvent("draft-toggle-changed", {
+        detail: { enabled: newValue },
+      }),
     );
   };
 
@@ -36,7 +38,7 @@ export function DraftToggle() {
         className="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 cursor-pointer"
         title="Show draft posts"
       />
-      <span className="text-sm font-scp font-medium text-zinc-600 dark:text-zinc-400">
+      <span className="text-sm font-geist-mono font-medium text-zinc-600 dark:text-zinc-400">
         Show drafts
       </span>
     </label>

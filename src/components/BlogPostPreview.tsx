@@ -26,31 +26,31 @@ export function BlogPostPreview({
     <motion.a
       href={`/blog/${post.slug}`}
       key={post.slug}
-      className="block group px-8 md:px-16 py-6 no-underline hover:text-inherit"
+      className="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-yellow/5 transition-colors"
       initial={false}
       animate={{ opacity: 1 }}
       layoutId={animate ? post.slug : undefined}
     >
-      <article className="space-y-3">
+      <article className="flex flex-col space-y-3">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-scp font-medium">
+            <time className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-geist-mono font-medium">
               {dateFormatter.format(displayDate)}
             </time>
             {post.draft && (
-              <span className="text-xs uppercase tracking-widest font-scp font-medium px-2 py-1 bg-yellow/20 dark:bg-yellow/10 text-yellow rounded">
+              <span className="text-xs uppercase tracking-widest font-geist-mono font-medium px-2 py-1 bg-yellow/20 dark:bg-yellow/10 text-yellow rounded">
                 Draft
               </span>
             )}
           </div>
-          <h3 className="text-lg md:text-xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors">
+          <h3 className="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors">
             {post.title}
           </h3>
         </div>
-        <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 max-w-2xl pt-1">
+        <p className="leading-relaxed text-zinc-700 dark:text-zinc-300 prose font-geist">
           {post.excerpt}
         </p>
-        <span className="inline-block text-sm font-scp font-medium text-zinc-600 group-hover:text-yellow dark:text-zinc-400 dark:group-hover:text-yellow transition-colors pt-2">
+        <span className="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-yellow dark:text-zinc-400 dark:group-hover:text-yellow transition-colors pt-2">
           Read more →
         </span>
       </article>

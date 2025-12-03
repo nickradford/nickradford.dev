@@ -5,8 +5,8 @@ import { ExternalLink } from "./ExternalLink";
 
 export function Footer() {
   const linkClasses = cn(
-    "text-sm font-scp font-medium text-zinc-600 transition-colors hover:text-yellow",
-    "dark:text-zinc-400 dark:hover:text-yellow"
+    "text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-yellow",
+    "dark:text-zinc-400 dark:hover:text-yellow",
   );
 
   return (
@@ -20,7 +20,7 @@ export function Footer() {
               <ExternalLink
                 key={href}
                 href={href}
-                className="block py-6 px-8 md:px-4 text-sm font-scp font-medium text-zinc-600 transition-colors hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow first:border-l last:border-r border-stone-200 dark:border-zinc-800"
+                className="block py-6 px-8 md:px-4 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow first:border-l last:border-r border-stone-200 dark:border-zinc-800"
               >
                 {label}
               </ExternalLink>

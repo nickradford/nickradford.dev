@@ -5,7 +5,7 @@
   "scripts": {
     "check-types": "tsc --noemit",
     "dev": "astro dev",
-    "build": "astro build && pnpm og",
+    "build": "astro build",
     "preview": "astro preview",
     "lint": "astro check; npm run check-types",
     "prepare": "husky install",
@@ -22,6 +22,8 @@
     "@astrojs/sitemap": "3.6.0",
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^9.0.1",
+    "@fontsource/geist": "^5.2.8",
+    "@fontsource/geist-mono": "^5.2.7",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",

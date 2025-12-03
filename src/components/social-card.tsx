@@ -17,7 +17,7 @@ export function SocialCard({ posts }: { posts: any[] }) {
   }
 
   return (
-    <div className="w-[1200px] h-[630px] bg-zinc-950 text-zinc-50 flex font-scp flex-col">
+    <div className="w-[1200px] h-[630px] bg-zinc-950 text-zinc-50 flex font-geist-mono flex-col">
       <header className="h-24 border-b-2 border-zinc-700 flex *:border-zinc-700 relative">
         <div className="border-r-2 w-24" />
         <div className="border-r-2 flex-1 px-12 flex items-center text-5xl">

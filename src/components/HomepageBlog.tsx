@@ -35,7 +35,6 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
 
   return (
     <>
-
       {/* Blog Section Desktop */}
       <div className="w-full hidden md:flex flex-col space-y-0 divide-y divide-zinc-200 dark:divide-zinc-800">
         {filteredPosts.map((post) => (
@@ -56,7 +55,7 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
             <div className="max-w-4xl w-full px-8 md:px-16 pt-6 pb-6">
               <a
                 href="/blog"
-                className="inline-block text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
+                className="inline-block text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
               >
                 view all →
               </a>
@@ -75,7 +74,7 @@ export function HomepageBlog({ posts, hasMore }: HomepageBlogProps) {
           <div className="px-8 pt-6 pb-6">
             <a
               href="/blog"
-              className="inline-block text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
+              className="inline-block text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
             >
               view all →
             </a>

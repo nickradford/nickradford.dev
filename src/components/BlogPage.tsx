@@ -15,8 +15,8 @@ type BlogPageProps = {
 export function BlogPage({ children, meta }: BlogPageProps) {
   const articleClasses = classnames(
     `relative prose prose-zinc dark:prose-invert max-w-4xl`,
-    `prose-headings:font-scp prose-headings:font-bold`,
-    "dark:prose-headings:!text-zinc-100"
+    `prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg`,
+    "dark:prose-headings:!text-zinc-100",
   );
   return (
     <Page>
@@ -28,7 +28,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
           <div className="max-w-4xl w-full px-8 md:px-16 pt-8 pb-8">
             <BackButton />
             <div className="mb-8 space-y-4">
-              <h1 className="text-3xl md:text-4xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h1 className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                 {meta.title}
               </h1>
               <ByLine meta={meta} />
@@ -42,9 +42,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
         <div className="flex divide-x divide-stone-200 dark:divide-zinc-800">
           <div className="flex-1"></div>
           <div className="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
-            <div className={articleClasses}>
-              {children}
-            </div>
+            <div className={articleClasses}>{children}</div>
           </div>
           <div className="flex-1"></div>
         </div>
@@ -56,7 +54,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
         <div className="px-8 py-8">
           <BackButton />
           <div className="mb-8 space-y-4">
-            <h1 className="text-3xl md:text-4xl font-scp font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            <h1 className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
               {meta.title}
             </h1>
             <ByLine meta={meta} />
@@ -66,9 +64,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
 
         {/* Content Section */}
         <div className="px-8 py-8">
-          <div className={articleClasses}>
-            {children}
-          </div>
+          <div className={articleClasses}>{children}</div>
         </div>
       </article>
     </Page>

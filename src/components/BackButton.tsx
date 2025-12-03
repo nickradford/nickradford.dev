@@ -3,9 +3,9 @@ import classnames from "classnames";
 
 export function BackButton() {
   const backBtnClasses = classnames(
-    "inline-flex items-center gap-2 text-sm font-scp font-medium text-zinc-600 hover:text-yellow transition-colors cursor-pointer",
+    "inline-flex items-center gap-2 text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow transition-colors cursor-pointer",
     "dark:text-zinc-400 dark:hover:text-yellow",
-    "mb-6"
+    "mb-6",
   );
 
   return (

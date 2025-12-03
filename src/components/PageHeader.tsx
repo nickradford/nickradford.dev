@@ -13,7 +13,7 @@ export const PageHeader = () => {
           <div className="flex items-center border-stone-200 dark:border-zinc-800">
             <a
               href="/"
-              className="text-sm px-8 md:px-16 h-full flex justify-center items-center font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+              className="text-sm px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
             >
               Nick Radford
             </a>
@@ -37,7 +37,7 @@ export const PageHeader = () => {
         <nav className="flex items-center justify-between relative">
           <a
             href="/"
-            className="absolute -top-3 left-1 text-sm font-scp font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+            className="absolute -top-3 left-1 text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
           >
             Nick Radford
           </a>
@@ -70,7 +70,7 @@ function NavItem({ label, href }: NavItemProps) {
   }, [href]);
 
   const classes = classNames(
-    `relative inline-block py-2 px-1 transition-colors text-sm font-scp font-medium`,
+    `relative inline-block py-2 px-1 transition-colors text-sm font-geist-mono font-medium`,
     `text-zinc-600 hover:text-yellow`,
     `dark:text-zinc-400 dark:hover:text-yellow`,
     {
