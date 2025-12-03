@@ -31,7 +31,7 @@ Ok, so we have a page that we can use as our image template, but how to take the
 
 The metatags for the social image for blog posts actually hit an API endpoint, which will look up the article by slug then visit the blog/preview page passing the appropriate query params, and finally capture a screenshot using Playwright.
 
-```ts:pages/api/preview.ts
+```ts
 import { launchChromium } from "playwright-aws-lambda";
 
 export async function getImage(
