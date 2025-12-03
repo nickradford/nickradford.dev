@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import vercelStatic from "@astrojs/vercel/static";
+import vercel from "@astrojs/vercel";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
@@ -21,8 +21,8 @@ export default defineConfig({
       },
     },
   },
-  adapter: vercelStatic(),
-  output: "static",
+  adapter: vercel(),
+  output: "server",
   integrations: [
     react(),
     mdx({

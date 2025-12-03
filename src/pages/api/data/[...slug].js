@@ -1,4 +1,6 @@
 // Proxy all analytics requests to avoid ad blocker detection
+export const prerender = false;
+
 export async function GET({ params }) {
   try {
     const path = params.slug || 'script.js';
