@@ -1,11 +1,11 @@
 ---
 import "../styles/tailwind.css";
 import { PageHeader } from "../components";
+import VercelAnalytics from "../components/VercelAnalytics.astro";
 const {
   title = "Nick Radford (dot) Dev",
   description = "Software engineer, pool shark, and amateur improviser.",
 } = Astro.props as { title?: string; description?: string };
-import Analytics from "@vercel/analytics/astro";
 ---
 
 <html lang="en">
@@ -35,7 +35,7 @@ import Analytics from "@vercel/analytics/astro";
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    <Analytics />
+    <VercelAnalytics />
   </head>
   <body
     class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"
