@@ -5,6 +5,7 @@ const {
   title = "Nick Radford (dot) Dev",
   description = "Software engineer, pool shark, and amateur improviser.",
 } = Astro.props as { title?: string; description?: string };
+import Analytics from "@vercel/analytics/astro";
 ---
 
 <html lang="en">
@@ -32,14 +33,9 @@ const {
         document.documentElement.classList.remove("dark");
       }
     </script>
-    <script
-      async
-      defer
-      data-domains="nickradford.dev"
-      data-website-id="d9280562-fa01-4566-bc78-a5687578db60"
-      src="https://stats.nickradford.dev/umami.js"></script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    <Analytics />
   </head>
   <body
     class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"

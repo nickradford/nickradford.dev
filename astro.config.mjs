@@ -12,7 +12,6 @@ import rehypeExternalLinks from "rehype-external-links";
 import keystatic from "@keystatic/astro";
 import markdoc from "@astrojs/markdoc";
 
-
 export default defineConfig({
   site: "https://nickradford.dev",
   vite: {
@@ -22,9 +21,7 @@ export default defineConfig({
       },
     },
   },
-  adapter: vercelStatic({
-    webAnalytics: true,
-  }),
+  adapter: vercelStatic(),
   output: "static",
   integrations: [
     react(),
