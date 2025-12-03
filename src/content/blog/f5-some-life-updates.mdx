@@ -63,7 +63,7 @@ Really, this was all just to have an easy way for me to explore the live transit
 
 Yeah, minor redesign, but the major change is that it's now an Astro site, using Keystatic to author `.md` files locally, then I commit the changes and push to github. Keystatic has a nice integrated editor, so I don't have to fuck around with writing Markdown in a code editor, and it has built in schema support. Astro handles the "collection" of articles and statically rendering them, so I was able to pull out a lot of custom code I hobbled together and replaced it with these 3 or so lines
 
-```[slug].astro
+```js
 const { slug } = Astro.params;
 const entry = await getEntry('blog', slug);
 const { Content } = await entry.render();
@@ -75,7 +75,9 @@ Apart from the fact there's no way to do **underlines** in keystatic? Double und
 
 I still need to get OG images working so if/when I post a link to this on Twitter (yes, it's called Twitter, don't @ me), it will look nice.
 
-Oh, and syntax highlighting up ^ there would be nice too.
+~~Oh, and syntax highlighting up ^ there would be nice too.~~
+
+> Update, when creating a code block in Keystatic, there's a small popup below the code block where you can set the language. Neat.
 
 I event whipped up this fun little `<DecodeText />` component you can see on the home, writing, and work pages of the site (assuming you're not a psychopath who turns off Javascript).
 
