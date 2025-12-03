@@ -22,10 +22,8 @@ export async function GET({ params }) {
 }
 
 export async function POST({ params, request }) {
-  // console.log("IN the post func");
   try {
     const path = params.rest || "";
-    // console.log({ path });
     const body = await request.text();
 
     const response = await fetch(
@@ -38,7 +36,6 @@ export async function POST({ params, request }) {
     );
 
     const data = await response.text();
-    // console.log({ data });
 
     return new Response(data, {
       status: response.status,
