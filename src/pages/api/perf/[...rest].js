@@ -4,7 +4,9 @@ export const prerender = false;
 export async function GET({ params }) {
   try {
     const path = params.rest || "script.js";
-    const response = await fetch(`https://va.vercel-scripts.com/v1/${path}`);
+    const response = await fetch(
+      `https://va.vercel-scripts.com/v1/speed-insights/${path}`,
+    );
     const data = await response.text();
 
     return new Response(data, {
@@ -16,7 +18,7 @@ export async function GET({ params }) {
       },
     });
   } catch (error) {
-    console.error("Failed to proxy analytics request:", error);
+    console.error("Failed to proxy speed-insights request:", error);
     return new Response("", { status: 500 });
   }
 }
@@ -26,11 +28,7 @@ export async function POST({ params, request }) {
     const path = params.rest || "";
     const body = await request.text();
 
-    // Speed Insights uses vitals endpoint, Analytics uses insights endpoint
-    const isSpeedInsights = path === "vitals" || path.startsWith("vitals/");
-    const baseUrl = isSpeedInsights
-      ? "https://nickradford.dev/_vercel/speed-insights"
-      : "https://nickradford.dev/_vercel/insights";
+    const baseUrl = "https://nickradford.dev/_vercel/speed-insights";
 
     const response = await fetch(`${baseUrl}/${path}`, {
       method: "POST",
@@ -48,7 +46,7 @@ export async function POST({ params, request }) {
       },
     });
   } catch (error) {
-    console.error("Failed to proxy analytics POST:", error);
+    console.error("Failed to proxy speed-insights POST:", error);
     return new Response("", { status: 500 });
   }
 }
