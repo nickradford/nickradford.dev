@@ -1,5 +1,13 @@
 ---
-import SpeedInsights from '@vercel/speed-insights/astro';
+const isDev = import.meta.env.MODE === 'development';
+
+const src = isDev
+  ? 'https://cdn.vercel-analytics.com/v1/speed-insights/script.debug.js'
+  : '/api/data/vitals';
 ---
 
-<SpeedInsights />
+<script define:vars={{ src }} is:inline>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+
+<script async define:vars={{ src }} src={src} data-endpoint="/api/data/vitals"></script>

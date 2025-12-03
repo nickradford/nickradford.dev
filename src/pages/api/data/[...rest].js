@@ -26,8 +26,14 @@ export async function POST({ params, request }) {
     const path = params.rest || "";
     const body = await request.text();
 
+    // Speed Insights uses vitals endpoint, Analytics uses insights endpoint
+    const isSpeedInsights = path === "vitals" || path.startsWith("vitals/");
+    const baseUrl = isSpeedInsights
+      ? "https://vitals.vercel-analytics.com/v1"
+      : "https://nickradford.dev/_vercel/insights";
+
     const response = await fetch(
-      `https://nickradford.dev/_vercel/insights/${path}`,
+      `${baseUrl}/${path}`,
       {
         method: "POST",
         headers: request.headers,
