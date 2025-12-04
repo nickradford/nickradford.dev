@@ -10,11 +10,9 @@ You've been there, going back and forth with your AI coding agent, where what yo
 
 It makes sense too, humans are very capable of explaining needs, giving context, and the sort of meta-cognitive, shared understanding of a problem space when talking to each other. But when the person on the other end of the line isn't a person, and is a statistical next character machine (re: LLM), those specifics are sometimes harder to convey.
 
-
-
 ## My solution, `/eval`
 
-I've been using Amp Code for some time, and I've now built an `/eval` prompt I can drop at the end of a thread once we finally get the problem fixed.
+I've been using [Amp Code](https://ampcode.com) for some time, and I've now built an `/eval` prompt I can drop at the end of a thread once we finally get the problem fixed. Here it is in its entirety.
 
 ```md
 # /eval - Evaluate Prompting Quality
@@ -39,3 +37,87 @@ Assessment includes:
 
 No flattery. Direct, honest assessment only.
 ```
+
+It started as a way for me to better understand how I'm prompting, but I quickly realized I could just ask for the MVP, the **Minimum Viable Prompt** that could have gotten what I wanted in one shot.
+
+### Here's a recent example.
+
+For my Creative Coding Intensive, I'm building an art piece that uses transit data. So to help me visualize that transit data in its map-based representative form, [I built this](https://tm.nickradford.dev).
+
+![](/minimum-viable-prompt/image.png)
+
+It's definitely overkill for what I need, but I was having fun building the backend out and wanted a nice frontend as well.
+
+Then it needed to work well on my phone, of course, so I opened up amp and got this `VehicleDetailsPanel` rendering as a slide up bottom sheet. Commit and push, open the live site on my desktop and now the `VehicleDetailsPanel` is sliding up and to the right on desktop, instead of just to the right.
+
+Several exchanges with Amp later and we got it fixed, I had to look up the `tailwindcss-animate` docs to know that you can do `md:slide-in-from-bottom-0` to remove that animation from medium and higher breakpoints.&#x20;
+
+I ran my `/eval` prompt and here's what Amp had to say
+
+> Evaluation: VehicleSidebar Animation Requirements
+> Strengths
+>
+> Provided the actual file content upfront, eliminating guesswork
+> Clarified requirements iteratively when initial approach was incorrect
+> Third message included the specific Tailwind pattern needed, demonstrating understanding of the solution
+> Weaknesses
+>
+> First request was ambiguous: "should only slide up and slide down on mobile, not on md: or higher breakpoints" didn't specify what should happen on desktop (fade? slide left? nothing?)
+> Required two follow-up exchanges to communicate a requirement that could have been stated once
+> No visual context (screenshot or description) of the desired behavior
+> Actionable Improvements
+>
+> Lead with complete requirements: State what happens at each breakpoint, not just what shouldn't happen.
+> Specify breakpoint behavior explicitly: "On mobile, slide up/down. On desktop (md+), slide left/right."
+> Reduce assumption gaps: Mention technical solutions (like Tailwind patterns) if you know them, rather than guiding toward discovery.
+> Minimal Viable Prompt
+> "Fix the sidebar animations in VehicleSidebar.tsx so it slides up/down on mobile and slides left/right on desktop (md:). You need to override/disable the bottom slide animations at the md: breakpoint."
+>
+> The word "override" or "disable" signals that animation resets are needed, directing the search toward Tailwind's -0 suffix pattern without requiring explicit mention.
+
+I stashed my changes, opened up a new thread and tried the MVP and it worked in one shot.&#x20;
+
+## Conclusion
+
+I think this pattern of reflection after a coding session with an agent does a couple things.
+
+1. It helps you think like a PM. Being able to better vocalize requirements helps not only with agents, but with real life flesh people you work with.
+2. It can help teach you new concepts. If you don't know what a specific pattern is called, the agent can help identify it and help up your vocabulary.
+3. It reduces costs in the long run. Agents run on tokens, and the fewer tokens (re: less back and forth), the lower your costs will be.
+
+Give my `/eval` prompt a go, and let me know on [Twitter](https://x.com/nick_radford) how you like it, or of any improvements that could be made.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
