@@ -1,0 +1,41 @@
+---
+title: Minimum Viable Prompt
+draft: false
+date: 2025-12-04
+tags: []
+---
+You've been there, going back and forth with your AI coding agent, where what you're prompting just isn't getting through to the agent.
+
+> Great, now I have to google the answer...
+
+It makes sense too, humans are very capable of explaining needs, giving context, and the sort of meta-cognitive, shared understanding of a problem space when talking to each other. But when the person on the other end of the line isn't a person, and is a statistical next character machine (re: LLM), those specifics are sometimes harder to convey.
+
+
+
+## My solution, `/eval`
+
+I've been using Amp Code for some time, and I've now built an `/eval` prompt I can drop at the end of a thread once we finally get the problem fixed.
+
+```md
+# /eval - Evaluate Prompting Quality
+
+Provides honest, critical feedback on prompting style and effectiveness.
+
+## Evaluation Criteria
+
+- **Clarity**: Were requests clear and unambiguous?
+- **Specificity**: Did requests have enough detail (measurements, scope, context)?
+- **Efficiency**: Was anything redundant or could be stated more concisely?
+- **Context**: Were visual references, testing context, or screenshots provided?
+- **Scope**: Were distinctions (mobile vs desktop, device types) stated explicitly?
+
+## Response Format
+
+Assessment includes:
+1. Strengths - what worked well
+2. Weaknesses - areas for improvement
+3. Actionable improvements - specific recommendations
+4. Minimal viable prompt - the most concise single request that would have accomplished the task in one exchange
+
+No flattery. Direct, honest assessment only.
+```
