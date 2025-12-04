@@ -5,7 +5,8 @@ export default config({
     brand: { name: "Nick Radford (dot) dev" },
   },
   storage: {
-    kind: "local",
+    kind: "github",
+    repo: "nickradford/nickradford.dev",
   },
   collections: {
     blog: collection({
