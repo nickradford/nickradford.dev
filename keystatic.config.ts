@@ -7,6 +7,7 @@ export default config({
   storage: {
     kind: "github",
     repo: "nickradford/nickradford.dev",
+    branchPrefix: "post/",
   },
   collections: {
     blog: collection({
