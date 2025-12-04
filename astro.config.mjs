@@ -25,16 +25,24 @@ export default defineConfig({
   },
   adapter: vercel(),
   output: "server",
-  integrations: [react(), mdx({
-    rehypePlugins: [
-      rehypeSlug,
-      rehypeCodeTitles,
-      [
-        rehypeAutolinkHeadings,
-        { behavior: "wrap", properties: { className: ["prose-anchor"] } },
+  integrations: [
+    react(),
+    mdx({
+      rehypePlugins: [
+        rehypeSlug,
+        rehypeCodeTitles,
+        [
+          rehypeAutolinkHeadings,
+          { behavior: "wrap", properties: { className: ["prose-anchor"] } },
+        ],
+        [rehypePrism, { showLineNumbers: true }],
+        [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
       ],
-      [rehypePrism, { showLineNumbers: true }],
-      [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
-    ],
-  }), tailwind({ applyBaseStyles: false }), sitemap(), markdoc(), process.env.NODE_ENV === "development" ? keystatic() : null, metaTags()],
+    }),
+    tailwind({ applyBaseStyles: false }),
+    sitemap(),
+    markdoc(),
+    keystatic(),
+    metaTags(),
+  ],
 });
