@@ -3,7 +3,7 @@ import "@fontsource/geist";
 import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
 import { PageHeader } from "../components";
-import { Analytics } from "@vercel/analytics/react";
+
 // import VercelAnalytics from "../components/VercelAnalytics.astro";
 // import VercelSpeedInsights from "../components/VercelSpeedInsights.astro";
 const {
@@ -68,7 +68,10 @@ const {
     <div class="flex flex-col items-center w-full min-h-fill-available">
       <PageHeader client:load />
       <slot />
-      <Analytics client:load scriptSrc="/api/data/script.js" endpoint="/api/data" />
+      <script
+        defer
+        src="https://st.nickradford.dev/script.js"
+        data-website-id="310a6df8-1977-4cdc-9650-6fc42b11dd23"></script>
     </div>
   </body>
 </html>
