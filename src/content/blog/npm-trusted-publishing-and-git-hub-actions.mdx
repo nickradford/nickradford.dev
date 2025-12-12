@@ -4,7 +4,7 @@ draft: false
 date: 2025-12-11
 tags: []
 ---
-I'm building a little yeoman-esque tool as a learning and practice opportunity, since I've got some interviews coming up, and I wanted to get the package published via GitHub Actions. I found the `release-it` tool, which seemed to be a really nice way to set up the whole publishing process, including changelog generation, publishing to both npm and GitHub packages.
+&#x20; I'm building a little yeoman-esque tool as a learning and practice opportunity, since I've got some interviews coming up, and I wanted to get the package published via GitHub Actions. I found the `release-it` tool, which seemed to be a really nice way to set up the whole publishing process, including changelog generation, publishing to both npm and GitHub packages.
 
 Well, with the recent npm suppy chain attacks, long-lived npm access tokens have been replaced with one of 2 options.
 
@@ -30,8 +30,6 @@ Fill in the organization/user and repository name, and the name of the workflow 
 Conversely, this is where I got into the weeds a bit. To be fair I was skimming a little bit and missed one critical comment in the documentation from npm, about using npm v11.5.1 or later, and ran into the aforementioned 404s.
 
 Here are the **critical** items you need in your workflow.
-
-
 
 ```yml
 permissions:
