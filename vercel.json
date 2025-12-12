@@ -1,3 +1,22 @@
 {
-  "framework": "astro"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "rewrites": [
+    {
+      "source": "/api/data/script.js",
+      "destination": "https://va.vercel-scripts.com/v1/script.js"
+    },
+    {
+      "source": "/api/data/:path*",
+      "destination": "https://nickradford.dev/_vercel/insights/:path*"
+    },
+    {
+      "source": "/api/perf/script.js",
+      "destination": "https://va.vercel-scripts.com/v1/speed-insights/script.js"
+    },
+    {
+      "source": "/api/perf/:path*",
+      "destination": "https://nickradford.dev/_vercel/speed-insights/:path*"
+    }
+  ]
 }

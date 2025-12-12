@@ -10,8 +10,7 @@ export async function GET({ params }) {
     return new Response(data, {
       status: response.status,
       headers: {
-        "Content-Type":
-          response.headers.get("Content-Type") || "application/javascript",
+        "Content-Type": response.headers.get("Content-Type") || "application/javascript",
         "Cache-Control": "public, max-age=3600",
       },
     });
@@ -43,8 +42,7 @@ export async function POST({ params, request }) {
     return new Response(data, {
       status: response.status,
       headers: {
-        "Content-Type":
-          response.headers.get("Content-Type") || "application/json",
+        "Content-Type": response.headers.get("Content-Type") || "application/json",
       },
     });
   } catch (error) {
