@@ -76,3 +76,23 @@ When you setup node with `actions/setup-node`, you can specify a node version li
     node-version: '20'
     registry-url: 'https://registry.npmjs.org'
 ```
+
+I'm really curious why GitHub (they author the setup-node action) doesn't expose an `npm-version` property here to, to simplify and unify node and npm setup. This GitHub issue has some explanation, firstly that each install of node comes bundled with npm. For instance, node 22 comes with npm\@10.9.4. Another comment mentions that the node team is considering moving npm into corepack.
+
+I think also with the matrix strategy in GitHub Actions, which allows you to run your jobs against an array of versions like so:
+
+```yaml
+  Unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v6
+      - run: corepack enable
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+```
