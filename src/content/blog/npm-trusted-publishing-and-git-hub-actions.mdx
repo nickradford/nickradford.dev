@@ -19,11 +19,11 @@ I opted for trusted publishing, as I can't trust myself to remember to rotate ke
 
 Setting up trusted publishing on the npm side is really simple. Just go to your package settings on npmjs.com and select your CI/CD provider. From here on in I'll only be mentioning GitHub Actions, but the setup should be mostly the same for GitLab.
 
-![](/npm-trusted-publishing-and-git-hub-actions/image.png)
+![Part of the npmjs.com ui, letting a maintainer select a publisher to configure trusted publishing with](/npm-trusted-publishing-and-git-hub-actions/select-publisher.png)
 
 Fill in the organization/user and repository name, and the name of the workflow file (only the name of the file including its extension) that is calling the `npm publish` command. I assume at runtime, there is some verification around that workflow filename, perhaps it's set as an environment variable in the GitHub Action runner and passed along in the publish request to be validated.
 
-![](/npm-trusted-publishing-and-git-hub-actions/image.png)
+![The form to configure your trusted publisher](/npm-trusted-publishing-and-git-hub-actions/trusted-publisher-settings.png)
 
 > Note: npm doesn't verify any of this information when you save this form. You'll only get opaque errors, usually 404s saying the package isn't found in the npm repository.
 
