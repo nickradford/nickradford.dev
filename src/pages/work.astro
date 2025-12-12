@@ -26,19 +26,13 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
 <Base title="Work" description="My professional experience and roles">
   <Page client:load>
-    <article
-      class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full"
-    >
+    <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
-        <div
-          class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800"
-        >
+        <div class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800">
           <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
           <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
-            <div
-              class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-            >
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <DecodeText
                 client:load
                 value="work"
@@ -48,21 +42,21 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 href="/nick-radford-resume-2025-10-30.pdf"
                 download="Nick-Radford-Resume.pdf"
                 class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+                data-umami-event="Download Resume"
+                data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
               >
                 Download resume
               </a>
             </div>
             <Text>
               <span class="hidden md:block">
-                Want the full picture? Download my resume for a comprehensive
-                look at my experience, key projects, achievements, and technical
-                expertise.
+                Want the full picture? Download my resume for a comprehensive look at my experience,
+                key projects, achievements, and technical expertise.
               </span>
               <span class="md:hidden">
-                A snapshot of my career journey. Each role shaped how I approach
-                product, design, and engineering. I'd love to discuss the full
-                story—the impact, the lessons, and what excites me about
-                building great things with great teams.
+                A snapshot of my career journey. Each role shaped how I approach product, design,
+                and engineering. I'd love to discuss the full story—the impact, the lessons, and
+                what excites me about building great things with great teams.
               </span>
             </Text>
           </div>
@@ -123,9 +117,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </div>
 
       {/* Jobs Grid Mobile */}
-      <div
-        class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800"
-      >
+      <div class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
         {
           jobs.map((job, index) => (
             <div class="px-8 py-4">
@@ -177,22 +169,20 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
         <div class="flex-1"></div>
         <div class="max-w-4xl w-full p-8 md:p-16">
           <p class="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
-            My career from 10,000 feet. There's much more to tell—the impact
-            made, the challenges overcome, the teams built. I'd love to chat
-            about what comes next and how we can build something great together.
+            My career from 10,000 feet. There's much more to tell—the impact made, the challenges
+            overcome, the teams built. I'd love to chat about what comes next and how we can build
+            something great together.
           </p>
         </div>
         <div class="flex-1"></div>
       </div>
 
       {/* Footer section Mobile */}
-      <div
-        class="md:hidden px-8 py-8 border-t border-yellow/20 dark:border-zinc-800"
-      >
+      <div class="md:hidden px-8 py-8 border-t border-yellow/20 dark:border-zinc-800">
         <p class="text-sm text-zinc-600 dark:text-zinc-400">
-          My career from 10,000 feet. There's much more to tell—the impact made,
-          the challenges overcome, the teams built. I'd love to chat about what
-          comes next and how we can build something great together.
+          My career from 10,000 feet. There's much more to tell—the impact made, the challenges
+          overcome, the teams built. I'd love to chat about what comes next and how we can build
+          something great together.
         </p>
       </div>
     </article>
