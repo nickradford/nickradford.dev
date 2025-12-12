@@ -25,7 +25,15 @@ Fill in the organization/user and repository name, and the name of the workflow 
 
 > Note: npm doesn't verify any of this information when you save this form. You'll only get opaque errors, usually 404s saying the package isn't found in the npm repository.
 
-
-
 ## Configuring GitHub Actions
 
+Conversely, this is where I got into the weeds a bit. To be fair I was skimming a little bit and missed one critical comment in the documentation from npm, about using npm v11.5.1 or later, and ran into the aforementioned 404s.
+
+Here are the **critical** items you need in your workflow.
+
+
+
+```yml
+permissions:
+
+```
