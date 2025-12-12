@@ -1,5 +1,5 @@
-export const BASE_URL = import.meta.env.PUBLIC_BASE_URL
-  ? import.meta.env.PUBLIC_BASE_URL
+export const BASE_URL = import.meta.env.PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${import.meta.env.PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
   : import.meta.env.PUBLIC_VERCEL_URL
     ? `https://${import.meta.env.PUBLIC_VERCEL_URL}`
     : `http://localhost:4321`;
