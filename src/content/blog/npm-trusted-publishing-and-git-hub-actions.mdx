@@ -13,6 +13,8 @@ Well, with the recent npm suppy chain attacks, long-lived npm access tokens have
 
 I opted for trusted publishing, as I can't trust myself to remember to rotate keys down the line and would likely get frustrated with the whole process eventually.
 
+---
+
 ## Configuring Trusted Publishing
 
 Setting up trusted publishing on the npm side is really simple. Just go to your package settings on npmjs.com and select your CI/CD provider. From here on in I'll only be mentioning GitHub Actions, but the setup should be mostly the same for GitLab.
@@ -24,6 +26,8 @@ Fill in the organization/user and repository name, and the name of the workflow 
 ![](/npm-trusted-publishing-and-git-hub-actions/image.png)
 
 > Note: npm doesn't verify any of this information when you save this form. You'll only get opaque errors, usually 404s saying the package isn't found in the npm repository.
+
+---
 
 ## Configuring GitHub Actions
 
@@ -51,9 +55,24 @@ This allows the worker to create the short-lived access token used by OIDC to pu
 
 ### 2. Install npm 11.5.1 or later.
 
-After setting up node, presumably using `actions/setup-node@v4`, you must install a version of npm which understands the trusted publishing workflow, which is 11.5.1 or later.
+After setting up node, presumably using `actions/setup-node@v4`, and before running `npm publish` you must install a version of npm which understands the trusted publishing workflow, which is 11.5.1 or later.
 
 ```yaml
 - name: Update npm
   run: npm install -g npm@11.5.1
+```
+
+Here's [a link to the workflow](https://github.com/nickradford/ashiba/blob/0800291790139b498026f4c8422ff765f422f453/.github/workflows/release.yml) that finally worked for me, using `release-it` and trusted publishing. Assuming you have the token permission and a valid version of npm installed, your package should publish successfully on npm.
+
+---
+
+## Thoughts
+
+When you setup node with `actions/setup-node`, you can specify a node version like so:
+
+```yaml
+- uses: actions/setup-node@v4
+  with:
+    node-version: '20'
+    registry-url: 'https://registry.npmjs.org'
 ```
