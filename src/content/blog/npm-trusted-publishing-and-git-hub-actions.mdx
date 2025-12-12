@@ -4,7 +4,7 @@ draft: false
 date: 2025-12-11
 tags: []
 ---
-&#x20; I'm building a little yeoman-esque tool as a learning and practice opportunity, since I've got some interviews coming up, and I wanted to get the package published via GitHub Actions. I found the `release-it` tool, which seemed to be a really nice way to set up the whole publishing process, including changelog generation, publishing to both npm and GitHub packages.
+I'm building a little yeoman-esque tool as a learning and practice opportunity, since I've got some interviews coming up, and I wanted to get the package published via GitHub Actions. I found the `release-it` tool, which seemed to be a really nice way to set up the whole publishing process, including changelog generation, publishing to both npm and GitHub packages.
 
 Well, with the recent npm suppy chain attacks, long-lived npm access tokens have been replaced with one of 2 options.
 
@@ -97,4 +97,3 @@ I think also with the matrix strategy in GitHub Actions, which allows you to run
 ```
 
 I even tried setting the `engine.npm` version in my package json to see if that would work, before I ultimately just added a step in the workflow.
-
