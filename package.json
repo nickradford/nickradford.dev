@@ -2,7 +2,6 @@
   "name": "beta.nickradford.dev",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "check-types": "tsc --noemit",
     "dev": "astro dev",
@@ -28,6 +27,7 @@
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.48",
     "@phosphor-icons/react": "^2.1.10",
+    "@swup/astro": "^1.7.0",
     "@tailwindcss/typography": "^0.5.8",
     "astro": "^5.16.0",
     "astro-meta-tags": "^0.4.0",
