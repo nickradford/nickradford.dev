@@ -1,0 +1,76 @@
+---
+import Page from "./Page.astro";
+import BackButton from "./BackButton.astro";
+import ByLine from "./ByLine.astro";
+import AtomLink from "./AtomLink.astro";
+import DecodeText from "./DecodeText";
+
+import type { BlogPost } from "../lib/content";
+
+interface Props {
+  meta: BlogPost;
+}
+
+const { meta } = Astro.props as Props;
+
+const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100`;
+---
+
+<Page>
+  {/* Desktop Layout */}
+  <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-yellow/20 dark:divide-zinc-800">
+    {/* Header Section */}
+    <div class="flex divide-x divide-yellow/20 dark:divide-zinc-800">
+      <div class="flex-1 pt-8 px-8 md:px-16"></div>
+      <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
+        <BackButton />
+        <div class="mb-8 space-y-4">
+          <DecodeText
+            client:load
+            decodeByWord
+            initialDelay={0}
+            revealInterval={40}
+            className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+            value={meta.title}
+          />
+          <ByLine meta={meta} />
+          <AtomLink />
+        </div>
+      </div>
+      <div class="flex-1 pt-8 px-8 md:px-16"></div>
+    </div>
+
+    {/* Content Section */}
+    <div class="flex divide-x divide-yellow/20 dark:divide-zinc-800">
+      <div class="flex-1"></div>
+      <div class="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
+        <div class={articleClasses}>
+          <slot />
+        </div>
+      </div>
+      <div class="flex-1"></div>
+    </div>
+  </article>
+
+  {/* Mobile Layout */}
+  <article class="md:hidden w-full border-l border-r border-yellow/20 dark:border-zinc-800 space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
+    {/* Header Section */}
+    <div class="px-8 py-8">
+      <BackButton />
+      <div class="space-y-4">
+        <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+          {meta.title}
+        </h1>
+        <ByLine meta={meta} />
+        <AtomLink />
+      </div>
+    </div>
+
+    {/* Content Section */}
+    <div class="px-8 py-8">
+      <div class={articleClasses}>
+        <slot />
+      </div>
+    </div>
+  </article>
+</Page>

@@ -1,0 +1,47 @@
+---
+interface Props {
+  company: string;
+  extraInfo?: string;
+  img: any;
+  role: string;
+  startDate: string;
+  endDate: string;
+}
+
+const { company, extraInfo, img, role, startDate, endDate } = Astro.props as Props;
+
+const imgSrc = (img as any).src || img;
+---
+
+<li class="flex items-start gap-4">
+  <div class="relative flex items-center justify-center flex-none w-10 h-10 rounded-full shadow-md dark:shadow-zinc-800/5 ring-1 ring-zinc-300/75 bg-zinc-200/75 dark:ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+    <img
+      src={imgSrc}
+      class="rounded-full w-7 h-7"
+      alt={`${company} logo`}
+    />
+  </div>
+  <dl class="flex flex-wrap flex-auto gap-x-2">
+    <dt class="sr-only">Company</dt>
+    <dd class="flex-none w-full text-sm font-medium text-zinc-600 dark:text-zinc-100">
+      {company}
+      {extraInfo && (
+        <span class="text-xs font-normal text-zinc-400">
+          ({extraInfo})
+        </span>
+      )}
+    </dd>
+    <dt class="sr-only">Role</dt>
+    <dd class="text-xs text-zinc-500 dark:text-zinc-400">
+      {role}
+    </dd>
+    <dt class="sr-only">Date</dt>
+    <dd class="text-xs md:ml-auto text-zinc-500/75 dark:text-zinc-500" aria-label={`${startDate} until ${endDate}`}>
+      <time datetime={startDate}>{startDate}</time>
+      {' '}
+      <span aria-hidden="true">—</span>
+      {' '}
+      <time datetime={endDate}>{endDate}</time>
+    </dd>
+  </dl>
+</li>

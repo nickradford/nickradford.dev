@@ -1,7 +1,9 @@
 ---
 export const prerender = true;
 import Base from "../layouts/BaseLayout.astro";
-import { Text, Page, DecodeText } from "../components";
+import Text from "../components/Text.astro";
+import Page from "../components/Page.astro";
+import { DecodeText } from "../components/DecodeText";
 import jobs from "../../jobs";
 
 // Helper to format dates - show full date for first 2 items, year only for rest

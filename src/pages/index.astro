@@ -2,11 +2,11 @@
 export const prerender = true;
 
 import Base from "../layouts/BaseLayout.astro";
-import { Page, HomepageBlog, DraftToggle, DecodeText } from "../components";
-import { getLatestPosts } from "../lib/get-latest-posts";
+import Page from "../components/Page.astro";
+import HomepageBlog from "../components/HomepageBlog.astro";
+import { DraftToggle } from "../components/DraftToggle";
+import { DecodeText } from "../components/DecodeText";
 import { links } from "../../links";
-
-const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
 ---
 
 <Base>
@@ -98,7 +98,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
         </ul>
       </div>
 
-      <HomepageBlog client:load posts={posts} hasMore={hasMore} />
+      <HomepageBlog />
     </article>
   </Page>
 </Base>

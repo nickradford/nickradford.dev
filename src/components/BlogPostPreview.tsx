@@ -1,27 +1,24 @@
-import { type BlogPost } from "../lib/content";
+import type { BlogPost } from "../lib/content";
 
-type BlogPostPreviewProps = {
+interface BlogPostPreviewProps {
   post: BlogPost;
-  animate?: boolean;
-};
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "long",
-});
-
-function getLocalDate(date: Date) {
-  // Adjust for timezone offset to prevent UTC offset issues
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() + offset);
 }
 
 export function BlogPostPreview({ post }: BlogPostPreviewProps) {
+  const dateFormatter = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+  });
+
+  const getLocalDate = (date: Date) => {
+    const offset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() + offset);
+  };
+
   const displayDate = getLocalDate(new Date(post.date));
 
   return (
     <a
       href={`/blog/${post.slug}`}
-      key={post.slug}
       className="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-yellow/5 transition-colors"
     >
       <article className="flex flex-col space-y-3">

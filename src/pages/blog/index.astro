@@ -1,7 +1,10 @@
 ---
 export const prerender = true;
 import Base from "../../layouts/BaseLayout.astro";
-import { Text, BlogPostPreview, Page, DecodeText } from "../../components";
+import Text from "../../components/Text.astro";
+import BlogPostPreview from "../../components/BlogPostPreview.astro";
+import Page from "../../components/Page.astro";
+import { DecodeText } from "../../components/DecodeText";
 import { getLatestPosts } from "../../lib/get-latest-posts";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
 const { posts } = await getLatestPosts();

@@ -1,4 +1,11 @@
-import { type JobItemProps } from "./src/components/JobItem";
+interface JobItemProps {
+  company: string;
+  extraInfo?: string;
+  img: any;
+  role: string;
+  startDate: string;
+  endDate: string;
+}
 
 import heyday from "./src/images/heyday.png";
 import govalo from "./src/images/govalo.png";
