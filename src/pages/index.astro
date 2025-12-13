@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Base from "../layouts/BaseLayout.astro";
 import { Page, HomepageBlog, DraftToggle, DecodeText } from "../components";
-import { getLatestPosts } from "../lib/content";
+import { getLatestPosts } from "../lib/get-latest-posts";
 import { links } from "../../links";
 
 const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
@@ -11,14 +11,10 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
 
 <Base>
   <Page client:load>
-    <article
-      class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full"
-    >
+    <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Hero Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
-        <div
-          class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800"
-        >
+        <div class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800">
           <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
           <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
             <div class="relative">
@@ -43,8 +39,8 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
               <p
                 class="font-geist-mono text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
               >
-                Senior Full‑Stack Engineer in SF. Next.js, TypeScript, DX
-                tooling, AI UI, Eng.&nbsp;Mentorship.
+                Senior Full‑Stack Engineer in SF. Next.js, TypeScript, DX tooling, AI UI,
+                Eng.&nbsp;Mentorship.
               </p>
             </div>
           </div>
@@ -85,9 +81,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
       </div>
 
       {/* Social Links Section Mobile */}
-      <div
-        class="w-full border-b border-yellow/20 dark:border-zinc-800 md:hidden px-8 py-6"
-      >
+      <div class="w-full border-b border-yellow/20 dark:border-zinc-800 md:hidden px-8 py-6">
         <ul class="flex gap-8">
           {
             links.map(([href, label, icon]) => (

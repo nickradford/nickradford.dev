@@ -2,21 +2,17 @@
 export const prerender = true;
 import Base from "../../layouts/BaseLayout.astro";
 import { H1, Text, BlogPostPreview, Page, DecodeText } from "../../components";
-import { getLatestPosts } from "../../lib/content";
+import { getLatestPosts } from "../../lib/get-latest-posts";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
-const { posts, tagMap, postsByTag } = await getLatestPosts();
+const { posts } = await getLatestPosts();
 ---
 
 <Base title="Blog" description={description}>
   <Page client:load>
-    <article
-      class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full"
-    >
+    <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
-        <div
-          class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800"
-        >
+        <div class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800">
           <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
           <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
             <DecodeText
@@ -48,9 +44,7 @@ const { posts, tagMap, postsByTag } = await getLatestPosts();
       </div>
 
       {/* Blog Posts Section Mobile */}
-      <div
-        class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800"
-      >
+      <div class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
         {posts.map((post) => <BlogPostPreview post={post} animate />)}
       </div>
     </article>
