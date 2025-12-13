@@ -11,7 +11,7 @@ const { posts } = await getLatestPosts();
 ---
 
 <Base title="Blog" description={description}>
-  <Page client:load>
+  <Page>
     <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">

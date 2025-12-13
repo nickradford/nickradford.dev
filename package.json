@@ -2,6 +2,7 @@
   "name": "beta.nickradford.dev",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "check-types": "tsc --noemit",
     "dev": "astro dev",

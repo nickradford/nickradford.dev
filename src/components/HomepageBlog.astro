@@ -79,9 +79,4 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
 
   // Initialize from localStorage
   updateDraftVisibility();
-
-  // Listen for changes from DraftToggle
-  window.addEventListener("draft-toggle-changed", () => {
-    updateDraftVisibility();
-  });
 </script>

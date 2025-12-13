@@ -1,6 +1,5 @@
 import { remark } from "remark";
 import strip from "strip-markdown";
-import slugify from "slugify";
 
 type ReadingTime = {
   text: string;
