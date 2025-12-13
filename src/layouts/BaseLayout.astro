@@ -9,7 +9,7 @@ import PageHeader from "../components/PageHeader.astro";
 const {
   title = "Nick Radford",
   description = "Senior Full‑Stack Engineer in SF.",
-  og = "https://nickradford.dev/og.png",
+  og,
   type = "website",
 } = Astro.props as {
   title?: string;
@@ -71,7 +71,7 @@ const {
   </head>
   <body class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
     <div class="flex flex-col items-center w-full min-h-fill-available">
-      <PageHeader />
+      <PageHeader transition:persist />
       <slot />
       <script
         defer
@@ -79,6 +79,65 @@ const {
         src="https://st.nickradford.dev/script.js"
         data-website-id="310a6df8-1977-4cdc-9650-6fc42b11dd23"
         data-domains="nickradford.dev"></script>
+      <script>
+        function updateActiveLinks() {
+          const currentPath = window.location.pathname;
+
+          const isActive = (href: string): boolean => {
+            if (href === "/") {
+              return currentPath === "/";
+            }
+            return currentPath.startsWith(href);
+          };
+
+          const navLinks = [
+            { label: "home", href: "/" },
+            { label: "writing", href: "/blog" },
+            { label: "work", href: "/work" },
+          ];
+
+          const pageHeaderNav = document.querySelector("#page-header-nav");
+          if (!pageHeaderNav) return;
+
+          navLinks.forEach((navLink) => {
+            const links = Array.from(
+              pageHeaderNav.querySelectorAll(
+                `a[href="${navLink.href}"]:not([data-not-active-styled])`,
+              ),
+            );
+            const active = isActive(navLink.href);
+
+            links.forEach((link) => {
+              // Update desktop styles
+              if (active) {
+                link.classList.add("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+              } else {
+                link.classList.remove("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+              }
+
+              // Handle mobile underline
+              const span = link.querySelector("span");
+              if (active && !span) {
+                const newSpan = document.createElement("span");
+                newSpan.className = "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow";
+                link.appendChild(newSpan);
+              } else if (!active && span) {
+                span.remove();
+              }
+            });
+          });
+        }
+
+        // Initial update on page load
+        updateActiveLinks();
+
+        // Update on Swup content replacement
+        document.addEventListener("swup:enable", () => {
+          if ((window as any).swup) {
+            (window as any).swup.hooks.on("animation:in:start", updateActiveLinks);
+          }
+        });
+      </script>
     </div>
   </body>
 </html>

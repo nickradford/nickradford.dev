@@ -19,36 +19,44 @@ const navLinks = [
 ---
 
 <!-- Desktop Header -->
-<div class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-yellow/20 dark:border-zinc-800 hidden md:flex">
+<div
+  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-yellow/20 dark:border-zinc-800 hidden md:flex"
+>
   <div class="flex-1 pt-6 px-8 md:px-16 border-r border-yellow/20 dark:border-zinc-800"></div>
-  <nav class="max-w-4xl w-full flex items-stretch relative divide-x divide-yellow/20 dark:divide-zinc-800 border-r border-yellow/20 dark:border-zinc-800">
+  <nav
+    id="page-header-nav"
+    class="max-w-4xl w-full flex items-stretch relative divide-x divide-yellow/20 dark:divide-zinc-800 border-r border-yellow/20 dark:border-zinc-800"
+  >
     <div class="flex items-center border-yellow/20 dark:border-zinc-800">
       <a
         href="/"
         class="text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium text-zinc-800 hover:text-yellow dark:text-zinc-100 dark:hover:text-yellow transition-colors hover:bg-yellow/5"
+        data-not-active-styled="true"
       >
         Nick&nbsp;Radford
       </a>
     </div>
-    <div class="flex-grow flex items-center justify-center border-r border-yellow/20 dark:border-zinc-800">
+    <div
+      class="flex-grow flex items-center justify-center border-r border-yellow/20 dark:border-zinc-800"
+    >
       <ul
-        class={
-          "flex px-0 *:py-4 space-x-8 md:space-x-0 text-sm w-full *:flex-1 *:text-center *:px-4"
-        }
+        class={"flex px-0 *:py-4 space-x-8 md:space-x-0 text-sm w-full *:flex-1 *:text-center *:px-4"}
       >
-        {navLinks.map(({ label, href }) => {
-          const active = isActive(href);
-          return (
-            <a
-              href={href}
-              class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow md:border-r md:border-yellow/20 dark:md:border-zinc-800 md:last:border-none ${
-                active ? "text-yellow dark:text-yellow md:bg-yellow/5" : ""
-              }`}
-            >
-              {label}
-            </a>
-          );
-        })}
+        {
+          navLinks.map(({ label, href }) => {
+            const active = isActive(href);
+            return (
+              <a
+                href={href}
+                class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow md:border-r md:border-yellow/20 dark:md:border-zinc-800 md:last:border-none ${
+                  active ? "text-yellow dark:text-yellow md:bg-yellow/5" : ""
+                }`}
+              >
+                {label}
+              </a>
+            );
+          })
+        }
       </ul>
     </div>
     <div class="flex items-center justify-end">
@@ -59,7 +67,9 @@ const navLinks = [
 </div>
 
 <!-- Mobile Header -->
-<div class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-yellow/20 dark:border-zinc-800 md:hidden px-6 pt-6">
+<div
+  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-yellow/20 dark:border-zinc-800 md:hidden px-6 pt-6"
+>
   <nav class="flex items-center justify-between relative">
     <a
       href="/"
@@ -68,25 +78,27 @@ const navLinks = [
       Nick Radford
     </a>
     <ul class="flex px-0 py-4 space-x-8 text-sm">
-      {navLinks.map(({ label, href }) => {
-        const active = isActive(href);
-        return (
-          <a
-            href={href}
-            class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow ${
-              active ? "text-yellow dark:text-yellow" : ""
-            }`}
-          >
-            {label}
-            {active && (
-              <span class="md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow"></span>
-            )}
-          </a>
-        );
-      })}
+      {
+        navLinks.map(({ label, href }) => {
+          const active = isActive(href);
+          return (
+            <a
+              href={href}
+              class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow ${
+                active ? "text-yellow dark:text-yellow" : ""
+              }`}
+            >
+              {label}
+              {active && (
+                <span class="md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow" />
+              )}
+            </a>
+          );
+        })
+      }
     </ul>
     <div>
       <ThemeToggle />
     </div>
   </nav>
-</div>
+  </div>

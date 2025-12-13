@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
-import swup from "@swup/astro";
+import swup, { Theme } from "@swup/astro";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
@@ -27,7 +27,7 @@ export default defineConfig({
   adapter: vercel(),
   output: "server",
   integrations: [
-    swup({ smoothScrolling: false, cache: false }),
+    swup({ smoothScrolling: false, globalInstance: true, theme: Theme.slide }),
     react(),
     mdx({
       rehypePlugins: [
