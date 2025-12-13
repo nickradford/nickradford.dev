@@ -1,0 +1,12 @@
+---
+import { SITE } from "../lib/site";
+import ExternalLink from "./ExternalLink.astro";
+---
+
+<ExternalLink
+  href={`${SITE}/feeds/atom.xml`}
+  class="inline-block p-2 -ml-2 group text-zinc-600 hover:text-yellow dark:text-zinc-200 dark:hover:text-yellow transition-colors"
+>
+  <i class="ph ph-rss"></i>
+  <span class="sr-only" id="rss-feed"> RSS Feed </span>
+</ExternalLink>

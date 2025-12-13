@@ -1,6 +1,5 @@
 import { remark } from "remark";
 import strip from "strip-markdown";
-import slugify from "slugify";
 
 type ReadingTime = {
   text: string;
@@ -34,14 +33,13 @@ export type TagEntry = {
   count: number;
 };
 
-export function toExcerpt(md: string) {
-  // Get the first paragraph (content before first double newline or first 200 characters)
+export function toExcerpt(md: string, maxLen = 200) {
+  // Get the first paragraph (content before first double newline or first maxLen characters)
   const firstParagraph = md.split("\n\n")[0] || md;
   const stripped = String(remark().use(strip).processSync(firstParagraph)).trim();
 
-  // Limit to 160 characters for a nice excerpt length
-  if (stripped.length > 160) {
-    return stripped.substring(0, 160).trim() + "...";
+  if (stripped.length > maxLen) {
+    return stripped.substring(0, maxLen).trim() + "...";
   }
   return stripped;
 }

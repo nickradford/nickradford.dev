@@ -2,15 +2,14 @@
 export const prerender = true;
 
 import Base from "../layouts/BaseLayout.astro";
-import { Page, HomepageBlog, DraftToggle, DecodeText } from "../components";
-import { getLatestPosts } from "../lib/get-latest-posts";
+import Page from "../components/Page.astro";
+import HomepageBlog from "../components/HomepageBlog.astro";
+import { DecodeText } from "../components/DecodeText";
 import { links } from "../../links";
-
-const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
 ---
 
 <Base>
-  <Page client:load>
+  <Page>
     <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Hero Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
@@ -56,7 +55,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
         <div class="max-w-4xl w-full">
           <ul class="flex px-16">
             {
-              links.map(([href, label, icon]) => (
+              links.map(([href, label]) => (
                 <li class="group first:border-l dark:border-zinc-800 border-r border-yellow/20 hover:bg-yellow/5 transition-colors">
                   <a
                     href={href}
@@ -68,13 +67,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
                 </li>
               ))
             }
-            {
-              import.meta.env.DEV && (
-                <li class="flex items-center px-4">
-                  <DraftToggle client:load />
-                </li>
-              )
-            }
+
           </ul>
         </div>
         <div class="flex-1 p-4 md:p-8"></div>
@@ -84,7 +77,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
       <div class="w-full border-b border-yellow/20 dark:border-zinc-800 md:hidden px-8 py-6">
         <ul class="flex gap-8">
           {
-            links.map(([href, label, icon]) => (
+            links.map(([href, label]) => (
               <li>
                 <a
                   href={href}
@@ -98,7 +91,7 @@ const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
         </ul>
       </div>
 
-      <HomepageBlog client:load posts={posts} hasMore={hasMore} />
+      <HomepageBlog />
     </article>
   </Page>
 </Base>

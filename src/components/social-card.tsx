@@ -30,10 +30,6 @@ export function SocialCard({ posts }: { posts: any[] }) {
 
         <div className="text-8xl font-bold leading-tight text-start flex-1 px-12 border-r-2 relative flex items-center">
           <h1>{post.data.title}</h1>
-          {/*<DitherTriangle className="absolute bottom-0.5 right-0.5 size-44" />
-          <DitherTriangle className="absolute top-0.5 right-0.5 size-44 -rotate-90" />
-          <DitherTriangle className="absolute top-0.5 left-0.5 size-44 -rotate-180" />
-          <DitherTriangle className="absolute bottom-0.5 left-0.5 size-44 rotate-90" />*/}
         </div>
         <div className="w-24" />
       </main>
@@ -42,14 +38,11 @@ export function SocialCard({ posts }: { posts: any[] }) {
         <div className="border-r-2 w-24" />
         <div className="border-r-2 flex-1 flex items-center px-12 text-3xl justify-end text-zinc-500">
           <p>
-            {getLocalDate(new Date(post.data.date)).toLocaleDateString(
-              "en-US",
-              {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              },
-            )}
+            {getLocalDate(new Date(post.data.date)).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </p>
         </div>
         <div className="w-24" />

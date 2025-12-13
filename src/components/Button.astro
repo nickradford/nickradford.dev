@@ -1,0 +1,22 @@
+---
+interface Props {
+  href?: string;
+  download?: boolean;
+  class?: string;
+  onClick?: string; // for inline event handlers if needed
+}
+
+const { href, download, class: className = "", onClick } = Astro.props;
+
+const classes = `flex items-center justify-center w-full gap-4 py-3 transition-colors rounded-xl bg-zinc-200 text-zinc-700 hover:bg-zinc-300 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800 ${className}`;
+---
+
+{href ? (
+  <a class={classes} href={href} {...(download ? { download: true } : {})}>
+    <slot />
+  </a>
+) : (
+  <button class={classes} onclick={onClick}>
+    <slot />
+  </button>
+)}

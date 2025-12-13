@@ -1,7 +1,9 @@
 ---
 export const prerender = true;
 import Base from "../layouts/BaseLayout.astro";
-import { H1, Text, Page, DecodeText } from "../components";
+import Text from "../components/Text.astro";
+import Page from "../components/Page.astro";
+import { DecodeText } from "../components/DecodeText";
 import jobs from "../../jobs";
 
 // Helper to format dates - show full date for first 2 items, year only for rest
@@ -25,7 +27,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 ---
 
 <Base title="Work" description="My professional experience and roles">
-  <Page client:load>
+  <Page>
     <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
       <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
