@@ -1,0 +1,35 @@
+---
+import type { BlogPost } from "../lib/content";
+
+interface Props {
+  meta: BlogPost;
+}
+
+const { meta } = Astro.props;
+
+const getLocalDate = (date: Date) => {
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + offset);
+};
+
+const displayDate = meta.date ? getLocalDate(new Date(meta.date)) : new Date();
+---
+
+<div class="flex items-center justify-between text-sm not-prose">
+  <div
+    class="flex items-center gap-3 text-zinc-600 dark:text-zinc-400 font-geist-mono text-xs md:text-sm"
+  >
+    <span>Nick Radford</span>
+    <span class="text-zinc-300 dark:text-zinc-600">&bull;</span>
+    <time datetime={meta.date ? new Date(meta.date).toISOString() : undefined}>
+      <span class="hidden md:block">
+        {Intl.DateTimeFormat("en-us", { dateStyle: "long" }).format(displayDate)}
+      </span>
+      <span class="md:hidden">
+        {Intl.DateTimeFormat("en-us", { dateStyle: "medium" }).format(displayDate)}
+      </span>
+    </time>
+    <span class="text-zinc-300 dark:text-zinc-600">&bull;</span>
+    <div class="font-geist-mono text-yellow">{meta.readingTime.text}</div>
+  </div>
+</div>
