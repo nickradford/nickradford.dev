@@ -1,5 +1,4 @@
-import { BlogPost } from "../lib/content";
-import { motion } from "framer-motion";
+import { type BlogPost } from "../lib/content";
 
 type BlogPostPreviewProps = {
   post: BlogPost;
@@ -16,20 +15,14 @@ function getLocalDate(date: Date) {
   return new Date(date.getTime() + offset);
 }
 
-export function BlogPostPreview({
-  post,
-  animate = false,
-}: BlogPostPreviewProps) {
+export function BlogPostPreview({ post }: BlogPostPreviewProps) {
   const displayDate = getLocalDate(new Date(post.date));
 
   return (
-    <motion.a
+    <a
       href={`/blog/${post.slug}`}
       key={post.slug}
       className="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-yellow/5 transition-colors"
-      initial={false}
-      animate={{ opacity: 1 }}
-      layoutId={animate ? post.slug : undefined}
     >
       <article className="flex flex-col space-y-3">
         <div className="space-y-2">
@@ -54,6 +47,6 @@ export function BlogPostPreview({
           Read more →
         </span>
       </article>
-    </motion.a>
+    </a>
   );
 }

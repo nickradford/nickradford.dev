@@ -12,7 +12,7 @@ export const PageHeader = () => {
           <div className="flex items-center border-yellow/20 dark:border-zinc-800">
             <a
               href="/"
-              className="text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors hover:bg-yellow/5 "
+              className="text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium text-zinc-800 hover:text-yellow dark:text-zinc-100 dark:hover:text-yellow transition-colors hover:bg-yellow/5 "
             >
               Nick&nbsp;Radford
             </a>

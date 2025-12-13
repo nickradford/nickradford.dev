@@ -4,8 +4,9 @@ import { ByLine } from "./ByLine";
 import { BackButton } from "./BackButton";
 import { Page } from "./Page";
 
-import { BlogPost } from "../lib/content";
+import { type BlogPost } from "../lib/content";
 import { AtomLink } from "./AtomLink";
+import { DecodeText } from "./DecodeText";
 
 type BlogPageProps = {
   children: React.ReactNode;
@@ -25,12 +26,16 @@ export function BlogPage({ children, meta }: BlogPageProps) {
         {/* Header Section */}
         <div className="flex divide-x divide-yellow/20 dark:divide-zinc-800">
           <div className="flex-1 pt-8 px-8 md:px-16"></div>
-          <div className="max-w-4xl w-full px-8 md:px-16 pt-8 pb-8">
+          <div className="max-w-4xl w-full px-8 md:px-16 pt-8">
             <BackButton />
             <div className="mb-8 space-y-4">
-              <h1 className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                {meta.title}
-              </h1>
+              <DecodeText
+                decodeByWord
+                initialDelay={0}
+                revealInterval={40}
+                className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+                value={meta.title}
+              />
               <ByLine meta={meta} />
               <AtomLink />
             </div>
@@ -53,7 +58,7 @@ export function BlogPage({ children, meta }: BlogPageProps) {
         {/* Header Section */}
         <div className="px-8 py-8">
           <BackButton />
-          <div className="mb-8 space-y-4">
+          <div className=" space-y-4">
             <h1 className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
               {meta.title}
             </h1>

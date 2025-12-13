@@ -1,8 +1,8 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { type MutableRefObject, useEffect, useState } from "react";
 
 export function useOnScreen<T extends Element>(
   ref: MutableRefObject<T>,
-  rootMargin = "50px"
+  rootMargin = "50px",
 ): boolean {
   // State and setter for storing whether element is visible
   const [isIntersecting, setIntersecting] = useState(true);
@@ -14,7 +14,7 @@ export function useOnScreen<T extends Element>(
       },
       {
         rootMargin,
-      }
+      },
     );
     if (ref.current) {
       observer.observe(ref.current);

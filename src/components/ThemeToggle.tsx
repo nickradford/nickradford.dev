@@ -1,5 +1,6 @@
 import { useThemeToggle, THEME } from "../hooks/useThemeToggle";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+// import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { MoonStarsIcon, SunIcon } from "@phosphor-icons/react";
 import classNames from "classnames";
 
 export function ThemeToggle() {
@@ -18,7 +19,7 @@ export function ThemeToggle() {
       title={theme === THEME.light ? "Dark mode" : "Light mode"}
     >
       {theme === THEME.light ? (
-        <MoonIcon className="w-5 h-5" />
+        <MoonStarsIcon className="w-5 h-5" />
       ) : (
         <SunIcon className="w-5 h-5" />
       )}

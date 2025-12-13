@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import classnames from "classnames";
 
 export function BackButton() {

@@ -1,13 +1,12 @@
-import { getCollection, getEntry } from "astro:content";
 import { remark } from "remark";
 import strip from "strip-markdown";
 import slugify from "slugify";
 
 type ReadingTime = {
   text: string;
-minutes: number;
-time: number;
-words: number;
+  minutes: number;
+  time: number;
+  words: number;
 };
 
 export function calculateReadingTime(text: string): ReadingTime {
@@ -21,7 +20,7 @@ export function calculateReadingTime(text: string): ReadingTime {
 
 export type BlogPost = {
   title: string;
-  date: string;
+  date: Date;
   slug: string;
   excerpt: string;
   readingTime: ReadingTime;
@@ -47,18 +46,17 @@ export function toExcerpt(md: string) {
   return stripped;
 }
 
-export async function getPostBySlug(slug: string) {
-  return await getEntry("blog", slug);
-}
-
 export async function getLatestPosts(options?: { includeDrafts?: boolean }): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
   postsByTag: Record<string, BlogPost[]>;
 }> {
+  // import { getCollection, getEntry } from "astro:content";
+  const getCollection = (await import("astro:content")).getCollection;
+
   const entries = await getCollection("blog", ({ data }) =>
-    options?.includeDrafts ? true : !data.draft
+    options?.includeDrafts ? true : !data.draft,
   );
 
   const posts: BlogPost[] = entries.map((e) => ({
@@ -86,8 +84,7 @@ export async function getLatestPosts(options?: { includeDrafts?: boolean }): Pro
   for (const [slug, arr] of Object.entries(postsByTag)) {
     arr.sort((a, b) => (a.date < b.date ? 1 : -1));
     tagMap[slug] = {
-      label:
-        arr[0].tags?.find((t) => slugify(t).toLowerCase() === slug) || slug,
+      label: arr[0].tags?.find((t) => slugify(t).toLowerCase() === slug) || slug,
       slug,
       count: arr.length,
     };
