@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <button
@@ -8,10 +9,10 @@
   title="Dark mode"
 >
   <!-- Moon icon (shown in light mode) -->
-  <i id="moon-icon" class="ph ph-moon w-5 h-5 hidden"></i>
+  <i id="moon-icon" class="ph ph-moon-stars text-xl hidden"></i>
 
   <!-- Sun icon (shown in dark mode) -->
-  <i id="sun-icon" class="ph ph-sun w-5 h-5"></i>
+  <i id="sun-icon" class="ph ph-sun text-xl"></i>
 </button>
 
 <script>
@@ -28,9 +29,7 @@
       return stored;
     }
     // Infer theme from media query
-    const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
     return prefersDarkMode ? "dark" : "light";
   }
 
