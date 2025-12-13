@@ -70,10 +70,11 @@ const navLinks = [
 <div
   class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-yellow/20 dark:border-zinc-800 md:hidden px-6 pt-6"
 >
-  <nav class="flex items-center justify-between relative">
+  <nav id="page-header-nav-mobile" class="flex items-center justify-between relative">
     <a
       href="/"
       class="absolute -top-3 text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+      data-not-active-styled="true"
     >
       Nick Radford
     </a>
@@ -101,4 +102,4 @@ const navLinks = [
       <ThemeToggle />
     </div>
   </nav>
-  </div>
+</div>

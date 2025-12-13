@@ -4,19 +4,21 @@ import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
 import PageHeader from "../components/PageHeader.astro";
 
-// import VercelAnalytics from "../components/VercelAnalytics.astro";
-// import VercelSpeedInsights from "../components/VercelSpeedInsights.astro";
-const {
-  title = "Nick Radford",
-  description = "Senior Full‑Stack Engineer in SF.",
-  og,
-  type = "website",
-} = Astro.props as {
+type Props = {
   title?: string;
   description?: string;
   og?: string;
   type?: string;
 };
+
+// import VercelAnalytics from "../components/VercelAnalytics.astro";
+// import VercelSpeedInsights from "../components/VercelSpeedInsights.astro";
+const {
+  title = "Nick Radford",
+  description = "Senior Full‑Stack Engineer in SF.",
+  og = undefined,
+  type = "website",
+} = Astro.props;
 ---
 
 <html lang="en">
@@ -24,13 +26,19 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- other meta tags -->
-    <meta property="og:image" content={og} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content={title} />
-    <meta property="og:type" content={type} />
-    <meta property="og:url" content={Astro.url.href} />
+    {
+      og && (
+        <>
+          <meta property="og:image" content={og} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:type" content="image/png" />
+          <meta property="og:image:alt" content={title} />
+          <meta property="og:type" content={type} />
+          <meta property="og:url" content={Astro.url.href} />
+        </>
+      )
+    }
 
     <!-- og title and description -->
     <meta property="og:title" content={title} />
@@ -39,10 +47,16 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta
-      name="twitter:image"
-      content={import.meta.env.PROD ? `https://nickradford.dev${og}` : `http://localhost:4321${og}`}
-    />
+    {
+      og && (
+        <meta
+          name="twitter:image"
+          content={
+            import.meta.env.PROD ? `https://nickradford.dev${og}` : `http://localhost:4321${og}`
+          }
+        />
+      )
+    }
 
     <link rel="icon" href="/favicon.ico" />
     <link
@@ -96,40 +110,65 @@ const {
             { label: "work", href: "/work" },
           ];
 
+          // Update desktop nav
           const pageHeaderNav = document.querySelector("#page-header-nav");
-          if (!pageHeaderNav) return;
+          if (pageHeaderNav) {
+            navLinks.forEach((navLink) => {
+              const links = Array.from(
+                pageHeaderNav.querySelectorAll(
+                  `a[href="${navLink.href}"]:not([data-not-active-styled])`,
+                ),
+              );
+              const active = isActive(navLink.href);
 
-          navLinks.forEach((navLink) => {
-            const links = Array.from(
-              pageHeaderNav.querySelectorAll(
-                `a[href="${navLink.href}"]:not([data-not-active-styled])`,
-              ),
-            );
-            const active = isActive(navLink.href);
-
-            links.forEach((link) => {
-              // Update desktop styles
-              if (active) {
-                link.classList.add("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
-              } else {
-                link.classList.remove("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
-              }
-
-              // Handle mobile underline
-              const span = link.querySelector("span");
-              if (active && !span) {
-                const newSpan = document.createElement("span");
-                newSpan.className = "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow";
-                link.appendChild(newSpan);
-              } else if (!active && span) {
-                span.remove();
-              }
+              links.forEach((link) => {
+                if (active) {
+                  link.classList.add("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+                } else {
+                  link.classList.remove("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+                }
+              });
             });
-          });
+          }
+
+          // Update mobile nav
+          const pageHeaderNavMobile = document.querySelector("#page-header-nav-mobile");
+          if (pageHeaderNavMobile) {
+            navLinks.forEach((navLink) => {
+              const links = Array.from(
+                pageHeaderNavMobile.querySelectorAll(
+                  `a[href="${navLink.href}"]:not([data-not-active-styled])`,
+                ),
+              );
+              const active = isActive(navLink.href);
+
+              links.forEach((link) => {
+                if (active) {
+                  link.classList.add("text-yellow", "dark:text-yellow");
+                } else {
+                  link.classList.remove("text-yellow", "dark:text-yellow");
+                }
+
+                // Handle mobile underline
+                const span = link.querySelector("span");
+                if (active && !span) {
+                  const newSpan = document.createElement("span");
+                  newSpan.className =
+                    "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow";
+                  link.appendChild(newSpan);
+                } else if (!active && span) {
+                  span.remove();
+                }
+              });
+            });
+          }
         }
 
         // Initial update on page load
         updateActiveLinks();
+
+        // Update on back/forward button
+        window.addEventListener("popstate", updateActiveLinks);
 
         // Update on Swup content replacement
         document.addEventListener("swup:enable", () => {
