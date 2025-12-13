@@ -2,7 +2,7 @@
 import BlogPostPreview from "./BlogPostPreview.astro";
 import { getLatestPosts } from "../lib/get-latest-posts";
 
-const { posts, hasMore } = await getLatestPosts({ includeDrafts: true });
+const { posts, hasMore } = await getLatestPosts({ includeDrafts: false });
 ---
 
 <div class="homepage-blog">
