@@ -1,5 +1,5 @@
 ---
-import { ThemeToggle } from "./ThemeToggle";
+import ThemeToggle from "./ThemeToggle.astro";
 
 const currentPath = Astro.url.pathname;
 
@@ -52,7 +52,7 @@ const navLinks = [
       </ul>
     </div>
     <div class="flex items-center justify-end">
-      <ThemeToggle client:load />
+      <ThemeToggle />
     </div>
   </nav>
   <div class="flex-1 pt-6 px-8 md:px-16"></div>
@@ -86,7 +86,7 @@ const navLinks = [
       })}
     </ul>
     <div>
-      <ThemeToggle client:load />
+      <ThemeToggle />
     </div>
   </nav>
 </div>

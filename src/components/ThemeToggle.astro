@@ -1,0 +1,94 @@
+---
+---
+
+<button
+  id="theme-toggle"
+  class="text-zinc-600 hover:text-yellow transition-colors dark:text-zinc-400 dark:hover:text-yellow px-4 md:px-8 h-full"
+  aria-label="Toggle theme"
+  title="Dark mode"
+>
+  <!-- Moon icon (shown in light mode) -->
+  <svg
+    id="moon-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    class="w-5 h-5 hidden"
+    fill="currentColor"
+  >
+    <rect width="256" height="256" fill="none"></rect>
+    <path
+      d="M216.77,60.33A96,96,0,1,0,115.89,235.85a8,8,0,1,0,6.3-14.77A80,80,0,1,1,203.4,77.55a8,8,0,0,0,13.37-17.22Z"
+    ></path>
+  </svg>
+
+  <!-- Sun icon (shown in dark mode) -->
+  <svg
+    id="sun-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    class="w-5 h-5"
+    fill="currentColor"
+  >
+    <rect width="256" height="256" fill="none"></rect>
+    <circle cx="128" cy="128" r="60" fill="none" stroke="currentColor" stroke-width="16"></circle>
+    <line x1="128" y1="24" x2="128" y2="44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="128" y1="212" x2="128" y2="232" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="224" y1="128" x2="244" y2="128" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="12" y1="128" x2="32" y2="128" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="195.9" y1="60.1" x2="211.3" y2="44.7" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="44.7" y1="211.3" x2="60.1" y2="195.9" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="60.1" y1="60.1" x2="44.7" y2="44.7" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+    <line x1="211.3" y1="211.3" x2="195.9" y2="195.9" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"></line>
+  </svg>
+</button>
+
+<script>
+  type Theme = "light" | "dark";
+
+  const STORAGE_KEY = "theme";
+  const button = document.getElementById("theme-toggle");
+  const moonIcon = document.getElementById("moon-icon");
+  const sunIcon = document.getElementById("sun-icon");
+
+  function getTheme(): Theme {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === "light" || stored === "dark") {
+      return stored;
+    }
+    // Infer theme from media query
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    return prefersDarkMode ? "dark" : "light";
+  }
+
+  function updateThemeUI(theme: Theme) {
+    if (theme === "light") {
+      moonIcon?.classList.remove("hidden");
+      sunIcon?.classList.add("hidden");
+      button?.setAttribute("title", "Dark mode");
+    } else {
+      moonIcon?.classList.add("hidden");
+      sunIcon?.classList.remove("hidden");
+      button?.setAttribute("title", "Light mode");
+    }
+  }
+
+  function toggleTheme() {
+    const currentTheme = getTheme();
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+    document.documentElement.classList.remove(currentTheme);
+    document.documentElement.classList.add(newTheme);
+    localStorage.setItem(STORAGE_KEY, newTheme);
+
+    updateThemeUI(newTheme);
+  }
+
+  // Initialize UI on page load
+  const initialTheme = getTheme();
+  updateThemeUI(initialTheme);
+
+  // Add click handler
+  button?.addEventListener("click", toggleTheme);
+</script>
