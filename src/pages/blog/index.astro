@@ -38,7 +38,7 @@ const { posts } = await getLatestPosts();
             <div class="flex divide-x divide-yellow/20 dark:divide-zinc-800">
               <div class="flex-1" />
               <div class="max-w-4xl w-full">
-                <BlogPostPreview post={post} animate />
+                <BlogPostPreview post={post} />
               </div>
               <div class="flex-1" />
             </div>
@@ -48,7 +48,7 @@ const { posts } = await getLatestPosts();
 
       {/* Blog Posts Section Mobile */}
       <div class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
-        {posts.map((post) => <BlogPostPreview post={post} animate />)}
+        {posts.map((post) => <BlogPostPreview post={post} />)}
       </div>
     </article>
   </Page>

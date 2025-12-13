@@ -173,6 +173,7 @@ const {
         // Update on Swup content replacement
         document.addEventListener("swup:enable", () => {
           if ((window as any).swup) {
+            (window as any).swup.options.animateHistoryBrowsing = true;
             (window as any).swup.hooks.on("animation:in:start", updateActiveLinks);
           }
         });
