@@ -47,7 +47,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 data-umami-event="Download Resume"
                 data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
               >
-                Download resume
+                Download resume <i class="ph ph-file-pdf text-lg"></i>
               </a>
             </div>
             <Text>
@@ -74,7 +74,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           jobs.map((job, index) => (
             <div class="flex divide-x divide-yellow/20 dark:divide-zinc-800">
               <div class="flex-1" />
-              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6">
+              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group">
                 <div class="flex gap-6">
                   {/* Logo */}
                   <div class="flex-none">
@@ -82,7 +82,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                       <img
                         src={(job.img as any).src || job.img}
                         alt={job.company}
-                        class="w-full h-full object-cover"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all ease-in duration-300"
                       />
                     </div>
                   </div>
@@ -92,7 +92,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                     <div class="space-y-2">
                       <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
                         <div class="space-y-1">
-                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
+                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors ease-in duration-300">
                             {job.company}
                             {job.extraInfo && (
                               <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">

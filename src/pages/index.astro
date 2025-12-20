@@ -6,6 +6,7 @@ import Page from "../components/Page.astro";
 import HomepageBlog from "../components/HomepageBlog.astro";
 import { DecodeText } from "../components/DecodeText";
 import { links } from "../../links";
+import ExternalLink from "src/components/ExternalLink.astro";
 ---
 
 <Base>
@@ -55,19 +56,18 @@ import { links } from "../../links";
         <div class="max-w-4xl w-full">
           <ul class="flex px-16">
             {
-              links.map(([href, label]) => (
+              links.map(([href, label, icon]) => (
                 <li class="group first:border-l dark:border-zinc-800 border-r border-yellow/20 hover:bg-yellow/5 transition-colors">
-                  <a
+                  <ExternalLink
                     href={href}
-                    target="_blank"
+                    icon={icon}
                     class="block text-sm p-8 font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
                   >
                     {label}
-                  </a>
+                  </ExternalLink>
                 </li>
               ))
             }
-
           </ul>
         </div>
         <div class="flex-1 p-4 md:p-8"></div>
