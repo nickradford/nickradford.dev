@@ -16,6 +16,11 @@
             min-height: -webkit-fill-available;
         }
     }
+
+    .squircle {
+        @apply rounded-2xl;
+        corner-shape: superellipse(1.5);
+    }
 }
 
 html {
@@ -47,18 +52,6 @@ pre {
 
 pre[class*="language-"] {
     @apply !bg-zinc-800 !mt-0;
-}
-
-.headroom {
-    @apply relative transition will-change-transform ease-in-out duration-300;
-}
-
-.headroom--pinned {
-    @apply translate-y-0 scale-100;
-}
-
-.headroom--unpinned {
-    @apply -translate-y-16 scale-90;
 }
 
 .rehype-code-title:has(+ pre) + pre {

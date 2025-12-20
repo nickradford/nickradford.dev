@@ -30,25 +30,18 @@ const { posts } = await getLatestPosts();
       </header>
 
       {/* Blog Posts Section */}
-      <div
-        class="w-full hidden md:flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
-      >
+      <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
         {
-          posts.map((post) => (
-            <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
+          posts.map((post, index) => (
+            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
               <div class="flex-1" />
               <div class="max-w-4xl w-full">
-                <BlogPostPreview post={post} />
+                <BlogPostPreview post={post} bottomCrosses={index === posts.length - 1} />
               </div>
               <div class="flex-1" />
             </div>
           ))
         }
-      </div>
-
-      {/* Blog Posts Section Mobile */}
-      <div class="w-full md:hidden space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
-        {posts.map((post) => <BlogPostPreview post={post} />)}
       </div>
     </article>
   </Page>

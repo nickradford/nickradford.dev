@@ -5,64 +5,20 @@ import { getLatestPosts } from "../lib/get-latest-posts";
 const { posts, hasMore } = await getLatestPosts({ includeDrafts: false });
 ---
 
-<div class="homepage-blog">
-  {/* Blog Section Desktop */}
-  <div
-    class="w-full hidden md:flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
-  >
-    {
-      posts.map((post) => (
-        <div
-          class="flex divide-x divide-orange/20 dark:divide-zinc-800"
-          data-draft={post.draft}
-          data-slug={post.slug}
-        >
-          <div class="flex-1" />
-          <div class="max-w-4xl w-full">
-            <BlogPostPreview post={post} />
-          </div>
-          <div class="flex-1" />
+<div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+  {
+    posts.map((post, index) => (
+      <div
+        class="flex md:divide-x divide-orange/20 dark:divide-zinc-800"
+        data-draft={post.draft}
+        data-slug={post.slug}
+      >
+        <div class="flex-1 hidden md:flex" />
+        <div class="max-w-4xl w-full">
+          <BlogPostPreview post={post} bottomCrosses={index === posts.length - 1} />
         </div>
-      ))
-    }
-    {
-      hasMore && posts.length > 0 && (
-        <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
-          <div class="flex-1" />
-          <div class="max-w-4xl w-full px-8 md:px-16 pt-6 pb-6">
-            <a
-              href="/blog"
-              class="inline-block text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
-            >
-              view all →
-            </a>
-          </div>
-          <div class="flex-1" />
-        </div>
-      )
-    }
-  </div>
-
-  {/* Blog Section Mobile */}
-  <div class="w-full md:hidden space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
-    {
-      posts.map((post) => (
-        <div data-draft={post.draft} data-slug={post.slug}>
-          <BlogPostPreview post={post} />
-        </div>
-      ))
-    }
-    {
-      hasMore && posts.length > 0 && (
-        <div class="px-8 pt-6 pb-6">
-          <a
-            href="/blog"
-            class="inline-block text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors border-b border-zinc-300 dark:border-zinc-700 pb-1"
-          >
-            view all →
-          </a>
-        </div>
-      )
-    }
-  </div>
+        <div class="flex-1 hidden md:flex" />
+      </div>
+    ))
+  }
 </div>

@@ -4,9 +4,10 @@ import { getLocalDate } from "../lib/format-date";
 
 interface Props {
   post: BlogPost;
+  bottomCrosses?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, bottomCrosses } = Astro.props;
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
@@ -17,7 +18,7 @@ const displayDate = getLocalDate(new Date(post.date));
 
 <a
   href={`/blog/${post.slug}`}
-  class="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors"
+  class="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors relative"
 >
   <article class="flex flex-col space-y-3">
     <div class="space-y-2">
@@ -50,4 +51,41 @@ const displayDate = getLocalDate(new Date(post.date));
       Read more <i class="ph ph-arrow-right top-px relative"></i>
     </span>
   </article>
+  <div class="dark:text-zinc-500 text-yellow-500 z-10">
+    <svg
+      class="absolute left-0 top-0 size-4 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+      viewBox="0 0 8 8"
+    >
+      <line x1="4" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1"></line>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="currentColor" stroke-width="1"></line>
+    </svg>
+    <svg
+      class="absolute right-0 top-0 size-4 translate-x-1/2 -translate-y-1/2 pointer-events-none"
+      viewBox="0 0 8 8"
+    >
+      <line x1="4" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1"></line>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="currentColor" stroke-width="1"></line>
+    </svg>
+
+    {
+      bottomCrosses && (
+        <>
+          <svg
+            class="absolute left-0 bottom-0 size-4 pointer-events-none -translate-x-1/2 translate-y-1/2"
+            viewBox="0 0 8 8"
+          >
+            <line x1="4" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1" />
+            <line x1="0" y1="4" x2="8" y2="4" stroke="currentColor" stroke-width="1" />
+          </svg>
+          <svg
+            class="absolute right-0 bottom-0 size-4 translate-x-1/2 translate-y-1/2 pointer-events-none"
+            viewBox="0 0 8 8"
+          >
+            <line x1="4" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1" />
+            <line x1="0" y1="4" x2="8" y2="4" stroke="currentColor" stroke-width="1" />
+          </svg>
+        </>
+      )
+    }
+  </div>
 </a>
