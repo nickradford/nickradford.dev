@@ -123,9 +123,9 @@ const {
 
               links.forEach((link) => {
                 if (active) {
-                  link.classList.add("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+                  link.classList.add("text-orange", "dark:text-orange", "md:bg-orange/5");
                 } else {
-                  link.classList.remove("text-yellow", "dark:text-yellow", "md:bg-yellow/5");
+                  link.classList.remove("text-orange", "dark:text-orange", "md:bg-orange/5");
                 }
               });
             });
@@ -144,9 +144,9 @@ const {
 
               links.forEach((link) => {
                 if (active) {
-                  link.classList.add("text-yellow", "dark:text-yellow");
+                  link.classList.add("text-orange", "dark:text-orange");
                 } else {
-                  link.classList.remove("text-yellow", "dark:text-yellow");
+                  link.classList.remove("text-orange", "dark:text-orange");
                 }
 
                 // Handle mobile underline
@@ -154,7 +154,7 @@ const {
                 if (active && !span) {
                   const newSpan = document.createElement("span");
                   newSpan.className =
-                    "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-yellow";
+                    "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-orange";
                   link.appendChild(newSpan);
                 } else if (!active && span) {
                   span.remove();

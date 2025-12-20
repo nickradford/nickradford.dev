@@ -20,7 +20,7 @@ export function SocialCard({ posts }: { posts: any[] }) {
       <header className="h-24 border-b-2 border-zinc-700 flex *:border-zinc-700 relative">
         <div className="border-r-2 w-24" />
         <div className="border-r-2 flex-1 px-12 flex items-center text-5xl">
-          <p className="text-yellow">Nick Radford</p>
+          <p className="text-orange">Nick Radford</p>
         </div>
         <div className="w-24" />
       </header>

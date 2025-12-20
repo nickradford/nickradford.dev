@@ -11,15 +11,15 @@ import ExternalLink from "src/components/ExternalLink.astro";
 
 <Base>
   <Page>
-    <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
+    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
       {/* Hero Section */}
-      <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
-        <div class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800">
+      <header class="w-full border-b border-orange/20 dark:border-zinc-800">
+        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
           <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
           <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
             <div class="relative">
               <div
-                class="absolute -top-2 -left-4 w-48 h-48 bg-yellow/10 dark:bg-yellow/5 rounded-full blur-3xl -z-10"
+                class="absolute -top-2 -left-4 w-48 h-48 bg-orange/10 dark:bg-orange/5 rounded-full blur-3xl -z-10"
               >
               </div>
               <h1
@@ -50,18 +50,18 @@ import ExternalLink from "src/components/ExternalLink.astro";
 
       {/* Social Links Section */}
       <div
-        class="w-full border-b border-yellow/20 dark:border-zinc-800 hidden md:flex divide-x divide-yellow/20 dark:divide-zinc-800"
+        class="w-full border-b border-orange/20 dark:border-zinc-800 hidden md:flex divide-x divide-orange/20 dark:divide-zinc-800"
       >
         <div class="flex-1 p-4 md:p-8"></div>
         <div class="max-w-4xl w-full">
           <ul class="flex px-16">
             {
               links.map(([href, label, icon]) => (
-                <li class="group first:border-l dark:border-zinc-800 border-r border-yellow/20 hover:bg-yellow/5 transition-colors">
+                <li class="group first:border-l dark:border-zinc-800 border-r border-orange/20 hover:bg-orange/5 transition-colors">
                   <ExternalLink
                     href={href}
                     icon={icon}
-                    class="block text-sm p-8 font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+                    class="block text-sm p-8 font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
                   >
                     {label}
                   </ExternalLink>
@@ -74,14 +74,14 @@ import ExternalLink from "src/components/ExternalLink.astro";
       </div>
 
       {/* Social Links Section Mobile */}
-      <div class="w-full border-b border-yellow/20 dark:border-zinc-800 md:hidden px-8 py-6">
+      <div class="w-full border-b border-orange/20 dark:border-zinc-800 md:hidden px-8 py-6">
         <ul class="flex gap-8">
           {
             links.map(([href, label]) => (
               <li>
                 <a
                   href={href}
-                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow transition-colors"
+                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
                 >
                   {label}
                 </a>

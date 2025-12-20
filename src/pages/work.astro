@@ -28,10 +28,10 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
 <Base title="Work" description="My professional experience and roles">
   <Page>
-    <article class="border-l border-r border-yellow/20 dark:border-zinc-800 w-full">
+    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
-      <header class="w-full border-b border-yellow/20 dark:border-zinc-800">
-        <div class="flex flex-col md:flex-row md:divide-x divide-yellow/20 dark:divide-zinc-800">
+      <header class="w-full border-b border-orange/20 dark:border-zinc-800">
+        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
           <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
           <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -43,7 +43,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
               <a
                 href="/nick-radford-resume-2025-10-30.pdf"
                 download="Nick-Radford-Resume.pdf"
-                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-yellow hover:bg-yellow/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
+                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-orange hover:bg-orange/90 transition-colors rounded-lg whitespace-nowrap flex-shrink-0"
                 data-umami-event="Download Resume"
                 data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
               >
@@ -68,11 +68,11 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
       {/* Jobs Grid */}
       <div
-        class="w-full hidden md:flex flex-col space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800"
+        class="w-full hidden md:flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
       >
         {
           jobs.map((job, index) => (
-            <div class="flex divide-x divide-yellow/20 dark:divide-zinc-800">
+            <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
               <div class="flex-1" />
               <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group">
                 <div class="flex gap-6">
@@ -92,7 +92,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                     <div class="space-y-2">
                       <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
                         <div class="space-y-1">
-                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-yellow dark:group-hover:text-yellow transition-colors ease-in duration-300">
+                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors ease-in duration-300">
                             {job.company}
                             {job.extraInfo && (
                               <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
@@ -119,7 +119,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </div>
 
       {/* Jobs Grid Mobile */}
-      <div class="w-full md:hidden space-y-0 divide-y divide-yellow/20 dark:divide-zinc-800">
+      <div class="w-full md:hidden space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
         {
           jobs.map((job, index) => (
             <div class="px-8 py-4">
@@ -140,7 +140,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                   <div class="space-y-2">
                     <div class="flex flex-col gap-2">
                       <div class="space-y-1">
-                        <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 hover:text-yellow dark:hover:text-yellow transition-colors">
+                        <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 hover:text-orange dark:hover:text-orange transition-colors">
                           {job.company}
                           {job.extraInfo && (
                             <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
@@ -166,7 +166,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
       {/* Footer section */}
       <div
-        class="w-full hidden md:flex divide-x divide-yellow/20 dark:divide-zinc-800 border-t border-yellow/20 dark:border-zinc-800"
+        class="w-full hidden md:flex divide-x divide-orange/20 dark:divide-zinc-800 border-t border-orange/20 dark:border-zinc-800"
       >
         <div class="flex-1"></div>
         <div class="max-w-4xl w-full p-8 md:p-16">
@@ -180,7 +180,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </div>
 
       {/* Footer section Mobile */}
-      <div class="md:hidden px-8 py-8 border-t border-yellow/20 dark:border-zinc-800">
+      <div class="md:hidden px-8 py-8 border-t border-orange/20 dark:border-zinc-800">
         <p class="text-sm text-zinc-600 dark:text-zinc-400">
           My career from 10,000 feet. There's much more to tell—the impact made, the challenges
           overcome, the teams built. I'd love to chat about what comes next and how we can build

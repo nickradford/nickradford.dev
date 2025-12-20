@@ -8,17 +8,17 @@ const currentYear = new Date().getFullYear();
 <>
   {/* Desktop Footer */}
   <footer
-    class="w-full hidden md:flex border border-yellow/20 dark:border-zinc-800 divide-x divide-yellow/20 dark:divide-zinc-800"
+    class="w-full hidden md:flex border border-orange/20 dark:border-zinc-800 divide-x divide-orange/20 dark:divide-zinc-800"
   >
     <div class="flex-1 px-8 md:px-16 py-6"></div>
-    <div class="max-w-4xl w-full flex divide-x divide-yellow/20 dark:divide-zinc-800">
-      <nav class="flex-1 flex border-yellow/20 dark:divide-zinc-800 px-8 md:px-16">
+    <div class="max-w-4xl w-full flex divide-x divide-orange/20 dark:divide-zinc-800">
+      <nav class="flex-1 flex border-orange/20 dark:divide-zinc-800 px-8 md:px-16">
         {
           links.map(([href, label, icon]) => (
             <ExternalLink
               href={href}
               icon={icon}
-              class="block py-6 px-8 md:px-4 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow border-l last:border-r hover:bg-yellow/5 border-yellow/20 dark:border-zinc-800"
+              class="block py-6 px-8 md:px-4 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange border-l last:border-r hover:bg-orange/5 border-orange/20 dark:border-zinc-800"
             >
               {label}
             </ExternalLink>
@@ -26,7 +26,7 @@ const currentYear = new Date().getFullYear();
         }
       </nav>
       <span
-        class="flex items-center px-8 md:px-16 py-6 text-sm text-yellow dark:text-zinc-400 border-l border-yellow/20 dark:border-zinc-800"
+        class="flex items-center px-8 md:px-16 py-6 text-sm text-orange dark:text-zinc-400 border-l border-orange/20 dark:border-zinc-800"
       >
         &copy; {currentYear}
       </span>
@@ -35,14 +35,14 @@ const currentYear = new Date().getFullYear();
   </footer>
 
   {/* Mobile Footer */}
-  <footer class="w-full md:hidden border-t border-yellow/20 dark:border-zinc-800 px-8 py-6">
+  <footer class="w-full md:hidden border-t border-orange/20 dark:border-zinc-800 px-8 py-6">
     <nav class="flex flex-wrap justify-center gap-8 mb-4">
       {
         links.map(([href, label, icon]) => (
           <ExternalLink
             href={href}
             icon={icon}
-            class="text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-yellow dark:text-zinc-400 dark:hover:text-yellow"
+            class="text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
           >
             {label}
           </ExternalLink>

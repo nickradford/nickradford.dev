@@ -50,7 +50,7 @@ export default function ThemeToggle() {
     <button
       ref={buttonRef}
       id="theme-toggle"
-      className="text-zinc-600 hover:text-yellow transition-colors dark:text-zinc-400 dark:hover:text-yellow px-4 md:px-8 h-full"
+      className="text-zinc-600 hover:text-orange transition-colors dark:text-zinc-400 dark:hover:text-orange px-4 md:px-8 h-full"
       aria-label="Toggle theme"
       onClick={toggleTheme}
     >

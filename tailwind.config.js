@@ -14,7 +14,7 @@ module.exports = {
         "geist-mono": ["Geist Mono", "monospace"],
       },
       colors: {
-        yellow: "#ff9500",
+        orange: "#ff9500",
         primary: "#FEEE16",
         ivory: "#FFFFF0",
       },
