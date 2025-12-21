@@ -1,0 +1,10 @@
+---
+import Page from "src/components/Page.astro";
+import BaseLayout from "src/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("project")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+---
+<BaseLayout>
+  <Page></Page>
+</BaseLayout>

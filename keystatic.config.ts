@@ -10,6 +10,29 @@ export default config({
     branchPrefix: "post/",
   },
   collections: {
+    project: collection({
+      label: "Project",
+      path: "src/content/project/*",
+      format: { contentField: "content" },
+      slugField: "title",
+      columns: ["title", "url", "gitRepo"],
+      schema: {
+        title: fields.slug({ name: { label: "Title" } }),
+        description: fields.text({ label: "Description" }),
+        url: fields.url({ label: "url" }),
+        date: fields.date({ label: "Published Date" }),
+        gitRepo: fields.url({ label: "gitRepo" }),
+        content: fields.mdx({
+          label: "Content",
+          options: {
+            image: {
+              directory: "public",
+              publicPath: "/",
+            },
+          },
+        }),
+      },
+    }),
     blog: collection({
       label: "Blog",
       path: "src/content/blog/*",
