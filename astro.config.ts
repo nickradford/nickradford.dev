@@ -14,6 +14,7 @@ import keystatic from "@keystatic/astro";
 import markdoc from "@astrojs/markdoc";
 
 import metaTags from "astro-meta-tags";
+import { astroGrab } from "astro-grab";
 
 export default defineConfig({
   site: "https://nickradford.dev",
@@ -33,7 +34,10 @@ export default defineConfig({
       rehypePlugins: [
         rehypeSlug,
         rehypeCodeTitles,
-        [rehypeAutolinkHeadings, { behavior: "wrap", properties: { className: ["prose-anchor"] } }],
+        [
+          rehypeAutolinkHeadings,
+          { behavior: "wrap", properties: { className: ["prose-anchor"] } },
+        ],
         [rehypePrism, { showLineNumbers: true }],
         [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
       ],
@@ -43,5 +47,6 @@ export default defineConfig({
     markdoc(),
     keystatic(),
     metaTags(),
+    astroGrab(),
   ],
 });

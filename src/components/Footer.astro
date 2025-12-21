@@ -5,6 +5,28 @@ import ExternalLink from "./ExternalLink.astro";
 const currentYear = new Date().getFullYear();
 ---
 
+<style>
+  .copyright-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgb(255 123 0 / 0.1) 2px,
+      rgb(255 123 0 / 0.1) 4px
+    );
+  }
+
+  :global(.dark) .copyright-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgb(113 113 122 / 0.3) 2px,
+      rgb(113 113 122 / 0.3) 4px
+    );
+  }
+</style>
+
 <>
   {/* Desktop Footer */}
   <footer
@@ -26,7 +48,7 @@ const currentYear = new Date().getFullYear();
         }
       </nav>
       <span
-        class="flex items-center px-8 md:px-16 py-6 text-sm text-orange dark:text-zinc-400 border-l border-orange/20 dark:border-zinc-800"
+        class="copyright-bg flex items-center px-8 md:px-16 py-6 text-sm text-orange dark:text-zinc-400 border-l border-orange/20 dark:border-zinc-800"
       >
         &copy; {currentYear}
       </span>
