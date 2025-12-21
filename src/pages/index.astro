@@ -7,46 +7,36 @@ import HomepageBlog from "../components/HomepageBlog.astro";
 import { DecodeText } from "../components/DecodeText";
 import { links } from "../../links";
 import ExternalLink from "src/components/ExternalLink.astro";
+import PageHeader from "src/components/PageHeader.astro";
 ---
 
 <Base>
   <Page>
     <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
       {/* Hero Section */}
-      <header class="w-full border-b border-orange/20 dark:border-zinc-800">
-        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
-          <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
-            <div class="relative">
-              <div
-                class="absolute -top-2 -left-4 w-48 h-48 bg-orange/10 dark:bg-orange/5 rounded-full blur-3xl -z-10"
-              >
-              </div>
-              <h1
-                class="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-              >
-                Making{" "}
-                <DecodeText
-                  client:load
-                  value="complex workflows"
-                  decodeByWord={true}
-                  className="inline"
-                />
-                {" "}feel effortless.
-              </h1>
-            </div>
-            <div class="space-y-6">
-              <p
-                class="font-geist-mono text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
-              >
-                Senior Full‑Stack Engineer in San Francisco. <br />React, TypeScript, DX tooling, AI
-                UI, Eng.&nbsp;Mentorship.
-              </p>
-            </div>
-          </div>
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
+      <PageHeader>
+        <h1
+          slot="title"
+          class="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+        >
+          Making{" "}
+          <DecodeText
+            client:load
+            value="complex workflows"
+            decodeByWord={true}
+            className="inline"
+          />
+          {" "}feel effortless.
+        </h1>
+        <div class="space-y-6" slot="description">
+          <p
+            class="font-geist-mono text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+          >
+            Senior Full‑Stack Engineer in San Francisco. <br />React, TypeScript, DX tooling, AI UI,
+            Eng.&nbsp;Mentorship.
+          </p>
         </div>
-      </header>
+      </PageHeader>
 
       {/* Social Links Section */}
       <div

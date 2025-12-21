@@ -19,7 +19,13 @@
 
     .squircle {
         @apply rounded-2xl;
-        corner-shape: superellipse(1.5);
+    }
+
+    @supports (corner-shape: superellipse(1.815)) {
+        .squircle {
+            @apply rounded-3xl;
+            corner-shape: superellipse(1.815);
+        }
     }
 }
 

@@ -4,6 +4,9 @@ import Base from "../layouts/BaseLayout.astro";
 import Text from "../components/Text.astro";
 import Page from "../components/Page.astro";
 import { DecodeText } from "../components/DecodeText";
+import Frame from "src/components/Frame.astro";
+import PageHeader from "src/components/PageHeader.astro";
+
 import jobs from "../../jobs";
 
 // Helper to format dates - show full date for first 2 items, year only for rest
@@ -30,42 +33,39 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
   <Page>
     <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
       {/* Header Section */}
-      <header class="w-full border-b border-orange/20 dark:border-zinc-800">
-        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
-          <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <DecodeText
-                client:load
-                value="work"
-                className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-              />
-              <a
-                href="/nick-radford-resume-2025-10-30.pdf"
-                download="Nick-Radford-Resume.pdf"
-                class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-orange hover:bg-orange/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
-                data-umami-event="Download Resume"
-                data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
-              >
-                Download resume <i class="ph ph-file-pdf text-lg"></i>
-              </a>
-            </div>
-            <Text>
-              Want the full picture? Download my resume for a comprehensive look at my experience,
-              key projects, achievements, and technical expertise.
-            </Text>
-          </div>
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
+      <PageHeader>
+        <div
+          slot="title"
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+        >
+          <DecodeText
+            client:load
+            value="work"
+            className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+          />
+          <a
+            href="/nick-radford-resume-2025-10-30.pdf"
+            download="Nick-Radford-Resume.pdf"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-orange hover:bg-orange/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
+            data-umami-event="Download Resume"
+            data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
+          >
+            Download resume <i class="ph ph-file-pdf text-lg"></i>
+          </a>
         </div>
-      </header>
+        <Text slot="description">
+          Want the full picture? Download my resume for a comprehensive look at my experience, key
+          projects, achievements, and technical expertise.
+        </Text>
+      </PageHeader>
 
       {/* Jobs Grid */}
       <div class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
         {
           jobs.map((job, index) => (
-            <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
+            <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
               <div class="hidden md:flex flex-1" />
-              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group">
+              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group relative">
                 <div class="flex gap-6">
                   {/* Logo */}
                   <div class="flex-none">
@@ -102,26 +102,12 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                     </div>
                   </div>
                 </div>
+                <Frame bottom={index === jobs.length - 1} />
               </div>
               <div class="hidden md:flex flex-1" />
             </div>
           ))
         }
-      </div>
-
-      {/* Footer section */}
-      <div
-        class="w-full divide-x divide-orange/20 dark:divide-zinc-800 border-t border-orange/20 dark:border-zinc-800"
-      >
-        <div class="flex-1 hidden md:block"></div>
-        <div class="max-w-4xl w-full p-8 md:p-16">
-          <p class="text-sm text-zinc-600 dark:text-zinc-400 max-w-2xl">
-            My career from 10,000 feet. There's much more to tell—the impact made, the challenges
-            overcome, the teams built. I'd love to chat about what comes next and how we can build
-            something great together.
-          </p>
-        </div>
-        <div class="flex-1 hidden md:block"></div>
       </div>
     </article>
   </Page>

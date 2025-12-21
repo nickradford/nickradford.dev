@@ -5,6 +5,7 @@ import Text from "../../components/Text.astro";
 import BlogPostPreview from "../../components/BlogPostPreview.astro";
 import Page from "../../components/Page.astro";
 import { DecodeText } from "../../components/DecodeText";
+import PageHeader from "../../components/PageHeader.astro";
 import { getLatestPosts } from "../../lib/get-latest-posts";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
 const { posts } = await getLatestPosts();
@@ -13,21 +14,15 @@ const { posts } = await getLatestPosts();
 <Base title="Blog" description={description}>
   <Page>
     <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
-      {/* Header Section */}
-      <header class="w-full border-b border-orange/20 dark:border-zinc-800">
-        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
-          <div class="max-w-4xl w-full px-8 md:px-16 py-8 md:py-16 space-y-6">
-            <DecodeText
-              client:load
-              value="writing"
-              className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-            />
-            <Text>{description}</Text>
-          </div>
-          <div class="hidden md:flex flex-1 p-8 md:p-16"></div>
-        </div>
-      </header>
+      <PageHeader>
+        <DecodeText
+          slot="title"
+          client:load
+          value="writing"
+          className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+        />
+        <Text slot="description">{description}</Text>
+      </PageHeader>
 
       {/* Blog Posts Section */}
       <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">

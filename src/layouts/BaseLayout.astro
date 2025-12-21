@@ -2,7 +2,7 @@
 import "@fontsource/geist";
 import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
-import PageHeader from "../components/PageHeader.astro";
+import Nav from "../components/Nav.astro";
 
 type Props = {
   title?: string;
@@ -83,9 +83,11 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
-  <body class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
-    <div class="flex flex-col items-center w-full min-h-fill-available">
-      <PageHeader transition:persist />
+  <body
+    class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 min-h-screen"
+  >
+    <div class="flex flex-col items-center w-full min-h-fill-available flex-1">
+      <Nav transition:persist />
       <slot />
       <script
         defer
