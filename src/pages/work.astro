@@ -6,6 +6,8 @@ import Page from "../components/page.astro";
 import { DecodeText } from "../components/decode-text";
 import Frame from "src/components/frame.astro";
 import PageHeader from "src/components/page-header.astro";
+import PageTitle from "src/components/page-title.astro";
+import PageDescription from "src/components/page-description.astro";
 
 import jobs from "../../jobs";
 
@@ -31,71 +33,71 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
 <Base title="Work" description="My professional experience and roles">
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article
+      class="w-full border-l border-r border-orange/20 dark:border-zinc-800"
+    >
       {/* Header Section */}
       <PageHeader>
-        <div
-          slot="title"
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-        >
-          <DecodeText
-            client:load
-            value="work"
-            className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-          />
+        <PageTitle slot="title">
+          <DecodeText client:load value="work" />
           <a
             href="/nick-radford-resume-2025-10-30.pdf"
             download="Nick-Radford-Resume.pdf"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-orange hover:bg-orange/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
+            class="squircle inline-flex flex-shrink-0 items-center gap-2 whitespace-nowrap bg-orange px-6 py-3 font-geist-mono text-sm font-medium text-zinc-900 transition-colors hover:bg-orange/90"
             data-umami-event="Download Resume"
             data-umami-event-resume-version="nick-radford-resume-2025-10-30.pdf"
           >
             Download resume <i class="ph ph-file-pdf text-lg"></i>
           </a>
-        </div>
-        <Text slot="description">
-          Want the full picture? Download my resume for a comprehensive look at my experience, key
-          projects, achievements, and technical expertise.
-        </Text>
+        </PageTitle>
+        <PageDescription slot="description">
+          <Text>
+            Want the full picture? Download my resume for a comprehensive look
+            at my experience, key projects, achievements, and technical
+            expertise.
+          </Text>
+        </PageDescription>
       </PageHeader>
 
       {/* Jobs Grid */}
-      <div class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+      <div
+        class="flex w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
+      >
         {
           jobs.map((job, index) => (
-            <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
-              <div class="hidden md:flex flex-1" />
-              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group relative">
+            <div class="relative flex flex-col divide-orange/20 dark:divide-zinc-800 md:flex-row md:divide-x">
+              <div class="hidden flex-1 md:flex" />
+              <div class="group relative w-full max-w-4xl px-8 py-4 md:px-16 md:py-6">
                 <div class="flex gap-6">
                   {/* Logo */}
                   <div class="flex-none">
-                    <div class="relative w-12 h-12 squircle overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
+                    <div class="squircle relative flex h-12 w-12 items-center justify-center overflow-hidden bg-zinc-100 ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-zinc-800">
                       <img
                         src={(job.img as any).src || job.img}
                         alt={job.company}
-                        class="w-full h-full object-cover transition-all ease-in duration-300"
+                        class="h-full w-full object-cover transition-all duration-300 ease-in"
                       />
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div class="flex-1 min-w-0">
+                  <div class="min-w-0 flex-1">
                     <div class="space-y-2">
-                      <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                      <div class="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
                         <div class="space-y-1">
-                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors ease-in duration-300">
+                          <h3 class="font-geist-mono text-base font-bold text-zinc-900 transition-colors duration-300 ease-in group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange">
                             {job.company}
                             {job.extraInfo && (
-                              <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
+                              <span class="ml-2 text-xs font-normal text-zinc-500 dark:text-zinc-400">
                                 ({job.extraInfo})
                               </span>
                             )}
                           </h3>
-                          <p class="text-xs font-geist-mono text-zinc-700 dark:text-zinc-300">
+                          <p class="font-geist-mono text-xs text-zinc-700 dark:text-zinc-300">
                             {job.role}
                           </p>
                         </div>
-                        <time class="text-xs font-geist-mono uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                        <time class="whitespace-nowrap font-geist-mono text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-500">
                           {formatDateRange(job.startDate, job.endDate, index)}
                         </time>
                       </div>
@@ -104,7 +106,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 </div>
                 <Frame bottom={index === jobs.length - 1} />
               </div>
-              <div class="hidden md:flex flex-1" />
+              <div class="hidden flex-1 md:flex" />
             </div>
           ))
         }

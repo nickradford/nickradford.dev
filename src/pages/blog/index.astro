@@ -6,6 +6,8 @@ import BlogPostPreview from "../../components/blog-post-preview.astro";
 import Page from "../../components/page.astro";
 import { DecodeText } from "../../components/decode-text";
 import PageHeader from "../../components/page-header.astro";
+import PageTitle from "../../components/page-title.astro";
+import PageDescription from "../../components/page-description.astro";
 import { getLatestPosts } from "../../lib/get-latest-posts";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
 const { posts } = await getLatestPosts();
@@ -13,25 +15,31 @@ const { posts } = await getLatestPosts();
 
 <Base title="Blog" description={description}>
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article
+      class="w-full border-l border-r border-orange/20 dark:border-zinc-800"
+    >
       <PageHeader>
-        <DecodeText
-          slot="title"
-          client:load
-          value="writing"
-          className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
-        />
-        <Text slot="description">{description}</Text>
+        <PageTitle slot="title">
+          <DecodeText client:load value="blog" />
+        </PageTitle>
+        <PageDescription slot="description">
+          <Text>{description}</Text>
+        </PageDescription>
       </PageHeader>
 
       {/* Blog Posts Section */}
-      <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+      <div
+        class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
+      >
         {
           posts.map((post, index) => (
-            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+            <div class="flex divide-orange/20 dark:divide-zinc-800 md:divide-x">
               <div class="flex-1" />
-              <div class="max-w-4xl w-full">
-                <BlogPostPreview post={post} bottomCrosses={index === posts.length - 1} />
+              <div class="w-full max-w-4xl">
+                <BlogPostPreview
+                  post={post}
+                  bottomCrosses={index === posts.length - 1}
+                />
               </div>
               <div class="flex-1" />
             </div>

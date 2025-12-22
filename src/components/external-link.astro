@@ -9,7 +9,13 @@ interface Props {
 const { href, class: className = "", title = "", icon } = Astro.props;
 ---
 
-<a href={href} class={className} target="_blank" rel="noopener nofollow" title={title}>
+<a
+  href={href}
+  class={className}
+  target="_blank"
+  rel="noopener nofollow"
+  title={title}
+>
   <slot />
   {icon && <i class:list={["ph relative top-0.5", `ph-${icon}`]} />}
 </a>

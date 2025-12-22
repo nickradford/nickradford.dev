@@ -1,0 +1,55 @@
+---
+import Frame from "./frame.astro";
+
+type Props = {
+  title: string;
+  description: string;
+  slug: string;
+  bottomFrame: boolean;
+  url: string;
+  gitRepo: string;
+};
+
+const { title, description, slug, bottomFrame, url, gitRepo } = Astro.props;
+---
+
+<a
+  href={`/projects/${slug}`}
+  class="group relative flex flex-col gap-4 px-8 py-6 no-underline transition-colors hover:bg-orange/5 hover:text-inherit md:px-16"
+>
+  <h2
+    class="font-geist-mono text-2xl font-bold tracking-tight text-zinc-900 transition-colors group-hover:text-orange dark:text-zinc-50"
+  >
+    {title}
+  </h2>
+  <p class="prose font-geist leading-relaxed text-zinc-700 dark:text-zinc-300">
+    {description}
+  </p>
+  {
+    gitRepo && (
+      <a
+        href={gitRepo}
+        target="_blank"
+        rel="noopener noreferrer"
+        onclick="event.stopPropagation()"
+        class="inline-flex items-center gap-2 font-geist-mono text-sm font-medium text-zinc-600 transition-colors group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange"
+      >
+        GitHub <i class="ph ph-arrow-up-right" />
+      </a>
+    )
+  }
+  {
+    url && (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onclick="event.stopPropagation()"
+        class="inline-flex items-center gap-2 font-geist-mono text-sm font-medium text-zinc-600 transition-colors group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange"
+      >
+        Visit <i class="ph ph-arrow-up-right" />
+      </a>
+    )
+  }
+  <Frame bottom={bottomFrame} />
+</a>

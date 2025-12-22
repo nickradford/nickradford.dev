@@ -12,12 +12,14 @@ import PageHeader from "src/components/page-header.astro";
 
 <Base>
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article
+      class="w-full border-l border-r border-orange/20 dark:border-zinc-800"
+    >
       {/* Hero Section */}
       <PageHeader>
         <h1
           slot="title"
-          class="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+          class="font-geist-mono text-4xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50 md:text-5xl"
         >
           Making{" "}
           <DecodeText
@@ -30,28 +32,28 @@ import PageHeader from "src/components/page-header.astro";
         </h1>
         <div class="space-y-6" slot="description">
           <p
-            class="font-geist-mono text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+            class="max-w-2xl font-geist-mono text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-xl"
           >
-            Senior Full‑Stack Engineer in San Francisco. <br />React, TypeScript, DX tooling, AI UI,
-            Eng.&nbsp;Mentorship.
+            Senior Full‑Stack Engineer in San Francisco. <br />React,
+            TypeScript, DX tooling, AI UI, Eng.&nbsp;Mentorship.
           </p>
         </div>
       </PageHeader>
 
       {/* Social Links Section */}
       <div
-        class="w-full border-b border-orange/20 dark:border-zinc-800 hidden md:flex divide-x divide-orange/20 dark:divide-zinc-800"
+        class="hidden w-full divide-x divide-orange/20 border-b border-orange/20 dark:divide-zinc-800 dark:border-zinc-800 md:flex"
       >
         <div class="flex-1 p-4 md:p-8"></div>
-        <div class="max-w-4xl w-full">
+        <div class="w-full max-w-4xl">
           <ul class="flex px-16">
             {
               links.map(([href, label, icon]) => (
-                <li class="group first:border-l dark:border-zinc-800 border-r border-orange/20 hover:bg-orange/5 transition-colors">
+                <li class="group border-r border-orange/20 transition-colors first:border-l hover:bg-orange/5 dark:border-zinc-800">
                   <ExternalLink
                     href={href}
                     icon={icon}
-                    class="block text-sm p-8 font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
+                    class="block p-8 font-geist-mono text-sm font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
                   >
                     {label}
                   </ExternalLink>
@@ -64,14 +66,16 @@ import PageHeader from "src/components/page-header.astro";
       </div>
 
       {/* Social Links Section Mobile */}
-      <div class="w-full border-b border-orange/20 dark:border-zinc-800 md:hidden">
-        <ul class="flex divide-x dark:divide-zinc-800 divide-orange/20">
+      <div
+        class="w-full border-b border-orange/20 dark:border-zinc-800 md:hidden"
+      >
+        <ul class="flex divide-x divide-orange/20 dark:divide-zinc-800">
           {
             links.map(([href, label]) => (
-              <li class="flex-1 py-6 items-center flex justify-center">
+              <li class="flex flex-1 items-center justify-center py-6">
                 <a
                   href={href}
-                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
+                  class="font-geist-mono text-sm font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
                 >
                   {label}
                 </a>

@@ -6,6 +6,8 @@ interface Props {
 const { class: className = "" } = Astro.props;
 ---
 
-<p class={`max-w-[75ch] leading-relaxed text-zinc-700 dark:text-zinc-300 ${className}`}>
+<p
+  class={`max-w-[75ch] leading-relaxed text-zinc-700 dark:text-zinc-300 ${className}`}
+>
   <slot />
 </p>

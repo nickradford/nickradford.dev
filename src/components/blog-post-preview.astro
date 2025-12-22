@@ -19,37 +19,39 @@ const displayDate = getLocalDate(new Date(post.date));
 
 <a
   href={`/blog/${post.slug}`}
-  class="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors relative"
+  class="group relative block px-8 py-6 no-underline transition-colors hover:bg-orange/5 hover:text-inherit md:px-16"
 >
   <article class="flex flex-col space-y-3">
     <div class="space-y-2">
       <div class="flex items-center gap-3">
         <time
-          class="text-xs uppercase tracking-widest text-orange/75 dark:text-zinc-500 font-geist-mono"
+          class="font-geist-mono text-xs uppercase tracking-widest text-orange/75 dark:text-zinc-500"
         >
           {dateFormatter.format(displayDate)}
         </time>
         {
           post.draft && (
-            <span class="text-xs uppercase tracking-widest font-geist-mono font-medium px-2 py-1 bg-orange/20 dark:bg-orange/10 text-orange rounded">
+            <span class="rounded bg-orange/20 px-2 py-1 font-geist-mono text-xs font-medium uppercase tracking-widest text-orange dark:bg-orange/10">
               Draft
             </span>
           )
         }
       </div>
       <h3
-        class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+        class="font-geist-mono text-2xl font-bold tracking-tight text-zinc-900 transition-colors group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange"
       >
         {post.title}
       </h3>
     </div>
-    <p class="leading-relaxed text-zinc-700 dark:text-zinc-300 prose font-geist">
+    <p
+      class="prose font-geist leading-relaxed text-zinc-700 dark:text-zinc-300"
+    >
       {post.excerpt}
     </p>
     <span
-      class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange transition-colors pt-2"
+      class="pt-2 font-geist-mono text-sm font-medium text-zinc-600 transition-colors group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange"
     >
-      Read more <i class="ph ph-arrow-right top-px relative"></i>
+      Read more <i class="ph ph-arrow-right relative top-px"></i>
     </span>
   </article>
   <Frame bottom={bottomCrosses} />

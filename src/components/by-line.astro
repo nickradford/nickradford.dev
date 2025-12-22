@@ -15,18 +15,26 @@ const getLocalDate = (date: Date) => {
 const displayDate = meta.date ? getLocalDate(new Date(meta.date)) : new Date();
 ---
 
-<div class="flex items-center justify-between text-sm not-prose">
+<div class="not-prose flex items-center justify-between text-sm">
   <div
-    class="flex items-center gap-3 text-zinc-600 dark:text-zinc-400 font-geist-mono text-xs md:text-sm"
+    class="flex items-center gap-3 font-geist-mono text-xs text-zinc-600 dark:text-zinc-400 md:text-sm"
   >
     <span>Nick Radford</span>
     <span class="text-zinc-300 dark:text-zinc-600">&bull;</span>
     <time datetime={meta.date ? new Date(meta.date).toISOString() : undefined}>
       <span class="hidden md:block">
-        {Intl.DateTimeFormat("en-us", { dateStyle: "long" }).format(displayDate)}
+        {
+          Intl.DateTimeFormat("en-us", { dateStyle: "long" }).format(
+            displayDate,
+          )
+        }
       </span>
       <span class="md:hidden">
-        {Intl.DateTimeFormat("en-us", { dateStyle: "medium" }).format(displayDate)}
+        {
+          Intl.DateTimeFormat("en-us", { dateStyle: "medium" }).format(
+            displayDate,
+          )
+        }
       </span>
     </time>
     <span class="text-zinc-300 dark:text-zinc-600">&bull;</span>

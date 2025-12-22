@@ -1,12 +1,54 @@
 ---
 import Page from "src/components/page.astro";
 import BaseLayout from "src/layouts/base-layout.astro";
+import GridWrapper from "src/components/grid-wrapper.astro";
+import PageHeader from "src/components/page-header.astro";
+import PageTitle from "src/components/page-title.astro";
+import PageDescription from "src/components/page-description.astro";
+import DecodeText from "src/components/decode-text";
+import ProjectPreview from "src/components/project-preview.astro";
 import { getCollection } from "astro:content";
 
-const projects = (await getCollection("project")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+
+const { order } = await reader.singletons.projects.read({
+  resolveLinkedFiles: true,
+});
+const bySlugInOrder = (a: string, b: string) =>
+  order.indexOf(a) - order.indexOf(b);
+const projects = (await getCollection("project"))
+  .filter((p) => order.includes(p.slug))
+  .sort((a, b) => bySlugInOrder(a.slug, b.slug));
 ---
+
 <BaseLayout>
   <Page>
-    { projects.map(p => <><h1>{p.data.title}</h1></>) }
+    <PageHeader>
+      <PageTitle slot="title">
+        <DecodeText client:load value="projects" />
+      </PageTitle>
+      <PageDescription slot="description">
+        Some of the projects I've been hacking away on recently.
+      </PageDescription>
+    </PageHeader>
+    <GridWrapper>
+      <main class="divide-border divide-y">
+        {
+          projects.map((p, i) => (
+            <ProjectPreview
+              title={p.data.title}
+              description={p.data.description}
+              slug={p.slug}
+              url={p.data.url}
+              gitRepo={p.data.gitRepo}
+              bottomFrame={i === projects.length - 1}
+            />
+          ))
+        }
+      </main>
+    </GridWrapper>
   </Page>
 </BaseLayout>

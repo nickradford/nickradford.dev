@@ -1,13 +1,45 @@
-import { config, fields, collection } from "@keystatic/core";
+import {
+  config,
+  fields,
+  collection,
+  type LocalConfig,
+  type GitHubConfig,
+  singleton,
+} from "@keystatic/core";
+
+type StorageType = LocalConfig["storage"] | GitHubConfig["storage"];
+
+const storage: StorageType = import.meta.env.DEV
+  ? {
+      kind: "local",
+    }
+  : {
+      kind: "github",
+      repo: "nickradford/nickradford.dev",
+      branchPrefix: "keystatic/",
+    };
 
 export default config({
   ui: {
     brand: { name: "Nick Radford (dot) dev" },
   },
-  storage: {
-    kind: "github",
-    repo: "nickradford/nickradford.dev",
-    branchPrefix: "post/",
+  storage: storage,
+  singletons: {
+    projects: singleton({
+      label: "Project Order",
+      path: "src/content/projects",
+      schema: {
+        order: fields.array(
+          fields.relationship({
+            label: "Project",
+            collection: "project",
+          }),
+          {
+            itemLabel: (props) => props.value,
+          },
+        ),
+      },
+    }),
   },
   collections: {
     project: collection({
@@ -16,6 +48,7 @@ export default config({
       format: { contentField: "content" },
       slugField: "title",
       columns: ["title", "url", "gitRepo"],
+      entryLayout: "content",
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
         description: fields.text({ label: "Description", multiline: true }),

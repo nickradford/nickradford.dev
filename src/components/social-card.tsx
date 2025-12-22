@@ -16,33 +16,36 @@ export function SocialCard({ posts }: { posts: any[] }) {
   }
 
   return (
-    <div className="w-[1200px] h-[630px] bg-zinc-950 text-zinc-50 flex font-geist-mono flex-col">
-      <header className="h-24 border-b-2 border-zinc-700 flex *:border-zinc-700 relative">
-        <div className="border-r-2 w-24" />
-        <div className="border-r-2 flex-1 px-12 flex items-center text-5xl">
+    <div className="flex h-[630px] w-[1200px] flex-col bg-zinc-950 font-geist-mono text-zinc-50">
+      <header className="relative flex h-24 border-b-2 border-zinc-700 *:border-zinc-700">
+        <div className="w-24 border-r-2" />
+        <div className="flex flex-1 items-center border-r-2 px-12 text-5xl">
           <p className="text-orange">Nick Radford</p>
         </div>
         <div className="w-24" />
       </header>
 
-      <main className="flex-1 border-zinc-700 flex *:border-zinc-700 border-b-2">
-        <div className="border-r-2 w-24"></div>
+      <main className="flex flex-1 border-b-2 border-zinc-700 *:border-zinc-700">
+        <div className="w-24 border-r-2"></div>
 
-        <div className="text-8xl font-bold leading-tight text-start flex-1 px-12 border-r-2 relative flex items-center">
+        <div className="relative flex flex-1 items-center border-r-2 px-12 text-start text-8xl font-bold leading-tight">
           <h1>{post.data.title}</h1>
         </div>
         <div className="w-24" />
       </main>
 
-      <footer className="h-24 border-zinc-700 flex *:border-zinc-700">
-        <div className="border-r-2 w-24" />
-        <div className="border-r-2 flex-1 flex items-center px-12 text-3xl justify-end text-zinc-500">
+      <footer className="flex h-24 border-zinc-700 *:border-zinc-700">
+        <div className="w-24 border-r-2" />
+        <div className="flex flex-1 items-center justify-end border-r-2 px-12 text-3xl text-zinc-500">
           <p>
-            {getLocalDate(new Date(post.data.date)).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {getLocalDate(new Date(post.data.date)).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              },
+            )}
           </p>
         </div>
         <div className="w-24" />

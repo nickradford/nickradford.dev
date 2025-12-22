@@ -18,11 +18,13 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
 
 <Page>
   {/* Desktop Layout */}
-  <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
+  <article
+    class="hidden w-full flex-col divide-y divide-orange/20 border-l border-r border-orange/20 dark:divide-zinc-800 dark:border-zinc-800 md:flex"
+  >
     {/* Header Section */}
     <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
-      <div class="flex-1 pt-8 px-8 md:px-16"></div>
-      <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
+      <div class="flex-1 px-8 pt-8 md:px-16"></div>
+      <div class="w-full max-w-4xl px-8 pt-8 md:px-16">
         <BackButton />
         <div class="mb-8 space-y-4">
           <DecodeText
@@ -30,20 +32,20 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
             decodeByWord
             initialDelay={0}
             revealInterval={40}
-            className="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+            className="font-geist-mono text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl"
             value={meta.title}
           />
           <ByLine meta={meta} />
           <AtomLink />
         </div>
       </div>
-      <div class="flex-1 pt-8 px-8 md:px-16"></div>
+      <div class="flex-1 px-8 pt-8 md:px-16"></div>
     </div>
 
     {/* Content Section */}
     <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
       <div class="flex-1"></div>
-      <div class="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
+      <div class="w-full max-w-4xl px-8 py-8 pb-12 md:px-16">
         <div class={articleClasses}>
           <slot />
         </div>
@@ -53,12 +55,16 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
   </article>
 
   {/* Mobile Layout */}
-  <article class="md:hidden w-full border-l border-r border-orange/20 dark:border-zinc-800 space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+  <article
+    class="w-full space-y-0 divide-y divide-orange/20 border-l border-r border-orange/20 dark:divide-zinc-800 dark:border-zinc-800 md:hidden"
+  >
     {/* Header Section */}
     <div class="px-8 py-8">
       <BackButton />
       <div class="space-y-4">
-        <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1
+          class="font-geist-mono text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl"
+        >
           {meta.title}
         </h1>
         <ByLine meta={meta} />

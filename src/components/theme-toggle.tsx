@@ -9,11 +9,18 @@ function getTheme(): Theme {
   if (stored === "light" || stored === "dark") {
     return stored;
   }
-  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersDarkMode = window.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
   return prefersDarkMode ? "dark" : "light";
 }
 
-function updateThemeUI(theme: Theme, moonIcon: HTMLElement | null, sunIcon: HTMLElement | null, button: HTMLElement | null) {
+function updateThemeUI(
+  theme: Theme,
+  moonIcon: HTMLElement | null,
+  sunIcon: HTMLElement | null,
+  button: HTMLElement | null,
+) {
   if (theme === "light") {
     moonIcon?.classList.remove("hidden");
     sunIcon?.classList.add("hidden");
@@ -32,7 +39,12 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const initialTheme = getTheme();
-    updateThemeUI(initialTheme, moonIconRef.current, sunIconRef.current, buttonRef.current);
+    updateThemeUI(
+      initialTheme,
+      moonIconRef.current,
+      sunIconRef.current,
+      buttonRef.current,
+    );
   }, []);
 
   const toggleTheme = () => {
@@ -43,18 +55,23 @@ export default function ThemeToggle() {
     document.documentElement.classList.add(newTheme);
     localStorage.setItem(STORAGE_KEY, newTheme);
 
-    updateThemeUI(newTheme, moonIconRef.current, sunIconRef.current, buttonRef.current);
+    updateThemeUI(
+      newTheme,
+      moonIconRef.current,
+      sunIconRef.current,
+      buttonRef.current,
+    );
   };
 
   return (
     <button
       ref={buttonRef}
       id="theme-toggle"
-      className="text-zinc-600 hover:text-orange transition-colors dark:text-zinc-400 dark:hover:text-orange px-4 md:px-8 h-full"
+      className="h-full px-4 text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange md:px-8"
       aria-label="Toggle theme"
       onClick={toggleTheme}
     >
-      <div ref={moonIconRef} className="ph ph-moon-stars text-xl hidden"></div>
+      <div ref={moonIconRef} className="ph ph-moon-stars hidden text-xl"></div>
       <div ref={sunIconRef} className="ph ph-sun text-xl"></div>
     </button>
   );

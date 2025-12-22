@@ -5,19 +5,24 @@ import { getLatestPosts } from "../lib/get-latest-posts";
 const { posts, hasMore } = await getLatestPosts({ includeDrafts: false });
 ---
 
-<div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+<div
+  class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800"
+>
   {
     posts.map((post, index) => (
       <div
-        class="flex md:divide-x divide-orange/20 dark:divide-zinc-800"
+        class="flex divide-orange/20 dark:divide-zinc-800 md:divide-x"
         data-draft={post.draft}
         data-slug={post.slug}
       >
-        <div class="flex-1 hidden md:flex" />
-        <div class="max-w-4xl w-full">
-          <BlogPostPreview post={post} bottomCrosses={index === posts.length - 1} />
+        <div class="hidden flex-1 md:flex" />
+        <div class="w-full max-w-4xl">
+          <BlogPostPreview
+            post={post}
+            bottomCrosses={index === posts.length - 1}
+          />
         </div>
-        <div class="flex-1 hidden md:flex" />
+        <div class="hidden flex-1 md:flex" />
       </div>
     ))
   }

@@ -27,4 +27,4 @@ export const GET: APIRoute = async (context) => {
     })),
     customData: `<language>en</language><copyright>© ${new Date().getFullYear()} Nick Radford • All rights reserved</copyright>`,
   });
-}
+};

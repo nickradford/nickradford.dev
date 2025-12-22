@@ -5,6 +5,7 @@ date: 2021-08-03
 tags:
   - Typescript
 ---
+
 Social preview images are used to entice viewers to read your content when they come across the image on a social network. Websites like Twitter and Facebook read meta tags on your website, and will show the linked image when the right tags are found.
 
 The images (and other metadata) are linked via `<meta>` tags in the HTML of the page, allowing social networks to parse the title, description, and image to show the potential new reader.
@@ -36,20 +37,20 @@ import { launchChromium } from "playwright-aws-lambda";
 
 export async function getImage(
   path = "",
-  baseUrl = `https://${process.env.VERCEL_URL || "http://localhost:3000"}`
+  baseUrl = `https://${process.env.VERCEL_URL || "http://localhost:3000"}`,
 ) {
-    const url = `${baseUrl}${path}`;
+  const url = `${baseUrl}${path}`;
 
-    const browser = await launchChromium({ headless: true });
+  const browser = await launchChromium({ headless: true });
 
-    const page = await browser.newPage();
-    await page.setViewportSize({ width: 1200, height: 628 });
-    await page.goto(url, {});
+  const page = await browser.newPage();
+  await page.setViewportSize({ width: 1200, height: 628 });
+  await page.goto(url, {});
 
-    const buffer = await page.screenshot({ type: "png" });
-    await browser.close();
+  const buffer = await page.screenshot({ type: "png" });
+  await browser.close();
 
-    return buffer;
+  return buffer;
 }
 ```
 

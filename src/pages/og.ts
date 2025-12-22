@@ -60,10 +60,10 @@ export const GET: APIRoute = async ({ request }) => {
               },
               children: [
                 date
-                   ? new Intl.DateTimeFormat("en-us", {
-                       dateStyle: "long",
-                     }).format(getLocalDate(new Date(date)))
-                   : "",
+                  ? new Intl.DateTimeFormat("en-us", {
+                      dateStyle: "long",
+                    }).format(getLocalDate(new Date(date)))
+                  : "",
                 readTime ?? "",
               ],
             },
@@ -125,13 +125,13 @@ export const GET: APIRoute = async ({ request }) => {
         ],
       },
     },
-    { width: 800, height: 400 }
+    { width: 800, height: 400 },
   );
 
   return new Response(svg, {
     headers: {
       "content-type": "image/svg+xml",
-    "cache-control": "public, max-age=31536000, immutable",
-  },
+      "cache-control": "public, max-age=31536000, immutable",
+    },
   });
 };

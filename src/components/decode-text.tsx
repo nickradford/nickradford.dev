@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 /**
  * Seeded PRNG using xorshift32 algorithm.
@@ -75,20 +75,20 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
   initialDelay = 100,
   shuffleInterval = 30,
   revealInterval = 80,
-  pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()',
+  pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()",
   preserveSpaces = true,
   decodeByWord = false,
   onComplete,
-  className = '',
+  className = "",
 }) => {
   // Display state: initialize with target value (SSR-safe for non-JS users)
   const [display, setDisplay] = useState<string>(value);
-  
+
   // Which positions are "locked" (won't shuffle anymore)
   const [lockedIndices, setLockedIndices] = useState<Set<number>>(
-    () => new Set()
+    () => new Set(),
   );
-  
+
   // Track if component is mounted (to detect JS execution)
   const [isMounted, setIsMounted] = useState(false);
 
@@ -121,32 +121,32 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
 
     const shuffle = () => {
       const now = Date.now();
-      
+
       // Only update if enough time has passed (throttle by shuffleInterval)
       if (now - lastTime >= shuffleInterval) {
         lastTime = now;
 
         setDisplay((prev) => {
-          const chars = prev.split('');
-          
+          const chars = prev.split("");
+
           // Update all positions: shuffle unlocked, show target for locked
           for (let i = 0; i < chars.length; i++) {
             if (lockedRef.current.has(i)) {
               // Locked position: show target character
               chars[i] = value[i];
-            } else if (preserveSpaces && value[i] === ' ') {
+            } else if (preserveSpaces && value[i] === " ") {
               // Preserve spaces if enabled
-              chars[i] = ' ';
+              chars[i] = " ";
             } else {
               // Unlocked position: random noise
               const randomIdx = Math.floor(
-                prngRef.current.next() * pool.length
+                prngRef.current.next() * pool.length,
               );
               chars[i] = pool[randomIdx];
             }
           }
-          
-          return chars.join('');
+
+          return chars.join("");
         });
       }
 
@@ -213,9 +213,9 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
       const words: number[][] = [];
       let i = 0;
       while (i < value.length) {
-        if (value[i] !== ' ') {
+        if (value[i] !== " ") {
           const start = i;
-          while (i < value.length && value[i] !== ' ') {
+          while (i < value.length && value[i] !== " ") {
             i++;
           }
           words.push([start, i]);
@@ -228,18 +228,16 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
 
     // Generate initial display with random characters (scramble on mount)
     const initialDisplay = value
-      .split('')
+      .split("")
       .map((char) => {
         // Preserve spaces if enabled
-        if (preserveSpaces && char === ' ') {
-          return ' ';
+        if (preserveSpaces && char === " ") {
+          return " ";
         }
-        const randomIdx = Math.floor(
-          prngRef.current.next() * pool.length
-        );
+        const randomIdx = Math.floor(prngRef.current.next() * pool.length);
         return pool[randomIdx];
       })
-      .join('');
+      .join("");
 
     setDisplay(initialDisplay);
     setIsMounted(true);
@@ -263,7 +261,7 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
     if (running && value.length > 0) {
       // Start shuffling immediately
       startShuffling();
-      
+
       // Delay reveal by initialDelay
       if (initialDelay > 0) {
         delayTimerRef.current = setTimeout(() => {
@@ -289,7 +287,15 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
         clearTimeout(delayTimerRef.current);
       }
     };
-  }, [value, seed, initialDelay, running, startShuffling, startRevealing, decodeByWord]);
+  }, [
+    value,
+    seed,
+    initialDelay,
+    running,
+    startShuffling,
+    startRevealing,
+    decodeByWord,
+  ]);
 
   /**
    * Handle pause/resume without resetting.
@@ -322,17 +328,17 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
   }, [value.length, lockedIndices.size, onComplete]);
 
   return (
-    <span
-      className={className}
-      aria-label={value}
-      role="status"
-    >
-      {display.split('').map((char, idx) => (
+    <span className={className} aria-label={value} role="status">
+      {display.split("").map((char, idx) => (
         <span
           key={idx}
-          data-locked={lockedIndices.has(idx) ? 'true' : 'false'}
+          data-locked={lockedIndices.has(idx) ? "true" : "false"}
           className={`transition-colors duration-200 ${
-            isMounted ? (lockedIndices.has(idx) ? 'text-current' : 'text-gray-500') : 'text-current'
+            isMounted
+              ? lockedIndices.has(idx)
+                ? "text-current"
+                : "text-gray-500"
+              : "text-current"
           }`}
         >
           {char}

@@ -1,8 +1,15 @@
 import slugify from "slugify";
-import { calculateReadingTime, toExcerpt, type BlogPost, type TagEntry } from "./content";
+import {
+  calculateReadingTime,
+  toExcerpt,
+  type BlogPost,
+  type TagEntry,
+} from "./content";
 import { getCollection } from "astro:content";
 
-export async function getLatestPosts(options?: { includeDrafts?: boolean }): Promise<{
+export async function getLatestPosts(options?: {
+  includeDrafts?: boolean;
+}): Promise<{
   posts: BlogPost[];
   hasMore: boolean;
   tagMap: Record<string, TagEntry>;
@@ -39,7 +46,8 @@ export async function getLatestPosts(options?: { includeDrafts?: boolean }): Pro
   for (const [slug, arr] of Object.entries(postsByTag)) {
     arr.sort((a, b) => (a.date < b.date ? 1 : -1));
     tagMap[slug] = {
-      label: arr[0].tags?.find((t) => slugify(t).toLowerCase() === slug) || slug,
+      label:
+        arr[0].tags?.find((t) => slugify(t).toLowerCase() === slug) || slug,
       slug,
       count: arr.length,
     };
