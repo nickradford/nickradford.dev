@@ -1,11 +1,11 @@
 ---
 export const prerender = true;
-import Base from "../../layouts/BaseLayout.astro";
-import Text from "../../components/Text.astro";
-import BlogPostPreview from "../../components/BlogPostPreview.astro";
-import Page from "../../components/Page.astro";
-import { DecodeText } from "../../components/DecodeText";
-import PageHeader from "../../components/PageHeader.astro";
+import Base from "../../layouts/base-layout.astro";
+import Text from "../../components/text.astro";
+import BlogPostPreview from "../../components/blog-post-preview.astro";
+import Page from "../../components/page.astro";
+import { DecodeText } from "../../components/decode-text";
+import PageHeader from "../../components/page-header.astro";
 import { getLatestPosts } from "../../lib/get-latest-posts";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
 const { posts } = await getLatestPosts();

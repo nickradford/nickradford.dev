@@ -1,5 +1,5 @@
 ---
-import BlogPostPreview from "./BlogPostPreview.astro";
+import BlogPostPreview from "./blog-post-preview.astro";
 import { getLatestPosts } from "../lib/get-latest-posts";
 
 const { posts, hasMore } = await getLatestPosts({ includeDrafts: false });

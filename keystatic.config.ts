@@ -18,10 +18,19 @@ export default config({
       columns: ["title", "url", "gitRepo"],
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
-        description: fields.text({ label: "Description" }),
+        description: fields.text({ label: "Description", multiline: true }),
         url: fields.url({ label: "url" }),
         date: fields.date({ label: "Published Date" }),
-        gitRepo: fields.url({ label: "gitRepo" }),
+        gitRepo: fields.text({
+          label: "gitRepo",
+          defaultValue: "https://github.com/nickradford",
+          validation: {
+            pattern: {
+              regex: /^https:\/\/github\.com\//,
+              message: "Must be a Github URL",
+            },
+          },
+        }),
         content: fields.mdx({
           label: "Content",
           options: {

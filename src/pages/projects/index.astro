@@ -1,10 +1,12 @@
 ---
-import Page from "src/components/Page.astro";
-import BaseLayout from "src/layouts/BaseLayout.astro";
+import Page from "src/components/page.astro";
+import BaseLayout from "src/layouts/base-layout.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("project")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 ---
 <BaseLayout>
-  <Page></Page>
+  <Page>
+    { projects.map(p => <><h1>{p.data.title}</h1></>) }
+  </Page>
 </BaseLayout>
