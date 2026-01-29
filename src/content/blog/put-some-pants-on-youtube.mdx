@@ -8,4 +8,56 @@ YouTube Shorts.
 
 
 ```typescript
+const SHORTS_SELECTOR = `ytm-shorts-lockup-view-model-v2`; // The main vertical looking videos in a horizontal row
+
+const BIG_SHORTS_SELECTOR = `ytd-video-renderer:has(a[href^='/shorts'])`; // These look like normal videos but are in fact, shorts
+
+const SHORTS_SECTIONS_XPATH = `//ytd-rich-section-renderer[.//*[@id='title' and text()='Shorts']]`; // The large sections that are title "Shorts" and contain a bunch of shorts in a row
+
+const SHORTS_SHELF_XPATH = `//grid-shelf-view-model[.//h2[@class='yt-shelf-header-layout__title']//span[text()='Shorts' or text()='Recently uploaded Shorts']]
+`; // Shorts section in the search results are usually in this "shelf" component
+
+// Shorts Nav Items
+const MINI_NAV_SHORTS_LINK_SELECTOR = `ytd-mini-guide-entry-renderer:has(a[href^='/shorts'])`;
+const MAIN_NAV_SHORTS_LINK_SELECTOR = `ytd-guide-entry-renderer:has(a[title='Shorts'])`;
+
+setInterval(() => {
+  // Remove navigation to Shorts
+  document.querySelectorAll(MINI_NAV_SHORTS_LINK_SELECTOR).forEach((item) => item.remove());
+  document.querySelectorAll(MAIN_NAV_SHORTS_LINK_SELECTOR).forEach((item) => item.remove());
+
+  // Find all of the shorts sections, but not on search pages for some reason
+  const nodes = [];
+  const shortsSectionSnapshot = document.evaluate(
+    SHORTS_SECTIONS_XPATH,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null,
+  );
+
+  for (let i = 0; i < shortsSectionSnapshot.snapshotLength; i++) {
+    nodes.push(shortsSectionSnapshot.snapshotItem(i));
+  }
+
+  // Find shorts sections in search results
+  const searchShortsSectionSnapshot = document.evaluate(
+    SHORTS_SHELF_XPATH,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null,
+  );
+  for (let i = 0; i < searchShortsSectionSnapshot.snapshotLength; i++) {
+    nodes.push(searchShortsSectionSnapshot.snapshotItem(i));
+  }
+
+  nodes.forEach((node) => {
+    node?.parentNode?.removeChild(node);
+  });
+
+  // These are kind of just in case the large section node removal doesn't pick up all the shorts.
+  document.querySelectorAll(SHORTS_SELECTOR).forEach((item) => item.remove());
+  document.querySelectorAll(BIG_SHORTS_SELECTOR).forEach((item) => item.remove());
+}, 1000);
 ```
