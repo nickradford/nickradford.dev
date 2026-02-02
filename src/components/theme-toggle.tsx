@@ -67,12 +67,18 @@ export default function ThemeToggle() {
     <button
       ref={buttonRef}
       id="theme-toggle"
-      className="h-full px-4 text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange md:px-8"
+      className="group h-full px-4 text-zinc-600 transition-colors ease-out hover:text-orange dark:text-zinc-400 dark:hover:text-orange md:px-8"
       aria-label="Toggle theme"
       onClick={toggleTheme}
     >
-      <div ref={moonIconRef} className="ph ph-moon-stars hidden text-xl"></div>
-      <div ref={sunIconRef} className="ph ph-sun text-xl"></div>
+      <div
+        ref={moonIconRef}
+        className="ph ph-moon-stars hidden text-xl transition-all ease-out group-active:scale-95 group-active:blur-[0.725px]"
+      ></div>
+      <div
+        ref={sunIconRef}
+        className="ph ph-sun text-xl transition-all ease-out group-active:scale-95 group-active:blur-[0.725px]"
+      ></div>
     </button>
   );
 }

@@ -18,7 +18,9 @@ const project = defineCollection({
     description: z.string(),
     date: z.date(),
     url: z.string().url(),
+    showUrl: z.boolean(),
     gitRepo: z.string().url().startsWith("https://github.com/"),
+    showGitRepo: z.boolean(),
   }),
 });
 

@@ -53,6 +53,7 @@ export default config({
         title: fields.slug({ name: { label: "Title" } }),
         description: fields.text({ label: "Description", multiline: true }),
         url: fields.url({ label: "url" }),
+        showUrl: fields.checkbox({ label: "Show URL?", defaultValue: true }),
         date: fields.date({ label: "Published Date" }),
         gitRepo: fields.text({
           label: "gitRepo",
@@ -63,6 +64,10 @@ export default config({
               message: "Must be a Github URL",
             },
           },
+        }),
+        showGitRepo: fields.checkbox({
+          label: "Display GitHub Link?",
+          defaultValue: true,
         }),
         content: fields.mdx({
           label: "Content",

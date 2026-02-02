@@ -76,14 +76,10 @@ const {
       href={new URL("feeds/atom.xml", Astro.site)}
     />
     <script is:inline>
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
+      if (localStorage.theme === "light") {
         document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
       }
     </script>
     <title>{title}</title>
@@ -92,7 +88,7 @@ const {
   <body
     class="min-h-screen bg-ivory text-zinc-900 transition-colors dark:bg-zinc-950 dark:text-zinc-50"
   >
-    <div class="min-h-fill-available flex w-full flex-1 flex-col items-center">
+    <div class="min-h-fill-available w-ful flex flex-1 flex-col items-center">
       <Nav transition:persist />
       <slot />
       <script

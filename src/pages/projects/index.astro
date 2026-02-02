@@ -34,21 +34,25 @@ const projects = (await getCollection("project"))
         Some of the projects I've been hacking away on recently.
       </PageDescription>
     </PageHeader>
-    <GridWrapper>
-      <main class="divide-border divide-y">
-        {
-          projects.map((p, i) => (
+    <!-- <GridWrapper> -->
+    <main class="divide-border divide-y">
+      {
+        projects.map((p, i) => (
+          <GridWrapper>
             <ProjectPreview
               title={p.data.title}
               description={p.data.description}
               slug={p.slug}
               url={p.data.url}
+              showUrl={p.data.showUrl}
               gitRepo={p.data.gitRepo}
+              showGitRepo={p.data.showGitRepo}
               bottomFrame={i === projects.length - 1}
             />
-          ))
-        }
-      </main>
-    </GridWrapper>
+          </GridWrapper>
+        ))
+      }
+    </main>
+    <!-- </GridWrapper> -->
   </Page>
 </BaseLayout>
