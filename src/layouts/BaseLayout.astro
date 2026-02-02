@@ -24,7 +24,10 @@ const {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <!-- other meta tags -->
     {
       og && (
@@ -51,9 +54,7 @@ const {
       og && (
         <meta
           name="twitter:image"
-          content={
-            import.meta.env.PROD ? `https://nickradford.dev${og}` : `http://localhost:4321${og}`
-          }
+          content={import.meta.env.PROD ? og : `http://localhost:4321${og}`}
         />
       )
     }
@@ -73,7 +74,8 @@ const {
     <script is:inline>
       if (
         localStorage.theme === "dark" ||
-        (!("theme" in localStorage) && matchMedia("(prefers-color-scheme: dark)").matches)
+        (!("theme" in localStorage) &&
+          matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.classList.add("dark");
       } else {
@@ -82,7 +84,6 @@ const {
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
-
   </head>
   <body
     class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 min-h-screen"
@@ -126,16 +127,26 @@ const {
 
               links.forEach((link) => {
                 if (active) {
-                  link.classList.add("text-orange", "dark:text-orange", "md:bg-orange/5");
+                  link.classList.add(
+                    "text-orange",
+                    "dark:text-orange",
+                    "md:bg-orange/5",
+                  );
                 } else {
-                  link.classList.remove("text-orange", "dark:text-orange", "md:bg-orange/5");
+                  link.classList.remove(
+                    "text-orange",
+                    "dark:text-orange",
+                    "md:bg-orange/5",
+                  );
                 }
               });
             });
           }
 
           // Update mobile nav
-          const pageHeaderNavMobile = document.querySelector("#page-header-nav-mobile");
+          const pageHeaderNavMobile = document.querySelector(
+            "#page-header-nav-mobile",
+          );
           if (pageHeaderNavMobile) {
             navLinks.forEach((navLink) => {
               const links = Array.from(
@@ -177,7 +188,10 @@ const {
         document.addEventListener("swup:enable", () => {
           if ((window as any).swup) {
             (window as any).swup.options.animateHistoryBrowsing = true;
-            (window as any).swup.hooks.on("animation:in:start", updateActiveLinks);
+            (window as any).swup.hooks.on(
+              "animation:in:start",
+              updateActiveLinks,
+            );
           }
         });
       </script>
