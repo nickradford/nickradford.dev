@@ -53,6 +53,9 @@ importers:
       astro:
         specifier: ^5.16.0
         version: 5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)
+      astro-grab:
+        specifier: ^0.2.0
+        version: 0.2.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))
       astro-meta-tags:
         specifier: ^0.4.0
         version: 0.4.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))
@@ -2610,6 +2613,11 @@ packages:
   astring@1.9.0:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
+
+  astro-grab@0.2.0:
+    resolution: {integrity: sha512-CQfXFYDYrGNpy8zAIrfw4NxKU/bAGa1Oj9c7m65r/bFFTkf/9q175AanDdzX2pF7yY5SMdbwhP7hIYB2ZMpBcA==}
+    peerDependencies:
+      astro: ^5.0.0
 
   astro-meta-tags@0.4.0:
     resolution: {integrity: sha512-SWUyZbu0sgdkMYpG5J8mBH61oLTco2bZmixYHg6mqAgEFjc4P+urP+IG2TkfQxq4LEYnyyxcXxwnuSLleMIJ2Q==}
@@ -10140,6 +10148,11 @@ snapshots:
   astral-regex@2.0.0: {}
 
   astring@1.9.0: {}
+
+  astro-grab@0.2.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)):
+    dependencies:
+      '@astrojs/compiler': 2.13.0
+      astro: 5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)
 
   astro-meta-tags@0.4.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
