@@ -1,0 +1,99 @@
+---
+title: Put Some Pants On, YouTube!
+draft: false
+date: 2026-02-02
+tags: []
+---
+TLDR; Install the [Remove YouTube Shorts](https://chromewebstore.google.com/detail/remove-youtube-shorts/mgngbgbhliflggkamjnpdmegbkidiapm?hl=en) Chrome extension to purge the brain rot from YouTube.
+
+---
+
+YouTube Shorts. How many times have I just been sitting there zoning out, scrolling through a plethora of shorts, doom-scrolling to get through the crushing pain of existence we seem to be living through these days?
+
+It's just brain rot at this point.
+
+Team YouTube has released a moderation feature for YouTube Kids accounts so parents can keep their children from boiling their brains. Why not for all accounts YouTube? Let me block them for myself, please.
+
+---
+
+I started a quick [wxt](https://wxt.dev) project (awesome framework for developing browser extensions) the other morning after seeing a few tweets about people wanting to block shorts for themselves. I only spent maybe 45 minutes while learning about wxt and digging through YouTube's DOM, but I learned a few interesting things along the way.
+
+1. YouTube seems to use Web Components, a lot.
+
+   Nearly every element on YouTube.com is a Web Component, which makes sense given the support and portability of these components.
+2. YouTube tries to trick users into viewing shorts by presenting shorts like a normal video
+
+   ![Two YouTube Videos in a column, with the second one being a YouTube Short](/put-some-pants-on-youtube/minecraft-shorts.png)
+
+   Trick is a loaded term here as the video is clearly labeled as a short in the preview image for the video, but it can be easy to overlook, since that element is usually just the video duration.
+3. I also used \`XPath\` for possibly the first time ever. If you don't know, XPath is a small query language for XML like documents, similar to css selectors that web developers are accustomed to. I used XPath here because it allowed me to essentially do a parent node selection based on deeply nested conditions while doing text matching on the content of a node.
+
+## The Script
+
+Here's roughly what the content script of the extension I was building would do. It would find all of the shorts videos, their navigation, and their container sections and thanos-snap them from the DOM. I ran it on an interval, but had I worked any longer on this, I would have used a mutation observer.
+
+```typescript
+// The main vertical looking videos in a horizontal row
+const SHORTS_SELECTOR = `ytm-shorts-lockup-view-model-v2`; 
+
+// These look like normal videos but are in fact, shorts
+const BIG_SHORTS_SELECTOR = `ytd-video-renderer:has(a[href^='/shorts'])`; 
+
+// The large sections that are title "Shorts" and contain a bunch of shorts in a row
+const SHORTS_SECTIONS_XPATH = `//ytd-rich-section-renderer[.//*[@id='title' and text()='Shorts']]`; 
+
+// Shorts section in the search results are usually in this "shelf" component
+const SHORTS_SHELF_XPATH = `//grid-shelf-view-model[.//h2[@class='yt-shelf-header-layout__title']//span[text()='Shorts' or text()='Recently uploaded Shorts']]`; 
+
+// Shorts Nav Items
+const MINI_NAV_SHORTS_LINK_SELECTOR = `ytd-mini-guide-entry-renderer:has(a[href^='/shorts'])`;
+const MAIN_NAV_SHORTS_LINK_SELECTOR = `ytd-guide-entry-renderer:has(a[title='Shorts'])`;
+
+setInterval(() => {
+  // Remove navigation to Shorts
+  document.querySelectorAll(MINI_NAV_SHORTS_LINK_SELECTOR).forEach((item) => item.remove());
+  document.querySelectorAll(MAIN_NAV_SHORTS_LINK_SELECTOR).forEach((item) => item.remove());
+
+  // Find all of the shorts sections, but not on search pages for some reason
+  const nodes = [];
+  const shortsSectionSnapshot = document.evaluate(
+    SHORTS_SECTIONS_XPATH,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null,
+  );
+
+  for (let i = 0; i < shortsSectionSnapshot.snapshotLength; i++) {
+    nodes.push(shortsSectionSnapshot.snapshotItem(i));
+  }
+
+  // Find shorts sections in search results
+  const searchShortsSectionSnapshot = document.evaluate(
+    SHORTS_SHELF_XPATH,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+    null,
+  );
+  for (let i = 0; i < searchShortsSectionSnapshot.snapshotLength; i++) {
+    nodes.push(searchShortsSectionSnapshot.snapshotItem(i));
+  }
+
+  nodes.forEach((node) => {
+    node?.parentNode?.removeChild(node);
+  });
+
+  // These are kind of just in case the large section node removal doesn't pick up all the shorts.
+  document.querySelectorAll(SHORTS_SELECTOR).forEach((item) => item.remove());
+  document.querySelectorAll(BIG_SHORTS_SELECTOR).forEach((item) => item.remove());
+}, 1000);
+```
+
+I didn't even know about `document.evaluate` before hacking on this with my morning coffee.
+
+## Don't Reinvent the Wheel
+
+Turns out, many other people have had this exact same thought about YouTube Shorts, and have already done the hard work. Check out [Remove YouTube Shorts](https://chromewebstore.google.com/detail/remove-youtube-shorts/mgngbgbhliflggkamjnpdmegbkidiapm?hl=en) on the Chrome Web Store, it has 100k+ users and is highly rated.&#x20;
+
+Looking at their content script, they do a couple interesting things… first they use both a mutation observer and an interval at `1e3` which is just exponential notation for 1000 milliseconds, they inject a stylesheet on the page to hide shorts related elements, and they also remove shorts via the mutation observer callback. Finally they actually redirect shorts URLs on the m.youtube.com domain to the full video, I guess to allow you to view a one off Short if sent one, but prevent you from going down the rabbit hole.
