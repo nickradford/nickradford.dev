@@ -1,0 +1,48 @@
+---
+title: The Power of Personal Software
+draft: false
+date: 2026-02-07
+tags: []
+---
+
+Recently, I was dealing with an allergic reaction that led to a dermatitis (rash) covering large swaths of my body. It was likely caused by a lotion that I've had for some time that I haven't used in a couple months; it's scented and probably expired in the time since I last used it, and my body reacted with a really strong histamine response.
+
+I self treated with OTC meds, but after 2 days the rash and hives kept coming. Since it was like 11 PM, I couldn't really see a doctor, so I did the next best thing I could think of: distract myself by vibe coding a symptom and medication tracking app.
+
+> I tried to find an app on the app store, or a web app first, but couldn't find anything that was free and had the kind of UX I wanted.
+
+This post is not about the little app I built so I could keep track of what I meds I took, what I ate or drank, and what symptoms I was having, but about the agency that came with the ability to create something like this in the first place.
+
+## On Agency
+
+There's something inherently awful about sitting in discomfort, knowing there's an issue and not being able to do anything about it.
+
+Was creating a micro-app to track this data going to have an immediate boon for me? _No, or so I thought._
+
+Sure, it wasn't going to help the hives go away, or stop the itching, but there was a secondary effect I didn't anticipate, and that was how working on this app would distract me from the discomfort itself.
+
+**An idle mind is the devil's workshop**, or whatever that saying is.
+
+Because of my initial issue, the dermatitis, my secondary issue, not having an app to track symptoms, gave me an opportunity to take agency in the moment and create, which had the follow-on effect of reducing my awareness of my symptoms.
+
+I used Claude Code to build this, which made it a conversational experience. I was able to scaffold the app quickly and add the specific features I wanted, tweaking the design and UX so it felt good to use. Small hits of dopamine hit my brain, having an additive effect helping me not to think about my symptoms even though I was staring at a digital representation of my discomfort.
+
+When I was able to see a doctor 2 days later, I had a precise recording of my symptoms and their severity, as well as what I ate and drank, when I showered or exercised, and what medication I took. It was searchable and filterable, and I could hand my phone to the doctor so they could see the data for themself.
+
+## YMMV
+
+Obviously, not every problem can be solved or even helped with "just vibe code some personal software". However, in this instance, I was able to hit two targets with one arrow; temporarily helping my symptoms through a distracting activity, and collected useful data for the doctor to see later.
+
+### The App
+
+<ImageGallery
+  title="Foobar"
+  images={[
+    "/the-power-of-personal-software/symptomps-app-homescreen.png",
+    "/the-power-of-personal-software/symptoms-app-add-symptom.png",
+    "/the-power-of-personal-software/add-meds.png",
+    "/the-power-of-personal-software/add-food.png",
+  ]}
+></ImageGallery>
+
+Just in case you're interested, you can check it out at [symptoms.nickradford.dev](https://symptoms.nickradford.dev). And here's the [GitHub Repo](https://github.com/nickradford/symptoms) so you can see that I'm not collecting any data.

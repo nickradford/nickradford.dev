@@ -31,6 +31,7 @@
     "astro": "^5.16.0",
     "astro-grab": "^0.2.0",
     "astro-meta-tags": "^0.4.0",
+    "astro-swiper": "^1.4.0",
     "classnames": "^2.3.2",
     "esbuild": "0.14.x",
     "framer-motion": "^7.6.19",
@@ -50,7 +51,8 @@
     "satori": "^0.18.3",
     "sharp": "^0.34.5",
     "slugify": "^1.6.5",
-    "strip-markdown": "^5.0.0"
+    "strip-markdown": "^5.0.0",
+    "swiper": "^12.1.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
