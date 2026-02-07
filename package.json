@@ -31,7 +31,6 @@
     "astro": "^5.16.0",
     "astro-grab": "^0.2.0",
     "astro-meta-tags": "^0.4.0",
-    "astro-swiper": "^1.4.0",
     "classnames": "^2.3.2",
     "esbuild": "0.14.x",
     "framer-motion": "^7.6.19",
