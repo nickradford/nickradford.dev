@@ -1,14 +1,20 @@
 import { config, fields, collection } from "@keystatic/core";
+import { ImageGallery } from "src/components/mdx/ImageGallery.keystatic";
 
 export default config({
   ui: {
     brand: { name: "Nick Radford (dot) dev" },
   },
-  storage: {
-    kind: "github",
-    repo: "nickradford/nickradford.dev",
-    branchPrefix: "post/",
-  },
+  storage:
+    import.meta.env.NODE_ENV === "PRODUCTION"
+      ? {
+          kind: "github",
+          repo: "nickradford/nickradford.dev",
+          branchPrefix: "post/",
+        }
+      : {
+          kind: "local",
+        },
   collections: {
     blog: collection({
       label: "Blog",
@@ -33,6 +39,7 @@ export default config({
               publicPath: "/",
             },
           },
+          components: { ImageGallery },
         }),
       },
     }),

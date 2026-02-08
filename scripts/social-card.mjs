@@ -11,13 +11,11 @@ const OUTPUT_FOLDER = "public/og";
 const BASE_URL = "http://localhost:4321";
 const TIMEOUT = 5000;
 
-const LIMIT = -1;
-
 async function timeoutFn(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const generateSocialCards = async (limit = LIMIT) => {
+const generateSocialCards = async () => {
   const contentPath = join(process.cwd(), CONTENT_FOLDER);
   const outputPath = join(process.cwd(), OUTPUT_FOLDER);
 
@@ -35,18 +33,15 @@ const generateSocialCards = async (limit = LIMIT) => {
           )
         : path.isFile() && isMarkdownFile(path.name);
     })
-    .map((path) => path.name.replace(/\.(md|mdx)$/i, ""))
-    .slice(0, limit);
+    .map((path) => path.name.replace(/\.(md|mdx)$/i, ""));
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   console.log(`Found ${postSlugs.length} posts to process`);
-  LIMIT &&
-    console.log(
-      `(Limited to ${LIMIT} posts. Remove LIMIT value to process all posts)`,
-    );
+
+  console.log(postSlugs);
 
   const CONCURRENCY = 8;
 

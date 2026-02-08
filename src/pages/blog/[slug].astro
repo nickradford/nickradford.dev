@@ -3,6 +3,7 @@ import Base from "../../layouts/BaseLayout.astro";
 import BlogPage from "../../components/BlogPage.astro";
 import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime, toExcerpt } from "../../lib/content";
+import ImageGallery from "src/components/mdx/ImageGallery.astro";
 
 export const prerender = true;
 
@@ -32,6 +33,6 @@ const readingTime = calculateReadingTime(entry.body);
       readingTime,
     }}
   >
-    <Content />
+    <Content components={{ ImageGallery }} />
   </BlogPage>
 </Base>
