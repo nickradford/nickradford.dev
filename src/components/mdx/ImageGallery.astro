@@ -25,7 +25,10 @@ const { title, images } = Astro.props;
     {
       images.map((url) => (
         <span class="swiper-slide">
-          <img src={url} class="max-w-96" />
+          <img
+            src={url}
+            class="md:max-w-84 px-4 md:px-0 lg:max-w-96 max-h-[80vh]"
+          />
         </span>
       ))
     }
@@ -36,7 +39,7 @@ const { title, images } = Astro.props;
   <script>
     // core version + navigation, pagination modules:
     import Swiper from "swiper";
-    import { Pagination, Scrollbar, Thumbs } from "swiper/modules";
+    import { Scrollbar } from "swiper/modules";
     // import Swiper and modules styles
     import "swiper/css";
     import "swiper/css/pagination";
@@ -45,11 +48,20 @@ const { title, images } = Astro.props;
     // init Swiper:
     const swiper = new Swiper(".swiper", {
       // configure Swiper to use modules
-      modules: [Pagination, Scrollbar],
+      modules: [Scrollbar],
       grabCursor: true,
       centeredSlides: true,
-      spaceBetween: 20,
-      slidesPerView: 2,
+      roundLengths: true,
+      breakpoints: {
+        0: {
+          slidesPerView: 2,
+        },
+        768: {
+          spaceBetween: 20,
+          slidesPerView: 2,
+        },
+        // 1020: {},
+      },
       slideToClickedSlide: true,
       navigation: {
         enabled: true,
