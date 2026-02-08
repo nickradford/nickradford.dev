@@ -184,14 +184,18 @@ const {
         // Update on back/forward button
         window.addEventListener("popstate", updateActiveLinks);
 
+        function trackEvents() {
+          if ((window as any)._cf && typeof (window as any)._cf.push === 'function') {
+            (window as any)._cf.push(['set', 'page', window.location.pathname + window.location.search]);
+            (window as any)._cf.push(['track', 'pageview']);        }
+        }
+
         // Update on Swup content replacement
         document.addEventListener("swup:enable", () => {
           if ((window as any).swup) {
             (window as any).swup.options.animateHistoryBrowsing = true;
-            (window as any).swup.hooks.on(
-              "animation:in:start",
-              updateActiveLinks,
-            );
+            (window as any).swup.hooks.on("animation:in:start",updateActiveLinks,);
+            (window as any).swup.hooks.on('page:view', trackEvents)
           }
         });
       </script>
