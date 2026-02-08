@@ -7,10 +7,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "lint": "astro check && npm run check-types",
+    "lint": "astro check && bun check-types",
     "prepare": "husky install",
-    "og": "node scripts/social-card.mjs",
-    "og:regen": "pnpm og:clean && pnpm og",
+    "og": "bun scripts/social-card.ts",
+    "og:regen": "bun og:clean; bun og",
     "og:clean": "rm public/og/*"
   },
   "dependencies": {
@@ -70,5 +70,5 @@
     "tailwindcss": "^3.1.8",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef"
+  "packageManager": "bun@1.3.9"
 }

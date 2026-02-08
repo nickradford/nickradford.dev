@@ -11,7 +11,7 @@ const OUTPUT_FOLDER = "public/og";
 const BASE_URL = "http://localhost:4321";
 const TIMEOUT = 5000;
 
-async function timeoutFn(ms) {
+async function timeoutFn(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -26,7 +26,7 @@ const generateSocialCards = async () => {
   const postSlugs = fs
     .readdirSync(contentPath, { withFileTypes: true })
     .filter((path) => {
-      const isMarkdownFile = (path) => /\.(md|mdx)$/i.test(path);
+      const isMarkdownFile = (path: string) => /\.(md|mdx)$/i.test(path);
       return path.isDirectory()
         ? ["index.md", "index.mdx"].some((file) =>
             fs.existsSync(join(contentPath, path.name, file)),
@@ -43,7 +43,7 @@ const generateSocialCards = async () => {
 
   console.log(postSlugs);
 
-  const CONCURRENCY = 8;
+  const CONCURRENCY = 16;
 
   for (let i = 0; i < postSlugs.length; i += CONCURRENCY) {
     const batch = postSlugs.slice(i, i + CONCURRENCY);

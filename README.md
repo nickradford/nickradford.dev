@@ -1,6 +1,6 @@
 # nickradford.dev
 
-Personal portfolio site for Nick Radford, a software engineer from San Francisco with over 10 years of experience building compelling user interfaces and products that people love to use.
+Personal portfolio site for Nick Radford, a software engineer from San Francisco.
 
 ## Features
 
@@ -14,16 +14,16 @@ Personal portfolio site for Nick Radford, a software engineer from San Francisco
 
 - **Framework**: [Astro](https://astro.build/) with static generation
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Content**: Markdown and MDX blog posts
+- **Content**: Markdown and MDX blog posts, authored with [Keystatic CMS](https://keystatic.com)
 - **Hosting**: [Vercel](https://vercel.com/)
 
 ## Development
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run type checks and linting
+bun dev         # Start development server
+bun run build   # Build for production
+bun preview     # Preview production build
+bun lint        # Run type checks and linting
 ```
 
 ## License

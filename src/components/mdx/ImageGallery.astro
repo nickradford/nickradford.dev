@@ -24,7 +24,7 @@ const { images } = Astro.props;
     <!-- Slides -->
     {
       images.map((url) => (
-        <span class="swiper-slide">
+        <span class="swiper-slide active:cursor-grabbing">
           <img
             src={url}
             class="md:max-w-84 px-4 md:px-0 lg:max-w-96 max-h-[80vh] grayscale-0 !transition !duration-300 rounded-xl"
