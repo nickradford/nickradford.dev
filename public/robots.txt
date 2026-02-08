@@ -1,0 +1,7 @@
+# I, for one, welcome our new robotic overlords
+
+User-agent: *
+Allow: /
+Disallow: /keystatic
+
+Sitemap: https://nickradford.dev/sitemap-index.xml

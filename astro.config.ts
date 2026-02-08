@@ -43,7 +43,9 @@ export default defineConfig({
       ],
     }),
     tailwind({ applyBaseStyles: false }),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.startsWith("https://nickradford.dev/open-graph"),
+    }),
     markdoc(),
     keystatic(),
     metaTags(),
