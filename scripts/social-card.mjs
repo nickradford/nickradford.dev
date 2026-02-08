@@ -11,8 +11,6 @@ const OUTPUT_FOLDER = "public/og";
 const BASE_URL = "http://localhost:4321";
 const TIMEOUT = 5000;
 
-const LIMIT = -1;
-
 async function timeoutFn(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

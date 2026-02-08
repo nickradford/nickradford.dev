@@ -3,7 +3,7 @@ type Props = {
   title: string;
   images: string[];
 };
-const { title, images } = Astro.props;
+const { images } = Astro.props;
 ---
 
 <!-- Slider main container -->
@@ -46,7 +46,7 @@ const { title, images } = Astro.props;
     // import "swiper/css/scrollbar";
 
     // init Swiper:
-    const swiper = new Swiper(".swiper", {
+    new Swiper(".swiper", {
       // configure Swiper to use modules
       modules: [Scrollbar],
       grabCursor: true,
