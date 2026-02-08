@@ -59,6 +59,9 @@ importers:
       astro-meta-tags:
         specifier: ^0.4.0
         version: 0.4.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))
+      astro-theme-toggle:
+        specifier: ^0.8.0
+        version: 0.8.0
       classnames:
         specifier: ^2.3.2
         version: 2.5.1
@@ -2652,6 +2655,9 @@ packages:
     resolution: {integrity: sha512-SWUyZbu0sgdkMYpG5J8mBH61oLTco2bZmixYHg6mqAgEFjc4P+urP+IG2TkfQxq4LEYnyyxcXxwnuSLleMIJ2Q==}
     peerDependencies:
       astro: ^4.0.0 || ^5.0.0-beta.0
+
+  astro-theme-toggle@0.8.0:
+    resolution: {integrity: sha512-7ngEKDfCLKoVbxX4yxrggtBr8i6W8eT0un0TpNKHUeOG/Pq2g7BrjH+etP/l/XQYYSWQmeOIAI02LvLXDMvOWw==}
 
   astro@5.16.0:
     resolution: {integrity: sha512-GaDRs2Mngpw3dr2vc085GnORh98NiXxwIjg/EoQQQl/icZt3Z7s0BRsYHDZ8swkZbOA6wZsqWJdrNirl+iKcDg==}
@@ -10141,6 +10147,8 @@ snapshots:
   astro-meta-tags@0.4.0(astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
       astro: 5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1)
+
+  astro-theme-toggle@0.8.0: {}
 
   astro@5.16.0(@types/node@24.10.1)(@vercel/functions@2.2.13)(idb-keyval@6.2.2)(jiti@1.21.7)(rollup@2.79.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1):
     dependencies:

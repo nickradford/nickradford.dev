@@ -3,5 +3,6 @@
 User-agent: *
 Allow: /
 Disallow: /keystatic
+Disallow: /open-graph
 
 Sitemap: https://nickradford.dev/sitemap-index.xml
