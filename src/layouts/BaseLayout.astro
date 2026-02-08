@@ -72,17 +72,6 @@ const {
       title="Nick Radford (dot) Dev"
       href={new URL("feeds/atom.xml", Astro.site)}
     />
-    <script is:inline>
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <ThemeScript />

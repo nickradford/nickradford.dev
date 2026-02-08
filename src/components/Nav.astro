@@ -118,7 +118,14 @@ const navLinks = [
       }
     </ul>
     <div>
-      <Toggle />
+      <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-4'>
+        <Fragment slot="icon-light">
+          <div class="ph ph-moon-stars"></div>
+         </Fragment>
+         <Fragment slot="icon-dark">
+           <div class="ph ph-sun"></div>
+         </Fragment>
+      </Toggle>
     </div>
   </nav>
 </div>
