@@ -45,11 +45,14 @@ const description = `Search across blog posts, work history, and more.`;
                 <div class="absolute inset-y-0 right-0 top-4 pr-4 hidden" data-spinner>
                     <i class="ph ph-spinner  text-zinc-400 animate-spin inline-block [animation-duration:2s]"></i>
                 </div>
+                <button class="absolute inset-y-0 right-0 pr-4 items-center hidden text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors" data-clear type="button" aria-label="Clear search" tabindex={-1}>
+                    <i class="ph ph-x text-lg"></i>
+                </button>
               </div>
             </div>
             <div data-search-results ></div>
             <template id="result-template">
-              <a href="url" class='border-y border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-4 hover:bg-orange/5 transition-colors'>
+              <a href="url" class='border-y border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-4 hover:bg-orange/5 transition-colors' data-astro-reload>
                 <h2 class='text-xl'>Much ado about something...</h2>
                 <p class='text-zinc-500'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
                 <Frame corners={['all']} />
@@ -66,57 +69,102 @@ const description = `Search across blog posts, work history, and more.`;
 <script>
   import { getInstanceManager, type PagefindSearchResult } from '@pagefind/component-ui'
 
-  const inputEl = document.getElementById('search-input') as HTMLInputElement;
-  const spinnerEl = document.querySelector('[data-spinner]') as HTMLElement;
-  const resultsEl = document.querySelector('[data-search-results]') as HTMLElement;
-  const template = document.querySelector('#result-template') as HTMLTemplateElement;
-
   const manager = getInstanceManager();
   const instance = manager.getInstance('default');
 
-  let debounceTimer: ReturnType<typeof setTimeout>;
+  document.addEventListener('astro:page-load', () => {
+    const inputEl = document.getElementById('search-input') as HTMLInputElement | null;
+    if (!inputEl) return;
 
-  inputEl.addEventListener('input', () => {
-    spinnerEl.classList.remove('hidden');
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      const query = inputEl.value.trim();
-      if (query) {
-        instance.triggerSearch(query);
+    const spinnerEl = document.querySelector('[data-spinner]') as HTMLElement;
+    const clearEl = document.querySelector('[data-clear]') as HTMLElement;
+    const resultsEl = document.querySelector('[data-search-results]') as HTMLElement;
+    const template = document.querySelector('#result-template') as HTMLTemplateElement;
+
+    let debounceTimer: ReturnType<typeof setTimeout>;
+
+    function updateClearButton() {
+      const hasValue = inputEl!.value.trim().length > 0;
+      const isSpinning = !spinnerEl.classList.contains('hidden');
+      if (hasValue && !isSpinning) {
+        clearEl.classList.remove('hidden');
+        clearEl.classList.add('flex');
       } else {
-        resultsEl.innerHTML = '';
-        spinnerEl.classList.add('hidden');
+        clearEl.classList.add('hidden');
+        clearEl.classList.remove('flex');
       }
-    }, 300);
-  });
-
-  instance.on('results', async (result: PagefindSearchResult) => {
-    const allData = await Promise.all(result.results.map(r => r.data()));
-
-    resultsEl.style.transition = 'none';
-    resultsEl.style.opacity = '0';
-    resultsEl.innerHTML = '';
-
-    for (const data of allData) {
-      const clone = template.content.cloneNode(true) as DocumentFragment;
-      const link = clone.querySelector('a')!;
-      link.href = data.url;
-      link.querySelector('h2')!.textContent = data.meta?.title ?? '';
-      link.querySelector('p')!.innerHTML = data.excerpt ?? '';
-      resultsEl.appendChild(clone);
     }
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        resultsEl.style.transition = 'opacity 200ms ease-in';
-        resultsEl.style.opacity = '1';
-      });
+    clearEl.addEventListener('click', () => {
+      inputEl!.value = '';
+      resultsEl.innerHTML = '';
+      updateQuery('');
+      updateClearButton();
+      inputEl!.focus();
     });
 
-    spinnerEl.classList.add('hidden');
-  });
+    inputEl.focus();
 
-  document.addEventListener('astro:page-load', () => {
-    inputEl?.focus();
+    function updateQuery(query: string) {
+      const url = new URL(window.location.href);
+      if (query) {
+        url.searchParams.set('q', query);
+      } else {
+        url.searchParams.delete('q');
+      }
+      history.replaceState(null, '', url);
+    }
+
+    const initialQuery = new URL(window.location.href).searchParams.get('q');
+    if (initialQuery) {
+      inputEl.value = initialQuery;
+      spinnerEl.classList.remove('hidden');
+      instance.triggerSearch(initialQuery);
+    }
+
+    inputEl.addEventListener('input', () => {
+      spinnerEl.classList.remove('hidden');
+      clearEl.classList.add('hidden');
+      clearEl.classList.remove('flex');
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const query = inputEl.value.trim();
+        updateQuery(query);
+        if (query) {
+          instance.triggerSearch(query);
+        } else {
+          resultsEl.innerHTML = '';
+          spinnerEl.classList.add('hidden');
+          updateClearButton();
+        }
+      }, 300);
+    });
+
+    instance.on('results', async (result: PagefindSearchResult) => {
+      resultsEl.style.transition = 'none';
+      resultsEl.style.opacity = '0';
+      resultsEl.innerHTML = '';
+
+      const allData = await Promise.all(result.results.map(r => r.data()));
+
+      for (const data of allData) {
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const link = clone.querySelector('a')!;
+        link.href = data.url;
+        link.querySelector('h2')!.textContent = data.meta?.title ?? '';
+        link.querySelector('p')!.innerHTML = data.excerpt ?? '';
+        resultsEl.appendChild(clone);
+      }
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          resultsEl.style.transition = 'opacity 200ms ease-in';
+          resultsEl.style.opacity = '1';
+        });
+      });
+
+      spinnerEl.classList.add('hidden');
+      updateClearButton();
+    });
   });
 </script>
