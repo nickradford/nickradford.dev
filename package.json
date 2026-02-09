@@ -5,7 +5,7 @@
   "scripts": {
     "check-types": "tsc --noemit",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site .vercel/output/static",
     "preview": "astro preview",
     "lint": "astro check && bun check-types",
     "prepare": "husky install",
@@ -68,6 +68,7 @@
     "baseline-browser-mapping": "^2.9.19",
     "eslint": "^10.0.0",
     "husky": "^8.0.0",
+    "pagefind": "^1.4.0",
     "postcss": "^8.4.19",
     "puppeteer": "^24.31.0",
     "tailwindcss": "^3.1.8",

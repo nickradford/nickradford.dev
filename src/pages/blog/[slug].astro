@@ -34,6 +34,8 @@ const readingTime = calculateReadingTime(entry.body);
       readingTime,
     }}
   >
-    <Content components={{ ImageGallery }} />
+    <div data-pagefind-body>
+      <Content components={{ ImageGallery }} />
+    </div>
   </BlogPage>
 </Base>

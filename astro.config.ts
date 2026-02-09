@@ -26,7 +26,7 @@ export default defineConfig({
     },
   },
   adapter: vercel(),
-  output: "server",
+  output: "static",
   integrations: [
     swup({ smoothScrolling: false, globalInstance: true, theme: Theme.slide }),
     react(),
