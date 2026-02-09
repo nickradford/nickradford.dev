@@ -1,0 +1,18 @@
+---
+import GridWrapper from "./GridWrapper.astro";
+import Changelog from "./Changelog.astro";
+import type { BlogPost } from "../lib/content";
+import { cn } from '@lib/utils';
+
+interface Props {
+  changelog?: BlogPost["changelog"];
+}
+
+const { changelog } = Astro.props;
+---
+
+<GridWrapper class={cn({"hidden": !changelog})} centerClass="p-0 md:p-0">
+  {changelog && (
+      <Changelog changelog={changelog} class="px-8 md:px-16"/>
+  )}
+</GridWrapper>

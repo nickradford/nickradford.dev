@@ -16,6 +16,9 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "jsxImportSource": "react"
-  }
+    "jsxImportSource": "react",
+    "paths": {
+      "@*": ["./src/*"],
+    },
+  },
 }

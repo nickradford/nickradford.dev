@@ -17,12 +17,18 @@ export function calculateReadingTime(text: string): ReadingTime {
   return { text: readingText, minutes, time, words };
 }
 
+type ChangelogEntry = {
+  date?: Date;
+  description?: string;
+};
+
 export type BlogPost = {
   title: string;
   date: Date;
   slug: string;
   excerpt: string;
   readingTime: ReadingTime;
+  changelog?: ChangelogEntry[];
   draft?: boolean;
   tags?: string[];
 };
@@ -36,7 +42,9 @@ export type TagEntry = {
 export function toExcerpt(md: string, maxLen = 200) {
   // Get the first paragraph (content before first double newline or first maxLen characters)
   const firstParagraph = md.split("\n\n")[0] || md;
-  const stripped = String(remark().use(strip).processSync(firstParagraph)).trim();
+  const stripped = String(
+    remark().use(strip).processSync(firstParagraph),
+  ).trim();
 
   if (stripped.length > maxLen) {
     return stripped.substring(0, maxLen).trim() + "...";

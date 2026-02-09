@@ -4,6 +4,7 @@ import BackButton from "./BackButton.astro";
 import ByLine from "./ByLine.astro";
 import AtomLink from "./AtomLink.astro";
 import DecodeText from "./DecodeText";
+import ChangelogGrid from "./ChangelogGrid.astro";
 
 import type { BlogPost } from "../lib/content";
 
@@ -17,11 +18,10 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
 ---
 
 <Page>
-  {/* Desktop Layout */}
-  <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full hidden md:flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
+  <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
     {/* Header Section */}
-    <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
-      <div class="flex-1 pt-8 px-8 md:px-16"></div>
+    <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex-1 hidden md:block pt-8 px-8 md:px-16"></div>
       <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
         <BackButton />
         <div class="mb-8 space-y-4">
@@ -37,40 +37,19 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
           <AtomLink />
         </div>
       </div>
-      <div class="flex-1 pt-8 px-8 md:px-16"></div>
+      <div class="flex-1 hidden md:block pt-8 px-8 md:px-16"></div>
     </div>
+    <ChangelogGrid changelog={meta.changelog} />
 
     {/* Content Section */}
-    <div class="flex divide-x divide-orange/20 dark:divide-zinc-800">
-      <div class="flex-1"></div>
+    <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex-1 hidden md:block"></div>
       <div class="max-w-4xl w-full px-8 md:px-16 py-8 pb-12">
         <div class={articleClasses}>
           <slot />
         </div>
       </div>
-      <div class="flex-1"></div>
-    </div>
-  </article>
-
-  {/* Mobile Layout */}
-  <article class="md:hidden w-full border-l border-r border-orange/20 dark:border-zinc-800 space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
-    {/* Header Section */}
-    <div class="px-8 py-8">
-      <BackButton />
-      <div class="space-y-4">
-        <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-          {meta.title}
-        </h1>
-        <ByLine meta={meta} />
-        <AtomLink />
-      </div>
-    </div>
-
-    {/* Content Section */}
-    <div class="px-8 py-8">
-      <div class={articleClasses}>
-        <slot />
-      </div>
+      <div class="flex-1 hidden md:block"></div>
     </div>
   </article>
 </Page>

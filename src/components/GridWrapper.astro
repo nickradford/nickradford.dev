@@ -1,0 +1,16 @@
+---
+import {cn} from '@lib/utils';
+type Props = {
+  class?: string;
+  centerClass?: string;
+}
+
+const { class: rootClass, centerClass } = Astro.props;
+---
+<div class={cn(`flex md:divide-x divide-orange/20 dark:divide-zinc-800`, rootClass)}>
+  <div class="flex-1 hidden md:block"></div>
+  <div class={cn(`max-w-4xl w-full px-8 md:px-16 py-8 pb-12`, centerClass)}>
+      <slot />
+  </div>
+  <div class="flex-1 hidden md:block"></div>
+</div>

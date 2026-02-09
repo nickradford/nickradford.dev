@@ -1,0 +1,97 @@
+---
+import { cn } from "../lib/utils";
+import type { BlogPost } from "../lib/content";
+
+interface Props {
+  changelog: NonNullable<BlogPost["changelog"]>;
+  class?: string;
+  defaultExpanded?: boolean;
+}
+
+const { changelog, class: rootClass, defaultExpanded = false } = Astro.props;
+
+const sortedChangelog = [...changelog].sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
+
+const getLocalDate = (date: Date) => {
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() + offset);
+};
+
+const formatDate = (date: Date) => {
+  return Intl.DateTimeFormat("en-us", { dateStyle: "medium" }).format(getLocalDate(new Date(date)));
+};
+---
+
+<div class={cn(`changelog-container cursor-pointer h-full group font-geist-mono hover:bg-orange/5 transition-colors`, rootClass)} data-changelog data-default-expanded={defaultExpanded}>
+  <div
+    class="changelog-header flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-geist-mono text-xs py-4 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+    aria-expanded={defaultExpanded ? "true" : "false"}
+    aria-controls="changelog-content"
+  >
+    <span>Revisions</span>
+    <span class="changelog-chevron ph ph-caret-down transition-transform duration-150 ease-out" style={defaultExpanded ? "transform: rotate(180deg)" : ""}></span>
+  </div>
+
+  <div
+    id="changelog-content"
+    class="changelog-content grid transition-all duration-150 ease-out"
+    style={defaultExpanded ? "grid-template-rows: 1fr;" : "grid-template-rows: 0fr;"}
+  >
+    <div class="overflow-hidden">
+      <div class="pb-4">
+        <div class="space-y-3">
+          {sortedChangelog.map((entry) => (
+            <div class="flex flex-col gap-0.5">
+              {entry.date && (
+                <time class="text-xs  text-zinc-500 dark:text-zinc-500">
+                  {formatDate(entry.date)}
+                </time>
+              )}
+              <p class="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                {entry.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline data-swup-reload-script>
+  (function() {
+    const containers = document.querySelectorAll('[data-changelog]');
+
+    containers.forEach(function(container) {
+      const header = container.querySelector('.changelog-header');
+      const content = container.querySelector('.changelog-content');
+      const chevron = container.querySelector('.changelog-chevron');
+
+      if (!header || !content || !chevron) return;
+
+      container.addEventListener('click', function() {
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          content.style.gridTemplateRows = '0fr';
+          chevron.style.transform = 'rotate(0deg)';
+          header.setAttribute('aria-expanded', 'false');
+        } else {
+          content.style.gridTemplateRows = '1fr';
+          chevron.style.transform = 'rotate(180deg)';
+          header.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+
+<style>
+  .changelog-content > div {
+    min-height: 0;
+  }
+</style>
