@@ -137,6 +137,7 @@ const exampleSearchTerms = ['Tailwind', 'React', 'Fun']
         updateQuery(query);
         if (query) {
           instance.triggerSearch(query);
+          (window as any).umami?.track("search", { query });
         } else {
           resultsEl.innerHTML = '';
           resultCountEl.classList.add('hidden');
