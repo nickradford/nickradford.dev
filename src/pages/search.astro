@@ -30,7 +30,7 @@ const description = `Search across blog posts, work history, and more.`;
           <div class="flex-1" />
           <div class="max-w-4xl w-full px-8 md:px-16 py-12 relative spacing-y-8">
             <Frame corners={["top", "bottomLeft"]} />
-            <div class="w-full mx-auto mb-12">
+            <div class="w-full mx-auto mb-6">
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <i class="ph ph-magnifying-glass text-zinc-400 text-lg"></i>
@@ -40,7 +40,7 @@ const description = `Search across blog posts, work history, and more.`;
                   type="text"
                   placeholder="Search..."
                   autofocus
-                  class="w-full pl-12 pr-4 py-3 bg-zinc-100 dark:bg-zinc-900 border border-orange/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange/50 transition-all font-geist"
+                  class="w-full pl-12 pr-4 py-3 bg-orange/10 dark:bg-zinc-900 border border-orange/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange/50 transition-all font-geist"
                 />
                 <div class="absolute inset-y-0 right-0 top-4 pr-4 hidden" data-spinner>
                     <i class="ph ph-spinner  text-zinc-400 animate-spin inline-block [animation-duration:2s]"></i>
@@ -49,13 +49,14 @@ const description = `Search across blog posts, work history, and more.`;
                     <i class="ph ph-x text-lg"></i>
                 </button>
               </div>
+              <p class="text-xs text-orange/85 dark:text-orange/75 font-geist-mono mt-4 hidden" data-result-count></p>
             </div>
             <div data-search-results ></div>
             <template id="result-template">
-              <a href="url" class='border-y border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-4 hover:bg-orange/5 transition-colors' data-astro-reload>
-                <h2 class='text-xl'>Much ado about something...</h2>
-                <p class='text-zinc-500'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
-                <Frame corners={['all']} />
+              <a href="url" class='border-t border-orange/20 dark:border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-3 group no-underline hover:bg-orange/5 transition-colors' data-astro-reload>
+                <h2 class='text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors'>Much ado about something...</h2>
+                <p class='leading-relaxed text-zinc-700 dark:text-zinc-300 prose font-geist'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
+                <Frame corners={['top']} />
               </a>
             </template>
           </div>
@@ -78,6 +79,7 @@ const description = `Search across blog posts, work history, and more.`;
 
     const spinnerEl = document.querySelector('[data-spinner]') as HTMLElement;
     const clearEl = document.querySelector('[data-clear]') as HTMLElement;
+    const resultCountEl = document.querySelector('[data-result-count]') as HTMLElement;
     const resultsEl = document.querySelector('[data-search-results]') as HTMLElement;
     const template = document.querySelector('#result-template') as HTMLTemplateElement;
 
@@ -98,6 +100,7 @@ const description = `Search across blog posts, work history, and more.`;
     clearEl.addEventListener('click', () => {
       inputEl!.value = '';
       resultsEl.innerHTML = '';
+      resultCountEl.classList.add('hidden');
       updateQuery('');
       updateClearButton();
       inputEl!.focus();
@@ -115,7 +118,7 @@ const description = `Search across blog posts, work history, and more.`;
       history.replaceState(null, '', url);
     }
 
-    const initialQuery = new URL(window.location.href).searchParams.get('q');
+    const initialQuery = new URL(window.location.href).searchParams.get('q')?.trim();
     if (initialQuery) {
       inputEl.value = initialQuery;
       spinnerEl.classList.remove('hidden');
@@ -134,6 +137,7 @@ const description = `Search across blog posts, work history, and more.`;
           instance.triggerSearch(query);
         } else {
           resultsEl.innerHTML = '';
+          resultCountEl.classList.add('hidden');
           spinnerEl.classList.add('hidden');
           updateClearButton();
         }
@@ -145,14 +149,25 @@ const description = `Search across blog posts, work history, and more.`;
       resultsEl.style.opacity = '0';
       resultsEl.innerHTML = '';
 
+      const query = inputEl!.value.trim();
       const allData = await Promise.all(result.results.map(r => r.data()));
 
-      for (const data of allData) {
+      const count = allData.length;
+      resultCountEl.textContent = `Found ${count} result${count !== 1 ? 's' : ''} for "${query}"`;
+      resultCountEl.classList.remove('hidden');
+      resultCountEl.style.transition = 'none';
+      resultCountEl.style.opacity = '0';
+
+      for (let i = 0; i < allData.length; i++) {
+        const data = allData[i];
         const clone = template.content.cloneNode(true) as DocumentFragment;
         const link = clone.querySelector('a')!;
         link.href = data.url;
         link.querySelector('h2')!.textContent = data.meta?.title ?? '';
         link.querySelector('p')!.innerHTML = data.excerpt ?? '';
+        if (i === allData.length - 1) {
+          link.classList.add('border-b');
+        }
         resultsEl.appendChild(clone);
       }
 
@@ -160,6 +175,8 @@ const description = `Search across blog posts, work history, and more.`;
         requestAnimationFrame(() => {
           resultsEl.style.transition = 'opacity 200ms ease-in';
           resultsEl.style.opacity = '1';
+          resultCountEl.style.transition = 'opacity 200ms ease-in';
+          resultCountEl.style.opacity = '1';
         });
       });
 
