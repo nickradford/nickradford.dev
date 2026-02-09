@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/**
+    Override the dark mode to use classes instead of prefers-color-scheme media query
+    https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually
+*/
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-plex: var(--font-plex), sans-serif;
+  --font-inter: Inter, sans-serif;
+  --font-scp: Source Code Pro, monospace;
+  --font-geist: Geist, sans-serif;
+  --font-geist-mono: Geist Mono, monospace;
+
+  --color-orange: #ff9500;
+  --color-primary: #feee16;
+  --color-ivory: #fffff0;
+}
 
 @layer utilities {
   .min-h-fill-available {
@@ -16,21 +35,22 @@
       min-height: -webkit-fill-available;
     }
   }
+}
 
+.squircle {
+  border-radius: 1rem;
+}
+
+@supports (corner-shape: superellipse(1.815)) {
   .squircle {
-    @apply rounded-2xl;
-  }
-
-  @supports (corner-shape: superellipse(1.815)) {
-    .squircle {
-      @apply rounded-3xl;
-      corner-shape: superellipse(1.815);
-    }
+    border-radius: 1.5rem;
+    corner-shape: superellipse(1.815);
   }
 }
 
 mark {
-  @apply bg-orange squircle px-2;
+  @apply bg-orange px-2;
+  border-radius: 1rem;
 }
 
 html {
@@ -60,10 +80,6 @@ pre {
   overflow-x: auto;
 }
 
-/*pre[class*="language-"] {
-  @apply !bg-zinc-800 !mt-0 !whitespace-pre-wrap;
-}*/
-
 .rehype-code-title:has(+ pre) + pre {
   @apply !rounded-t-none;
 }
@@ -72,14 +88,9 @@ pre {
   @apply bg-sky-800 px-4 py-2 font-geist-mono rounded-t-md text-sm text-sky-100 font-semibold;
 }
 
-/**
- * Inspired by gatsby remark prism - https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/
- * 1. Make the element just wide enough to fit its content.
- * 2. Always fill the visible space in .code-highlight.
- */
 .code-highlight {
-  float: left; /* 1 */
-  min-width: 100%; /* 2 */
+  float: left;
+  min-width: 100%;
 }
 
 .code-line {
@@ -95,24 +106,24 @@ pre {
 }
 
 .code-line.inserted {
-  background-color: rgba(16, 185, 129, 0.2); /* Set inserted line (+) color */
+  background-color: rgba(16, 185, 129, 0.2);
 }
 
 .code-line.deleted {
-  background-color: rgba(239, 68, 68, 0.2); /* Set deleted line (-) color */
+  background-color: rgba(239, 68, 68, 0.2);
 }
 
 .highlight-line {
   margin-inline: -16px;
-  background-color: rgba(55, 65, 81, 0.5); /* Set highlight bg color */
-  border-left: 4px solid rgb(59, 130, 246); /* Set highlight accent border color */
+  background-color: rgba(55, 65, 81, 0.5);
+  border-left: 4px solid rgb(59, 130, 246);
 }
 
 .line-number::before {
   width: 1rem;
   text-align: right;
   margin-left: -8px;
-  color: rgb(156, 163, 175); /* Line number color */
+  color: rgb(156, 163, 175);
   content: attr(line);
 }
 

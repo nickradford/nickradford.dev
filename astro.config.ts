@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 
@@ -19,6 +19,7 @@ import { astroGrab } from "astro-grab";
 export default defineConfig({
   site: "https://nickradford.dev",
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         "@": "./src",
@@ -41,7 +42,6 @@ export default defineConfig({
         [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
       ],
     }),
-    tailwind({ applyBaseStyles: false }),
     sitemap({
       filter: (page) => !page.startsWith("https://nickradford.dev/open-graph"),
     }),
