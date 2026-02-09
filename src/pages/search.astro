@@ -1,0 +1,112 @@
+---
+export const prerender = true;
+import Base from "../layouts/BaseLayout.astro";
+import Text from "../components/Text.astro";
+import Page from "../components/Page.astro";
+import { DecodeText } from "../components/DecodeText";
+import PageHeader from "../components/PageHeader.astro";
+import Frame from "@components/Frame.astro";
+
+const description = `Search across blog posts, work history, and more.`;
+---
+
+<Base title="Search" description={description}>
+  <Page class="min-h-[calc(100vh-64px)]">
+
+    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col flex-1">
+      <PageHeader class="relative">
+        <DecodeText
+          slot="title"
+          client:load
+          value="search"
+          className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+        />
+        <Text slot="description">{description}</Text>
+      </PageHeader>
+
+      {/* Search Section */}
+      <div class="w-full flex-1 flex flex-col relative">
+        <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 flex-1">
+          <div class="flex-1" />
+          <div class="max-w-4xl w-full px-8 md:px-16 py-12 relative spacing-y-8">
+            <Frame corners={["top", "bottomLeft"]} />
+            <div class="w-full mx-auto mb-12">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <i class="ph ph-magnifying-glass text-zinc-400 text-lg"></i>
+                </div>
+                <input
+                  id="search-input"
+                  type="text"
+                  placeholder="Search..."
+                  autofocus
+                  class="w-full pl-12 pr-4 py-3 bg-zinc-100 dark:bg-zinc-900 border border-orange/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange/50 transition-all font-geist"
+                />
+                <div class="absolute inset-y-0 right-0 top-4 pr-4 hidden" data-spinner>
+                    <i class="ph ph-spinner  text-zinc-400 animate-spin inline-block [animation-duration:2s]"></i>
+                </div>
+              </div>
+            </div>
+            <div data-search-results ></div>
+            <template id="result-template">
+              <a href="url" class='border-y border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-4 hover:bg-orange/5 transition-colors'>
+                <h2 class='text-xl'>Much ado about something...</h2>
+                <p class='text-zinc-500'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
+                <Frame corners={['all']} />
+              </a>
+            </template>
+          </div>
+          <div class="flex-1"></div>
+        </div>
+      </div>
+    </article>
+  </Page>
+</Base>
+
+<script>
+  import { getInstanceManager, type PagefindSearchResult } from '@pagefind/component-ui'
+
+  const inputEl = document.getElementById('search-input') as HTMLInputElement;
+  const spinnerEl = document.querySelector('[data-spinner]') as HTMLElement;
+  const resultsEl = document.querySelector('[data-search-results]') as HTMLElement;
+  const template = document.querySelector('#result-template') as HTMLTemplateElement;
+
+  const manager = getInstanceManager();
+  const instance = manager.getInstance('default');
+
+  let debounceTimer: ReturnType<typeof setTimeout>;
+
+  inputEl.addEventListener('input', () => {
+    spinnerEl.classList.remove('hidden');
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = inputEl.value.trim();
+      if (query) {
+        instance.triggerSearch(query);
+      } else {
+        resultsEl.innerHTML = '';
+        spinnerEl.classList.add('hidden');
+      }
+    }, 300);
+  });
+
+  instance.on('results', async (result: PagefindSearchResult) => {
+    resultsEl.innerHTML = '';
+
+    for (const r of result.results) {
+      const data = await r.data();
+      const clone = template.content.cloneNode(true) as DocumentFragment;
+      const link = clone.querySelector('a')!;
+      link.href = data.url;
+      link.querySelector('h2')!.textContent = data.meta?.title ?? '';
+      link.querySelector('p')!.innerHTML = data.excerpt ?? '';
+      resultsEl.appendChild(clone);
+    }
+
+    spinnerEl.classList.add('hidden');
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    inputEl?.focus();
+  });
+</script>
