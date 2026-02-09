@@ -7,7 +7,9 @@ import { DecodeText } from "../components/DecodeText";
 import PageHeader from "../components/PageHeader.astro";
 import Frame from "@components/Frame.astro";
 
-const description = `Search across blog posts, work history, and more.`;
+const description = `Search my blog posts for specific content.`;
+
+const exampleSearchTerms = ['Tailwind', 'React', 'Fun']
 ---
 
 <Base title="Search" description={description}>
@@ -18,10 +20,10 @@ const description = `Search across blog posts, work history, and more.`;
         <DecodeText
           slot="title"
           client:load
-          value="search"
+          value="Search"
           className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
         />
-        <Text slot="description">{description}</Text>
+        <Text slot="description" class='leading-8'>{description} <br/>Try searching for {exampleSearchTerms.map(term => <a class='px-2 py-1 mr-2 squircle bg-orange/85 hover:bg-orange transition-colors text-zinc-800' href={`/search?q=${term}`}>{term}</a>)}</Text>
       </PageHeader>
 
       {/* Search Section */}
