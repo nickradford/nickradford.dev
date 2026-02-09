@@ -117,6 +117,7 @@ const navLinks = [
         })
       }
     </ul>
+
     <div>
       <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-4'>
         <Fragment slot="icon-light">
@@ -129,3 +130,11 @@ const navLinks = [
     </div>
   </nav>
 </div>
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<div id="search">hello</div>
+<script is:inline>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new PagefindUI({ element: "#search", showSubResults: true });
+    });
+</script>
