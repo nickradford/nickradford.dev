@@ -29,6 +29,10 @@
   }
 }
 
+mark {
+  @apply bg-orange squircle px-2;
+}
+
 html {
   @apply scroll-smooth font-geist;
   scroll-padding-top: 100px;

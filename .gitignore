@@ -53,3 +53,5 @@ tsconfig.tsbuildinfo
 
 # astro
 .astro/
+
+public/pagefind

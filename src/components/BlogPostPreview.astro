@@ -5,10 +5,10 @@ import { getLocalDate } from "../lib/format-date";
 
 interface Props {
   post: BlogPost;
-  bottomCrosses?: boolean;
+  lastPost?: boolean;
 }
 
-const { post, bottomCrosses } = Astro.props;
+const { post, lastPost } = Astro.props;
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
@@ -52,5 +52,5 @@ const displayDate = getLocalDate(new Date(post.date));
       Read more <i class="ph ph-arrow-right top-px relative"></i>
     </span>
   </article>
-  <Frame bottom={bottomCrosses} />
+  <Frame corners={lastPost ? ["top", "bottomLeft"] : ["top"]} />
 </a>

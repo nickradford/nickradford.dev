@@ -1,22 +1,9 @@
 ---
-// import ThemeToggle from "./ThemeToggle.tsx";
 import { Toggle } from "astro-theme-toggle/components"
+import NavLinks from "./NavLinks.astro";
+import SearchTrigger from "./SearchTrigger.astro";
 
 const currentPath = Astro.url.pathname;
-
-// Determine if a link is active
-const isActive = (href: string): boolean => {
-  if (href === "/") {
-    return currentPath === "/";
-  }
-  return currentPath.startsWith(href);
-};
-
-const navLinks = [
-  { label: "home", href: "/" },
-  { label: "writing", href: "/blog" },
-  { label: "work", href: "/work" },
-];
 ---
 
 <!-- Desktop Header -->
@@ -38,41 +25,17 @@ const navLinks = [
       </a>
     </div>
     <div
-      class="flex-grow flex items-center justify-center border-r border-orange/20 dark:border-zinc-800"
+      class="flex-grow flex items-stretch justify-center border-r border-orange/20 dark:border-zinc-800"
     >
       <ul
-        class={"flex px-0 *:py-4 space-x-8 md:space-x-0 text-sm w-full *:flex-1 *:text-center *:px-4"}
+        class={"flex items-stretch px-0 m-0 space-x-8 md:space-x-0 text-sm w-full *:flex-1 *:text-center *:px-4 *:flex *:items-center *:justify-center"}
       >
-        {
-          navLinks.map(({ label, href }) => {
-            const active = isActive(href);
-            return (
-              <a
-                href={href}
-                class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange md:border-r md:border-orange/20 dark:md:border-zinc-800 md:last:border-none ${
-                  active ? "text-orange dark:text-orange md:bg-orange/5" : ""
-                }`}
-              >
-                {label}
-              </a>
-            );
-          })
-        }
+        <NavLinks currentPath={currentPath} variant="desktop" />
       </ul>
     </div>
-    <div class="flex items-center justify-end">
-
-      <!--     <button
-        ref={buttonRef}
-        id="theme-toggle"
-        className="text-zinc-600 hover:text-orange transition-colors dark:text-zinc-400 dark:hover:text-orange px-4 md:px-8 h-full"
-        aria-label="Toggle theme"
-        onClick={toggleTheme}
-      >
-        <div ref={moonIconRef} className="ph ph-moon-stars text-xl hidden"></div>
-        <div ref={sunIconRef} className="ph ph-sun text-xl"></div>
-      </button> -->
-      <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-4'>
+    <div class="flex items-stretch justify-end divide-x divide-orange/20 dark:divide-zinc-800">
+      <SearchTrigger class="text-lg px-6 py-4" currentPath={currentPath} />
+      <Toggle class='flex items-center transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-5'>
         <Fragment slot="icon-light">
           <div class="ph ph-moon-stars"></div>
          </Fragment>
@@ -98,27 +61,12 @@ const navLinks = [
       Nick Radford
     </a>
     <ul class="flex px-0 py-4 space-x-8 text-sm">
-      {
-        navLinks.map(({ label, href }) => {
-          const active = isActive(href);
-          return (
-            <a
-              href={href}
-              class={`relative inline-block transition-colors text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange ${
-                active ? "text-orange dark:text-orange" : ""
-              }`}
-            >
-              {label}
-              {active && (
-                <span class="md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-orange" />
-              )}
-            </a>
-          );
-        })
-      }
+      <NavLinks currentPath={currentPath} variant="mobile" />
     </ul>
-    <div>
-      <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-4'>
+
+    <div class="flex items-center">
+      <SearchTrigger class="text-lg px-4 py-4" currentPath={currentPath} />
+      <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-4 py-4'>
         <Fragment slot="icon-light">
           <div class="ph ph-moon-stars"></div>
          </Fragment>

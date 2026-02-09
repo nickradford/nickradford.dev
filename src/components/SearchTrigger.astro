@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+  currentPath?: string;
+}
+
+const { class: className = "", currentPath = "" } = Astro.props;
+const active = currentPath.startsWith("/search");
+---
+
+<a
+  href="/search"
+  class={`flex items-center transition-colors hover:text-orange dark:hover:text-orange ${active ? "text-orange dark:text-orange md:bg-orange/5" : "text-zinc-600 dark:text-zinc-400"} ${className}`}
+  aria-label="Search"
+>
+  <div class="ph ph-magnifying-glass text-lg"></div>
+</a>

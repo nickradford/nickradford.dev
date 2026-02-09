@@ -1,0 +1,42 @@
+---
+interface Props {
+  currentPath: string;
+  variant?: "desktop" | "mobile";
+}
+
+const { currentPath, variant = "desktop" } = Astro.props;
+
+const isActive = (href: string): boolean => {
+  if (href === "/") {
+    return currentPath === "/";
+  }
+  return currentPath.startsWith(href);
+};
+
+const navLinks = [
+  { label: "home", href: "/" },
+  { label: "writing", href: "/blog" },
+  { label: "work", href: "/work" },
+];
+---
+
+{
+  navLinks.map(({ label, href }) => {
+    const active = isActive(href);
+    return (
+      <a
+        href={href}
+        class={`relative inline-block transition-colors text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange ${
+          variant === "desktop"
+            ? "md:border-r md:border-orange/20 dark:md:border-zinc-800 md:last:border-none"
+            : ""
+        } ${active ? "text-orange dark:text-orange md:bg-orange/5" : "text-zinc-600 dark:text-zinc-400"}`}
+      >
+        {label}
+        {active && variant === "mobile" && (
+          <span class="md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-orange" />
+        )}
+      </a>
+    );
+  })
+}

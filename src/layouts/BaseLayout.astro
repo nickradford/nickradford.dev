@@ -4,6 +4,7 @@ import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
 import { ThemeScript } from "astro-theme-toggle/components"
+import { ClientRouter } from "astro:transitions";
 
 type Props = {
   title?: string;
@@ -75,6 +76,7 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <ThemeScript />
+    <ClientRouter />
   </head>
   <body
     class="transition-colors bg-ivory text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 min-h-screen"
@@ -172,16 +174,8 @@ const {
         // Initial update on page load
         updateActiveLinks();
 
-        // Update on back/forward button
-        window.addEventListener("popstate", updateActiveLinks);
-
-        // Update on Swup content replacement
-        document.addEventListener("swup:enable", () => {
-          if ((window as any).swup) {
-            (window as any).swup.options.animateHistoryBrowsing = true;
-            (window as any).swup.hooks.on("animation:in:start",updateActiveLinks,);
-          }
-        });
+        // Update on navigation
+        document.addEventListener("astro:page-load", updateActiveLinks);
       </script>
       <!-- Cloudflare Web Analytics --><script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "292634fda6f34557a52e2cd045c74886"}'></script><!-- End Cloudflare Web Analytics -->
     </div>

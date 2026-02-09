@@ -1,0 +1,189 @@
+---
+export const prerender = true;
+import Base from "../layouts/BaseLayout.astro";
+import Text from "../components/Text.astro";
+import Page from "../components/Page.astro";
+import { DecodeText } from "../components/DecodeText";
+import PageHeader from "../components/PageHeader.astro";
+import Frame from "@components/Frame.astro";
+
+const description = `Search my blog posts for specific content.`;
+
+const exampleSearchTerms = ['Tailwind', 'React', 'Fun']
+---
+
+<Base title="Search" description={description}>
+  <Page class="min-h-[calc(100vh-64px)]">
+
+    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col flex-1">
+      <PageHeader class="relative">
+        <DecodeText
+          slot="title"
+          client:load
+          value="Search"
+          className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+        />
+        <Text slot="description" class='leading-8'>{description} <br/>Try searching for {exampleSearchTerms.map(term => <a class='px-2 py-1 mr-2 squircle bg-orange/85 hover:bg-orange transition-colors text-zinc-800' href={`/search?q=${term}`}>{term}</a>)}</Text>
+      </PageHeader>
+
+      {/* Search Section */}
+      <div class="w-full flex-1 flex flex-col relative">
+        <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 flex-1">
+          <div class="flex-1" />
+          <div class="max-w-4xl w-full px-8 md:px-16 py-12 relative spacing-y-8">
+            <Frame corners={["top", "bottomLeft"]} />
+            <div class="w-full mx-auto mb-6">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <i class="ph ph-magnifying-glass text-zinc-400 text-lg"></i>
+                </div>
+                <input
+                  id="search-input"
+                  type="text"
+                  placeholder="Search..."
+                  autofocus
+                  class="w-full pl-12 pr-4 py-3 bg-orange/10 dark:bg-zinc-900 border border-orange/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange/50 transition-all font-geist"
+                />
+                <div class="absolute inset-y-0 right-0 top-4 pr-4 hidden" data-spinner>
+                    <i class="ph ph-spinner  text-zinc-400 animate-spin inline-block [animation-duration:2s]"></i>
+                </div>
+                <button class="absolute inset-y-0 right-0 pr-4 items-center hidden text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors" data-clear type="button" aria-label="Clear search" tabindex={-1}>
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+              </div>
+              <p class="text-xs text-orange/85 dark:text-orange/75 font-geist-mono mt-4 hidden" data-result-count></p>
+            </div>
+            <div data-search-results ></div>
+            <template id="result-template">
+              <a href="url" class='border-t border-orange/20 dark:border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-3 group no-underline hover:bg-orange/5 transition-colors' data-astro-reload>
+                <h2 class='text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors'>Much ado about something...</h2>
+                <p class='leading-relaxed text-zinc-700 dark:text-zinc-300 prose font-geist'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
+                <Frame corners={['top']} />
+              </a>
+            </template>
+          </div>
+          <div class="flex-1"></div>
+        </div>
+      </div>
+    </article>
+  </Page>
+</Base>
+
+<script>
+  import { getInstanceManager, type PagefindSearchResult } from '@pagefind/component-ui'
+
+  const manager = getInstanceManager();
+  const instance = manager.getInstance('default');
+
+  document.addEventListener('astro:page-load', () => {
+    const inputEl = document.getElementById('search-input') as HTMLInputElement | null;
+    if (!inputEl) return;
+
+    const spinnerEl = document.querySelector('[data-spinner]') as HTMLElement;
+    const clearEl = document.querySelector('[data-clear]') as HTMLElement;
+    const resultCountEl = document.querySelector('[data-result-count]') as HTMLElement;
+    const resultsEl = document.querySelector('[data-search-results]') as HTMLElement;
+    const template = document.querySelector('#result-template') as HTMLTemplateElement;
+
+    let debounceTimer: ReturnType<typeof setTimeout>;
+
+    function updateClearButton() {
+      const hasValue = inputEl!.value.trim().length > 0;
+      const isSpinning = !spinnerEl.classList.contains('hidden');
+      if (hasValue && !isSpinning) {
+        clearEl.classList.remove('hidden');
+        clearEl.classList.add('flex');
+      } else {
+        clearEl.classList.add('hidden');
+        clearEl.classList.remove('flex');
+      }
+    }
+
+    clearEl.addEventListener('click', () => {
+      inputEl!.value = '';
+      resultsEl.innerHTML = '';
+      resultCountEl.classList.add('hidden');
+      updateQuery('');
+      updateClearButton();
+      inputEl!.focus();
+    });
+
+    inputEl.focus();
+
+    function updateQuery(query: string) {
+      const url = new URL(window.location.href);
+      if (query) {
+        url.searchParams.set('q', query);
+      } else {
+        url.searchParams.delete('q');
+      }
+      history.replaceState(null, '', url);
+    }
+
+    const initialQuery = new URL(window.location.href).searchParams.get('q')?.trim();
+    if (initialQuery) {
+      inputEl.value = initialQuery;
+      spinnerEl.classList.remove('hidden');
+      instance.triggerSearch(initialQuery);
+    }
+
+    inputEl.addEventListener('input', () => {
+      spinnerEl.classList.remove('hidden');
+      clearEl.classList.add('hidden');
+      clearEl.classList.remove('flex');
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const query = inputEl.value.trim();
+        updateQuery(query);
+        if (query) {
+          instance.triggerSearch(query);
+        } else {
+          resultsEl.innerHTML = '';
+          resultCountEl.classList.add('hidden');
+          spinnerEl.classList.add('hidden');
+          updateClearButton();
+        }
+      }, 300);
+    });
+
+    instance.on('results', async (result: PagefindSearchResult) => {
+      resultsEl.style.transition = 'none';
+      resultsEl.style.opacity = '0';
+      resultsEl.innerHTML = '';
+
+      const query = inputEl!.value.trim();
+      const allData = await Promise.all(result.results.map(r => r.data()));
+
+      const count = allData.length;
+      resultCountEl.textContent = `Found ${count} result${count !== 1 ? 's' : ''} for "${query}"`;
+      resultCountEl.classList.remove('hidden');
+      resultCountEl.style.transition = 'none';
+      resultCountEl.style.opacity = '0';
+
+      for (let i = 0; i < allData.length; i++) {
+        const data = allData[i];
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const link = clone.querySelector('a')!;
+        link.href = data.url;
+        link.querySelector('h2')!.textContent = data.meta?.title ?? '';
+        link.querySelector('p')!.innerHTML = data.excerpt ?? '';
+        if (i === allData.length - 1) {
+          link.classList.add('border-b');
+        }
+        resultsEl.appendChild(clone);
+      }
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          resultsEl.style.transition = 'opacity 200ms ease-in';
+          resultsEl.style.opacity = '1';
+          resultCountEl.style.transition = 'opacity 200ms ease-in';
+          resultCountEl.style.opacity = '1';
+        });
+      });
+
+      spinnerEl.classList.add('hidden');
+      updateClearButton();
+    });
+  });
+</script>
