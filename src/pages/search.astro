@@ -91,10 +91,13 @@ const description = `Search across blog posts, work history, and more.`;
   });
 
   instance.on('results', async (result: PagefindSearchResult) => {
+    const allData = await Promise.all(result.results.map(r => r.data()));
+
+    resultsEl.style.transition = 'none';
+    resultsEl.style.opacity = '0';
     resultsEl.innerHTML = '';
 
-    for (const r of result.results) {
-      const data = await r.data();
+    for (const data of allData) {
       const clone = template.content.cloneNode(true) as DocumentFragment;
       const link = clone.querySelector('a')!;
       link.href = data.url;
@@ -102,6 +105,13 @@ const description = `Search across blog posts, work history, and more.`;
       link.querySelector('p')!.innerHTML = data.excerpt ?? '';
       resultsEl.appendChild(clone);
     }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resultsEl.style.transition = 'opacity 200ms ease-in';
+        resultsEl.style.opacity = '1';
+      });
+    });
 
     spinnerEl.classList.add('hidden');
   });
