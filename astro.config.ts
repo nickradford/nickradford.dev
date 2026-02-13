@@ -18,6 +18,7 @@ import { astroGrab } from "astro-grab";
 
 export default defineConfig({
   site: "https://nickradford.dev",
+  trailingSlash: "never",
   vite: {
     plugins: [tailwindcss()],
     resolve: {
