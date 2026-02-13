@@ -1,11 +1,7 @@
 import "../styles/tailwind.css";
-import Frame from "./Frame";
 
-function getLocalDate(date: Date) {
-  // Adjust for timezone offset to prevent UTC offset issues
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() + offset);
-}
+import { formatDate } from "@lib/format-date";
+import Frame from "./Frame";
 
 export function SocialCard({ posts }: { posts: any[] }) {
   const searchParams = new URLSearchParams(window.location.search);
@@ -22,13 +18,7 @@ export function SocialCard({ posts }: { posts: any[] }) {
       Making <mark className="">Complex&nbsp;Workflows</mark> Feel Effortless
     </p>
   );
-  const footerText = post
-    ? getLocalDate(new Date(post.data.date)).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "nickradford.dev";
+  const footerText = post ? formatDate(post.data.date) : "nickradford.dev";
 
   return (
     <div className="w-[1200px] h-[630px] bg-zinc-950 text-zinc-50 flex font-geist-mono flex-col">

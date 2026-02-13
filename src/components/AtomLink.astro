@@ -1,10 +1,10 @@
 ---
-import { SITE } from "../lib/site";
+import {site} from 'astro:config/client'
 import ExternalLink from "./ExternalLink.astro";
 ---
 
 <ExternalLink
-  href={`${SITE}/feeds/atom.xml`}
+  href={`${site}/feeds/atom.xml`}
   class="inline-block p-2 -ml-2 group text-zinc-600 hover:text-orange dark:text-zinc-200 dark:hover:text-orange transition-colors"
 >
   <i class="ph ph-rss"></i>

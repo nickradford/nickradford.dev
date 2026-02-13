@@ -1,0 +1,164 @@
+---
+export const prerender = true;
+
+import Base from "../layouts/BaseLayout.astro";
+import Page from "../components/Page.astro";
+import { DecodeText } from "../components/DecodeText";
+import Frame from "../components/Frame.astro";
+
+const attemptedPath = Astro.url.pathname;
+
+const recoveryLinks = [
+  { href: "/", label: "Home", detail: "Back to the main landing page." },
+  { href: "/blog", label: "Writing", detail: "Latest posts, notes, and changelogs." },
+  { href: "/work", label: "Work", detail: "Experience, roles, and projects." },
+  { href: "/search", label: "Search", detail: "Find content by keyword." },
+  { href: "/links", label: "Links", detail: "Other people's writing that inspires me." },
+];
+---
+
+<Base
+  title="404 | Nick Radford"
+  description="The page you were looking for does not exist."
+  noindex={true}
+>
+  <Page class="min-h-[calc(100vh-64px)]">
+    <article class="w-full flex-1 flex flex-col border-l border-r border-orange/20 dark:border-zinc-800">
+      <section class="relative border-b border-orange/20 dark:border-zinc-800 overflow-hidden">
+        <div class="relative flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
+          <div class="hidden md:flex flex-1" />
+          <div class="max-w-4xl w-full px-8 md:px-16 py-10 md:py-14 relative">
+            <p class="font-geist-mono text-xs uppercase tracking-[0.22em] text-zinc-500 dark:text-zinc-400">
+              Error 404 • Not Found
+            </p>
+            <div class="mt-6">
+                <h1 class="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50">
+                  <DecodeText client:load value="that route does not exist" decodeByWord/>
+                </h1>
+
+
+                <div class="mt-7 flex flex-wrap gap-3">
+                  <a
+                    href="/"
+                    class="inline-flex items-center gap-2 px-5 py-3 bg-orange text-zinc-950 font-geist-mono text-sm font-medium hover:bg-orange/90 transition-colors"
+                  >
+                    Return home <i class="ph ph-house"></i>
+                  </a>
+                </div>
+            </div>
+          </div>
+          <div class="hidden md:flex flex-1" />
+        </div>
+      </section>
+
+      <section class="w-full border-b border-orange/20 dark:border-zinc-800 relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0"></div>
+        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
+          <div class="hidden md:flex flex-1" />
+          <div class="max-w-4xl w-full  relative text-[10px]">
+
+            <Frame corners={['all']} />
+            <div class="relative">
+              <div class="relative bg-zinc-950 border border-zinc-800 overflow-hidden">
+                <div class="flex items-center gap-1.5 px-3 py-2 bg-zinc-900/50 border-b border-zinc-800">
+                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                  <span class="ml-2 text-[10px] text-zinc-500 font-geist-mono">404.log</span>
+                </div>
+                <div class="p-4 font-geist-mono text-xs leading-6 overflow-x-auto">
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">1</span>
+                    <span><span class="text-emerald-400 font-semibold">GET</span> <span class="text-orange-400">{attemptedPath}</span> <span class="text-zinc-500">HTTP/1.1</span></span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">2</span>
+                    <span class="text-zinc-400"><span class="text-zinc-500">Host:</span> {Astro.url.host}</span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">3</span>
+                    <span class="text-zinc-400"><span class="text-zinc-500">User-Agent:</span> Mozilla/5.0 (compatible; LostBot/1.0)</span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">4</span>
+                    <span class="text-zinc-400"><span class="text-zinc-500">Accept:</span> text/html,application/xhtml+xml</span>
+                  </div>
+                  <div class="flex my-2">
+                    <span class="select-none text-zinc-800 w-6 text-right mr-4"></span>
+                    <span class="text-zinc-700">---</span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">5</span>
+                    <span><span class="text-zinc-500">HTTP/1.1</span> <span class="text-rose-400 font-semibold">404</span> <span class="text-zinc-400">Not Found</span></span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">6</span>
+                    <span class="text-zinc-400"><span class="text-zinc-500">Content-Type:</span> text/md; charset=utf-8</span>
+                  </div>
+                  <div class="flex my-1">
+                    <span class="select-none text-zinc-800 w-6 text-right mr-4"></span>
+                    <span></span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">7</span>
+                    <span class="text-zinc-300 font-bold"># Known Good Routes</span>
+                  </div>
+                  <div class="flex">
+                    <span class="select-none text-zinc-700 w-6 text-right mr-4">8</span>
+                    <span></span>
+                  </div>
+                  {recoveryLinks.map((link, i) => (
+                    <a href={link.href} class="group flex hover:bg-zinc-900/50 -mx-4 px-4  cursor-pointer">
+                      <span class="select-none text-zinc-700 w-6 text-right mr-4">{9 + i}</span>
+                      <span class="text-zinc-400">- <span class="text-zinc-500">[</span><span class="text-orange-400 group-hover:underline group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-zinc-500">]({link.href})</span> <span class="text-zinc-600">— {link.detail}</span></span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hidden md:flex flex-1" />
+        </div>
+      </section>
+
+      <div class="flex-1 flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+        <div class="hidden md:flex flex-1" />
+        <div class="max-w-4xl w-full relative overflow-hidden min-h-24">
+          <div class="absolute inset-0 route-sweep opacity-60 dark:opacity-40"></div>
+        </div>
+        <div class="hidden md:flex flex-1" />
+      </div>
+    </article>
+  </Page>
+</Base>
+
+<style>
+  .route-wash {
+    background:
+      linear-gradient(100deg, rgb(255 149 0 / 0.1) 0%, transparent 34%),
+      linear-gradient(260deg, rgb(255 149 0 / 0.1) 0%, transparent 36%);
+  }
+
+  :global(.dark) .route-wash {
+    background:
+      linear-gradient(100deg, var(--color-zinc-900) 0%, transparent 38%, transparent 62%, var(--color-zinc-900) 100%),
+      linear-gradient(260deg, rgb(113 113 122 / 0.22) 0%, transparent 42%);
+  }
+
+  .status-blip {
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.95;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 0.5;
+    }
+  }
+</style>

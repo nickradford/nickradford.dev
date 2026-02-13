@@ -1,7 +1,7 @@
 ---
 import Frame from "./Frame.astro";
 import type { BlogPost } from "../lib/content";
-import { getLocalDate } from "../lib/format-date";
+import { formatDate } from "../lib/format-date";
 
 interface Props {
   post: BlogPost;
@@ -10,11 +10,7 @@ interface Props {
 
 const { post, lastPost } = Astro.props;
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "long",
-});
 
-const displayDate = getLocalDate(new Date(post.date));
 ---
 
 <a
@@ -27,7 +23,7 @@ const displayDate = getLocalDate(new Date(post.date));
         <time
           class="text-xs uppercase tracking-widest text-orange/75 dark:text-zinc-500 font-geist-mono"
         >
-          {dateFormatter.format(displayDate)}
+          {formatDate(post.date)}
         </time>
         {
           post.draft && (

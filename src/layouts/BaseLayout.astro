@@ -14,8 +14,6 @@ type Props = {
   noindex?: boolean;
 };
 
-// import VercelAnalytics from "../components/VercelAnalytics.astro";
-// import VercelSpeedInsights from "../components/VercelSpeedInsights.astro";
 const {
   title = "Nick Radford",
   description = "Senior Full‑Stack Engineer in SF.",
@@ -28,7 +26,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
 const socialImagePath = og ?? "/og/nick-radford-dot-dev.png";
 const socialImageUrl = new URL(
   socialImagePath,
-  Astro.site ?? Astro.url.origin,
+  Astro.url.origin,
 ).toString();
 ---
 
