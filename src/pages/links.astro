@@ -61,7 +61,7 @@ const normalizedLinks = links.map((link) => {
           normalizedLinks.map((link, index) => (
             <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
               <div class="hidden md:flex flex-1" />
-              <article class="max-w-4xl w-full group px-8 md:px-16 py-8 md:py-9 hover:bg-orange/[0.04] dark:hover:bg-zinc-900/40 transition-colors">
+              <article class="max-w-4xl w-full group px-8 md:px-16 py-8 md:py-9 hover:bg-orange/5 dark:hover:bg-zinc-900/40 transition-colors">
                 <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-8">
                   <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.18em] font-geist-mono text-zinc-500 dark:text-zinc-400">
@@ -113,7 +113,7 @@ const normalizedLinks = links.map((link) => {
                           src={link.imageUrl}
                           alt={link.title}
                           loading="lazy"
-                          class="w-full md:w-[220px] aspect-[4/3] object-cover rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
+                          class="w-full md:w-55 aspect-4/3 object-cover rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
                         />
                       </a>
                     )
@@ -129,7 +129,7 @@ const normalizedLinks = links.map((link) => {
             <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
               <div class="hidden md:flex flex-1" />
               <div class="max-w-4xl w-full px-8 md:px-16 py-14">
-                <div class="rounded-2xl border border-dashed border-orange/30 dark:border-zinc-800 bg-orange/[0.03] dark:bg-zinc-900/40 p-8 md:p-10">
+                <div class="rounded-2xl border border-dashed border-orange/30 dark:border-zinc-800 bg-orange/5 dark:bg-zinc-900/40 p-8 md:p-10">
                   <p class="font-geist-mono text-sm md:text-base text-zinc-600 dark:text-zinc-300">
                     No links yet. Add your first entry in Keystatic under <code>Inspo Links</code>.
                   </p>
