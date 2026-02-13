@@ -34,7 +34,16 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
             value={meta.title}
           />
           <ByLine meta={meta} />
-          <AtomLink />
+          <div class="flex items-center gap-1">
+            <AtomLink />
+            <a
+              href={`/blog/${meta.slug}.md`}
+              class="inline-block p-2 group text-zinc-600 hover:text-orange dark:text-zinc-200 dark:hover:text-orange transition-colors"
+            >
+              <i class="ph ph-file-md"></i>
+              <span class="sr-only">Markdown version</span>
+            </a>
+          </div>
         </div>
       </div>
       <div class="flex-1 hidden md:block pt-8 px-8 md:px-16"></div>

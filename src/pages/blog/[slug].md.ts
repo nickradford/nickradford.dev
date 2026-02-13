@@ -30,19 +30,20 @@ export const GET: APIRoute = async ({ params }) => {
   const readtime = calculateReadingTime(entry.body).text;
   const yamlString = (value: string) => JSON.stringify(value);
 
-  const frontmatter = [
-    "---",
+  const endMatter = [
+    "<!--",
     `title: ${yamlString(`${entry.data.title} | Nick Radford`)}`,
     `canonical_url: ${yamlString(canonicalUrl)}`,
     `markdown_url: ${yamlString(markdownUrl)}`,
     `og_image: ${yamlString(ogImageUrl)}`,
     `readtime: ${yamlString(readtime)}`,
     `sitemap: ${yamlString(sitemapUrl)}`,
-    "---",
-    "",
+    "-->",
   ].join("\n");
 
-  return new Response(`${frontmatter}${entry.body}`, {
+  const bodyHeader = `# ${entry.data.title}\nby Nick Radford\n---\n\n`;
+
+  return new Response(`${bodyHeader}${entry.body}\n\n${endMatter}\n`, {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },
