@@ -43,7 +43,10 @@ export default defineConfig({
       ],
     }),
     sitemap({
-      filter: (page) => !page.startsWith("https://nickradford.dev/open-graph"),
+      filter: (page) => {
+        const pathname = new URL(page).pathname.replace(/\/$/, "");
+        return !["/open-graph", "/search"].includes(pathname);
+      },
     }),
     markdoc(),
     keystatic(),

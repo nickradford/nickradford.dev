@@ -11,6 +11,7 @@ type Props = {
   description?: string;
   og?: string;
   type?: string;
+  noindex?: boolean;
 };
 
 // import VercelAnalytics from "../components/VercelAnalytics.astro";
@@ -20,7 +21,15 @@ const {
   description = "Senior Full‑Stack Engineer in SF.",
   og = undefined,
   type = "website",
+  noindex = false,
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const socialImagePath = og ?? "/og/nick-radford-dot-dev.png";
+const socialImageUrl = new URL(
+  socialImagePath,
+  Astro.site ?? Astro.url.origin,
+).toString();
 ---
 
 <html lang="en">
@@ -31,19 +40,13 @@ const {
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <!-- other meta tags -->
-    {
-      og && (
-        <>
-          <meta property="og:image" content={og} />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:type" content="image/png" />
-          <meta property="og:image:alt" content={title} />
-          <meta property="og:type" content={type} />
-          <meta property="og:url" content={Astro.url.href} />
-        </>
-      )
-    }
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
 
     <!-- og title and description -->
     <meta property="og:title" content={title} />
@@ -52,14 +55,7 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {
-      og && (
-        <meta
-          name="twitter:image"
-          content={import.meta.env.PROD ? og : `http://localhost:4321${og}`}
-        />
-      )
-    }
+    <meta name="twitter:image" content={socialImageUrl} />
 
     <link rel="icon" href="/favicon.ico" />
     <link
@@ -75,6 +71,8 @@ const {
     />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <link rel="canonical" href={canonicalUrl} />
     <script
       is:inline
       src="https://analytics.ahrefs.com/analytics.js"
