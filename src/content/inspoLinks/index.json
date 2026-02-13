@@ -1,0 +1,27 @@
+{
+  "links": [
+    {
+      "title": "My AI Adoption Journey",
+      "url": "https://mitchellh.com/writing/my-ai-adoption-journey",
+      "authorName": "Mitchell Hashimoto",
+      "twitterUsername": "mitchellh",
+      "notes": "A practical look at adopting AI in real workflows without losing your engineering standards."
+    },
+    {
+      "title": "Web Interface Guidelines",
+      "url": "https://interfaces.rauno.me/",
+      "authorName": "Rauno Freiberg",
+      "twitterUsername": "raunofreiberg",
+      "imageUrl": "https://interfaces.rauno.me/og.png",
+      "notes": "High-signal best practices for building for the web. Rauno's work has pushed me to be a better developer."
+    },
+    {
+      "title": "Choose optimism",
+      "url": "https://stephango.com/optimism",
+      "authorName": "Steph Ango",
+      "twitterUsername": "kepano",
+      "imageUrl": "https://stephango.com/assets/covers/optimism.png",
+      "notes": "Kepano has lots of great, small ideas shared on his website, but this one really resonates with me. (Also, Flexoki is my favorite theme)"
+    }
+  ]
+}

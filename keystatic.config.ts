@@ -1,4 +1,4 @@
-import { config, fields, collection } from "@keystatic/core";
+import { config, fields, collection, singleton } from "@keystatic/core";
 import { ImageGallery } from "src/components/mdx/ImageGallery.keystatic";
 
 export default config({
@@ -60,6 +60,47 @@ export default config({
           },
           components: { ImageGallery },
         }),
+      },
+    }),
+  },
+  singletons: {
+    inspoLinks: singleton({
+      label: "Inspo Links",
+      path: "src/content/inspoLinks/index",
+      format: "json",
+      schema: {
+        links: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            url: fields.url({ label: "URL" }),
+            authorName: fields.text({ label: "Author Name" }),
+            twitterUsername: fields.text({
+              label: "Twitter Username",
+              description: "Enter username without @ (for example: nickradford).",
+            }),
+            imageUrl: fields.url({
+              label: "Image URL",
+              validation: { isRequired: false },
+            }),
+            notes: fields.text({
+              label: "Notes",
+              description: "Why this link is inspirational to you.",
+              multiline: true,
+              validation: { isRequired: false },
+            }),
+          }),
+          {
+            label: "Links",
+            itemLabel: (item) => {
+              const title = item.fields.title.value?.trim();
+              const url = item.fields.url.value?.trim();
+              if (title && url) return `${title} — ${url}`;
+              if (title) return title;
+              if (url) return url;
+              return "Untitled link";
+            },
+          },
+        ),
       },
     }),
   },

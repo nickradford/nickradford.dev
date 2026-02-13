@@ -22,4 +22,20 @@ const project = defineCollection({
   }),
 });
 
-export const collections = { blog, project };
+const inspoLinks = defineCollection({
+  type: "data",
+  schema: z.object({
+    links: z.array(
+      z.object({
+        title: z.string(),
+        url: z.string().url(),
+        authorName: z.string(),
+        twitterUsername: z.string(),
+        imageUrl: z.string().url().optional().nullable(),
+        notes: z.string().optional().nullable(),
+      }),
+    ),
+  }),
+});
+
+export const collections = { blog, project, inspoLinks };
