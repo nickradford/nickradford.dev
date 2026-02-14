@@ -51,66 +51,64 @@ const recoveryLinks = [
         </div>
       </section>
 
-      <section class="w-full border-b border-orange/20 dark:border-zinc-800 relative overflow-hidden">
+      <section class="w-full border-orange/20 dark:border-zinc-800 relative overflow-hidden">
         <div class="pointer-events-none absolute inset-0"></div>
-        <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
+        <div class="flex flex-col md:flex-row ">
           <div class="hidden md:flex flex-1" />
-          <div class="max-w-4xl w-full  relative text-[10px]">
-
-            <Frame corners={['all']} />
-            <div class="relative">
-              <div class="relative bg-zinc-950 border border-zinc-800 overflow-hidden">
-                <div class="flex items-center gap-1.5 px-3 py-2 bg-zinc-900/50 border-b border-zinc-800">
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-                  <span class="ml-2 text-[10px] text-zinc-500 font-geist-mono">404.log</span>
+          <div class="max-w-4xl w-full py-8 relative text-[10px]">
+            <div class="relative font-geist-mono">
+              <div class="relative bg-ivory dark:bg-zinc-950 border border-orange/20 dark:border-zinc-800 overflow-hidden shadow-orange/10 dark:shadow-zinc-100/5 shadow-xl">
+                <div class="flex items-center gap-1.5 px-3 py-2 bg-orange/5 dark:bg-zinc-900/50 border-b border-orange/20 dark:border-zinc-800">
+                  <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
+                  <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
+                  <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
+                  <span class="ml-1.5 text-xs text-zinc-500">404.log</span>
                 </div>
-                <div class="p-4 font-geist-mono text-xs leading-6 overflow-x-auto">
+                <div class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">1</span>
-                    <span><span class="text-emerald-400 font-semibold">GET</span> <span class="text-orange-400">{attemptedPath}</span> <span class="text-zinc-500">HTTP/1.1</span></span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">1</span>
+                    <span><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span class="text-orange-600 dark:text-orange-400">{attemptedPath}</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">2</span>
-                    <span class="text-zinc-400"><span class="text-zinc-500">Host:</span> {Astro.url.host}</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">2</span>
+                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Host:</span> {Astro.url.host}</span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">3</span>
-                    <span class="text-zinc-400"><span class="text-zinc-500">User-Agent:</span> Mozilla/5.0 (compatible; LostBot/1.0)</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">3</span>
+                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">User-Agent:</span> Mozilla/5.0 (compatible; LostBot/1.0)</span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">4</span>
-                    <span class="text-zinc-400"><span class="text-zinc-500">Accept:</span> text/html,application/xhtml+xml</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">4</span>
+                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Accept:</span> text/html,application/xhtml+xml</span>
                   </div>
                   <div class="flex my-2">
-                    <span class="select-none text-zinc-800 w-6 text-right mr-4"></span>
-                    <span class="text-zinc-700">---</span>
+                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4"></span>
+                    <span class="text-stone-400 dark:text-zinc-700">---</span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">5</span>
-                    <span><span class="text-zinc-500">HTTP/1.1</span> <span class="text-rose-400 font-semibold">404</span> <span class="text-zinc-400">Not Found</span></span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">5</span>
+                    <span><span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span> <span class="text-rose-600 dark:text-rose-400 font-semibold">404</span> <span class="text-stone-600 dark:text-zinc-400">Not Found</span></span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">6</span>
-                    <span class="text-zinc-400"><span class="text-zinc-500">Content-Type:</span> text/md; charset=utf-8</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">6</span>
+                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Content-Type:</span> text/md; charset=utf-8</span>
                   </div>
                   <div class="flex my-1">
-                    <span class="select-none text-zinc-800 w-6 text-right mr-4"></span>
+                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4"></span>
                     <span></span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">7</span>
-                    <span class="text-zinc-300 font-bold"># Known Good Routes</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">7</span>
+                    <span class="text-stone-700 dark:text-zinc-300 font-bold"># Known Good Routes</span>
                   </div>
                   <div class="flex">
-                    <span class="select-none text-zinc-700 w-6 text-right mr-4">8</span>
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">8</span>
                     <span></span>
                   </div>
                   {recoveryLinks.map((link, i) => (
-                    <a href={link.href} class="group flex hover:bg-zinc-900/50 -mx-4 px-4  cursor-pointer">
-                      <span class="select-none text-zinc-700 w-6 text-right mr-4">{9 + i}</span>
-                      <span class="text-zinc-400">- <span class="text-zinc-500">[</span><span class="text-orange-400 group-hover:underline group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-zinc-500">]({link.href})</span> <span class="text-zinc-600">— {link.detail}</span></span>
+                    <a href={link.href} class="group flex hover:bg-orange/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer">
+                      <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">{9 + i}</span>
+                      <span class="text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:underline group-hover:text-orange-500 dark:group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
                     </a>
                   ))}
                 </div>
@@ -120,14 +118,6 @@ const recoveryLinks = [
           <div class="hidden md:flex flex-1" />
         </div>
       </section>
-
-      <div class="flex-1 flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="hidden md:flex flex-1" />
-        <div class="max-w-4xl w-full relative overflow-hidden min-h-24">
-          <div class="absolute inset-0 route-sweep opacity-60 dark:opacity-40"></div>
-        </div>
-        <div class="hidden md:flex flex-1" />
-      </div>
     </article>
   </Page>
 </Base>

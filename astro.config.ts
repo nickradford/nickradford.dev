@@ -29,6 +29,7 @@ export default defineConfig({
   },
   adapter: vercel(),
   output: "static",
+  devToolbar: { enabled: false },
   integrations: [
     react(),
     mdx({
