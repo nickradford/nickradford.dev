@@ -37,7 +37,16 @@ export default config({
         }),
         changelog: fields.array(
           fields.object({
-            description: fields.text({ label: "Description" }),
+            description: fields.text({
+              label: "Description",
+              description: "Don't add a period to the end.",
+              validation: {
+                pattern: {
+                  regex: /^(?=.{10,40}$)(?!.*\.$).+$/,
+                  message: "10-40 characters, without a final period",
+                },
+              },
+            }),
             date: fields.date({
               label: "Date",
               defaultValue: { kind: "today" },
@@ -48,7 +57,7 @@ export default config({
             description: "Rendered as <Changelog />",
             itemLabel: (change) =>
               `${change.fields.date.value} - ${change.fields.description.value}`,
-          },
+          }
         ),
         content: fields.mdx({
           label: "Content",
@@ -76,7 +85,8 @@ export default config({
             authorName: fields.text({ label: "Author Name" }),
             twitterUsername: fields.text({
               label: "Twitter Username",
-              description: "Enter username without @ (for example: nickradford).",
+              description:
+                "Enter username without @ (for example: nickradford).",
             }),
             imageUrl: fields.url({
               label: "Image URL",
@@ -99,7 +109,7 @@ export default config({
               if (url) return url;
               return "Untitled link";
             },
-          },
+          }
         ),
       },
     }),

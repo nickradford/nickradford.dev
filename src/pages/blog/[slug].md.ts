@@ -1,6 +1,7 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime } from "../../lib/content";
+import { formatDate } from "@lib/format-date";
 
 export const prerender = true;
 
@@ -38,6 +39,17 @@ export const GET: APIRoute = async ({ params }) => {
     `og_image: ${yamlString(ogImageUrl)}`,
     `readtime: ${yamlString(readtime)}`,
     `sitemap: ${yamlString(sitemapUrl)}`,
+    ...(entry.data.changelog
+      ? [
+          "changelog:",
+          ...entry.data.changelog.map(
+            (c) =>
+              `  - ${formatDate(c.date, { dateStyle: "medium" })}: ${
+                c.description
+              }`
+          ),
+        ]
+      : []),
     "-->",
   ].join("\n");
 
