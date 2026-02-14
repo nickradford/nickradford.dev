@@ -3,15 +3,22 @@ import { block } from "@keystatic/core/content-components";
 
 type KeystaticImageGalleryProps = {
   value: {
-    images: readonly string[];
+    images: readonly {
+      url: string;
+      altText: string;
+    }[];
   };
 };
 // Renders the images inside the editor for you
 export function KeystaticImageGallery({ value }: KeystaticImageGalleryProps) {
   return (
     <div style={{ display: "flex", gap: 10 }}>
-      {value.images.map((url) => (
-        <img src={url} style={{ maxWidth: 100, borderRadius: 12 }} />
+      {value.images.map(({ url, altText }) => (
+        <img
+          src={url}
+          style={{ maxWidth: 100, borderRadius: 12 }}
+          alt={altText}
+        />
       ))}
     </div>
   );
@@ -22,7 +29,15 @@ export const ImageGallery = block({
   label: "Image Gallery",
   schema: {
     title: fields.text({ label: "Title", validation: { isRequired: true } }),
-    images: fields.array(fields.text({ label: "url" })),
+    images: fields.array(
+      fields.object({
+        url: fields.text({ label: "url" }),
+        altText: fields.text({
+          label: "alt text",
+          description: "Used in the gallery",
+        }),
+      })
+    ),
   },
   ContentView: KeystaticImageGallery,
   description: "A responsive image gallery powered by Swiper.js",

@@ -21,6 +21,15 @@ export default defineConfig({
   trailingSlash: "never",
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: [
+        "@keystatic/core",
+        "@keystatic/core/content-components",
+        "@keystatic/core/ui",
+        "@keystatic/astro/ui",
+        "@keystatic/astro/api",
+      ],
+    },
     resolve: {
       alias: {
         "@": "./src",

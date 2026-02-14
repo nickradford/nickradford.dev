@@ -1,40 +1,53 @@
 ---
 type Props = {
   title: string;
-  images: string[];
+  images: {
+    url: string;
+    altText: string;
+    }[];
 };
 const { images } = Astro.props;
 ---
 
 <!-- Slider main container -->
-<div class="swiper relative">
-  <div
-    class="absolute inset-0 z-0 dark:bg-zinc-900 [--dot-color:rgba(0,0,0,0.15)] dark:[--dot-color:rgba(255,255,255,0.15)]"
-    style={{
-      backgroundImage:
-        "radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0)",
-      backgroundSize: "15px 15px",
-      // backgroundPosition:
-    }}
-  >
-  </div>
+<div class="image-gallery relative">
+  <div class="swiper relative">
+    <div
+      class="absolute inset-0 z-0 dark:bg-zinc-900 [--dot-color:rgba(0,0,0,0.15)] dark:[--dot-color:rgba(255,255,255,0.15)]"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0)",
+        backgroundSize: "15px 15px",
+        // backgroundPosition:
+      }}
+    >
+    </div>
 
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper">
-    <!-- Slides -->
-    {
-      images.map((url) => (
-        <span class="swiper-slide active:cursor-grabbing">
-          <img
-            src={url}
-            class="md:max-w-84 px-4 md:px-0 lg:max-w-96 max-h-[80vh] grayscale-0 !transition !duration-300 rounded-xl"
-          />
-        </span>
-      ))
-    }
-  </div>
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      {
+        images.map(({url, altText}) => (
+          <span class="swiper-slide active:cursor-grabbing relative">
+            <img
+              alt={altText}
+              title={altText}
+              src={url}
+              class="md:max-w-84 px-4 md:px-0 lg:max-w-96 max-h-[80vh] grayscale-0 !transition !duration-300 rounded-xl"
+            />
+          </span>
+        ))
+      }
+    </div>
 
-  <div class="swiper-scrollbar"></div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+  <div class="swiper-caption-wrapper">
+    <p class="swiper-caption">{images[0]?.altText || ""}</p>
+  </div>
+</div>
+
+
 
   <script>
     // core version + navigation, pagination modules:
@@ -46,8 +59,11 @@ const { images } = Astro.props;
     // import "swiper/css/scrollbar";
 
     function initSwiper() {
-      const swiperEl = document.querySelector(".swiper") as HTMLElement & { _swiper?: Swiper };
+      const galleryEl = document.querySelector(".image-gallery") as HTMLElement;
+      const swiperEl = galleryEl?.querySelector(".swiper") as HTMLElement & { _swiper?: Swiper };
       if (!swiperEl || swiperEl.dataset.swiperInitialized) return;
+
+      const captionEl = galleryEl.querySelector(".swiper-caption") as HTMLElement;
 
       const swiper = new Swiper(swiperEl, {
         modules: [Scrollbar],
@@ -68,9 +84,45 @@ const { images } = Astro.props;
           enabled: true,
         },
         scrollbar: {
-          el: ".swiper-scrollbar",
+          el: swiperEl.querySelector(".swiper-scrollbar") as HTMLElement,
           draggable: true,
         },
+      });
+
+      function updateCaption(index: number, direction?: "next" | "prev") {
+        if (!captionEl) return;
+        const slides = swiperEl.querySelectorAll(".swiper-slide img");
+        const alt = (slides[index] as HTMLImageElement)?.alt || "";
+
+        // Determine translate direction for exit
+        const exitX = direction === "prev" ? "8%" : "-8%";
+        const enterX = direction === "prev" ? "-8%" : "8%";
+
+        // Animate out
+        captionEl.style.transition = "opacity 0.2s ease, transform 0.2s ease";
+        captionEl.style.opacity = "0";
+        captionEl.style.transform = `translateX(${exitX})`;
+
+        setTimeout(() => {
+          captionEl.textContent = alt;
+          // Set up enter position (no transition)
+          captionEl.style.transition = "none";
+          captionEl.style.transform = `translateX(${enterX})`;
+
+          // Force reflow
+          captionEl.offsetHeight;
+
+          // Animate in
+          captionEl.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+          captionEl.style.opacity = "1";
+          captionEl.style.transform = "translateX(0)";
+        }, 200);
+      }
+
+      swiper.on("slideChange", () => {
+        const direction = swiper.swipeDirection as "next" | "prev" ||
+          (swiper.activeIndex > swiper.previousIndex ? "next" : "prev");
+        updateCaption(swiper.activeIndex, direction);
       });
 
       swiperEl.dataset.swiperInitialized = "true";
@@ -80,7 +132,7 @@ const { images } = Astro.props;
     }
 
     function destroySwiper() {
-      const swiperEl = document.querySelector(".swiper") as HTMLElement & { _swiper?: Swiper };
+      const swiperEl = document.querySelector(".image-gallery .swiper") as HTMLElement & { _swiper?: Swiper };
       if (swiperEl && swiperEl._swiper) {
         swiperEl._swiper.destroy(true, true);
         delete swiperEl._swiper;
@@ -113,6 +165,17 @@ const { images } = Astro.props;
     }
 
 
+    .swiper-caption-wrapper {
+      @apply absolute bottom-1 inset-x-0 z-50 py-8 bg-linear-to-b flex items-center justify-center pointer-events-none;
+      @apply dark:from-black/0 dark:via-zinc-950/75 dark:to-zinc-950
+
+    }
+
+    .swiper-caption {
+      @apply text-sm font-mono text-zinc-950 dark:text-zinc-200 m-0 leading-snug;
+      @apply bg-orange p-4 rounded-xl;
+      @apply dark:bg-transparent;
+    }
 
     .swiper-slide:not(.swiper-slide-active) img {
       @apply grayscale;
