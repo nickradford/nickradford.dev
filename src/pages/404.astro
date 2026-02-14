@@ -5,8 +5,6 @@ import Base from "../layouts/BaseLayout.astro";
 import Page from "../components/Page.astro";
 import { DecodeText } from "../components/DecodeText";
 
-const attemptedPath = Astro.url.pathname;
-
 const recoveryLinks = [
   { href: "/", label: "Home", detail: "Back to the main landing page." },
   { href: "/blog", label: "Writing", detail: "Latest posts, notes, and changelogs." },
@@ -66,11 +64,11 @@ const recoveryLinks = [
                 <div id="terminal-body" class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">1</span>
-                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span class="text-orange-600 dark:text-orange-400">{attemptedPath}</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
+                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span id="attempted-path" class="text-orange-600 dark:text-orange-400">/&hellip;</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
                   </div>
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">2</span>
-                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Host:</span> {Astro.url.host}</span>
+                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Host:</span> <span id="request-host">&hellip;</span></span>
                   </div>
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">3</span>
@@ -262,6 +260,12 @@ const recoveryLinks = [
 
   document.addEventListener("astro:page-load", () => {
     if (document.querySelector("#terminal-body")) {
+      // Hydrate request details client-side (page is statically prerendered)
+      const pathEl = document.getElementById("attempted-path");
+      const hostEl = document.getElementById("request-host");
+      if (pathEl) pathEl.textContent = window.location.pathname;
+      if (hostEl) hostEl.textContent = window.location.host;
+
       streamTerminal();
     }
     isBackNav = false;
