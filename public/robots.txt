@@ -4,5 +4,6 @@ User-agent: *
 Allow: /
 Disallow: /keystatic
 Disallow: /open-graph
+Disallow: /cdn-cgi/
 
 Sitemap: https://nickradford.dev/sitemap-index.xml
