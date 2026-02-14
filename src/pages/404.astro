@@ -4,7 +4,6 @@ export const prerender = true;
 import Base from "../layouts/BaseLayout.astro";
 import Page from "../components/Page.astro";
 import { DecodeText } from "../components/DecodeText";
-import Frame from "../components/Frame.astro";
 
 const attemptedPath = Astro.url.pathname;
 
@@ -64,51 +63,51 @@ const recoveryLinks = [
                   <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
                   <span class="ml-1.5 text-xs text-zinc-500">404.log</span>
                 </div>
-                <div class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">1</span>
-                    <span><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span class="text-orange-600 dark:text-orange-400">{attemptedPath}</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
+                <div id="terminal-body" class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">1</span>
+                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span class="text-orange-600 dark:text-orange-400">{attemptedPath}</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">2</span>
-                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Host:</span> {Astro.url.host}</span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">2</span>
+                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Host:</span> {Astro.url.host}</span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">3</span>
-                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">User-Agent:</span> Mozilla/5.0 (compatible; LostBot/1.0)</span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">3</span>
+                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">User-Agent:</span> Mozilla/5.0 (compatible; LostBot/1.0)</span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">4</span>
-                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Accept:</span> text/html,application/xhtml+xml</span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">4</span>
+                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Accept:</span> text/html,application/xhtml+xml</span>
                   </div>
-                  <div class="flex my-2">
-                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4"></span>
-                    <span class="text-stone-400 dark:text-zinc-700">---</span>
+                  <div class="terminal-line flex my-2" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4 shrink-0"></span>
+                    <span class="terminal-content text-stone-400 dark:text-zinc-700">---</span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">5</span>
-                    <span><span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span> <span class="text-rose-600 dark:text-rose-400 font-semibold">404</span> <span class="text-stone-600 dark:text-zinc-400">Not Found</span></span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">5</span>
+                    <span class="terminal-content"><span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span> <span class="text-rose-600 dark:text-rose-400 font-semibold">404</span> <span class="text-stone-600 dark:text-zinc-400">Not Found</span></span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">6</span>
-                    <span class="text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Content-Type:</span> text/md; charset=utf-8</span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">6</span>
+                    <span class="terminal-content text-stone-600 dark:text-zinc-400"><span class="text-stone-500">Content-Type:</span> text/md; charset=utf-8</span>
                   </div>
-                  <div class="flex my-1">
-                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4"></span>
-                    <span></span>
+                  <div class="terminal-line flex my-1" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-300 dark:text-zinc-800 w-6 text-right mr-4 shrink-0"></span>
+                    <span class="terminal-content"></span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">7</span>
-                    <span class="text-stone-700 dark:text-zinc-300 font-bold"># Known Good Routes</span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">7</span>
+                    <span class="terminal-content text-stone-700 dark:text-zinc-300 font-bold"># Known Good Routes</span>
                   </div>
-                  <div class="flex">
-                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">8</span>
-                    <span></span>
+                  <div class="terminal-line flex" style="height:0;overflow:hidden;">
+                    <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">8</span>
+                    <span class="terminal-content"></span>
                   </div>
                   {recoveryLinks.map((link, i) => (
-                    <a href={link.href} class="group flex hover:bg-orange/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer">
-                      <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4">{9 + i}</span>
-                      <span class="text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:underline group-hover:text-orange-500 dark:group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
+                    <a href={link.href} class="terminal-line group flex hover:bg-orange/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer" style="height:0;overflow:hidden;">
+                      <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">{9 + i}</span>
+                      <span class="terminal-content text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:underline group-hover:text-orange-500 dark:group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
                     </a>
                   ))}
                 </div>
@@ -121,6 +120,153 @@ const recoveryLinks = [
     </article>
   </Page>
 </Base>
+
+<script>
+  let isBackNav = false;
+  window.addEventListener("popstate", () => { isBackNav = true; });
+
+  function showAll() {
+    document.querySelectorAll<HTMLElement>(".terminal-line").forEach((l) => {
+      l.style.height = "";
+      l.style.overflow = "";
+    });
+  }
+
+  function waapi(el: HTMLElement, keyframes: Keyframe[], ms: number, easing = "ease-out") {
+    return el.animate(keyframes, { duration: ms, fill: "forwards", easing }).finished;
+  }
+
+  async function streamTerminal() {
+    const lines = document.querySelectorAll<HTMLElement>(".terminal-line");
+    if (!lines.length) return;
+
+    // Skip animation on back-navigation or reduced motion
+    if (
+      isBackNav ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      showAll();
+      return;
+    }
+
+    // Create blinking cursor element
+    const cursor = document.createElement("span");
+    cursor.textContent = "█";
+    cursor.className = "terminal-cursor";
+
+    // Measure each line's natural height while hidden
+    const lineData: {
+      el: HTMLElement;
+      height: number;
+      contentEl: HTMLElement | null;
+      textLen: number;
+    }[] = [];
+
+    for (const line of lines) {
+      line.style.height = "auto";
+      line.style.overflow = "";
+      const height = line.getBoundingClientRect().height;
+      line.style.height = "0px";
+      line.style.overflow = "hidden";
+
+      const contentEl = line.querySelector<HTMLElement>(".terminal-content");
+      const textLen = contentEl?.textContent?.length ?? 0;
+      lineData.push({ el: line, height, contentEl, textLen });
+    }
+
+    const CHAR_SPEED = 0.015; // seconds per character
+    const LATENCY_PAUSE = 0; // ms pause after request headers (server thinking)
+    const LINE_GAP = 25; // ms gap between lines
+
+    async function typeLine(entry: (typeof lineData)[number]) {
+      const { el, height, contentEl, textLen } = entry;
+
+      // Measure content width and clip BEFORE the line is visible
+      let naturalWidth = 0;
+      if (contentEl && textLen > 0) {
+        el.style.height = "auto";
+        el.style.overflow = "visible";
+        naturalWidth = contentEl.getBoundingClientRect().width;
+        el.style.height = "0px";
+        el.style.overflow = "hidden";
+
+        contentEl.style.display = "inline-block";
+        contentEl.style.width = "0px";
+        contentEl.style.overflow = "hidden";
+        contentEl.style.whiteSpace = "nowrap";
+        contentEl.style.verticalAlign = "top";
+      }
+
+      // Expand line height — content is already clipped
+      await waapi(el, [{ height: "0px" }, { height: `${height}px` }], 60);
+      el.style.height = "auto";
+      el.style.overflow = "visible";
+
+      // Reveal content character by character
+      if (contentEl && textLen > 0) {
+        contentEl.insertAdjacentElement("afterend", cursor);
+
+        const duration = Math.max(80, textLen * CHAR_SPEED * 1000);
+        await waapi(
+          contentEl,
+          [{ width: "0px" }, { width: `${naturalWidth}px` }],
+          duration,
+          "linear",
+        );
+
+        contentEl.style.display = "";
+        contentEl.style.width = "";
+        contentEl.style.overflow = "";
+        contentEl.style.whiteSpace = "";
+        contentEl.style.verticalAlign = "";
+      } else {
+        el.appendChild(cursor);
+      }
+    }
+
+    // Initial delay
+    await new Promise((r) => setTimeout(r, 350));
+
+    // Phase 1: Request headers (lines 0–3)
+    for (let i = 0; i <= 3; i++) {
+      await typeLine(lineData[i]);
+      await new Promise((r) => setTimeout(r, LINE_GAP));
+    }
+
+    // Phase 2: Latency pause
+    await new Promise((r) => setTimeout(r, LATENCY_PAUSE));
+
+    // Phase 3: Separator + response (lines 4–9)
+    for (let i = 4; i <= 9; i++) {
+      await typeLine(lineData[i]);
+      await new Promise((r) => setTimeout(r, LINE_GAP));
+    }
+
+    await new Promise((r) => setTimeout(r, 150));
+
+    // Phase 4: Recovery links (lines 10+)
+    for (let i = 10; i < lineData.length; i++) {
+      await typeLine(lineData[i]);
+      await new Promise((r) => setTimeout(r, LINE_GAP));
+    }
+
+    cursor.remove();
+
+    // Clean up inline styles
+    for (const { el } of lineData) {
+      el.style.height = "";
+      el.style.overflow = "";
+    }
+
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    if (document.querySelector("#terminal-body")) {
+      streamTerminal();
+    }
+    isBackNav = false;
+  });
+</script>
 
 <style>
   .route-wash {
@@ -135,10 +281,27 @@ const recoveryLinks = [
       linear-gradient(260deg, rgb(113 113 122 / 0.22) 0%, transparent 42%);
   }
 
+  .terminal-cursor {
+    display: inline-block;
+    color: var(--color-orange);
+    opacity: 0.7;
+    animation: cursor-blink 0.7s step-end infinite;
+    font-size: 0.875rem;
+    line-height: 1.75rem;
+    vertical-align: top;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @keyframes cursor-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
   .status-blip {
     animation: pulse 1.6s ease-in-out infinite;
   }
-
 
   @keyframes pulse {
     0%,
