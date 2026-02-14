@@ -166,14 +166,14 @@ const { images } = Astro.props;
 
 
     .swiper-caption-wrapper {
-      @apply absolute bottom-1 inset-x-0 z-50 py-8 bg-linear-to-b flex items-center justify-center pointer-events-none;
+      @apply absolute bottom-1 inset-x-0 z-50 pb-4 bg-linear-to-b flex items-center justify-center pointer-events-none;
       @apply dark:from-black/0 dark:via-zinc-950/75 dark:to-zinc-950
 
     }
 
     .swiper-caption {
       @apply text-sm font-mono text-zinc-950 dark:text-zinc-200 m-0 leading-snug;
-      @apply bg-orange p-4 rounded-xl;
+      @apply bg-orange/85 p-4 rounded-xl backdrop-blur mx-4;
       @apply dark:bg-transparent;
     }
 
