@@ -2,6 +2,8 @@
 
 Personal portfolio site for Nick Radford, a software engineer from San Francisco.
 
+[![Deploy Cloudflare Worker](https://github.com/nickradford/nickradford.dev/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/nickradford/nickradford.dev/actions/workflows/deploy-worker.yml)
+
 ## Features
 
 - **Blog**: Articles about software engineering, UI/UX, and web development
