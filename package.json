@@ -1,5 +1,5 @@
 {
-  "name": "beta.nickradford.dev",
+  "name": "nickradford.dev",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "og": "bun scripts/social-card.ts",
     "og:regen": "bun og:clean; bun og",
-    "og:clean": "rm public/og/*"
+    "og:clean": "rm public/og/*",
+    "deploy:worker": "cd worker && bun run deploy"
   },
   "dependencies": {
     "@astrojs/markdoc": "^0.15.9",
