@@ -1,0 +1,51 @@
+---
+name: transit-sonata
+description: Real-time San Francisco transit visualization combining GTFS-realtime data with generative visuals.
+screenshots: []
+publicUrl: https://tm.nickradford.dev
+---
+
+## Overview
+
+Designed as both a functional map and a creative coding experiment, Transit Sonata translates live
+transit vehicle positions into motion and audio patterns. It emphasizes smooth animation, resilient
+data ingestion, and expressive presentation of public infrastructure data.
+
+Transit Sonata visualizes real-time San Francisco Muni vehicle data using a custom data pipeline
+and lightweight rendering architecture.
+
+Vehicle positions are fetched periodically from GTFS-realtime feeds and interpolated on the client
+to produce continuous motion rather than jump-based updates.
+
+The project explores how infrastructure data can drive generative visual and sonic output.
+
+## Architecture
+
+API layer:
+- Bun runtime
+- Elysia framework
+- scheduled GTFS polling
+- Redis caching layer
+- OpenAPI schema
+
+Client:
+- React + Vite
+- MapLibre for map rendering
+- SWR polling strategy
+- requestAnimationFrame interpolation
+- dark/light theme support
+
+Creative layer:
+- Three.js visuals
+- Tone.js audio synthesis
+
+## Design Considerations
+
+- smoothing motion between polling intervals
+- resilience to upstream API failures
+- separation of ingestion and presentation layers
+- lightweight rendering for consistent performance
+
+## Status
+
+Completed as part of a creative coding course final project.

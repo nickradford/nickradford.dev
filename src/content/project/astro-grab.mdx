@@ -1,0 +1,55 @@
+---
+name: astro-grab
+description: A dev-only visual source targeting tool for Astro projects.
+screenshots: []
+publicUrl: https://astro-grab.nickradford.dev
+githubUrl: https://github.com/nickradford/astro-grab
+---
+
+## Overview
+
+Astro Grab is a developer tool for Astro that bridges the gap between rendered UI
+and source code.
+
+Hold a keyboard shortcut, hover elements in a running Astro app, and click to copy
+the relevant source snippet directly from the underlying `.astro` file. It is built
+to make it faster to inspect components, trace rendered UI back to source, and move
+code into debugging or AI-assisted workflows.
+
+In development mode, it instruments `.astro` files so rendered elements can be traced
+back to their original file and line. Hold `Cmd+G` on Mac or `Ctrl+G` on Windows/Linux,
+hover the page to visually target an element, then click to copy a source snippet
+straight to the clipboard.
+
+## Why I Built It
+
+When working in component-heavy apps, tracking a rendered element back to the right file
+and exact lines can be annoying, especially when moving quickly or working with AI tools.
+
+Astro Grab makes that loop much tighter:
+- see an element
+- target it visually
+- grab the source
+- paste it directly into your editor, issue, or AI assistant
+
+## How It Works
+
+During development, Astro Grab transforms `.astro` files to attach source metadata to
+rendered elements. A client-side overlay handles targeting and highlighting, while
+dev-server middleware resolves the clicked element back to a snippet from the source file.
+
+## Features
+
+- visual targeting mode with element highlighting
+- instant clipboard copy of source snippets
+- source attribution back to `.astro` files
+- configurable hold duration, context lines, and clipboard template
+- dev-only by default, with an escape hatch for demo deployments
+
+## Tech
+
+Bun monorepo, Astro integration, Vite middleware, client overlay tooling, shared packages.
+
+## Status
+
+Alpha.

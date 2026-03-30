@@ -1,0 +1,40 @@
+---
+name: ffmgen
+description: Natural language interface for generating ffmpeg commands.
+screenshots: []
+publicUrl: https://ffmgen.nickradford.dev
+githubUrl: https://github.com/nickradford/ffmgen
+---
+
+## Overview
+
+Converts plain English descriptions of desired media transformations into executable ffmpeg CLI
+commands. Designed to remove the friction of memorizing flags and complex syntax while producing
+accurate, transparent commands users can understand and modify.
+
+ffmpeg is extremely powerful but notoriously difficult to remember.
+
+Even simple operations like trimming video, converting formats, or extracting audio often require
+searching documentation or previous commands.
+
+FFMGen allows users to describe what they want in plain English and produces a working ffmpeg command
+that can be copied directly into the terminal.
+
+## Example Inputs
+
+- "trim the first 30 seconds"
+- "convert this video to gif at 12 fps"
+- "resize to 1080p and compress for web"
+- "extract audio as mp3"
+- "combine these videos sequentially"
+
+## Goals
+
+- reduce cognitive load of remembering flags
+- produce transparent commands rather than hiding functionality
+- encourage learning through readable output
+- speed up repetitive media tasks
+
+## Tech
+
+Next.js, TypeScript, LLM APIs.

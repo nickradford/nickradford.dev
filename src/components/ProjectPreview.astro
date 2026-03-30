@@ -1,0 +1,87 @@
+---
+import Frame from "./Frame.astro";
+
+interface Props {
+  project: {
+    slug: string;
+    name: string;
+    description: string;
+    screenshots: string[];
+    publicUrl?: string | null;
+    githubUrl?: string | null;
+  };
+  lastProject?: boolean;
+}
+
+const { project, lastProject } = Astro.props;
+const hasLinks = project.githubUrl || project.publicUrl;
+---
+
+<div class="group relative">
+  <a
+    href={`/projects/${project.slug}`}
+    class="block px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors"
+  >
+    <article class="flex flex-col md:flex-row gap-6">
+      {
+        project.screenshots[0] && (
+          <img
+            src={project.screenshots[0]}
+            alt={project.name}
+            loading="lazy"
+            class="w-full md:w-48 aspect-video object-cover rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
+          />
+        )
+      }
+      <div class="flex flex-col space-y-3 min-w-0 flex-1">
+        <h3
+          class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+        >
+          {project.name}
+        </h3>
+        <p class="leading-relaxed text-zinc-700 dark:text-zinc-300 font-geist">
+          {project.description}
+        </p>
+        <span
+          class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange transition-colors pt-2"
+        >
+          View project <i class="ph ph-arrow-right top-px relative"></i>
+        </span>
+      </div>
+    </article>
+  </a>
+  {
+    hasLinks && (
+      <div
+        class="px-8 md:px-16 py-3 flex items-center gap-2 border-t border-orange/20 dark:border-zinc-800 [--dot-color:rgba(0,0,0,0.06)] dark:[--dot-color:rgba(255,255,255,0.06)]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0)",
+          backgroundSize: "12px 12px",
+        }}
+      >
+        {project.githubUrl && (
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener nofollow"
+            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-orange/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-orange dark:hover:text-orange hover:border-orange/40 dark:hover:border-orange/40 transition-colors bg-ivory dark:bg-zinc-900"
+          >
+            <i class="ph ph-github-logo" /> GitHub
+          </a>
+        )}
+        {project.publicUrl && (
+          <a
+            href={project.publicUrl}
+            target="_blank"
+            rel="noopener nofollow"
+            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-orange/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-orange dark:hover:text-orange hover:border-orange/40 dark:hover:border-orange/40 transition-colors bg-ivory dark:bg-zinc-900"
+          >
+            <i class="ph ph-globe" /> Live
+          </a>
+        )}
+      </div>
+    )
+  }
+  <Frame corners={lastProject ? ["top", "bottomLeft"] : ["top"]} />
+</div>

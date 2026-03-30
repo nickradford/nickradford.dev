@@ -18,8 +18,10 @@ const currentPath = Astro.url.pathname;
     <div class="flex items-center border-orange/20 dark:border-zinc-800">
       <a
         href="/"
-        class="text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium text-zinc-800 hover:text-orange dark:text-zinc-100 dark:hover:text-orange transition-colors hover:bg-orange/5"
-        data-not-active-styled="true"
+        class:list={[
+          "text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors hover:bg-orange/5",
+          currentPath === "/" ? "text-orange bg-orange/5" : "text-zinc-800 dark:text-zinc-100",
+        ]}
       >
         Nick&nbsp;Radford
       </a>
@@ -55,8 +57,10 @@ const currentPath = Astro.url.pathname;
   <nav id="page-header-nav-mobile" class="flex items-center justify-between relative">
     <a
       href="/"
-      class="absolute -top-3 text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
-      data-not-active-styled="true"
+      class:list={[
+        "absolute -top-3 text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors",
+        currentPath === "/" ? "text-orange" : "text-zinc-600 dark:text-zinc-400",
+      ]}
     >
       Nick Radford
     </a>

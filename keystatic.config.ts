@@ -16,6 +16,49 @@ export default config({
           kind: "local",
         },
   collections: {
+    projects: collection({
+      label: "Projects",
+      path: "src/content/project/*",
+      format: { contentField: "content" },
+      slugField: "name",
+      columns: ["name", "description"],
+      entryLayout: "content",
+      schema: {
+        name: fields.slug({ name: { label: "Name" } }),
+        description: fields.text({
+          label: "Description",
+          multiline: true,
+        }),
+        screenshots: fields.array(
+          fields.image({
+            label: "Screenshot",
+            directory: "public/projects",
+            publicPath: "/projects",
+          }),
+          {
+            label: "Screenshots",
+            itemLabel: (item) => (typeof item.value === "string" ? item.value : null) ?? "Screenshot",
+          }
+        ),
+        publicUrl: fields.url({
+          label: "Public URL",
+          validation: { isRequired: false },
+        }),
+        githubUrl: fields.url({
+          label: "GitHub URL",
+          validation: { isRequired: false },
+        }),
+        content: fields.mdx({
+          label: "Content",
+          options: {
+            image: {
+              directory: "public/projects",
+              publicPath: "/projects",
+            },
+          },
+        }),
+      },
+    }),
     blog: collection({
       label: "Blog",
       path: "src/content/blog/*",
@@ -73,6 +116,23 @@ export default config({
     }),
   },
   singletons: {
+    projectOrder: singleton({
+      label: "Project Order",
+      path: "src/content/projectOrder/index",
+      format: "json",
+      schema: {
+        slugs: fields.array(
+          fields.relationship({
+            label: "Project",
+            collection: "projects",
+          }),
+          {
+            label: "Projects",
+            itemLabel: (item) => item.value ?? "Untitled project",
+          }
+        ),
+      },
+    }),
     inspoLinks: singleton({
       label: "Inspo Links",
       path: "src/content/inspoLinks/index",

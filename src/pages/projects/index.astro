@@ -1,0 +1,65 @@
+---
+export const prerender = true;
+import Base from "../../layouts/BaseLayout.astro";
+import Text from "../../components/Text.astro";
+import ProjectPreview from "../../components/ProjectPreview.astro";
+import Page from "../../components/Page.astro";
+import { DecodeText } from "../../components/DecodeText";
+import PageHeader from "../../components/PageHeader.astro";
+import { getCollection, getEntry } from "astro:content";
+
+const description = "Things I've built, am building, or have contributed to.";
+const allProjects = await getCollection("project");
+const orderEntry = await getEntry("projectOrder", "index");
+const orderedSlugs = orderEntry?.data.slugs ?? [];
+
+const projectsBySlug = new Map(allProjects.map((p) => [p.slug, p]));
+const projects = [
+  ...orderedSlugs.flatMap((slug) => {
+    const p = projectsBySlug.get(slug);
+    if (p) projectsBySlug.delete(slug);
+    return p ? [p] : [];
+  }),
+  ...projectsBySlug.values(),
+];
+---
+
+<Base title="Projects" description={description}>
+  <Page>
+    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+      <PageHeader>
+        <DecodeText
+          slot="title"
+          client:load
+          value="projects"
+          className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+        />
+        <Text slot="description">{description}</Text>
+      </PageHeader>
+
+      <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+        {
+          projects.map((project, index) => (
+            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+              <div class="flex-1" />
+              <div class="max-w-4xl w-full">
+                <ProjectPreview
+                  project={{
+                    slug: project.slug,
+                    name: project.data.name,
+                    description: project.data.description,
+                    screenshots: project.data.screenshots,
+                    publicUrl: project.data.publicUrl,
+                    githubUrl: project.data.githubUrl,
+                  }}
+                  lastProject={index === projects.length - 1}
+                />
+              </div>
+              <div class="flex-1" />
+            </div>
+          ))
+        }
+      </div>
+    </article>
+  </Page>
+</Base>

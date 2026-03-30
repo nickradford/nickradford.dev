@@ -16,9 +16,20 @@ const blog = defineCollection({
 });
 
 const project = defineCollection({
+  type: "content",
   schema: z.object({
-    title: z.string(),
+    name: z.string(),
     description: z.string(),
+    screenshots: z.array(z.string()).default([]),
+    publicUrl: z.string().url().optional().nullable(),
+    githubUrl: z.string().url().optional().nullable(),
+  }),
+});
+
+const projectOrder = defineCollection({
+  type: "data",
+  schema: z.object({
+    slugs: z.array(z.string()),
   }),
 });
 
@@ -38,4 +49,4 @@ const inspoLinks = defineCollection({
   }),
 });
 
-export const collections = { blog, project, inspoLinks };
+export const collections = { blog, project, projectOrder, inspoLinks };
