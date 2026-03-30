@@ -89,10 +89,10 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
         )
       }
 
-      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
         <div class="flex-1 hidden md:block"></div>
         <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-8 pb-12">
-          <div class={articleClasses}>
+          <div class={articleClasses} data-pagefind-body>
             <Content />
           </div>
         </div>
