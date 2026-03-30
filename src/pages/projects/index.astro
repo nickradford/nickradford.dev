@@ -8,7 +8,7 @@ import { DecodeText } from "../../components/DecodeText";
 import PageHeader from "../../components/PageHeader.astro";
 import { getCollection, getEntry } from "astro:content";
 
-const description = "Things I've built, am building, or have contributed to.";
+const description = "A collection of side projects, open-source work, and experiments I've shipped.";
 const allProjects = await getCollection("project");
 const orderEntry = await getEntry("projectOrder", "index");
 const orderedSlugs = orderEntry?.data.slugs ?? [];
@@ -31,7 +31,7 @@ const projects = [
         <DecodeText
           slot="title"
           client:load
-          value="projects"
+          value="Projects"
           className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
         />
         <Text slot="description">{description}</Text>
