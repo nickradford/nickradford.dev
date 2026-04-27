@@ -52,32 +52,38 @@ const currentPath = Astro.url.pathname;
 
 <!-- Mobile Header -->
 <div
-  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-orange/20 dark:border-zinc-800 md:hidden px-6 pt-6"
+  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 md:hidden"
 >
-  <nav id="page-header-nav-mobile" class="flex items-center justify-between relative">
-    <a
-      href="/"
-      class:list={[
-        "absolute -top-3 text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors",
-        currentPath === "/" ? "text-orange" : "text-zinc-600 dark:text-zinc-400",
-      ]}
-    >
-      Nick Radford
-    </a>
-    <ul class="flex px-0 py-4 space-x-8 text-sm">
-      <NavLinks currentPath={currentPath} variant="mobile" />
-    </ul>
-
-    <div class="flex items-center">
-      <SearchTrigger class="text-lg px-4 py-4" currentPath={currentPath} />
-      <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-4 py-4'>
+  <nav id="page-header-nav-mobile" class="relative">
+    <div class="flex items-center justify-between px-6 py-3">
+      <a
+        href="/"
+        class:list={[
+          "relative text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors",
+          currentPath === "/" ? "text-orange" : "text-zinc-600 dark:text-zinc-400",
+        ]}
+      >
+        Nick Radford
+        {
+          currentPath === "/" && (
+            <span class="absolute -bottom-1 left-0 right-0 h-px bg-orange" />
+          )
+        }
+      </a>
+      <div class="flex items-center">
+        <SearchTrigger class="text-lg px-3 py-2" currentPath={currentPath} />
+        <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-3 py-2'>
         <Fragment slot="icon-light">
           <div class="ph ph-moon-stars"></div>
          </Fragment>
          <Fragment slot="icon-dark">
            <div class="ph ph-sun"></div>
          </Fragment>
-      </Toggle>
+        </Toggle>
+      </div>
     </div>
+    <ul class="flex text-sm *:flex-1 *:text-center *:py-3">
+      <NavLinks currentPath={currentPath} variant="mobile" />
+    </ul>
   </nav>
 </div>
