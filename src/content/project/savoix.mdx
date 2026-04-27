@@ -1,29 +1,31 @@
 ---
 name: savoix
-description: A script recording and transcription app for precise dialogue review — record takes, auto-transcribe, and detect script discrepancies.
+description: Record scripted takes, auto-transcribe, and compare against the original text to find your best delivery.
 screenshots: []
 githubUrl: https://github.com/nickradford/savoix
 ---
 
-## Overview
+## Why I Built It
 
-Savoix is a desktop application for recording voice-over and dialogue takes against a script, then automatically transcribing and comparing the spoken audio to the original text.
+I needed to record a demo video for Google to get OAuth scope approval for Linework. The problem: I'm terrible at recording. Every take I'd miss a word, stumble on a line, or ramble off-script. I needed to do multiple takes and find the version where I actually said what I meant to say.
 
-It is built for scenarios where precise delivery matters — checking that a voice actor hit every word, catching omitted lines, or reviewing ADR takes against a script.
+So I built Savoix — paste in a script, record as many takes as you need per segment, and it transcribes each one and compares it against the original text. Omissions, insertions, wrong words all get flagged. Pick the best take and export.
+
+It's a very narrow tool for a very specific problem, but it got the demo done.
 
 ## How It Works
 
-Paste a script into Savoix and it breaks it into line-by-line segments. Record takes per segment, and each recording is automatically transcribed via a local Parakeet transcription server. The app renders the transcript in sync with audio playback and highlights discrepancies between what was spoken and what was written — omissions, insertions, and contraction mismatches.
+Paste a script and Savoix breaks it into line-by-line segments. Record takes per segment — the audio gets transcribed locally via Parakeet. The app renders the transcript synced with playback and highlights exactly where your delivery diverged from the script.
 
 ## Features
 
-- script segmentation into line-by-line recording prompts
-- multiple takes per segment with stable, non-shifting take numbering
+- script segmentation into per-line recording prompts
+- unlimited takes per segment with stable numbering
 - automated Parakeet speech-to-text transcription
-- synchronized transcript rendering during audio playback
-- discrepancy detection: omissions, insertions, contraction mismatches
+- synced audio + transcript playback
+- discrepancy detection (omissions, insertions, mismatches)
 - soft-delete for takes to preserve numbering
-- audio export with FFmpeg
+- audio export via FFmpeg
 
 ## Tech
 
@@ -31,4 +33,4 @@ React 18, React Router, TypeScript, Vite, Express.js, SQLite + Drizzle ORM, Tail
 
 ## Status
 
-Alpha.
+Alpha. Served its purpose for the Google demo recording.
