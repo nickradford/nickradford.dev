@@ -26,6 +26,21 @@
     min-height: 100vh;
   }
 
+  .dot-grid {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--color-orange) 18%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 16px 16px;
+  }
+
+  .dark .dot-grid {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--color-zinc-100) 10%, transparent) 1px,
+      transparent 1px
+    );
+  }
+
   @supports (-webkit-touch-callout: none) {
     .pb-safe {
       padding-bottom: calc(1rem + env(safe-area-inset-bottom));
