@@ -1,0 +1,34 @@
+---
+name: savoix
+description: A script recording and transcription app for precise dialogue review — record takes, auto-transcribe, and detect script discrepancies.
+screenshots: []
+githubUrl: https://github.com/nickradford/savoix
+---
+
+## Overview
+
+Savoix is a desktop application for recording voice-over and dialogue takes against a script, then automatically transcribing and comparing the spoken audio to the original text.
+
+It is built for scenarios where precise delivery matters — checking that a voice actor hit every word, catching omitted lines, or reviewing ADR takes against a script.
+
+## How It Works
+
+Paste a script into Savoix and it breaks it into line-by-line segments. Record takes per segment, and each recording is automatically transcribed via a local Parakeet transcription server. The app renders the transcript in sync with audio playback and highlights discrepancies between what was spoken and what was written — omissions, insertions, and contraction mismatches.
+
+## Features
+
+- script segmentation into line-by-line recording prompts
+- multiple takes per segment with stable, non-shifting take numbering
+- automated Parakeet speech-to-text transcription
+- synchronized transcript rendering during audio playback
+- discrepancy detection: omissions, insertions, contraction mismatches
+- soft-delete for takes to preserve numbering
+- audio export with FFmpeg
+
+## Tech
+
+React 18, React Router, TypeScript, Vite, Express.js, SQLite + Drizzle ORM, Tailwind CSS, Radix UI.
+
+## Status
+
+Alpha.
