@@ -3,6 +3,7 @@ import "@fontsource/geist";
 import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
+import AgentationDev from "../components/AgentationDev.tsx";
 import { ThemeScript } from "astro-theme-toggle/components"
 import { ClientRouter } from "astro:transitions";
 
@@ -84,6 +85,7 @@ const socialImageUrl = new URL(
   >
     <div class="flex flex-col items-center w-full min-h-fill-available flex-1">
       <Nav transition:persist />
+      {import.meta.env.DEV && <AgentationDev client:only="react" />}
       <slot />
       <script
         defer

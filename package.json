@@ -28,6 +28,7 @@
     "@pagefind/component-ui": "^1.5.0-alpha.3",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.0",
+    "agentation": "^3.0.2",
     "astro": "^5.16.0",
     "astro-grab": "^0.2.1",
     "astro-meta-tags": "^0.4.0",
