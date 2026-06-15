@@ -4,6 +4,7 @@ import "@fontsource/geist-mono";
 import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
 import AgentationDev from "../components/AgentationDev.tsx";
+import { getOgImageUrl } from "../lib/og";
 import { ThemeScript } from "astro-theme-toggle/components"
 import { ClientRouter } from "astro:transitions";
 
@@ -24,7 +25,7 @@ const {
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
-const socialImagePath = og ?? "/og/nick-radford-dot-dev.png";
+const socialImagePath = getOgImageUrl(og ?? "/og/nick-radford-dot-dev.png");
 const socialImageUrl = new URL(
   socialImagePath,
   Astro.url.origin,
