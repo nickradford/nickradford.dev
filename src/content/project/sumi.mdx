@@ -1,0 +1,37 @@
+---
+name: Sumi
+description: A booking and client operations platform for tattoo artists, bringing intake, CRM, scheduling, deposits, agreements, and shared inbox workflows into one workspace.
+screenshots:
+  - /sumi/sumi-dashboard.png
+  - /sumi/sumi-inbox.png
+publicUrl: https://usesumi.ink
+---
+## Overview
+
+Sumi is a booking and client operations app for tattoo artists. It brings the entire booking lifecycle into a single workspace: public intake forms, client records, project tracking, scheduling, deposits, signed deposit agreements, and shared inbox workflows.
+
+Most tattoo booking workflows happen across fragmented channels: Instagram DMs, email threads, notes apps, spreadsheets, calendars, and payment links. Sumi centralizes that work so solo artists can move from inquiry to confirmed appointment with less back-and-forth.
+
+The primary design goal is reducing operational overhead while preserving the flexibility each artist needs in their booking process.
+
+## Core Concepts
+
+* hosted and embeddable public booking forms
+* intake projects that become active, scheduled, completed, or archived work
+* client records shared across projects and inbox conversations
+* shared mailbox workflows with conversation history attached to clients and projects
+* appointment proposals based on artist availability and Google Calendar conflicts
+* signed deposit agreements with digital signatures and stored PDFs
+* manual deposit collection and verification
+* configurable email templates, form copy, and workspace settings
+* team access for artists who work with assistants or guest artists
+
+The system is designed around incremental adoption: artists can start with intake and project tracking, then add scheduling, deposits, agreements, and inbox workflows as their process matures.
+
+## Tech
+
+TypeScript monorepo with pnpm and Turborepo. The main app uses React 19, Vite, TanStack Start/Router/Query/Form/Table, Tailwind CSS, Better Auth, Drizzle ORM, PostgreSQL, Valibot/Zod, React Email, Resend, Stripe, PostHog, and the Vercel AI SDK with OpenRouter. The marketing site is Astro deployed with Cloudflare tooling, and shared workspace packages cover core domain logic, database schema, email templates, and email delivery.
+
+## Status
+
+Active development.
