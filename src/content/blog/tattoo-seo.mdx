@@ -1,0 +1,71 @@
+---
+title: How Do You SEO a Tattoo Portfolio Full of Images?
+draft: false
+date: 2026-06-14
+tags:
+  - AI
+  - SEO
+  - Side Projects
+changelog: []
+---
+
+A few months ago my friend Vinny asked me to look at his tattoo studio’s website. His portfolio is large. Several hundred images, years of work, and most files used names like `IMG_4237.jpg` or `edited_final2.jpg`. That hurts discoverability.
+
+I thought renaming files would be enough. Better filenames. Alt text. Some structured metadata. But the deeper I dug, the more I realized the value was inside the images. A crawler can index text, not pixels.
+
+Most search engine optimization (SEO) tools assume your pages are full of words. Headings, paragraphs, product descriptions. Stuff a crawler can read. Tattoo portfolios break that assumption.
+
+A forearm rose photo tells you plenty. Black and grey floral. Inner forearm. Maybe fine-line, maybe illustrative. None of that appears in the filename or caption. It stays in the pixels. Vinny has hundreds of them.
+
+Standard SEO tools flag missing meta descriptions and keyword density. They can’t analyze a folder of tattoos and tell you, “You do a lot of fine-line florals. People are searching for that.” I wanted to fix that.
+
+A vision model could analyze the whole portfolio and extract structure for each image. Style. Subject. Placement. Color or black and grey. The things a client would type into Google.
+
+If it worked, I’d turn a messy folder of old photos into clean filenames, alt text, image metadata, and gallery taxonomies. Unstructured visuals would become searchable.
+
+## Building tattoo-seo
+
+I built a command-line interface (CLI) called `tattoo-seo` that processes portfolios in bulk. It takes a directory of images, passes them to a vision model, and generates:
+
+- Descriptive filenames
+- A metadata manifest for each image
+- Export files for importing into a site
+- Gallery data for filtered, searchable collections
+
+The renamed files look like this:
+
+```text
+001-animal-realism-crane-heron-back-bd488d-vinny-valdez-tattoo-san-francisco.webp
+```
+
+Index, style, subject, placement, a short hash, then Vinny’s name and city. Most of his files include the word realism because realism makes up most of his work. The hash stops collisions when two pieces end up with similar descriptions.
+
+It has a review workflow because AI models hallucinate. A snake becomes a dragon. A calf piece becomes an upper-arm piece. Those errors matter when you’re representing someone’s art.
+
+## What I learned
+
+I learned that AI is good at drafts, not ground truth. It’s fast at pattern recognition. But a person has to make the final call.
+
+Workflow design matters more than model choice. A fast model with a clean review loop beats a slow, expensive one you trust without review. Output quality depends on how fast you can catch and fix mistakes.
+
+General-purpose tools ignore niche problems. No generic SEO platform will optimize a tattoo portfolio. The market is too small. For Vinny, a tool built for his problem changes everything.
+
+## The bigger insight
+
+I thought I was building an SEO tool. Instead, I was building a converter. Unstructured visual data goes in. Structured information comes out.
+
+SEO is only the first use case. Once you have that layer, you can recommend related designs, spot gaps in a portfolio, improve client consultations, or track trends across an artist’s work.
+
+## What’s next
+
+I’m using `tattoo-seo` to reorganize Vinny’s portfolio now. I want his archive to help people find his work through search.
+
+I’ll track whether the structure leads to measurable gains. More organic traffic. Better rankings for specific styles. More contact form submissions. If the numbers move, the approach works.
+
+I’m also curious where else structured portfolio data fits. Photography, fashion, architecture. The same pattern applies. The core idea wasn’t limited to tattoos. It applies to any image-heavy portfolio that needs to rank in search.
+
+### A booking app for tattoo artists
+
+I’m also building [Sumi](https://usesumi.ink), a booking and client management app for solo tattoo artists like Vinny.
+
+If you want a new tattoo, go get some ink from [Vinny](https://thevinz.com). And if you’re a tattoo artist who wants to chat about your SEO or booking process, [message me on X](https://x.com/nick_radford).
