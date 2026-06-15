@@ -50,7 +50,7 @@ export default defineConfig({
           { behavior: "wrap", properties: { className: ["prose-anchor"] } },
         ],
         [rehypePrism, { showLineNumbers: true }],
-        [rehypeExternalLinks, { target: "_blank", rel: ["nofollow noopener"] }],
+        [rehypeExternalLinks, { target: "_blank", rel: ["noopener"] }],
       ],
     }),
     sitemap({
