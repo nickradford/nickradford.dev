@@ -47,7 +47,7 @@ export default defineConfig({
         rehypeCodeTitles,
         [
           rehypeAutolinkHeadings,
-          { behavior: "wrap", properties: { className: ["prose-anchor"] } },
+          { behavior: "append", properties: { className: ["prose-anchor"] } },
         ],
         [rehypePrism, { showLineNumbers: true }],
         [rehypeExternalLinks, { target: "_blank", rel: ["noopener"] }],

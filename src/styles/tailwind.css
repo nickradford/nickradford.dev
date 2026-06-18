@@ -83,7 +83,16 @@ h6 {
 }
 
 .prose-anchor {
-  @apply no-underline !text-zinc-800 dark:!text-zinc-100;
+  @apply ml-2 no-underline !text-orange opacity-0 transition-opacity;
+}
+
+:is(h1, h2, h3, h4, h5, h6):hover > .prose-anchor,
+.prose-anchor:focus {
+  @apply opacity-100;
+}
+
+.prose-anchor::after {
+  content: "#";
 }
 
 ::selection {
