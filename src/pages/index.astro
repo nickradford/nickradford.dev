@@ -83,11 +83,12 @@ const nowBuilding = [
         <div class="max-w-4xl w-full dot-grid">
           <ul class="flex px-16">
             {
-              links.map(([href, label, icon]) => (
+              links.map(([href, label, icon, download]) => (
                 <li class="group first:border-l dark:border-zinc-800 border-r border-orange/20 bg-ivory dark:bg-zinc-950 hover:bg-[#fff7e8] dark:hover:bg-zinc-900 transition-colors">
                   <ExternalLink
                     href={href}
                     icon={icon}
+                    download={download}
                     class="block text-sm p-8 font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
                   >
                     {label}
@@ -104,10 +105,11 @@ const nowBuilding = [
       <div class="w-full border-b border-orange/20 dark:border-zinc-800 md:hidden">
         <ul class="flex divide-x dark:divide-zinc-800 divide-orange/20">
           {
-            links.map(([href, label]) => (
+            links.map(([href, label, , download]) => (
               <li class="flex-1 py-6 items-center flex justify-center">
                 <a
                   href={href}
+                  download={download}
                   class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
                 >
                   {label}

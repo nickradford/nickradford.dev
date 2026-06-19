@@ -51,10 +51,11 @@ const currentYear = new Date().getFullYear();
     <div class="max-w-4xl w-full flex divide-x divide-orange/20 dark:!divide-zinc-800">
       <nav class="flex-1 flex border-orange/20 dark:divide-zinc-800 px-8 md:px-16">
         {
-          links.map(([href, label, icon]) => (
+          links.map(([href, label, icon, download]) => (
             <ExternalLink
               href={href}
               icon={icon}
+              download={download}
               class="block py-6 px-8 md:px-4 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange border-l last:border-r hover:bg-orange/5 border-orange/20 dark:border-zinc-800"
             >
               {label}
@@ -75,10 +76,11 @@ const currentYear = new Date().getFullYear();
   <footer class="w-full md:hidden border-t border-orange/20 dark:border-zinc-800 px-8 py-6">
     <nav class="flex flex-wrap justify-center gap-8 mb-4">
       {
-        links.map(([href, label, icon]) => (
+        links.map(([href, label, icon, download]) => (
           <ExternalLink
             href={href}
             icon={icon}
+            download={download}
             class="text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
           >
             {label}

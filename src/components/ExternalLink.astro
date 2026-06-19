@@ -5,13 +5,22 @@ interface Props {
   title?: string;
   icon?: string;
   nofollow?: boolean;
+  download?: string;
 }
 
-const { href, class: className = "", title = "", icon, nofollow = false } = Astro.props;
+const {
+  href,
+  class: className = "",
+  title = "",
+  icon,
+  nofollow = false,
+  download,
+} = Astro.props;
 const rel = ["noopener", nofollow && "nofollow"].filter(Boolean).join(" ");
+const target = download ? undefined : "_blank";
 ---
 
-<a href={href} class={className} target="_blank" rel={rel} title={title}>
+<a href={href} class={className} target={target} rel={rel} title={title} download={download}>
   <slot />
   {icon && <i class:list={["ph relative top-0.5", `ph-${icon}`]} />}
 </a>
