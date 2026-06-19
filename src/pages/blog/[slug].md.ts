@@ -1,14 +1,9 @@
-import type { APIRoute, GetStaticPaths } from "astro";
-import { getCollection, getEntry } from "astro:content";
+import type { APIRoute } from "astro";
+import { getEntry } from "astro:content";
 import { calculateReadingTime } from "../../lib/content";
 import { formatDate } from "@lib/format-date";
 
-export const prerender = true;
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({ params: { slug: post.slug } }));
-};
+export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
   const slug = params.slug;
@@ -19,7 +14,7 @@ export const GET: APIRoute = async ({ params }) => {
 
   const entry = await getEntry("blog", slug);
 
-  if (!entry) {
+  if (!entry || entry.data.draft) {
     return new Response("Not found", { status: 404 });
   }
 
@@ -58,6 +53,8 @@ export const GET: APIRoute = async ({ params }) => {
   return new Response(`${bodyHeader}${entry.body}\n\n${endMatter}\n`, {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
+      Link: `<${canonicalUrl}>; rel="canonical"`,
+      "X-Robots-Tag": "noindex, follow",
     },
   });
 };

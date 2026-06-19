@@ -19,7 +19,7 @@ export const GET: APIRoute = async (context) => {
     items: blog.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
-      description: post.body.slice(0, 300),
+      description: post.data.description ?? post.body.slice(0, 300),
       link: `/blog/${post.slug}`,
       content: sanitizeHtml(parser.render(post.body), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),

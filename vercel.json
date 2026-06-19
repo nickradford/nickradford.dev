@@ -1,5 +1,24 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
-  "ignoreCommand": "bash scripts/ignore-build-step.sh"
+  "ignoreCommand": "bash scripts/ignore-build-step.sh",
+  "headers": [
+    {
+      "source": "/blog/:slug.md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        },
+        {
+          "key": "Link",
+          "value": "<https://nickradford.dev/blog/:slug>; rel=\"canonical\""
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    }
+  ]
 }

@@ -58,7 +58,11 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const pathname = new URL(page).pathname.replace(/\/$/, "");
-        return !["/open-graph", "/search"].includes(pathname) && !pathname.startsWith("/search-index");
+        return (
+          !pathname.endsWith(".md") &&
+          !["/open-graph", "/search"].includes(pathname) &&
+          !pathname.startsWith("/search-index")
+        );
       },
     }),
     markdoc(),
