@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import Base from "../layouts/BaseLayout.astro";
 import Text from "../components/Text.astro";
 import Page from "../components/Page.astro";
@@ -8,6 +8,18 @@ import Frame from "src/components/Frame.astro";
 import PageHeader from "src/components/PageHeader.astro";
 
 import jobs from "../../jobs";
+import { getWorkSlug } from "../lib/work";
+
+const workViewCookieName = "work-view";
+const workViewCookie = Astro.cookies.get(workViewCookieName)?.value;
+const workDetailsParam = Astro.url.searchParams.get("details");
+const requestedWorkDetailSlug = workDetailsParam === "all" ? null : workDetailsParam;
+const initialWorkView =
+  workViewCookie === "detailed" || workDetailsParam === "all" ? "detailed" : "minimal";
+const isInitiallyDetailed = initialWorkView === "detailed";
+
+const isJobInitiallyExpanded = (company: string) =>
+  isInitiallyDetailed || requestedWorkDetailSlug === getWorkSlug(company);
 
 const operatingPrinciples = [
   {
@@ -174,13 +186,20 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
         aria-label="Work history detail level"
       >
         <div
-          class="work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30"
+          class:list={[
+            "work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30",
+            "is-initial-render",
+            isInitiallyDetailed && "is-detailed",
+          ]}
           data-work-view-control
         >
           <button
             type="button"
-            class="work-view-toggle is-active relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors"
-            aria-pressed="true"
+            class:list={[
+              "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
+              !isInitiallyDetailed && "is-active",
+            ]}
+            aria-pressed={isInitiallyDetailed ? "false" : "true"}
             data-work-view-toggle
             data-work-view="minimal"
           >
@@ -188,8 +207,11 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           </button>
           <button
             type="button"
-            class="work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors"
-            aria-pressed="false"
+            class:list={[
+              "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
+              isInitiallyDetailed && "is-active",
+            ]}
+            aria-pressed={isInitiallyDetailed ? "true" : "false"}
             data-work-view-toggle
             data-work-view="detailed"
           >
@@ -201,97 +223,126 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       {/* Jobs Grid */}
       <div
         id="work-history"
-        class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800"
+        class:list={[
+          "work-history w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800",
+          "is-initial-render",
+          isInitiallyDetailed && "is-detailed",
+        ]}
+        data-work-history
       >
         {
-          jobs.map((job, index) => (
-            <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
-              <div class="hidden md:flex flex-1" />
-              <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group relative">
-                <div class="flex gap-6">
-                  {/* Logo */}
-                  <div class="flex-none">
-                    <div class="relative w-12 h-12 squircle overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
-                      <img
-                        src={(job.img as any).src || job.img}
-                        alt={job.company}
-                        class:list={[
-                          "w-full h-full transition-all ease-in duration-300",
-                          job.logoTreatment === "contain"
-                            ? "object-contain p-2 dark:invert"
-                            : "object-cover",
-                        ]}
-                      />
-                    </div>
-                  </div>
+          jobs.map((job, index) => {
+            const jobExpanded = isJobInitiallyExpanded(job.company);
 
-                  {/* Content */}
-                  <div class="flex-1 min-w-0">
-                    <div class="space-y-2">
-                      <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
-                        <div class="space-y-1">
-                          <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors ease-in duration-300">
-                            {job.company}
-                            {job.extraInfo && (
-                              <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
-                                ({job.extraInfo})
-                              </span>
-                            )}
-                          </h3>
-                          <p class="text-xs font-geist-mono text-zinc-700 dark:text-zinc-300">
-                            {job.role}
-                          </p>
-                        </div>
-                        <time class="text-xs font-geist-mono uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
-                          {formatDateRange(job.startDate, job.endDate, index)}
-                        </time>
+            return (
+              <div
+                id={`work-${getWorkSlug(job.company)}`}
+                class="scroll-mt-24 flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative"
+              >
+                <div class="hidden md:flex flex-1" />
+                <div
+                  class:list={[
+                    "work-row max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group relative",
+                    jobExpanded && "is-expanded",
+                  ]}
+                >
+                  <div class="flex gap-6">
+                    {/* Logo */}
+                    <div class="flex-none">
+                      <div class="relative w-12 h-12 squircle overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
+                        <img
+                          src={(job.img as any).src || job.img}
+                          alt={job.company}
+                          class:list={[
+                            "w-full h-full transition-all ease-in duration-300",
+                            job.logoTreatment === "contain"
+                              ? "object-contain p-2 dark:invert"
+                              : "object-cover",
+                          ]}
+                        />
                       </div>
-                      {(job.summary || job.highlights || job.technologies) && (
-                        <div
-                          class="work-detail"
-                          data-work-detail
-                          style={`--detail-panel-delay: ${getDetailPanelDelay(index)}`}
-                        >
-                          <div class="work-detail-inner space-y-2">
-                            {job.summary && (
-                              <p
-                                class="work-detail-item text-sm leading-relaxed text-zinc-700 dark:text-zinc-300"
-                                style={`--detail-delay: ${getDetailItemDelay(index, 0)}`}
-                              >
-                                {job.summary}
-                              </p>
-                            )}
-                            {job.highlights && (
-                              <ul class="space-y-2">
-                                {job.highlights.map((highlight, highlightIndex) => (
-                                  <li
-                                    class="work-detail-item text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
-                                    style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), highlightIndex))}`}
-                                  >
-                                    {highlight}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                            {job.technologies && (
-                              <p
-                                class="work-detail-item text-xs font-geist-mono leading-6 text-zinc-500 dark:text-zinc-500"
-                                style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), job.highlights?.length ?? 0))}`}
-                              >
-                                {job.technologies.join(" / ")}
-                              </p>
-                            )}
+                    </div>
+
+                    {/* Content */}
+                    <div class="flex-1 min-w-0">
+                      <div class="space-y-2">
+                        <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                          <div class="space-y-1">
+                            <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors ease-in duration-300">
+                              {job.company}
+                              {job.extraInfo && (
+                                <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
+                                  ({job.extraInfo})
+                                </span>
+                              )}
+                            </h3>
+                            <p class="text-xs font-geist-mono text-zinc-700 dark:text-zinc-300">
+                              {job.role}
+                            </p>
                           </div>
+                          <time class="text-xs font-geist-mono uppercase tracking-wide text-zinc-500 dark:text-zinc-500 whitespace-nowrap">
+                            {formatDateRange(job.startDate, job.endDate, index)}
+                          </time>
                         </div>
-                      )}
+                        {(job.summary || job.highlights || job.technologies) && (
+                          <div
+                            id={`work-detail-${index}`}
+                            class:list={["work-detail", jobExpanded && "is-expanded"]}
+                            data-work-detail
+                            style={`--detail-panel-delay: ${getDetailPanelDelay(index)}`}
+                          >
+                            <div class="work-detail-inner space-y-2">
+                              {job.summary && (
+                                <p
+                                  class="work-detail-item text-sm leading-relaxed text-zinc-700 dark:text-zinc-300"
+                                  style={`--detail-delay: ${getDetailItemDelay(index, 0)}`}
+                                >
+                                  {job.summary}
+                                </p>
+                              )}
+                              {job.highlights && (
+                                <ul class="space-y-2">
+                                  {job.highlights.map((highlight, highlightIndex) => (
+                                    <li
+                                      class="work-detail-item text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
+                                      style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), highlightIndex))}`}
+                                    >
+                                      {highlight}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                              {job.technologies && (
+                                <p
+                                  class="work-detail-item text-xs font-geist-mono leading-6 text-zinc-500 dark:text-zinc-500"
+                                  style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), job.highlights?.length ?? 0))}`}
+                                >
+                                  {job.technologies.join(" / ")}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  {(job.summary || job.highlights || job.technologies) && (
+                    <button
+                      type="button"
+                      class="work-row-more absolute bottom-0 left-1/2 z-10 px-5 py-3 text-xs font-geist-mono text-zinc-500 hover:text-orange focus-visible:text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:text-zinc-500 dark:hover:text-orange dark:focus-visible:text-orange dark:focus-visible:ring-offset-zinc-950"
+                      aria-expanded={jobExpanded ? "true" : "false"}
+                      aria-controls={`work-detail-${index}`}
+                      data-work-row-toggle
+                    >
+                      {jobExpanded ? "Less" : "More"}
+                    </button>
+                  )}
+                  <Frame corners={index === jobs.length - 1 ? ["all"] : ["top"]} />
                 </div>
-                <Frame corners={index === jobs.length - 1 ? ["all"] : ["top"]} />
+                <div class="hidden md:flex flex-1" />
               </div>
-              <div class="hidden md:flex flex-1" />
-            </div>
-          ))
+            );
+          })
         }
       </div>
 
@@ -328,6 +379,10 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       transform: translateX(100%);
     }
 
+    .work-view-control.is-initial-render::before {
+      transition: none;
+    }
+
     .work-view-toggle {
       color: rgb(82 82 91);
     }
@@ -360,43 +415,102 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       display: grid;
       grid-template-rows: 0fr;
       opacity: 0;
-      transition:
-        grid-template-rows 140ms ease,
-        opacity 90ms ease;
     }
 
     .work-detail-inner {
       min-height: 0;
       overflow: hidden;
-      transition: padding-top 140ms ease;
     }
 
     .work-detail-item {
       opacity: 0;
       transform: translateY(4px) scale(0.98);
       transform-origin: top left;
-      transition:
-        opacity 80ms ease,
-        transform 80ms ease;
     }
 
     .work-detail.is-expanded {
       grid-template-rows: 1fr;
       opacity: 1;
+    }
+
+    .work-detail.is-expanded .work-detail-inner {
+      padding-top: 0.25rem;
+    }
+
+    .work-detail.is-expanded .work-detail-item {
+      opacity: 1;
+      transform: none;
+    }
+
+    .work-history.is-animating .work-detail {
+      transition:
+        grid-template-rows 140ms ease,
+        opacity 90ms ease;
+    }
+
+    .work-history.is-animating .work-detail-inner {
+      transition: padding-top 140ms ease;
+    }
+
+    .work-history.is-animating .work-detail.is-expanded {
       transition:
         grid-template-rows 260ms ease-out,
         opacity 120ms ease-out;
       transition-delay: var(--detail-panel-delay, 0ms);
     }
 
-    .work-detail.is-expanded .work-detail-inner {
-      padding-top: 0.25rem;
+    .work-history.is-animating .work-detail.is-expanded .work-detail-inner {
       transition-delay: var(--detail-panel-delay, 0ms);
     }
 
-    .work-detail.is-expanded .work-detail-item {
+    .work-history.is-animating .work-detail.is-expanded .work-detail-item {
       animation: detail-item-in 260ms ease-out both;
       animation-delay: var(--detail-delay, 0ms);
+    }
+
+    .work-history.is-initial-render .work-detail,
+    .work-history.is-initial-render .work-detail-inner,
+    .work-history.is-initial-render .work-detail.is-expanded,
+    .work-history.is-initial-render .work-detail.is-expanded .work-detail-inner,
+    .work-history.is-initial-render .work-detail-item {
+      transition: none;
+      transition-delay: 0ms;
+    }
+
+    .work-history.is-initial-render .work-detail.is-expanded .work-detail-item {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .work-row-more {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) scale(1);
+      transition:
+        opacity 150ms ease,
+        color 150ms ease;
+      transform-origin: center;
+    }
+
+    .work-row:hover .work-row-more,
+    .work-row-more:focus-visible,
+    .work-row.is-expanded .work-row-more {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(1.06);
+      transition:
+        opacity 150ms ease,
+        transform 150ms ease,
+        color 150ms ease;
+    }
+
+    .work-history.is-detailed .work-row-more {
+      display: none;
+    }
+
+    .work-history:not(.is-detailed) .work-row.is-expanded {
+      padding-bottom: 3rem;
     }
 
     .tech-chip {
@@ -450,8 +564,11 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       .work-view-control::before,
       .tech-chip,
       .work-detail.is-expanded,
+      .work-history.is-animating .work-detail,
+      .work-history.is-animating .work-detail.is-expanded,
       .work-detail-item,
-      .work-detail.is-expanded .work-detail-item {
+      .work-detail.is-expanded .work-detail-item,
+      .work-history.is-animating .work-detail.is-expanded .work-detail-item {
         animation: none;
         transition: none;
       }
@@ -464,6 +581,36 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
   </style>
 
   <script>
+    const WORK_VIEW_STORAGE_KEY = "work-view";
+    const WORK_VIEW_COOKIE_NAME = "work-view";
+    const WORK_VIEW_ANIMATION_MS = 1300;
+
+    function getRenderedWorkView() {
+      return document
+        .querySelector<HTMLElement>("[data-work-view-control]")
+        ?.classList.contains("is-detailed")
+        ? "detailed"
+        : "minimal";
+    }
+
+    function getStoredWorkView() {
+      return localStorage.getItem(WORK_VIEW_STORAGE_KEY);
+    }
+
+    function persistWorkViewPreference(view: "minimal" | "detailed") {
+      localStorage.setItem(WORK_VIEW_STORAGE_KEY, view);
+      document.cookie = `${WORK_VIEW_COOKIE_NAME}=${view}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    }
+
+    function animateWorkHistory(histories: HTMLElement[]) {
+      histories.forEach((history) => {
+        history.classList.add("is-animating");
+        window.setTimeout(() => {
+          history.classList.remove("is-animating");
+        }, WORK_VIEW_ANIMATION_MS);
+      });
+    }
+
     function initWorkViewToggle() {
       const toggles = Array.from(
         document.querySelectorAll<HTMLButtonElement>("[data-work-view-toggle]"),
@@ -472,11 +619,20 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       const controls = Array.from(
         document.querySelectorAll<HTMLElement>("[data-work-view-control]"),
       );
+      const histories = Array.from(document.querySelectorAll<HTMLElement>("[data-work-history]"));
+      const rowToggles = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-work-row-toggle]"),
+      );
+      const rows = Array.from(document.querySelectorAll<HTMLElement>(".work-row"));
 
       if (toggles.length === 0 || details.length === 0) return;
       if (toggles[0]?.dataset.workViewBound === "true") return;
 
-      const setExpanded = (expanded: boolean) => {
+      const setExpanded = (expanded: boolean, persist = true, animate = false) => {
+        if (animate && expanded) {
+          animateWorkHistory(histories);
+        }
+
         details.forEach((detail) => {
           detail.classList.toggle("is-expanded", expanded);
         });
@@ -485,24 +641,91 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           control.classList.toggle("is-detailed", expanded);
         });
 
+        histories.forEach((history) => {
+          history.classList.toggle("is-detailed", expanded);
+        });
+
+        rowToggles.forEach((rowToggle) => {
+          rowToggle.setAttribute("aria-expanded", String(expanded));
+          rowToggle.textContent = expanded ? "Less" : "More";
+        });
+
+        rows.forEach((row) => {
+          row.classList.toggle("is-expanded", expanded);
+        });
+
         toggles.forEach((toggle) => {
           const active = toggle.dataset.workView === (expanded ? "detailed" : "minimal");
           toggle.classList.toggle("is-active", active);
           toggle.setAttribute("aria-pressed", String(active));
         });
+
+        if (persist) {
+          persistWorkViewPreference(expanded ? "detailed" : "minimal");
+        }
       };
 
-      setExpanded(false);
+      const renderedWorkView = getRenderedWorkView();
+      const storedWorkView = getStoredWorkView();
+
+      if (storedWorkView === "detailed" && renderedWorkView !== "detailed") {
+        setExpanded(true, true);
+      } else if (!storedWorkView) {
+        persistWorkViewPreference(renderedWorkView);
+      }
+
+      window.requestAnimationFrame(() => {
+        controls.forEach((control) => {
+          control.classList.remove("is-initial-render");
+        });
+
+        histories.forEach((history) => {
+          history.classList.remove("is-initial-render");
+        });
+      });
 
       toggles.forEach((toggle) => {
         toggle.dataset.workViewBound = "true";
         toggle.addEventListener("click", () => {
-          setExpanded(toggle.dataset.workView === "detailed");
+          const expanded = toggle.dataset.workView === "detailed";
+          setExpanded(expanded, true, expanded);
         });
       });
     }
 
     initWorkViewToggle();
+
+    function initWorkRowToggles() {
+      const rowToggles = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-work-row-toggle]"),
+      );
+
+      rowToggles.forEach((rowToggle) => {
+        if (rowToggle.dataset.workRowToggleBound === "true") return;
+
+        const detailId = rowToggle.getAttribute("aria-controls");
+        const detail = detailId ? document.getElementById(detailId) : null;
+        if (!detail) return;
+
+        rowToggle.dataset.workRowToggleBound = "true";
+        rowToggle.addEventListener("click", () => {
+          const expanded = !detail.classList.contains("is-expanded");
+          const row = rowToggle.closest<HTMLElement>(".work-row");
+          const history = rowToggle.closest<HTMLElement>("[data-work-history]");
+
+          if (expanded && history) {
+            animateWorkHistory([history]);
+          }
+
+          detail.classList.toggle("is-expanded", expanded);
+          row?.classList.toggle("is-expanded", expanded);
+          rowToggle.setAttribute("aria-expanded", String(expanded));
+          rowToggle.textContent = expanded ? "Less" : "More";
+        });
+      });
+    }
+
+    initWorkRowToggles();
 
     function initSkillPopovers() {
       const triggers = Array.from(
@@ -614,6 +837,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     initTechChipMagnet();
     document.addEventListener("astro:page-load", () => {
       initWorkViewToggle();
+      initWorkRowToggles();
       initSkillPopovers();
       initTechChipMagnet();
     });

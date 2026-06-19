@@ -7,9 +7,9 @@ import { DecodeText } from "../components/DecodeText";
 import PageHeader from "../components/PageHeader.astro";
 import Frame from "@components/Frame.astro";
 
-const description = `Search my blog posts for specific content.`;
+const description = `Search my writing, projects, and work history for specific content.`;
 
-const exampleSearchTerms = ['Tailwind', 'React', 'Fun']
+const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
 ---
 
 <Base title="Search" description={description} noindex={true}>
@@ -165,7 +165,7 @@ const exampleSearchTerms = ['Tailwind', 'React', 'Fun']
         const data = allData[i];
         const clone = template.content.cloneNode(true) as DocumentFragment;
         const link = clone.querySelector('a')!;
-        link.href = data.url;
+        link.href = typeof data.meta?.result_url === 'string' ? data.meta.result_url : data.url;
         link.querySelector('h2')!.textContent = data.meta?.title ?? '';
         link.querySelector('p')!.innerHTML = data.excerpt ?? '';
         if (i === allData.length - 1) {

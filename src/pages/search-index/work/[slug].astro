@@ -1,0 +1,36 @@
+---
+export const prerender = true;
+
+import Base from "../../../layouts/BaseLayout.astro";
+import jobs from "../../../../jobs";
+import { getWorkSlug } from "../../../lib/work";
+
+export function getStaticPaths() {
+  return jobs.map((job) => {
+    const slug = getWorkSlug(job.company);
+
+    return {
+      params: { slug },
+      props: { job, slug },
+    };
+  });
+}
+
+const { job, slug } = Astro.props;
+const title = `${job.company} - ${job.role}`;
+const resultUrl = `/work?details=${slug}#work-${slug}`;
+---
+
+<Base title={title} description={job.summary ?? job.highlights?.[0] ?? ""} noindex={true}>
+  <main data-pagefind-body class="sr-only">
+    <h1 data-pagefind-meta="title">{title}</h1>
+    <p data-pagefind-meta="result_url">{resultUrl}</p>
+    <p>{job.summary}</p>
+    {
+      job.highlights?.map((highlight) => (
+        <p>{highlight}</p>
+      ))
+    }
+    <p>{job.technologies?.join(", ")}</p>
+  </main>
+</Base>

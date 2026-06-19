@@ -69,6 +69,7 @@ const jobs: JobItemProps[] = [
       "Established coding conventions, design patterns, and product engineering practices for the team.",
       "Created internal management tools for troubleshooting, promo code administration, billing plan management, and customer operations.",
     ],
+    technologies: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS", "BullMQ", "Shopify"],
   },
   {
     company: "Cruise Automation",
