@@ -1,0 +1,319 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+type TocItem = {
+  slug: string;
+  text: string;
+};
+
+const { headings } = Astro.props as Props;
+const items: TocItem[] = headings
+  .filter((heading) => heading.depth === 2)
+  .map((heading) => ({
+    slug: heading.slug,
+    text: heading.text,
+  }));
+const shouldRender = items.length > 0;
+---
+
+{
+  shouldRender && (
+    <aside class="sticky top-28 hidden max-h-[calc(100vh-8rem)] w-full max-w-72 overflow-y-auto pb-4 xl:block">
+      <nav
+        aria-label="Table of contents"
+        class="blog-toc relative w-full pr-6 text-xs font-geist-mono"
+        data-blog-toc
+      >
+        <div class="blog-toc-marker" aria-hidden="true" data-toc-marker>
+          <span>[</span>
+          <span>]</span>
+        </div>
+        <ol class="m-0 list-none space-y-1 p-0">
+          <li class="m-0 p-0">
+            <a
+              class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-orange dark:text-zinc-500 dark:hover:text-orange"
+              data-toc-top-link
+              href="#"
+            >
+              ↑ Top
+            </a>
+          </li>
+          {items.map((item) => (
+            <li class="m-0 p-0">
+              <a
+                class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-orange dark:text-zinc-500 dark:hover:text-orange"
+                data-toc-link
+                href={`#${item.slug}`}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+  )
+}
+
+<style>
+  .blog-toc-marker {
+    color: var(--color-orange);
+    font-family: var(--font-geist-mono);
+    inset: 0 auto auto 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .blog-toc-marker span {
+    left: 0;
+    line-height: 1.25rem;
+    position: absolute;
+    top: 0;
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 150ms ease;
+    will-change: transform;
+  }
+
+  .blog-toc-marker span:first-child {
+    transform: translate3d(var(--toc-open-x, 0px), var(--toc-open-y, 0px), 0);
+  }
+
+  .blog-toc-marker span:last-child {
+    transform: translate3d(var(--toc-close-x, 0px), var(--toc-close-y, 0px), 0);
+  }
+
+  .blog-toc[data-toc-ready="true"] .blog-toc-marker {
+    opacity: 1;
+  }
+
+  .blog-toc-link {
+    position: relative;
+    text-wrap: balance;
+    white-space: normal;
+    z-index: 2;
+  }
+
+  .blog-toc-link[data-toc-link] {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  .blog-toc-link[data-active="true"] {
+    color: rgb(39 39 42);
+  }
+
+  :global(.dark) .blog-toc-link[data-active="true"] {
+    color: rgb(244 244 245);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-toc-marker {
+      transition: opacity 150ms ease;
+    }
+  }
+</style>
+
+<script>
+  type TocTarget = {
+    link: HTMLAnchorElement;
+    target: HTMLElement;
+  };
+
+  function getHashId(link: HTMLAnchorElement) {
+    return decodeURIComponent(link.hash.replace(/^#/, ""));
+  }
+
+  function setupBlogTableOfContents() {
+    document.querySelectorAll<HTMLElement>("[data-blog-toc]").forEach((toc) => {
+      if (toc.dataset.tocBound === "true") {
+        return;
+      }
+
+      toc.dataset.tocBound = "true";
+      const marker = toc.querySelector<HTMLElement>("[data-toc-marker]");
+      const topLink = toc.querySelector<HTMLAnchorElement>("[data-toc-top-link]");
+      const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+      const targets = links
+        .map((link) => {
+          const target = document.getElementById(getHashId(link));
+
+          return target ? { link, target } : null;
+        })
+        .filter(Boolean) as TocTarget[];
+
+      if (!marker || targets.length === 0) {
+        return;
+      }
+
+      const abortController = new AbortController();
+      let activeTarget: TocTarget | null = null;
+      let frame = 0;
+
+      topLink?.addEventListener(
+        "click",
+        (event) => {
+          event.preventDefault();
+          history.replaceState(null, "", `${location.pathname}${location.search}`);
+          window.scrollTo({
+            top: 0,
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+              ? "auto"
+              : "smooth",
+          });
+        },
+        { signal: abortController.signal },
+      );
+
+      function getVisibleTextLineRects(link: HTMLAnchorElement, linkRect: DOMRect) {
+        const range = document.createRange();
+        range.selectNodeContents(link);
+
+        const rects = Array.from(range.getClientRects()).filter(
+          (rect) =>
+            rect.width > 0 &&
+            rect.height > 0 &&
+            rect.top >= linkRect.top - 1 &&
+            rect.bottom <= linkRect.bottom + 1,
+        );
+
+        range.detach();
+        return rects;
+      }
+
+      function moveMarker(link: HTMLAnchorElement, shouldFadeIn: boolean) {
+        const bracketGap = 6;
+        const tocRect = toc.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        const lineRects = getVisibleTextLineRects(link, linkRect);
+        const lastLineRect = lineRects[lineRects.length - 1] ?? linkRect;
+        const styles = window.getComputedStyle(link);
+        const lineHeight = Number.parseFloat(styles.lineHeight) || 20;
+        const paddingTop = Number.parseFloat(styles.paddingTop) || 0;
+        const firstLineY = linkRect.top - tocRect.top + paddingTop;
+        const lastLineY = firstLineY + (Math.max(lineRects.length, 1) - 1) * lineHeight;
+        const closeX = Math.min(
+          lastLineRect.right - tocRect.left + bracketGap,
+          linkRect.right - tocRect.left - bracketGap,
+        );
+
+        if (shouldFadeIn) {
+          delete toc.dataset.tocReady;
+        }
+
+        toc.style.setProperty("--toc-open-x", `${linkRect.left - tocRect.left}px`);
+        toc.style.setProperty("--toc-open-y", `${firstLineY}px`);
+        toc.style.setProperty("--toc-close-x", `${closeX}px`);
+        toc.style.setProperty("--toc-close-y", `${lastLineY}px`);
+
+        if (shouldFadeIn) {
+          marker.getBoundingClientRect();
+        }
+
+        toc.dataset.tocReady = "true";
+      }
+
+      function clearActive() {
+        activeTarget = null;
+        delete toc.dataset.tocReady;
+
+        links.forEach((link) => {
+          link.dataset.active = "false";
+          link.removeAttribute("aria-current");
+        });
+      }
+
+      function setActive(nextTarget: TocTarget) {
+        const shouldFadeIn = activeTarget === null;
+        activeTarget = nextTarget;
+
+        links.forEach((link) => {
+          const isActive = link === nextTarget.link;
+          link.dataset.active = isActive ? "true" : "false";
+
+          if (isActive) {
+            link.setAttribute("aria-current", "location");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+
+        moveMarker(nextTarget.link, shouldFadeIn);
+      }
+
+      function findActiveTarget() {
+        const activationOffset = Math.max(window.innerHeight * 0.24, 140);
+        const firstTarget = targets[0];
+        let nextTarget: TocTarget | null =
+          firstTarget.target.getBoundingClientRect().top <= window.innerHeight
+            ? firstTarget
+            : null;
+
+        targets.forEach((target) => {
+          if (target.target.getBoundingClientRect().top <= activationOffset) {
+            nextTarget = target;
+          }
+        });
+
+        const pageBottom = window.scrollY + window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        if (nextTarget && pageBottom >= documentHeight - 8) {
+          nextTarget = targets[targets.length - 1];
+        }
+
+        return nextTarget;
+      }
+
+      function updateActiveTarget() {
+        frame = 0;
+        const nextTarget = findActiveTarget();
+
+        if (!nextTarget) {
+          if (activeTarget) {
+            clearActive();
+          }
+          return;
+        }
+
+        if (nextTarget !== activeTarget) {
+          setActive(nextTarget);
+        } else {
+          moveMarker(nextTarget.link, false);
+        }
+      }
+
+      function requestUpdate() {
+        if (frame) {
+          return;
+        }
+
+        frame = window.requestAnimationFrame(updateActiveTarget);
+      }
+
+      updateActiveTarget();
+      window.addEventListener("scroll", requestUpdate, {
+        passive: true,
+        signal: abortController.signal,
+      });
+      window.addEventListener("resize", requestUpdate, {
+        signal: abortController.signal,
+      });
+      document.addEventListener("astro:before-swap", () => abortController.abort(), {
+        once: true,
+        signal: abortController.signal,
+      });
+    });
+  }
+
+  setupBlogTableOfContents();
+  document.addEventListener("astro:page-load", setupBlogTableOfContents);
+</script>

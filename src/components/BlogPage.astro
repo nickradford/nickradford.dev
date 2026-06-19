@@ -5,14 +5,17 @@ import ByLine from "./ByLine.astro";
 import AtomLink from "./AtomLink.astro";
 import DecodeText from "./DecodeText";
 import ChangelogGrid from "./ChangelogGrid.astro";
+import BlogTableOfContents from "./BlogTableOfContents.astro";
 
+import type { MarkdownHeading } from "astro";
 import type { BlogPost } from "../lib/content";
 
 interface Props {
   meta: BlogPost;
+  headings?: MarkdownHeading[];
 }
 
-const { meta } = Astro.props as Props;
+const { meta, headings = [] } = Astro.props as Props;
 
 const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100 prose-blockquote:border-s-orange prose-hr:border-orange/25 dark:prose-hr:border-zinc-700`;
 ---
@@ -26,7 +29,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
         <BackButton />
         <div class="mb-8 space-y-4">
           <div class="relative">
-            <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            <h1 id="post-title" class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
               {meta.title}
             </h1>
             <div
@@ -69,7 +72,9 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
           <slot />
         </div>
       </div>
-      <div class="flex-1 hidden md:block"></div>
+      <div class="flex-1 hidden md:block px-6 py-4 md:py-8">
+        <BlogTableOfContents headings={headings} />
+      </div>
     </div>
   </article>
 </Page>

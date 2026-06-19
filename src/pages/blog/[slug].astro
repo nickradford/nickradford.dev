@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const entry = await getEntry("blog", slug);
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
 ---
 
@@ -33,6 +33,7 @@ const readingTime = calculateReadingTime(entry.body);
       excerpt: "",
       readingTime,
     }}
+    headings={headings}
   >
     <div data-pagefind-body>
       <Content components={{ ImageGallery }} />
