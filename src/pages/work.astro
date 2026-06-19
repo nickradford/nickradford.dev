@@ -468,6 +468,38 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       animation-delay: var(--detail-delay, 0ms);
     }
 
+    .work-detail.is-animating {
+      transition:
+        grid-template-rows 180ms ease,
+        opacity 120ms ease;
+    }
+
+    .work-detail.is-animating .work-detail-inner {
+      transition: padding-top 180ms ease;
+    }
+
+    .work-detail.is-animating .work-detail-item {
+      transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+    }
+
+    .work-detail.is-animating.is-expanded {
+      transition:
+        grid-template-rows 220ms ease-out,
+        opacity 120ms ease-out;
+      transition-delay: 0ms;
+    }
+
+    .work-detail.is-animating.is-expanded .work-detail-inner {
+      transition-delay: 0ms;
+    }
+
+    .work-detail.is-animating.is-expanded .work-detail-item {
+      animation: detail-item-in 220ms ease-out both;
+      animation-delay: 0ms;
+    }
+
     .work-history.is-initial-render .work-detail,
     .work-history.is-initial-render .work-detail-inner,
     .work-history.is-initial-render .work-detail.is-expanded,
@@ -566,9 +598,12 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       .work-detail.is-expanded,
       .work-history.is-animating .work-detail,
       .work-history.is-animating .work-detail.is-expanded,
+      .work-detail.is-animating,
+      .work-detail.is-animating.is-expanded,
       .work-detail-item,
       .work-detail.is-expanded .work-detail-item,
-      .work-history.is-animating .work-detail.is-expanded .work-detail-item {
+      .work-history.is-animating .work-detail.is-expanded .work-detail-item,
+      .work-detail.is-animating.is-expanded .work-detail-item {
         animation: none;
         transition: none;
       }
@@ -584,6 +619,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     const WORK_VIEW_STORAGE_KEY = "work-view";
     const WORK_VIEW_COOKIE_NAME = "work-view";
     const WORK_VIEW_ANIMATION_MS = 1300;
+    const WORK_DETAIL_ANIMATION_MS = 360;
 
     function getRenderedWorkView() {
       return document
@@ -609,6 +645,13 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           history.classList.remove("is-animating");
         }, WORK_VIEW_ANIMATION_MS);
       });
+    }
+
+    function animateWorkDetail(detail: HTMLElement) {
+      detail.classList.add("is-animating");
+      window.setTimeout(() => {
+        detail.classList.remove("is-animating");
+      }, WORK_DETAIL_ANIMATION_MS);
     }
 
     function initWorkViewToggle() {
@@ -711,11 +754,8 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
         rowToggle.addEventListener("click", () => {
           const expanded = !detail.classList.contains("is-expanded");
           const row = rowToggle.closest<HTMLElement>(".work-row");
-          const history = rowToggle.closest<HTMLElement>("[data-work-history]");
 
-          if (expanded && history) {
-            animateWorkHistory([history]);
-          }
+          animateWorkDetail(detail);
 
           detail.classList.toggle("is-expanded", expanded);
           row?.classList.toggle("is-expanded", expanded);
