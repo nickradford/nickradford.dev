@@ -1,0 +1,69 @@
+---
+import type { BlogPost } from "../../lib/content";
+import { formatDate } from "../../lib/format-date";
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="w-full">
+  <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+    <div class="hidden md:flex flex-1"></div>
+    <div class="max-w-4xl w-full overflow-x-auto">
+      <table class="w-full border-collapse text-left">
+        <thead class="border-b border-orange/20 dark:border-zinc-800">
+          <tr class="font-geist-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+            <th class="px-8 py-3 font-medium md:pl-16">Date</th>
+            <th class="px-4 py-3 font-medium">Title</th>
+            <th class="px-4 py-3 font-medium">Tags</th>
+            <th class="px-8 py-3 text-right font-medium md:pr-16">Read</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-orange/20 dark:divide-zinc-800">
+          {
+            posts.map((post) => (
+              <tr class="group transition-colors hover:bg-orange/5 dark:hover:bg-zinc-900/40">
+                <td class="whitespace-nowrap px-8 py-3 align-top font-geist-mono text-xs text-orange/75 md:pl-16 dark:text-zinc-500">
+                  {formatDate(post.date, { dateStyle: "medium" })}
+                </td>
+                <td class="px-4 py-3 align-top">
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="font-geist-mono text-sm font-bold text-zinc-900 no-underline transition-colors group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange"
+                  >
+                    {post.title}
+                  </a>
+                  <p class="mt-1 max-w-xl text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                    {post.excerpt}
+                  </p>
+                </td>
+                <td class="px-4 py-3 align-top">
+                  <div class="flex max-w-44 flex-wrap gap-1.5">
+                    {(post.tags ?? []).length > 0 ? (
+                      post.tags?.map((tag) => (
+                        <span class="font-geist-mono text-[11px] text-zinc-500 dark:text-zinc-500">
+                          {tag}
+                        </span>
+                      ))
+                    ) : (
+                      <span class="font-geist-mono text-xs text-zinc-400 dark:text-zinc-600">
+                        -
+                      </span>
+                    )}
+                  </div>
+                </td>
+                <td class="whitespace-nowrap px-8 py-3 text-right align-top font-geist-mono text-xs text-zinc-500 md:pr-16 dark:text-zinc-500">
+                  {post.readingTime.text}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="hidden md:flex flex-1"></div>
+  </div>
+</div>

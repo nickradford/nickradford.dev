@@ -2,11 +2,11 @@
 export const prerender = true;
 import Base from "../../layouts/BaseLayout.astro";
 import Text from "../../components/Text.astro";
-import BlogPostPreview from "../../components/BlogPostPreview.astro";
 import Page from "../../components/Page.astro";
 import { DecodeText } from "../../components/DecodeText";
 import PageHeader from "../../components/PageHeader.astro";
 import { getLatestPosts } from "../../lib/get-latest-posts";
+import BlogArchiveList from "../../components/BlogArchiveList.astro";
 const description = `From pixels to pipelines – with detours into creativity and daily discipline.`;
 const { posts } = await getLatestPosts();
 ---
@@ -25,19 +25,9 @@ const { posts } = await getLatestPosts();
       </PageHeader>
 
       {/* Blog Posts Section */}
-      <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
-        {
-          posts.map((post, index) => (
-            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-              <div class="flex-1" />
-              <div class="max-w-4xl w-full">
-                <BlogPostPreview post={post} lastPost={index === posts.length - 1} />
-              </div>
-              <div class="flex-1" />
-            </div>
-          ))
-        }
-      </div>
+      <section class="w-full border-b border-orange/20 dark:border-zinc-800">
+        <BlogArchiveList posts={posts} />
+      </section>
     </article>
   </Page>
 </Base>

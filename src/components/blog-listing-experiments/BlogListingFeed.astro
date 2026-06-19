@@ -1,0 +1,24 @@
+---
+import BlogPostPreview from "../BlogPostPreview.astro";
+import type { BlogPost } from "../../lib/content";
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+  {
+    posts.map((post, index) => (
+      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+        <div class="flex-1" />
+        <div class="max-w-4xl w-full">
+          <BlogPostPreview post={post} lastPost={index === posts.length - 1} />
+        </div>
+        <div class="flex-1" />
+      </div>
+    ))
+  }
+</div>

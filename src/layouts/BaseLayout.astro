@@ -93,7 +93,6 @@ const socialImageUrl = new URL(
   >
     <div class="flex flex-col items-center w-full min-h-fill-available flex-1">
       <Nav transition:persist />
-      {import.meta.env.DEV && <AgentationDev client:only="react" />}
       <slot />
       <script
         defer
@@ -190,5 +189,6 @@ const socialImageUrl = new URL(
         document.addEventListener("astro:page-load", updateActiveLinks);
       </script>
     </div>
+    {import.meta.env.DEV && <AgentationDev client:only="react" />}
   </body>
 </html>

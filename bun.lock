@@ -47,6 +47,7 @@
         "@types/react": "^18.3.27",
         "@types/react-dom": "^18.3.7",
         "@types/sanitize-html": "^2.16.0",
+        "@whichly/astro": "^1.0.1",
         "husky": "^8.0.0",
         "pagefind": "^1.4.0",
         "puppeteer": "^24.31.0",
@@ -749,6 +750,10 @@
     "@vscode/emmet-helper": ["@vscode/emmet-helper@2.11.0", "", { "dependencies": { "emmet": "^2.4.3", "jsonc-parser": "^2.3.0", "vscode-languageserver-textdocument": "^1.0.1", "vscode-languageserver-types": "^3.15.1", "vscode-uri": "^3.0.8" } }, "sha512-QLxjQR3imPZPQltfbWRnHU6JecWTF1QSWhx3GAKQpslx7y3Dp6sIIXhKjiUJ/BR9FX8PVthjr9PD6pNwOJfAzw=="],
 
     "@vscode/l10n": ["@vscode/l10n@0.0.18", "", {}, "sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ=="],
+
+    "@whichly/astro": ["@whichly/astro@1.0.1", "", { "dependencies": { "@whichly/core": "1.0.0" }, "peerDependencies": { "astro": "^4.0.0 || ^5.0.0 || ^6.0.0" } }, "sha512-wny/J0SLpNH9EZPJpZSjQvt7WD6iYH8SmBVLroVcGsrkLr/9uP9To1h+Ent5CxUZ654ieU6Fre/J+Ri+lJXXwA=="],
+
+    "@whichly/core": ["@whichly/core@1.0.0", "", {}, "sha512-LMpVXv0x9Pz5oj5vN/qH+FQ7yU8LE0RPFJJDe5UvxKzh16fqNTyWnopNac44PxcZLPxJ/YW96TOk27ypVnufPQ=="],
 
     "abbrev": ["abbrev@3.0.1", "", {}, "sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg=="],
 

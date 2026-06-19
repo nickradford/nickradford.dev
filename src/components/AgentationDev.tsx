@@ -5,11 +5,19 @@ export default function AgentationDev() {
   const [Agentation, setAgentation] = useState<ComponentType | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     if (import.meta.env.DEV) {
       import("agentation").then((mod) => {
-        setAgentation(() => mod.Agentation);
+        if (mounted) {
+          setAgentation(() => mod.Agentation);
+        }
       });
     }
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   if (!Agentation) return null;
