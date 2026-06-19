@@ -13,7 +13,7 @@ const { posts } = Astro.props;
   {
     posts.map((post) => (
       <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="hidden md:flex flex-1"></div>
+        <div class="site-left-rail hidden md:flex"></div>
         <a
           href={`/blog/${post.slug}`}
           class="group grid max-w-4xl w-full gap-3 px-8 py-4 no-underline transition-colors hover:bg-orange/5 md:grid-cols-[8.5rem_minmax(0,1fr)_5.5rem] md:px-16 dark:hover:bg-zinc-900/40"
@@ -33,7 +33,7 @@ const { posts } = Astro.props;
             {post.readingTime.text}
           </span>
         </a>
-        <div class="hidden md:flex flex-1"></div>
+        <div class="site-right-rail hidden md:flex"></div>
       </div>
     ))
   }

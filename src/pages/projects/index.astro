@@ -41,7 +41,7 @@ const projects = [
         {
           projects.map((project, index) => (
             <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-              <div class="flex-1" />
+              <div class="site-left-rail" />
               <div class="max-w-4xl w-full">
                 <ProjectPreview
                   project={{
@@ -55,7 +55,7 @@ const projects = [
                   lastProject={index === projects.length - 1}
                 />
               </div>
-              <div class="flex-1" />
+              <div class="site-right-rail" />
             </div>
           ))
         }

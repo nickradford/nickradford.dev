@@ -11,7 +11,6 @@ import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
 import AgentationDev from "../components/AgentationDev.tsx";
 import { getOgImageUrl } from "../lib/og";
-import { ThemeScript } from "astro-theme-toggle/components"
 import { ClientRouter } from "astro:transitions";
 
 type Props = {
@@ -45,6 +44,16 @@ const socialImageUrl = new URL(
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+    <script is:inline>
+      if (window.location.hash) {
+        document.documentElement.dataset.initialHashScroll = "true";
+      }
+    </script>
+    <style is:inline>
+      html[data-initial-hash-scroll="true"] body {
+        visibility: hidden;
+      }
+    </style>
     <!-- other meta tags -->
     <meta property="og:image" content={socialImageUrl} />
     <meta property="og:image:width" content="1200" />
@@ -85,7 +94,50 @@ const socialImageUrl = new URL(
       src="https://analytics.ahrefs.com/analytics.js"
       data-key="3J+Xlk9VXb7hR1h9xaoxeQ"
       async></script>
-    <ThemeScript />
+    <script is:inline>
+      (() => {
+        const storageKey = "theme-toggle";
+        let currentTheme;
+
+        function getStoredTheme() {
+          const theme = localStorage.getItem(storageKey);
+          return theme === "dark" || theme === "light" ? theme : null;
+        }
+
+        function getTheme() {
+          return currentTheme || getStoredTheme() || "dark";
+        }
+
+        function setStoredTheme(theme) {
+          if (theme === "dark") {
+            localStorage.removeItem(storageKey);
+          } else {
+            localStorage.setItem(storageKey, theme);
+          }
+        }
+
+        function setStyle(theme) {
+          const root = document.documentElement;
+          root.classList.toggle("dark", theme === "dark");
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        }
+
+        function setTheme(theme) {
+          currentTheme = theme;
+          setStoredTheme(theme);
+          setStyle(theme);
+        }
+
+        function setupTheme() {
+          setTheme(getTheme());
+        }
+
+        setupTheme();
+        document.addEventListener("astro:after-swap", setupTheme);
+        window.astroThemeToggle = { setTheme, getTheme };
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body
@@ -94,6 +146,40 @@ const socialImageUrl = new URL(
     <div class="flex flex-col items-center w-full min-h-fill-available flex-1">
       <Nav transition:persist />
       <slot />
+      <script is:inline>
+        (function () {
+          if (!document.documentElement.dataset.initialHashScroll) {
+            return;
+          }
+
+          var targetId = decodeURIComponent(window.location.hash.slice(1));
+          var target = document.getElementById(targetId);
+
+          if (!target) {
+            delete document.documentElement.dataset.initialHashScroll;
+            return;
+          }
+
+          function scrollToTarget() {
+            var scrollPaddingTop =
+              parseFloat(
+                window.getComputedStyle(document.documentElement).scrollPaddingTop,
+              ) || 0;
+            var top =
+              target.getBoundingClientRect().top + window.scrollY - scrollPaddingTop;
+
+            window.scrollTo(0, top);
+          }
+
+          scrollToTarget();
+          window.requestAnimationFrame(function () {
+            scrollToTarget();
+            window.requestAnimationFrame(function () {
+              delete document.documentElement.dataset.initialHashScroll;
+            });
+          });
+        })();
+      </script>
       <script
         defer
         is:inline
@@ -182,11 +268,72 @@ const socialImageUrl = new URL(
           }
         }
 
+        function enableSmoothScrollAfterInitialPosition() {
+          delete document.documentElement.dataset.smoothScroll;
+
+          const enableSmoothScroll = () => {
+            document.documentElement.dataset.smoothScroll = "true";
+          };
+
+          const revealPage = () => {
+            delete document.documentElement.dataset.initialHashScroll;
+          };
+
+          if (!window.location.hash) {
+            revealPage();
+            enableSmoothScroll();
+            return;
+          }
+
+          const scrollToHashTarget = () => {
+            const targetId = decodeURIComponent(window.location.hash.slice(1));
+            const target = document.getElementById(targetId);
+
+            if (!target) {
+              return false;
+            }
+
+            const scrollPaddingTop =
+              Number.parseFloat(
+                window.getComputedStyle(document.documentElement).scrollPaddingTop,
+              ) || 0;
+            const top =
+              target.getBoundingClientRect().top + window.scrollY - scrollPaddingTop;
+
+            window.scrollTo({ top, behavior: "auto" });
+            return true;
+          };
+
+          const hashTargetFound = scrollToHashTarget();
+
+          if (!hashTargetFound) {
+            revealPage();
+            enableSmoothScroll();
+            return;
+          }
+
+          window.requestAnimationFrame(() => {
+            scrollToHashTarget();
+            window.requestAnimationFrame(() => {
+              revealPage();
+              enableSmoothScroll();
+            });
+          });
+        }
+
         // Initial update on page load
         updateActiveLinks();
+        enableSmoothScrollAfterInitialPosition();
 
         // Update on navigation
         document.addEventListener("astro:page-load", updateActiveLinks);
+        document.addEventListener(
+          "astro:page-load",
+          enableSmoothScrollAfterInitialPosition,
+        );
+        document.addEventListener("astro:before-preparation", () => {
+          delete document.documentElement.dataset.smoothScroll;
+        });
       </script>
     </div>
     {import.meta.env.DEV && <AgentationDev client:only="react" />}

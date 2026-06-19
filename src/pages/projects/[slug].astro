@@ -25,7 +25,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
   <Page>
     <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
       <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="flex-1 hidden md:block pt-8"></div>
+        <div class="site-left-rail hidden md:block pt-8"></div>
         <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
           <BackButton />
           <div class="mb-8 space-y-4">
@@ -66,13 +66,13 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
             </div>
           </div>
         </div>
-        <div class="flex-1 hidden md:block pt-8"></div>
+        <div class="site-right-rail hidden md:block pt-8"></div>
       </div>
 
       {
         entry.data.screenshots.length > 0 && (
           <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-            <div class="flex-1 hidden md:block" />
+            <div class="site-left-rail hidden md:block" />
             <div class="max-w-4xl w-full px-8 md:px-16 py-8">
               <div class="grid grid-cols-1 gap-4">
                 {entry.data.screenshots.map((src) => (
@@ -85,19 +85,19 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
                 ))}
               </div>
             </div>
-            <div class="flex-1 hidden md:block" />
+            <div class="site-right-rail hidden md:block" />
           </div>
         )
       }
 
       <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
-        <div class="flex-1 hidden md:block"></div>
+        <div class="site-left-rail hidden md:block"></div>
         <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-8 pb-12">
           <div class={articleClasses} data-pagefind-body>
             <Content components={{ ImageGallery }} />
           </div>
         </div>
-        <div class="flex-1 hidden md:block"></div>
+        <div class="site-right-rail hidden md:block"></div>
       </div>
     </article>
   </Page>

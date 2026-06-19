@@ -22,6 +22,27 @@
 }
 
 @layer utilities {
+  .site-left-rail {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .site-right-rail {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    .site-left-rail {
+      flex: 0 0 clamp(3rem, 6.75vw, 6.25rem);
+      max-width: clamp(3rem, 6.75vw, 6.25rem);
+    }
+
+    .site-right-rail {
+      flex: 1 1 auto;
+    }
+  }
+
   .min-h-fill-available {
     min-height: 100vh;
   }
@@ -69,11 +90,21 @@ mark {
 }
 
 html {
-  @apply scroll-smooth font-geist;
+  @apply font-geist;
   scroll-padding-top: 100px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+html[data-smooth-scroll="true"] {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-smooth-scroll="true"] {
+    scroll-behavior: auto;
+  }
 }
 
 h1,
@@ -107,6 +138,51 @@ pre {
   overflow-x: auto;
 }
 
+.code-block-wrapper {
+  position: relative;
+  margin-block: 1.75em;
+}
+
+.code-block-wrapper > pre {
+  margin-block: 0;
+  white-space: pre-wrap;
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+  border: 1px solid rgb(82 82 91 / 0.85);
+  border-radius: 0.375rem;
+  background: rgb(24 24 27 / 0.88);
+  color: rgb(244 244 245);
+  padding: 0.25rem 0.625rem;
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.code-copy-button:hover {
+  border-color: var(--color-orange);
+  background: rgb(39 39 42 / 0.95);
+}
+
+.code-copy-button:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+.code-copy-button[data-copied="true"] {
+  border-color: rgb(52 211 153 / 0.75);
+  color: rgb(209 250 229);
+}
+
 .rehype-code-title:has(+ pre) + pre {
   @apply !rounded-t-none;
 }
@@ -122,6 +198,7 @@ pre {
 
 .code-line {
   display: flex;
+  min-height: 1.6rem;
   padding-inline: 1em;
   margin-inline: -16px;
   border-left: 4px solid rgba(0, 0, 0, 0);
@@ -152,6 +229,15 @@ pre {
   margin-left: -8px;
   color: rgb(156, 163, 175);
   content: attr(line);
+}
+
+pre[data-language="text"] .line-number::before {
+  display: none;
+  content: none;
+}
+
+pre[data-language="text"] .code-line .line {
+  padding-left: 0;
 }
 
 .astro-code {

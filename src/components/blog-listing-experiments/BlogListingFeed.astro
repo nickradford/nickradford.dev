@@ -13,11 +13,11 @@ const { posts } = Astro.props;
   {
     posts.map((post, index) => (
       <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="flex-1" />
+        <div class="site-left-rail" />
         <div class="max-w-4xl w-full">
           <BlogPostPreview post={post} lastPost={index === posts.length - 1} />
         </div>
-        <div class="flex-1" />
+        <div class="site-right-rail" />
       </div>
     ))
   }
