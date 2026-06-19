@@ -3,12 +3,13 @@ import Base from "../../layouts/BaseLayout.astro";
 import BlogPage from "../../components/BlogPage.astro";
 import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime, toExcerpt } from "../../lib/content";
+import { getOgImageUrl } from "../../lib/og";
 import ImageGallery from "src/components/mdx/ImageGallery.astro";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
   return posts.map((p) => ({ params: { slug: p.slug } }));
 }
 
@@ -16,13 +17,40 @@ const { slug } = Astro.params;
 const entry = await getEntry("blog", slug);
 const { Content, headings } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
+const pageTitle = entry.data.seoTitle ?? entry.data.title;
+const pageDescription = entry.data.description ?? toExcerpt(entry.body);
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(`/blog/${entry.slug}`, siteUrl).toString();
+const socialImageUrl = new URL(
+  getOgImageUrl(`/og/${entry.slug}.png`),
+  siteUrl,
+).toString();
+const blogPostingStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: pageTitle,
+  description: pageDescription,
+  image: socialImageUrl,
+  datePublished: entry.data.date.toISOString(),
+  dateModified: (entry.data.lastUpdated ?? entry.data.date).toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Nick Radford",
+    url: "https://nickradford.dev",
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalUrl,
+  },
+};
 ---
 
 <Base
-  title={entry.data.title}
+  title={pageTitle}
   og={`/og/${slug}.png`}
-  description={toExcerpt(entry.body)}
+  description={pageDescription}
   type="article"
+  structuredData={blogPostingStructuredData}
 >
   <BlogPage
     meta={{

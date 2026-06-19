@@ -19,6 +19,7 @@ type Props = {
   og?: string;
   type?: string;
   noindex?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 };
 
 const {
@@ -27,9 +28,17 @@ const {
   og = undefined,
   type = "website",
   noindex = false,
+  structuredData = undefined,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const structuredDataItems = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
+const serializeStructuredData = (data: Record<string, unknown>) =>
+  JSON.stringify(data).replace(/</g, "\\u003c");
 const socialImagePath = getOgImageUrl(og ?? "/og/nick-radford-dot-dev.png");
 const socialImageUrl = new URL(
   socialImagePath,
@@ -91,6 +100,15 @@ const socialImageUrl = new URL(
     {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="author" href="https://nickradford.dev" />
+    {
+      structuredDataItems.map((item) => (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={serializeStructuredData(item)}
+        />
+      ))
+    }
     <script
       is:inline
       src="https://analytics.ahrefs.com/analytics.js"

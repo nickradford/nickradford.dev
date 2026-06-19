@@ -24,6 +24,8 @@ type ChangelogEntry = {
 
 export type BlogPost = {
   title: string;
+  seoTitle?: string;
+  description?: string;
   date: Date;
   slug: string;
   excerpt: string;
