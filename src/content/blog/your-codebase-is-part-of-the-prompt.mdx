@@ -1,0 +1,351 @@
+---
+title: Your Codebase Is Part of the Prompt
+draft: false
+date: 2026-06-19
+tags: []
+---
+If you’ve ever typed “bro wtf are you thinking” into Cursor, Claude Code, Amp, ChatGPT, or whatever agent you’re using this week, this post is for you.
+
+You ask for one little change.
+
+The agent nods along, burns a bunch of tokens, confidently edits the wrong file, updates a component you did not ask it to touch, and then explains its work like it just solved cold fusion.
+
+Cool. Great. Very helpful.
+
+Sometimes the agent is just wrong. That happens. These tools are useful, but they are still weird little statistical goblins with terminal access.
+
+But sometimes the problem is not entirely the agent.
+
+Sometimes your codebase is speaking five different dialects at once, and the agent is trying to guess which one you meant.
+
+## DDD has a name for this
+
+I’ve only recently started reading the original Domain-Driven Design book by Eric Evans, so I’m not coming at this as a DDD expert. I’m not here to cosplay as an enterprise architect or convince you to name a class `UserEntityFactoryServiceProviderImplementation`.
+
+Please, no.
+
+But DDD has a concept called **ubiquitous language**, and the basic idea is pretty simple: the people building the software should use the same language as the people thinking about the domain.
+
+That language should show up everywhere.
+
+In conversation. In code. In tests. In docs. In tickets. In function names. In database tables. In the UI when it makes sense.
+
+If the business calls something a `Subscription`, the code probably shouldn’t call it a `Plan`, `Membership`, `AccountType`, and `BillingThing` depending on which folder you happen to be in.
+
+That sounds obvious, but obvious things are where software likes to quietly rot.
+
+Before AI coding tools, ubiquitous language was already useful because humans need to communicate clearly. I’ve been on teams where we had some kind of `glossary.md`, or a Confluence page, or an onboarding doc that tried to define the important terms in the system.
+
+Those docs almost always got stale.
+
+Classic Confluence behavior. A digital filing cabinet where good intentions go to become archaeology.
+
+But the instinct was right. Shared language helps teams move faster because they spend less time translating between each other. It removes ambiguity. It makes design discussions less fuzzy. It gives people a way to point at the same concept and say, “yes, that thing.”
+
+Now there’s another reader in the room.
+
+The agent.
+
+## Your codebase is part of the prompt
+
+When you ask an AI coding agent to do something, your chat message is only part of the prompt.
+
+The rest of the prompt is the codebase.
+
+The files it opens. The filenames it greps. The types it sees. The components near the one you mentioned. The tests. The comments. The routes. The database schema. The docs you forgot about. The weird old helper function named `processData` that everyone is afraid to delete.
+
+All of it is context.
+
+All of it is telling the agent what kind of system this is and what words mean inside it.
+
+So if your prompt says one thing, but your codebase says three slightly different things, the agent has to guess.
+
+And inference is not free.
+
+It costs tokens. It costs time. It costs usage limits. It costs money. More importantly, it costs trust, because now you’re reading a diff thinking, “why did you touch that?”
+
+Good prompts are good. Great prompts are better. But if your codebase is contradicting your prompt, the agent is going to listen to both.
+
+## The email / message / thread / conversation problem
+
+Here’s a generalized version of something I ran into while building an inbox-ish product.
+
+Let’s say you’re building a system where people send emails back and forth.
+
+At first, you might use whatever word feels right in the moment.
+
+- `email`
+- `message`
+- `thread`
+- `conversation`
+- `template`
+
+This is extremely normal. You’re moving fast. You’re figuring out what the app is. You don’t want to stop every 12 minutes to hold a little naming ceremony.
+
+But after a while, the drift starts to matter.
+
+Maybe `email` sometimes means one sent message between two people.
+
+Maybe `email` also means a React Email template used by your system to generate outbound mail.
+
+Maybe `thread` and `conversation` are the same thing, except one part of the code says `threadId` and another says `conversationId`.
+
+Maybe `message` usually means one item inside a conversation, but in one API route it means the raw payload from your email provider.
+
+Humans can paper over this with memory and vibes.
+
+Your agent cannot.
+
+If one day you ask:
+
+> Can we reduce the fetch interval for new conversations from 60s to 30s?
+
+That request works a lot better when `Conversation` is a real concept in the codebase.
+
+If the code actually uses `conversation` in the filenames, types, functions, and tests, the agent has a clear search path. It can grep for `conversation`, find the relevant polling code, inspect the right files, and make the change.
+
+If the codebase uses `email`, `thread`, `message`, and `conversation` interchangeably, now the agent has to wander around like it lost its keys.
+
+It might search for `conversation` and find almost nothing.
+
+Then search for `thread`.
+
+Then find a file called `email-polling.ts`.
+
+Then inspect a `MessageList` component.
+
+Then modify the wrong interval because, honestly, what the hell is the difference between all these nouns?
+
+That is language drift turning into agent drift.
+
+## The smell
+
+The smell is pretty simple:
+
+> Multiple words for the same concept, or one word doing too many jobs.
+
+A few examples:
+
+- `user`, `customer`, `client`, and `account` all seem to mean the same person.
+- `email`, `message`, `thread`, and `conversation` are used interchangeably.
+- `status` means payment status in one file, onboarding status in another, and delivery status somewhere else.
+- `processOrder` might mean validate the order, charge the card, create the shipment, send a notification, or summon a demon. Who knows.
+
+This stuff is annoying for humans.
+
+It is brutal for agents.
+
+The agent does not have the team’s tribal knowledge. It does not remember that “client” is what the sales team says, “customer” is what the UI says, and `User` is what the database says because someone generated the auth schema three years ago and everyone just went with it.
+
+It sees text.
+
+It infers patterns.
+
+It follows names.
+
+If your names are fuzzy, the agent’s plan is probably going to be fuzzy too.
+
+## Naming is design, not polish
+
+There’s a temptation to treat naming as cleanup work.
+
+Like, sure, maybe `handleSubmit2` is not ideal, but we’ll rename it later. The important thing is that it works.
+
+And yeah, sometimes that’s fine. I am not suggesting you stop mid-flow every time you can’t find the perfect noun. That way lies madness.
+
+But naming is not just polish.
+
+Naming is design.
+
+When you choose a name, you are deciding what concepts exist in your system. You are drawing boundaries around them. You are telling future you, your teammates, and now your AI agents how to think about the thing.
+
+`updateUserStatus` could mean almost anything.
+
+`ExpireTrial` is more specific.
+
+`handlePayment` is mushy.
+
+`CapturePayment` or `RefundPayment` or `MarkInvoicePastDue` tells me what is actually happening.
+
+This is especially useful with agents because a precise name narrows the search space. It gives the model fewer reasonable interpretations. It makes the next action more obvious.
+
+A vague name gives the agent room to improvise.
+
+And if there is one thing I would like my coding agent to do less of, it is improvising in production-shaped code.
+
+## This is not about a glossary
+
+A lot of teams try to solve this with a glossary.
+
+I’ve done this too. Make a `glossary.md`. Put some definitions in it. Feel responsible and mature for about 11 minutes.
+
+Then six months later, the glossary says `Subscriber`, the code says `User`, `Customer`, and `AccountHolder`, and the only person who remembers why has left the company to raise goats or join an AI startup. Possibly both.
+
+A glossary can be useful.
+
+But the glossary is not the point.
+
+The codebase is the thing the agent is going to read. The codebase is the thing future you is going to search. The codebase is where the language either becomes real or quietly dissolves into soup.
+
+So I like `domain.md` as a starting point, but not as the source of truth.
+
+`domain.md` is scaffolding.
+
+It helps you notice the drift. It helps you write down the current mess. It helps you decide what the canonical terms should be.
+
+But the win is not “we have a doc now.”
+
+The win is that the doc gives you a path to make the code, tests, docs, prompts, and conversations use the same language.
+
+That is the actual ubiquitous language enlightenment.
+
+Or at least like, step one on the path. I don’t know if Eric Evans hands out a sash or anything.
+
+## Run a domain language audit
+
+Here’s the practical thing I’d do if you’re working in a codebase that feels a little haunted.
+
+Ask your agent to audit the domain language before you ask it to refactor everything.
+
+Do not start with “fix all the names.” That is how you summon a 4,000 line diff and a new dependency for some reason.
+
+Ask your agent something like this:
+
+```text
+Audit this codebase for domain language drift.
+
+Look for cases where:
+- multiple terms appear to refer to the same domain concept
+- one term is overloaded to mean different concepts
+- filenames, types, functions, tests, docs, routes, database tables, or UI copy use inconsistent language
+
+For each issue:
+1. Name the suspected domain concept.
+2. List the competing terms currently used.
+3. Show representative examples from the codebase.
+4. Explain why the ambiguity could confuse a human or AI coding agent.
+5. Propose a canonical term.
+6. Suggest a safe, incremental refactoring plan.
+
+Do not make changes yet. First produce the audit and proposed vocabulary.
+```
+
+The last line matters.
+
+Do not make changes yet.
+
+Make the agent look first. Make it show you the map. Then decide what to do.
+
+Once you have the audit, write a tiny `domain.md` if that helps. It does not need to be fancy.
+
+For the email-ish example, it might be:
+
+```md
+# Domain Language
+
+## Conversation
+
+A collection of messages grouped around one interaction.
+
+Use: `Conversation`, `conversationId`, `fetchConversations`
+Avoid: `Thread`, unless it becomes a distinct provider-specific concept.
+
+## Message
+
+One communication sent from one person to another inside a conversation.
+
+Use: `Message`, `messageId`, `MessageList`
+Avoid: `Email` when referring to a user-visible message.
+
+## EmailTemplate
+
+A system template used to generate outbound email.
+
+Use: `EmailTemplate`, `renderEmailTemplate`
+Avoid: naked `Email` when referring to templates.
+```
+
+This is not perfect. It does not need to be.
+
+The goal is to give yourself and the agent a clear set of nouns to move toward.
+
+Then refactor gradually.
+
+Rename one folder. Rename one type. Update the tests. Fix the route names when it’s safe. Add a note to your agent instructions. Use the canonical term in your next prompt.
+
+You do not have to boil the ocean. You just need to stop adding more fog.
+
+## Where the language should show up
+
+If the term matters, it should probably show up in more than one place.
+
+Use the same language in:
+
+- File and directory names
+- Types, classes, and interfaces
+- Functions and methods
+- Database tables and columns
+- API routes and payloads
+- Tests and test descriptions
+- Documentation
+- UI copy, when appropriate
+- Agent instructions or project rules
+- Tickets and PR descriptions
+
+The more consistently a term appears, the less the agent has to guess.
+
+And honestly, the less you have to guess too.
+
+That’s the part I think gets missed when people talk about AI coding tools. This is not only about making the machine behave better. It also makes you think better.
+
+If you can clearly say, “a `Message` belongs to a `Conversation`, and `EmailTemplate` is only for system-generated templates,” you understand the system more clearly than if everything is just “email stuff.”
+
+“Email stuff” is how bugs are born.
+
+## Good prompts are still good
+
+To be clear, I’m not saying ubiquitous language replaces prompting skill.
+
+Good prompting still matters.
+
+You should still be specific. You should still give context. You should still say what files matter if you know. You should still define the desired behavior instead of only saying what is broken.
+
+But precise language is part of good prompting.
+
+If your prompt uses the same domain terms as the codebase, you are giving the agent a much better shot at doing the right thing.
+
+Compare:
+
+> Update the email polling logic.
+
+With:
+
+> Reduce the fetch interval for new conversations from 60s to 30s. A Conversation is the domain object that groups Messages between the artist and client. Do not modify EmailTemplate rendering.
+
+The second one is longer, but it is not fluff.
+
+It names the concept. It anchors the concept. It tells the agent what not to confuse it with.
+
+That is not enterprise ceremony. That is just being clear.
+
+## Finally
+
+Agentic coding does not remove the need for software design.
+
+It makes design more visible.
+
+Every vague name, every overloaded concept, every stale doc, every “we call it three different things but everyone knows what we mean” situation is now part of the context your agent reads before it changes your code.
+
+Sometimes that works out.
+
+Sometimes you end up typing “bro wtf are you thinking” into a chat box while staring at a diff that touched the wrong files.
+
+Ubiquitous language is not magic. It will not make agents perfectly reliable. It will not prevent hallucinations or bad plans or the occasional deeply cursed refactor.
+
+But it gives you a way to make your intent easier to understand.
+
+For humans. For agents. For future you at 11:43 PM trying to remember why `thread` and `conversation` are both in the same folder.
+
+Your codebase is part of the prompt.
+
+Make it speak clearly.

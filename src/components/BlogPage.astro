@@ -73,3 +73,84 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
     </div>
   </article>
 </Page>
+
+<script>
+  function createCodeCopyButton() {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "code-copy-button";
+    button.setAttribute("aria-label", "Copy code to clipboard");
+    button.textContent = "Copy";
+
+    return button;
+  }
+
+  function ensureCodeCopyButtons() {
+    document.querySelectorAll<HTMLPreElement>("pre").forEach((pre) => {
+      if (pre.closest(".code-block-wrapper")) {
+        return;
+      }
+
+      const parent = pre.parentNode;
+
+      if (!parent) {
+        return;
+      }
+
+      const previousElement = pre.previousElementSibling;
+      const codeTitle = previousElement?.classList.contains("rehype-code-title")
+        ? previousElement
+        : null;
+      const wrapper = document.createElement("div");
+      wrapper.className = "code-block-wrapper";
+
+      parent.insertBefore(wrapper, codeTitle ?? pre);
+
+      if (codeTitle) {
+        wrapper.appendChild(codeTitle);
+      }
+
+      wrapper.appendChild(pre);
+      wrapper.appendChild(createCodeCopyButton());
+    });
+  }
+
+  function showCopyStatus(button: HTMLButtonElement, label: string) {
+    button.textContent = label;
+    button.dataset.copied = label === "Copied" ? "true" : "false";
+
+    window.setTimeout(() => {
+      button.textContent = "Copy";
+      delete button.dataset.copied;
+    }, 1500);
+  }
+
+  function setupCodeCopyButtons() {
+    ensureCodeCopyButtons();
+
+    document
+      .querySelectorAll<HTMLButtonElement>(".code-copy-button")
+      .forEach((button) => {
+        if (button.dataset.copyBound === "true") {
+          return;
+        }
+
+        button.dataset.copyBound = "true";
+        button.addEventListener("click", async () => {
+          const wrapper = button.closest(".code-block-wrapper");
+          const code = wrapper?.querySelector("pre code");
+          const text = code?.textContent?.trimEnd() ?? "";
+
+          try {
+            await navigator.clipboard.writeText(text);
+            showCopyStatus(button, "Copied");
+          } catch {
+            showCopyStatus(button, "Failed");
+          }
+        });
+      });
+  }
+
+  setupCodeCopyButtons();
+  document.addEventListener("astro:page-load", setupCodeCopyButtons);
+</script>
