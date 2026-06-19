@@ -7,6 +7,14 @@ const currentYear = new Date().getFullYear();
 
 <style>
   .copyright-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .copyright-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image: repeating-linear-gradient(
       45deg,
       transparent,
@@ -14,9 +22,16 @@ const currentYear = new Date().getFullYear();
       rgb(255 123 0 / 0.1) 2px,
       rgb(255 123 0 / 0.1) 4px
     );
+    mask-image: radial-gradient(
+      ellipse at center,
+      rgb(0 0 0 / 0.08) 0%,
+      rgb(0 0 0 / 0.25) 36%,
+      rgb(0 0 0) 100%
+    );
+    pointer-events: none;
   }
 
-  :global(.dark) .copyright-bg {
+  :global(.dark) .copyright-bg::before {
     background-image: repeating-linear-gradient(
       45deg,
       transparent,
@@ -33,7 +48,7 @@ const currentYear = new Date().getFullYear();
     class="w-full hidden md:flex border border-orange/20 dark:border-zinc-800 divide-x divide-orange/20 dark:divide-zinc-800"
   >
     <div class="flex-1 px-8 md:px-16 py-6"></div>
-    <div class="max-w-4xl w-full flex divide-x divide-orange/20 dark:divide-zinc-800">
+    <div class="max-w-4xl w-full flex divide-x divide-orange/20 dark:!divide-zinc-800">
       <nav class="flex-1 flex border-orange/20 dark:divide-zinc-800 px-8 md:px-16">
         {
           links.map(([href, label, icon]) => (
@@ -48,9 +63,9 @@ const currentYear = new Date().getFullYear();
         }
       </nav>
       <span
-        class="copyright-bg flex items-center px-8 md:px-16 py-6 text-sm text-orange dark:text-zinc-400 border-l border-orange/20 dark:border-zinc-800"
+        class="copyright-bg flex items-center px-8 md:px-16 py-6 text-sm text-orange dark:text-zinc-400"
       >
-        &copy; {currentYear}
+        <span class="relative">&copy; {currentYear}</span>
       </span>
     </div>
     <div class="flex-1 px-8 md:px-16 py-6"></div>

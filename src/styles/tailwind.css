@@ -71,6 +71,9 @@ mark {
 html {
   @apply scroll-smooth font-geist;
   scroll-padding-top: 100px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
