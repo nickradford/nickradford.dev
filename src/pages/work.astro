@@ -9,6 +9,48 @@ import PageHeader from "src/components/PageHeader.astro";
 
 import jobs from "../../jobs";
 
+const operatingPrinciples = [
+  {
+    title: "Start with the user workflow",
+    description: "Turn messy needs into clear product direction and thoughtful interaction design.",
+  },
+  {
+    title: "Work across the whole system",
+    description: "Move between frontend, backend, data, and operations to solve the real problem.",
+  },
+  {
+    title: "Ship with judgment",
+    description: "Weigh user empathy, business needs, and engineering rigor when deciding what to ship.",
+  },
+];
+
+const technicalRange = [
+  { label: "TypeScript" },
+  { label: "React" },
+  { label: "Next.js" },
+  { label: "TanStack" },
+  { label: "Node.js" },
+  { label: "PostgreSQL" },
+  { label: "Drizzle ORM" },
+  { label: "Tailwind CSS" },
+  { label: "Cloudflare stack", detail: "Workers, Queues, R2" },
+  { label: "Payments infra", detail: "Stripe, Shopify, Autumn, RevenueCat" },
+  { label: "Analytics and debugging", detail: "Sentry, PostHog" },
+  { label: "Automated testing", detail: "Vitest, Playwright" },
+];
+
+const detailJobStaggerMs = 100;
+const detailLineStaggerMs = 35;
+const detailItemOffsetMs = 60;
+
+const getDetailPanelDelay = (jobIndex: number) => `${jobIndex * detailJobStaggerMs}ms`;
+
+const getDetailItemDelay = (jobIndex: number, lineIndex: number) =>
+  `${jobIndex * detailJobStaggerMs + detailItemOffsetMs + lineIndex * detailLineStaggerMs}ms`;
+
+const getDetailLineIndex = (hasSummary: boolean, lineIndex: number) =>
+  (hasSummary ? 1 : 0) + lineIndex;
+
 // Helper to format dates - show full date for first 2 items, year only for rest
 const formatDate = (dateStr: string, index: number) => {
   if (index < 2) return dateStr;
@@ -29,7 +71,10 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 };
 ---
 
-<Base title="Work" description="My professional experience and roles">
+<Base
+  title="Work"
+  description="Staff Product Engineer with 10+ years building production web applications, internal tools, design systems, developer platforms, and full-stack SaaS products."
+>
   <Page class="min-h-[calc(100vh-64px)]">
     <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex-1 flex flex-col">
       {/* Header Section */}
@@ -54,13 +99,110 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           </a>
         </div>
         <Text slot="description">
-          Want the full picture? Download my resume for a comprehensive look at my experience, key
-          projects, achievements, and technical expertise.
+          Staff Product Engineer with 10+ years building production web applications, internal
+          tools, design systems, developer platforms, and full-stack SaaS products.
         </Text>
       </PageHeader>
 
+      <section class="w-full border-b border-orange/20 dark:border-zinc-800">
+        <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+          <div class="hidden md:flex flex-1" />
+          <div class="max-w-4xl w-full">
+            <div class="px-8 md:px-16 py-8 md:py-10 space-y-6">
+              <h2 class="text-xs font-geist-mono uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-500">
+                Operating principles
+              </h2>
+              <ul class="grid gap-5 md:grid-cols-3">
+                {
+                  operatingPrinciples.map((principle) => (
+                    <li class="space-y-2">
+                      <h3 class="text-sm font-geist-mono font-semibold text-zinc-900 dark:text-zinc-50">
+                        {principle.title}
+                      </h3>
+                      <p class="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                        {principle.description}
+                      </p>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+            <div
+              class="dot-grid border-t border-orange/20 px-8 pb-10 pt-6 dark:border-zinc-800 md:px-16 md:pb-12 md:pt-7"
+              data-tech-chip-region
+            >
+              <ul class="flex flex-wrap justify-center gap-2">
+                {
+                  technicalRange.map((skill) => (
+                    <li class="relative">
+                      <span
+                        tabindex={skill.detail ? "0" : undefined}
+                        aria-describedby={skill.detail ? `skill-${skill.label.toLowerCase().replaceAll(" ", "-")}` : undefined}
+                        data-skill-popover-trigger={skill.detail ? true : undefined}
+                        data-tech-chip
+                        class:list={[
+                          "tech-chip inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-geist-mono border border-orange/20 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 bg-ivory/90 dark:bg-zinc-950/90",
+                          skill.detail &&
+                            "skill-popover-trigger cursor-help outline-none focus-visible:ring-2 focus-visible:ring-orange/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:focus-visible:ring-offset-zinc-950",
+                        ]}
+                      >
+                        {skill.label}
+                        {skill.detail && <i class="ph ph-info text-[13px] text-zinc-400 dark:text-zinc-500" />}
+                      </span>
+                      {skill.detail && (
+                        <span
+                          id={`skill-${skill.label.toLowerCase().replaceAll(" ", "-")}`}
+                          role="tooltip"
+                          data-skill-popover
+                          class="skill-popover pointer-events-none fixed z-50 w-max max-w-48 rounded border border-orange/20 dark:border-zinc-700 bg-ivory px-3 py-2 text-xs font-geist-mono leading-relaxed text-zinc-700 opacity-0 shadow-lg shadow-zinc-900/10 transition duration-150 ease-out dark:bg-zinc-950 dark:text-zinc-300 dark:shadow-black/40"
+                        >
+                          {skill.detail}
+                        </span>
+                      )}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="hidden md:flex flex-1" />
+        </div>
+      </section>
+
+      <div
+        class="relative z-10 flex h-0 justify-center"
+        aria-label="Work history detail level"
+      >
+        <div
+          class="work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30"
+          data-work-view-control
+        >
+          <button
+            type="button"
+            class="work-view-toggle is-active relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors"
+            aria-pressed="true"
+            data-work-view-toggle
+            data-work-view="minimal"
+          >
+            Minimal
+          </button>
+          <button
+            type="button"
+            class="work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors"
+            aria-pressed="false"
+            data-work-view-toggle
+            data-work-view="detailed"
+          >
+            Detailed
+          </button>
+        </div>
+      </div>
+
       {/* Jobs Grid */}
-      <div class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800">
+      <div
+        id="work-history"
+        class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800"
+      >
         {
           jobs.map((job, index) => (
             <div class="flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
@@ -73,7 +215,12 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                       <img
                         src={(job.img as any).src || job.img}
                         alt={job.company}
-                        class="w-full h-full object-cover transition-all ease-in duration-300"
+                        class:list={[
+                          "w-full h-full transition-all ease-in duration-300",
+                          job.logoTreatment === "contain"
+                            ? "object-contain p-2 dark:invert"
+                            : "object-cover",
+                        ]}
                       />
                     </div>
                   </div>
@@ -99,6 +246,44 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                           {formatDateRange(job.startDate, job.endDate, index)}
                         </time>
                       </div>
+                      {(job.summary || job.highlights || job.technologies) && (
+                        <div
+                          class="work-detail"
+                          data-work-detail
+                          style={`--detail-panel-delay: ${getDetailPanelDelay(index)}`}
+                        >
+                          <div class="work-detail-inner space-y-2">
+                            {job.summary && (
+                              <p
+                                class="work-detail-item text-sm leading-relaxed text-zinc-700 dark:text-zinc-300"
+                                style={`--detail-delay: ${getDetailItemDelay(index, 0)}`}
+                              >
+                                {job.summary}
+                              </p>
+                            )}
+                            {job.highlights && (
+                              <ul class="space-y-2">
+                                {job.highlights.map((highlight, highlightIndex) => (
+                                  <li
+                                    class="work-detail-item text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
+                                    style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), highlightIndex))}`}
+                                  >
+                                    {highlight}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            {job.technologies && (
+                              <p
+                                class="work-detail-item text-xs font-geist-mono leading-6 text-zinc-500 dark:text-zinc-500"
+                                style={`--detail-delay: ${getDetailItemDelay(index, getDetailLineIndex(Boolean(job.summary), job.highlights?.length ?? 0))}`}
+                              >
+                                {job.technologies.join(" / ")}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -118,4 +303,319 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </div>
     </article>
   </Page>
+
+  <style>
+    .work-view-control {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .work-view-control::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      top: 0.25rem;
+      bottom: 0.25rem;
+      left: 0.25rem;
+      width: calc((100% - 0.5rem) / 2);
+      background: rgba(251, 146, 60, 0.35);
+      transition:
+        transform 180ms ease,
+        background-color 180ms ease;
+    }
+
+    .work-view-control.is-detailed::before {
+      transform: translateX(100%);
+    }
+
+    .work-view-toggle {
+      color: rgb(82 82 91);
+    }
+
+    .work-view-toggle:hover {
+      color: rgb(234 88 12);
+    }
+
+    .work-view-toggle.is-active {
+      color: rgb(39 39 42);
+    }
+
+    :global(.dark) .work-view-control::before {
+      background: rgb(39 39 42);
+    }
+
+    :global(.dark) .work-view-toggle {
+      color: rgb(212 212 216);
+    }
+
+    :global(.dark) .work-view-toggle:hover {
+      color: rgb(251 146 60);
+    }
+
+    :global(.dark) .work-view-toggle.is-active {
+      color: rgb(244 244 245);
+    }
+
+    .work-detail {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition:
+        grid-template-rows 140ms ease,
+        opacity 90ms ease;
+    }
+
+    .work-detail-inner {
+      min-height: 0;
+      overflow: hidden;
+      transition: padding-top 140ms ease;
+    }
+
+    .work-detail-item {
+      opacity: 0;
+      transform: translateY(4px) scale(0.98);
+      transform-origin: top left;
+      transition:
+        opacity 80ms ease,
+        transform 80ms ease;
+    }
+
+    .work-detail.is-expanded {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transition:
+        grid-template-rows 260ms ease-out,
+        opacity 120ms ease-out;
+      transition-delay: var(--detail-panel-delay, 0ms);
+    }
+
+    .work-detail.is-expanded .work-detail-inner {
+      padding-top: 0.25rem;
+      transition-delay: var(--detail-panel-delay, 0ms);
+    }
+
+    .work-detail.is-expanded .work-detail-item {
+      animation: detail-item-in 260ms ease-out both;
+      animation-delay: var(--detail-delay, 0ms);
+    }
+
+    .tech-chip {
+      user-select: none;
+      transform: translate(var(--chip-x, 0), var(--chip-y, 0)) scale(var(--chip-scale, 1));
+      transition:
+        transform 140ms ease,
+        border-color 150ms ease,
+        color 150ms ease;
+      will-change: transform;
+    }
+
+    .skill-popover::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -5px;
+      width: 9px;
+      height: 9px;
+      transform: translateX(-50%) rotate(45deg);
+      border-right: 1px solid rgba(251, 146, 60, 0.2);
+      border-bottom: 1px solid rgba(251, 146, 60, 0.2);
+      background: inherit;
+    }
+
+    .skill-popover-trigger:hover + .skill-popover,
+    .skill-popover-trigger:focus-visible + .skill-popover {
+      opacity: 1;
+      transform: translate(-50%, calc(-100% - 12px));
+    }
+
+    .skill-popover {
+      left: var(--tooltip-x, 50vw);
+      top: var(--tooltip-y, 50vh);
+      transform: translate(-50%, calc(-100% - 8px));
+    }
+
+    @keyframes detail-item-in {
+      0% {
+        opacity: 0;
+        transform: translateY(5px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .work-detail,
+      .work-view-control::before,
+      .tech-chip,
+      .work-detail.is-expanded,
+      .work-detail-item,
+      .work-detail.is-expanded .work-detail-item {
+        animation: none;
+        transition: none;
+      }
+
+      .work-detail.is-expanded .work-detail-item {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <script>
+    function initWorkViewToggle() {
+      const toggles = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-work-view-toggle]"),
+      );
+      const details = Array.from(document.querySelectorAll<HTMLElement>("[data-work-detail]"));
+      const controls = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-work-view-control]"),
+      );
+
+      if (toggles.length === 0 || details.length === 0) return;
+      if (toggles[0]?.dataset.workViewBound === "true") return;
+
+      const setExpanded = (expanded: boolean) => {
+        details.forEach((detail) => {
+          detail.classList.toggle("is-expanded", expanded);
+        });
+
+        controls.forEach((control) => {
+          control.classList.toggle("is-detailed", expanded);
+        });
+
+        toggles.forEach((toggle) => {
+          const active = toggle.dataset.workView === (expanded ? "detailed" : "minimal");
+          toggle.classList.toggle("is-active", active);
+          toggle.setAttribute("aria-pressed", String(active));
+        });
+      };
+
+      setExpanded(false);
+
+      toggles.forEach((toggle) => {
+        toggle.dataset.workViewBound = "true";
+        toggle.addEventListener("click", () => {
+          setExpanded(toggle.dataset.workView === "detailed");
+        });
+      });
+    }
+
+    initWorkViewToggle();
+
+    function initSkillPopovers() {
+      const triggers = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-skill-popover-trigger]"),
+      );
+
+      triggers.forEach((trigger) => {
+        if (trigger.dataset.skillPopoverBound === "true") return;
+
+        const popover = trigger.nextElementSibling as HTMLElement | null;
+        if (!popover?.matches("[data-skill-popover]")) return;
+
+        const setPosition = (x: number, y: number) => {
+          popover.style.setProperty("--tooltip-x", `${x}px`);
+          popover.style.setProperty("--tooltip-y", `${y}px`);
+        };
+
+        trigger.dataset.skillPopoverBound = "true";
+        trigger.addEventListener("pointerenter", (event) => {
+          setPosition(event.clientX, event.clientY);
+        });
+        trigger.addEventListener("pointermove", (event) => {
+          setPosition(event.clientX, event.clientY);
+        });
+        trigger.addEventListener("focus", () => {
+          const rect = trigger.getBoundingClientRect();
+          setPosition(rect.left + rect.width / 2, rect.top);
+        });
+      });
+    }
+
+    initSkillPopovers();
+
+    function initTechChipMagnet() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const regions = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-tech-chip-region]"),
+      );
+
+      regions.forEach((region) => {
+        if (region.dataset.techChipRegionBound === "true") return;
+
+        const chips = Array.from(region.querySelectorAll<HTMLElement>("[data-tech-chip]"));
+        if (chips.length === 0) return;
+
+        let frame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
+
+        const resetChips = () => {
+          chips.forEach((chip) => {
+            chip.style.removeProperty("--chip-x");
+            chip.style.removeProperty("--chip-y");
+            chip.style.removeProperty("--chip-scale");
+          });
+        };
+
+        const updateChips = () => {
+          frame = 0;
+
+          chips.forEach((chip) => {
+            const rect = chip.getBoundingClientRect();
+            const nearestX = Math.max(rect.left, Math.min(pointerX, rect.right));
+            const nearestY = Math.max(rect.top, Math.min(pointerY, rect.bottom));
+            const edgeDistance = Math.hypot(pointerX - nearestX, pointerY - nearestY);
+
+            if (edgeDistance > 10) {
+              chip.style.removeProperty("--chip-x");
+              chip.style.removeProperty("--chip-y");
+              chip.style.removeProperty("--chip-scale");
+              return;
+            }
+
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const offsetX = pointerX - centerX;
+            const offsetY = pointerY - centerY;
+            const distanceFromCenter = Math.max(Math.hypot(offsetX, offsetY), 1);
+            const strength = 1 - edgeDistance / 10;
+            const pull = 4 * strength;
+
+            chip.style.setProperty("--chip-x", `${(offsetX / distanceFromCenter) * pull}px`);
+            chip.style.setProperty("--chip-y", `${(offsetY / distanceFromCenter) * pull}px`);
+            chip.style.setProperty("--chip-scale", `${1 + 0.025 * strength}`);
+          });
+        };
+
+        region.dataset.techChipRegionBound = "true";
+        region.addEventListener("pointermove", (event) => {
+          pointerX = event.clientX;
+          pointerY = event.clientY;
+
+          if (frame === 0) {
+            frame = window.requestAnimationFrame(updateChips);
+          }
+        });
+        region.addEventListener("pointerleave", () => {
+          if (frame !== 0) {
+            window.cancelAnimationFrame(frame);
+            frame = 0;
+          }
+
+          resetChips();
+        });
+      });
+    }
+
+    initTechChipMagnet();
+    document.addEventListener("astro:page-load", () => {
+      initWorkViewToggle();
+      initSkillPopovers();
+      initTechChipMagnet();
+    });
+  </script>
 </Base>

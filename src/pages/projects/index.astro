@@ -8,7 +8,7 @@ import { DecodeText } from "../../components/DecodeText";
 import PageHeader from "../../components/PageHeader.astro";
 import { getCollection, getEntry } from "astro:content";
 
-const description = "A collection of side projects, open-source work, and experiments I've shipped.";
+const description = "Product work, developer tools, and experiments I've shipped from rough signal to working software.";
 const allProjects = await getCollection("project");
 const orderEntry = await getEntry("projectOrder", "index");
 const orderedSlugs = orderEntry?.data.slugs ?? [];
