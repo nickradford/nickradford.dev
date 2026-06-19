@@ -69,11 +69,21 @@ mark {
 }
 
 html {
-  @apply scroll-smooth font-geist;
+  @apply font-geist;
   scroll-padding-top: 100px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+html[data-smooth-scroll="true"] {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-smooth-scroll="true"] {
+    scroll-behavior: auto;
+  }
 }
 
 h1,

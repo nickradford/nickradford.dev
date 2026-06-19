@@ -67,6 +67,7 @@ const shouldRender = items.length > 0;
     opacity: 0;
     pointer-events: none;
     position: absolute;
+    transition: opacity 150ms ease;
     z-index: 1;
   }
 
@@ -91,6 +92,11 @@ const shouldRender = items.length > 0;
 
   .blog-toc[data-toc-ready="true"] .blog-toc-marker {
     opacity: 1;
+  }
+
+  .blog-toc[data-toc-instant="true"] .blog-toc-marker,
+  .blog-toc[data-toc-instant="true"] .blog-toc-marker span {
+    transition: none;
   }
 
   .blog-toc-link {
@@ -128,6 +134,8 @@ const shouldRender = items.length > 0;
     target: HTMLElement;
   };
 
+  type MarkerMode = "instant" | "fade" | "slide";
+
   function getHashId(link: HTMLAnchorElement) {
     return decodeURIComponent(link.hash.replace(/^#/, ""));
   }
@@ -157,6 +165,7 @@ const shouldRender = items.length > 0;
       const abortController = new AbortController();
       let activeTarget: TocTarget | null = null;
       let frame = 0;
+      let hasCompletedInitialUpdate = false;
 
       topLink?.addEventListener(
         "click",
@@ -189,8 +198,10 @@ const shouldRender = items.length > 0;
         return rects;
       }
 
-      function moveMarker(link: HTMLAnchorElement, shouldFadeIn: boolean) {
+      function moveMarker(link: HTMLAnchorElement, mode: MarkerMode) {
         const bracketGap = 6;
+        const shouldFadeIn = mode === "fade";
+        const shouldDisableAnimation = mode === "instant";
         const tocRect = toc.getBoundingClientRect();
         const linkRect = link.getBoundingClientRect();
         const lineRects = getVisibleTextLineRects(link, linkRect);
@@ -205,7 +216,11 @@ const shouldRender = items.length > 0;
           linkRect.right - tocRect.left - bracketGap,
         );
 
-        if (shouldFadeIn) {
+        if (shouldDisableAnimation) {
+          toc.dataset.tocInstant = "true";
+        }
+
+        if (shouldFadeIn || shouldDisableAnimation) {
           delete toc.dataset.tocReady;
         }
 
@@ -214,11 +229,18 @@ const shouldRender = items.length > 0;
         toc.style.setProperty("--toc-close-x", `${closeX}px`);
         toc.style.setProperty("--toc-close-y", `${lastLineY}px`);
 
-        if (shouldFadeIn) {
+        if (shouldFadeIn || shouldDisableAnimation) {
           marker.getBoundingClientRect();
         }
 
         toc.dataset.tocReady = "true";
+
+        if (shouldDisableAnimation) {
+          marker.getBoundingClientRect();
+          window.requestAnimationFrame(() => {
+            delete toc.dataset.tocInstant;
+          });
+        }
       }
 
       function clearActive() {
@@ -232,7 +254,11 @@ const shouldRender = items.length > 0;
       }
 
       function setActive(nextTarget: TocTarget) {
-        const shouldFadeIn = activeTarget === null;
+        const markerMode: MarkerMode = !hasCompletedInitialUpdate
+          ? "instant"
+          : activeTarget === null
+            ? "fade"
+            : "slide";
         activeTarget = nextTarget;
 
         links.forEach((link) => {
@@ -246,16 +272,12 @@ const shouldRender = items.length > 0;
           }
         });
 
-        moveMarker(nextTarget.link, shouldFadeIn);
+        moveMarker(nextTarget.link, markerMode);
       }
 
       function findActiveTarget() {
         const activationOffset = Math.max(window.innerHeight * 0.24, 140);
-        const firstTarget = targets[0];
-        let nextTarget: TocTarget | null =
-          firstTarget.target.getBoundingClientRect().top <= window.innerHeight
-            ? firstTarget
-            : null;
+        let nextTarget: TocTarget | null = null;
 
         targets.forEach((target) => {
           if (target.target.getBoundingClientRect().top <= activationOffset) {
@@ -281,14 +303,17 @@ const shouldRender = items.length > 0;
           if (activeTarget) {
             clearActive();
           }
+          hasCompletedInitialUpdate = true;
           return;
         }
 
         if (nextTarget !== activeTarget) {
           setActive(nextTarget);
         } else {
-          moveMarker(nextTarget.link, false);
+          moveMarker(nextTarget.link, hasCompletedInitialUpdate ? "slide" : "instant");
         }
+
+        hasCompletedInitialUpdate = true;
       }
 
       function requestUpdate() {
@@ -299,7 +324,9 @@ const shouldRender = items.length > 0;
         frame = window.requestAnimationFrame(updateActiveTarget);
       }
 
-      updateActiveTarget();
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(updateActiveTarget);
+      });
       window.addEventListener("scroll", requestUpdate, {
         passive: true,
         signal: abortController.signal,
