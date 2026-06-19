@@ -47,6 +47,8 @@ interface DecodeTextProps {
   onComplete?: () => void;
   /** CSS class for styling */
   className?: string;
+  /** Hide from assistive tech when rendering a visual duplicate */
+  decorative?: boolean;
 }
 
 /**
@@ -80,6 +82,7 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
   decodeByWord = false,
   onComplete,
   className = "",
+  decorative = false,
 }) => {
   // Display state: initialize with target value (SSR-safe for non-JS users)
   const [display, setDisplay] = useState<string>(value);
@@ -328,7 +331,12 @@ export const DecodeText: React.FC<DecodeTextProps> = ({
   }, [value.length, lockedIndices.size, onComplete]);
 
   return (
-    <span className={className} aria-label={value} role="status">
+    <span
+      className={className}
+      aria-hidden={decorative ? true : undefined}
+      aria-label={decorative ? undefined : value}
+      role={decorative ? undefined : "status"}
+    >
       {display.split("").map((char, idx) => (
         <span
           key={idx}

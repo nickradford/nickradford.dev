@@ -3,6 +3,7 @@ import Page from "./Page.astro";
 import BackButton from "./BackButton.astro";
 import ByLine from "./ByLine.astro";
 import AtomLink from "./AtomLink.astro";
+import DecodeText from "./DecodeText";
 import ChangelogGrid from "./ChangelogGrid.astro";
 
 import type { BlogPost } from "../lib/content";
@@ -24,9 +25,25 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
       <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
         <BackButton />
         <div class="mb-8 space-y-4">
-          <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            {meta.title}
-          </h1>
+          <div class="relative">
+            <h1 class="text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              {meta.title}
+            </h1>
+            <div
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 bg-ivory dark:bg-zinc-950"
+            >
+              <DecodeText
+                client:load
+                decorative
+                decodeByWord
+                initialDelay={0}
+                revealInterval={40}
+                className="block text-3xl md:text-4xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+                value={meta.title}
+              />
+            </div>
+          </div>
           <ByLine meta={meta} />
           <div class="flex items-center gap-1">
             <AtomLink />
