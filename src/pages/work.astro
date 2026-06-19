@@ -118,7 +118,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
       <section class="w-full border-b border-orange/20 dark:border-zinc-800">
         <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-          <div class="hidden md:flex flex-1" />
+          <div class="site-left-rail hidden md:flex" />
           <div class="max-w-4xl w-full">
             <div class="px-8 md:px-16 py-8 md:py-10 space-y-6">
               <h2 class="text-xs font-geist-mono uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-500">
@@ -177,47 +177,51 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
               </ul>
             </div>
           </div>
-          <div class="hidden md:flex flex-1" />
+          <div class="site-right-rail hidden md:flex" />
         </div>
       </section>
 
       <div
-        class="relative z-10 flex h-0 justify-center"
+        class="relative z-10 flex h-0 md:divide-x divide-orange/20 dark:divide-zinc-800"
         aria-label="Work history detail level"
       >
-        <div
-          class:list={[
-            "work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30",
-            "is-initial-render",
-            isInitiallyDetailed && "is-detailed",
-          ]}
-          data-work-view-control
-        >
-          <button
-            type="button"
+        <div class="site-left-rail hidden md:flex" />
+        <div class="max-w-4xl w-full flex justify-center">
+          <div
             class:list={[
-              "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
-              !isInitiallyDetailed && "is-active",
+              "work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30",
+              "is-initial-render",
+              isInitiallyDetailed && "is-detailed",
             ]}
-            aria-pressed={isInitiallyDetailed ? "false" : "true"}
-            data-work-view-toggle
-            data-work-view="minimal"
+            data-work-view-control
           >
-            Minimal
-          </button>
-          <button
-            type="button"
-            class:list={[
-              "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
-              isInitiallyDetailed && "is-active",
-            ]}
-            aria-pressed={isInitiallyDetailed ? "true" : "false"}
-            data-work-view-toggle
-            data-work-view="detailed"
-          >
-            Detailed
-          </button>
+            <button
+              type="button"
+              class:list={[
+                "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
+                !isInitiallyDetailed && "is-active",
+              ]}
+              aria-pressed={isInitiallyDetailed ? "false" : "true"}
+              data-work-view-toggle
+              data-work-view="minimal"
+            >
+              Minimal
+            </button>
+            <button
+              type="button"
+              class:list={[
+                "work-view-toggle relative z-10 inline-flex h-7 min-w-20 items-center justify-center px-3 text-xs font-geist-mono font-medium transition-colors",
+                isInitiallyDetailed && "is-active",
+              ]}
+              aria-pressed={isInitiallyDetailed ? "true" : "false"}
+              data-work-view-toggle
+              data-work-view="detailed"
+            >
+              Detailed
+            </button>
+          </div>
         </div>
+        <div class="site-right-rail hidden md:flex" />
       </div>
 
       {/* Jobs Grid */}
@@ -239,7 +243,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                 id={`work-${getWorkSlug(job.company)}`}
                 class="scroll-mt-24 flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative"
               >
-                <div class="hidden md:flex flex-1" />
+                <div class="site-left-rail hidden md:flex" />
                 <div
                   class:list={[
                     "work-row max-w-4xl w-full px-8 md:px-16 py-4 md:py-6 group relative",
@@ -339,7 +343,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                   )}
                   <Frame corners={index === jobs.length - 1 ? ["all"] : ["top"]} />
                 </div>
-                <div class="hidden md:flex flex-1" />
+                <div class="site-right-rail hidden md:flex" />
               </div>
             );
           })
@@ -348,9 +352,9 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
 
       {/* Fill remaining space with vertical borders */}
       <div class="flex-1 flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="hidden md:flex flex-1" />
+        <div class="site-left-rail hidden md:flex" />
         <div class="max-w-4xl w-full" />
-        <div class="hidden md:flex flex-1" />
+        <div class="site-right-rail hidden md:flex" />
       </div>
     </article>
   </Page>

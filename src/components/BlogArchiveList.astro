@@ -25,7 +25,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
   {
     years.map((year) => (
       <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
-        <div class="hidden md:flex flex-1"></div>
+        <div class="site-left-rail hidden md:flex"></div>
         <section class="max-w-4xl w-full px-8 py-7 md:px-16 md:py-5">
           <ol>
             {postsByYear[year].map((post, index) => (
@@ -68,7 +68,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
             ))}
           </ol>
         </section>
-        <div class="hidden md:flex flex-1"></div>
+        <div class="site-right-rail hidden md:flex"></div>
       </div>
     ))
   }

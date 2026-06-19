@@ -32,7 +32,7 @@ const nowBuilding = [
       <PageHeader>
         <h1
           slot="title"
-          class="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
+          class="text-3xl sm:text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
         >
           Making{" "}
           <DecodeText
@@ -45,13 +45,13 @@ const nowBuilding = [
         </h1>
         <div class="space-y-6" slot="description">
           <p
-            class="font-geist-mono text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
+            class="font-geist-mono text-base sm:text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-2xl"
           >
-            Staff Product Engineer in San Francisco. <br />TypeScript, React, Node.js,
+            Staff Product Engineer in San&nbsp;Francisco. <br />TypeScript, React, Node.js,
             PostgreSQL, Cloudflare, AI-assisted workflows.
           </p>
           <div
-            class="max-w-3xl font-geist-mono text-sm leading-7 text-stone-600 dark:text-zinc-400"
+            class="max-w-3xl font-geist-mono text-xs sm:text-sm leading-6 sm:leading-7 text-stone-600 dark:text-zinc-400"
             aria-label="Now building"
           >
             <p class="mb-1 text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-500">
@@ -64,7 +64,7 @@ const nowBuilding = [
                     <a
                       href={project.href}
                       class="group inline hover:bg-orange/5 dark:hover:bg-zinc-900/60"
-                    ><span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:text-orange-500 dark:group-hover:text-orange-300 group-hover:underline">{project.urlLabel}</span><span class="text-stone-400 dark:text-zinc-500">]({project.label})</span></a>
+                    ><span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:text-orange-500 dark:group-hover:text-orange-300 group-hover:underline [overflow-wrap:anywhere]">{project.urlLabel}</span><span class="text-stone-400 dark:text-zinc-500">]({project.label})</span></a>
                     <span class="text-stone-400 dark:text-zinc-600"> - </span>
                     <span>{project.description}</span>
                   </li>
@@ -79,7 +79,7 @@ const nowBuilding = [
       <div
         class="w-full border-b border-orange/20 dark:border-zinc-800 hidden md:flex divide-x divide-orange/20 dark:divide-zinc-800"
       >
-        <div class="flex-1"></div>
+        <div class="site-left-rail"></div>
         <div class="max-w-4xl w-full dot-grid">
           <ul class="flex px-16">
             {
@@ -98,7 +98,7 @@ const nowBuilding = [
             }
           </ul>
         </div>
-        <div class="flex-1"></div>
+        <div class="site-right-rail"></div>
       </div>
 
       {/* Social Links Section Mobile */}

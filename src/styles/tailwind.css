@@ -22,6 +22,27 @@
 }
 
 @layer utilities {
+  .site-left-rail {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .site-right-rail {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    .site-left-rail {
+      flex: 0 0 clamp(3rem, 6.75vw, 6.25rem);
+      max-width: clamp(3rem, 6.75vw, 6.25rem);
+    }
+
+    .site-right-rail {
+      flex: 1 1 auto;
+    }
+  }
+
   .min-h-fill-available {
     min-height: 100vh;
   }

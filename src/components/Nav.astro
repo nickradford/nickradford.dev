@@ -10,7 +10,7 @@ const currentPath = Astro.url.pathname;
 <div
   class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-orange/20 dark:border-zinc-800 hidden md:flex"
 >
-  <div class="flex-1 border-r border-orange/20 dark:border-zinc-800"></div>
+  <div class="site-left-rail border-r border-orange/20 dark:border-zinc-800"></div>
   <nav
     id="page-header-nav"
     class="max-w-4xl w-full flex items-stretch relative divide-x divide-orange/20 dark:divide-zinc-800 border-r border-orange/20 dark:border-zinc-800"
@@ -47,7 +47,7 @@ const currentPath = Astro.url.pathname;
       </Toggle>
     </div>
   </nav>
-  <div class="flex-1"></div>
+  <div class="site-right-rail"></div>
 </div>
 
 <!-- Mobile Header -->
@@ -55,7 +55,7 @@ const currentPath = Astro.url.pathname;
   class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 md:hidden"
 >
   <nav id="page-header-nav-mobile" class="relative">
-    <div class="flex items-center justify-between px-6 py-3">
+    <div class="flex items-center justify-between px-8 py-3">
       <a
         href="/"
         class:list={[
@@ -82,7 +82,7 @@ const currentPath = Astro.url.pathname;
         </Toggle>
       </div>
     </div>
-    <ul class="flex text-sm *:flex-1 *:text-center *:py-3">
+    <ul class="flex px-6 text-sm *:flex-1 *:text-center *:py-3">
       <NavLinks currentPath={currentPath} variant="mobile" />
     </ul>
   </nav>

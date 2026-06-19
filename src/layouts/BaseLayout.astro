@@ -11,7 +11,6 @@ import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
 import AgentationDev from "../components/AgentationDev.tsx";
 import { getOgImageUrl } from "../lib/og";
-import { ThemeScript } from "astro-theme-toggle/components"
 import { ClientRouter } from "astro:transitions";
 
 type Props = {
@@ -95,7 +94,50 @@ const socialImageUrl = new URL(
       src="https://analytics.ahrefs.com/analytics.js"
       data-key="3J+Xlk9VXb7hR1h9xaoxeQ"
       async></script>
-    <ThemeScript />
+    <script is:inline>
+      (() => {
+        const storageKey = "theme-toggle";
+        let currentTheme;
+
+        function getStoredTheme() {
+          const theme = localStorage.getItem(storageKey);
+          return theme === "dark" || theme === "light" ? theme : null;
+        }
+
+        function getTheme() {
+          return currentTheme || getStoredTheme() || "dark";
+        }
+
+        function setStoredTheme(theme) {
+          if (theme === "dark") {
+            localStorage.removeItem(storageKey);
+          } else {
+            localStorage.setItem(storageKey, theme);
+          }
+        }
+
+        function setStyle(theme) {
+          const root = document.documentElement;
+          root.classList.toggle("dark", theme === "dark");
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+        }
+
+        function setTheme(theme) {
+          currentTheme = theme;
+          setStoredTheme(theme);
+          setStyle(theme);
+        }
+
+        function setupTheme() {
+          setTheme(getTheme());
+        }
+
+        setupTheme();
+        document.addEventListener("astro:after-swap", setupTheme);
+        window.astroThemeToggle = { setTheme, getTheme };
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body
