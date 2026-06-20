@@ -12,13 +12,11 @@ tags:
 ---
 If you’ve ever typed “bro wtf are you thinking” into Cursor, Claude Code, Amp, ChatGPT, or whatever agent you’re using this week, this post is for you.
 
-You ask for one little change.
-
-The agent nods along, burns a bunch of tokens, confidently edits the wrong file, updates a component you did not ask it to touch, and then explains its work like it just solved cold fusion.
+You ask for one little change. The agent nods along, burns a bunch of tokens, confidently edits the wrong file, updates a component you did not ask it to touch, and then explains its work like it just solved cold fusion.
 
 Cool. Great. Very helpful.
 
-Sometimes the agent is just wrong. That happens. These tools are useful, but they are still weird little statistical goblins with terminal access.
+Sometimes the agent is just wrong. That happens. These tools are useful, but they are still weird probabilistic systems with terminal access.
 
 But sometimes the problem is not entirely the agent.
 
@@ -32,9 +30,7 @@ Please, no.
 
 But DDD has a concept called **ubiquitous language**, and the basic idea is pretty simple: the people building the software should use the same language as the people thinking about the domain.
 
-That language should show up everywhere.
-
-In conversation. In code. In tests. In docs. In tickets. In function names. In database tables. In the UI when it makes sense.
+That language should show up everywhere: in conversation, code, tests, docs, tickets, function names, database tables, and the UI when it makes sense.
 
 If the business calls something a `Subscription`, the code probably shouldn’t call it a `Plan`, `Membership`, `AccountType`, and `BillingThing` depending on which folder you happen to be in.
 
@@ -48,9 +44,7 @@ Classic Confluence behavior. A digital filing cabinet where good intentions go t
 
 But the instinct was right. Shared language helps teams move faster because they spend less time translating between each other. It removes ambiguity. It makes design discussions less fuzzy. It gives people a way to point at the same concept and say, “yes, that thing.”
 
-Now there’s another reader in the room.
-
-The agent.
+Now there’s another reader in the room: the agent.
 
 ## Your codebase is part of the prompt
 
@@ -58,11 +52,9 @@ When you ask an AI coding agent to do something, your chat message is only part 
 
 The rest of the prompt is the codebase.
 
-The files it opens. The filenames it greps. The types it sees. The components near the one you mentioned. The tests. The comments. The routes. The database schema. The docs you forgot about. The weird old helper function named `processData` that everyone is afraid to delete.
+The files it opens, the filenames it greps, the types it sees, the components near the one you mentioned, the tests, the comments, the routes, the database schema, the docs you forgot about, and the weird old helper function named `processData` that everyone is afraid to delete.
 
-All of it is context.
-
-All of it is telling the agent what kind of system this is and what words mean inside it.
+Together, those details tell the agent what kind of system this is and what words mean inside it.
 
 So if your prompt says one thing, but your codebase says three slightly different things, the agent has to guess.
 
@@ -110,17 +102,7 @@ That request works a lot better when `Conversation` is a real concept in the cod
 
 If the code actually uses `conversation` in the filenames, types, functions, and tests, the agent has a clear search path. It can grep for `conversation`, find the relevant polling code, inspect the right files, and make the change.
 
-If the codebase uses `email`, `thread`, `message`, and `conversation` interchangeably, now the agent has to wander around like it lost its keys.
-
-It might search for `conversation` and find almost nothing.
-
-Then search for `thread`.
-
-Then find a file called `email-polling.ts`.
-
-Then inspect a `MessageList` component.
-
-Then modify the wrong interval because, honestly, what the hell is the difference between all these nouns?
+If the codebase uses `email`, `thread`, `message`, and `conversation` interchangeably, now the agent has to wander around like it lost its keys. It might search for `conversation` and find almost nothing, search for `thread`, land in `email-polling.ts`, inspect a `MessageList` component, and modify the wrong interval because, honestly, what the hell is the difference between all these nouns?
 
 That is language drift turning into agent drift.
 
@@ -137,17 +119,11 @@ A few examples:
 - `status` means payment status in one file, onboarding status in another, and delivery status somewhere else.
 - `processOrder` might mean validate the order, charge the card, create the shipment, send a notification, or summon a demon. Who knows.
 
-This stuff is annoying for humans.
-
-It is brutal for agents.
+This stuff is annoying for humans and brutal for agents.
 
 The agent does not have the team’s tribal knowledge. It does not remember that “client” is what the sales team says, “customer” is what the UI says, and `User` is what the database says because someone generated the auth schema three years ago and everyone just went with it.
 
-It sees text.
-
-It infers patterns.
-
-It follows names.
+It sees text, infers patterns, and follows names.
 
 If your names are fuzzy, the agent’s plan is probably going to be fuzzy too.
 
@@ -159,9 +135,7 @@ Like, sure, maybe `handleSubmit2` is not ideal, but we’ll rename it later. The
 
 And yeah, sometimes that’s fine. I am not suggesting you stop mid-flow every time you can’t find the perfect noun. That way lies madness.
 
-But naming is not just polish.
-
-Naming is design.
+But naming is not just polish; naming is design.
 
 When you choose a name, you are deciding what concepts exist in your system. You are drawing boundaries around them. You are telling future you, your teammates, and now your AI agents how to think about the thing.
 
@@ -175,9 +149,7 @@ When you choose a name, you are deciding what concepts exist in your system. You
 
 This is especially useful with agents because a precise name narrows the search space. It gives the model fewer reasonable interpretations. It makes the next action more obvious.
 
-A vague name gives the agent room to improvise.
-
-And if there is one thing I would like my coding agent to do less of, it is improvising in production-shaped code.
+A vague name gives the agent room to improvise, and if there is one thing I would like my coding agent to do less of, it is improvising in production-shaped code.
 
 ## This is not about a glossary
 
@@ -195,9 +167,7 @@ The codebase is the thing the agent is going to read. The codebase is the thing 
 
 So I like `domain.md` as a starting point, but not as the source of truth.
 
-`domain.md` is scaffolding.
-
-It helps you notice the drift. It helps you write down the current mess. It helps you decide what the canonical terms should be.
+`domain.md` is scaffolding. It helps you notice the drift, write down the current mess, and decide what the canonical terms should be.
 
 But the win is not “we have a doc now.”
 
@@ -238,9 +208,7 @@ Do not make changes yet. First produce the audit and proposed vocabulary.
 
 The last line matters.
 
-Do not make changes yet.
-
-Make the agent look first. Make it show you the map. Then decide what to do.
+Do not make changes yet. Make the agent look first and show you the map, then decide what to do.
 
 Once you have the audit, write a tiny `domain.md` if that helps. It does not need to be fancy.
 
@@ -275,11 +243,9 @@ This is not perfect. It does not need to be.
 
 The goal is to give yourself and the agent a clear set of nouns to move toward.
 
-Then refactor gradually.
+Then refactor gradually. Rename one folder, rename one type, update the tests, fix the route names when it’s safe, add a note to your agent instructions, and use the canonical term in your next prompt.
 
-Rename one folder. Rename one type. Update the tests. Fix the route names when it’s safe. Add a note to your agent instructions. Use the canonical term in your next prompt.
-
-You do not have to boil the ocean. You just need to stop adding more fog.
+You do not have to boil the ocean; you just need to stop adding more fog.
 
 ## Where the language should show up
 
@@ -312,9 +278,7 @@ If you can clearly say, “a `Message` belongs to a `Conversation`, and `EmailTe
 
 To be clear, I’m not saying ubiquitous language replaces prompting skill.
 
-Good prompting still matters.
-
-You should still be specific. You should still give context. You should still say what files matter if you know. You should still define the desired behavior instead of only saying what is broken.
+Good prompting still matters. You should still be specific, give context, say what files matter if you know, and define the desired behavior instead of only saying what is broken.
 
 But precise language is part of good prompting.
 
@@ -328,29 +292,21 @@ With:
 
 > Reduce the fetch interval for new conversations from 60s to 30s. A Conversation is the domain object that groups Messages between the artist and client. Do not modify EmailTemplate rendering.
 
-The second one is longer, but it is not fluff.
-
-It names the concept. It anchors the concept. It tells the agent what not to confuse it with.
+The second one is longer, but it is not fluff. It names the concept, anchors the concept, and tells the agent what not to confuse it with.
 
 That is not enterprise ceremony. That is just being clear.
 
 ## Finally
 
-Agentic coding does not remove the need for software design.
-
-It makes design more visible.
+Agentic coding does not remove the need for software design. It makes design more visible.
 
 Every vague name, every overloaded concept, every stale doc, every “we call it three different things but everyone knows what we mean” situation is now part of the context your agent reads before it changes your code.
 
-Sometimes that works out.
-
-Sometimes you end up typing “bro wtf are you thinking” into a chat box while staring at a diff that touched the wrong files.
+Sometimes that works out. Sometimes you end up typing “bro wtf are you thinking” into a chat box while staring at a diff that touched the wrong files.
 
 Ubiquitous language is not magic. It will not make agents perfectly reliable. It will not prevent hallucinations or bad plans or the occasional deeply cursed refactor.
 
-But it gives you a way to make your intent easier to understand.
-
-For humans. For agents. For future you at 11:43 PM trying to remember why `thread` and `conversation` are both in the same folder.
+But it gives you a way to make your intent easier to understand for humans, agents, and future you at 11:43 PM trying to remember why `thread` and `conversation` are both in the same folder.
 
 Your codebase is part of the prompt.
 
