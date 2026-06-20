@@ -1,8 +1,10 @@
 ---
 import Base from "../../layouts/BaseLayout.astro";
 import BlogPage from "../../components/BlogPage.astro";
+import BlogReadMoreVariants from "../../components/BlogReadMoreVariants.astro";
 import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime, toExcerpt } from "../../lib/content";
+import { getLatestPosts } from "../../lib/get-latest-posts";
 import { getOgImageUrl } from "../../lib/og";
 import ImageGallery from "src/components/mdx/ImageGallery.astro";
 
@@ -17,6 +19,16 @@ const { slug } = Astro.params;
 const entry = await getEntry("blog", slug);
 const { Content, headings } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
+const currentPost = {
+  title: entry.data.title,
+  date: entry.data.date,
+  slug: entry.slug,
+  changelog: entry.data.changelog,
+  excerpt: "",
+  readingTime,
+  tags: entry.data.tags,
+};
+const { posts } = await getLatestPosts();
 const pageTitle = entry.data.seoTitle ?? entry.data.title;
 const pageDescription = entry.data.description ?? toExcerpt(entry.body);
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
@@ -53,18 +65,12 @@ const blogPostingStructuredData = {
   structuredData={blogPostingStructuredData}
 >
   <BlogPage
-    meta={{
-      title: entry.data.title,
-      date: entry.data.date,
-      slug: entry.slug,
-      changelog: entry.data.changelog,
-      excerpt: "",
-      readingTime,
-    }}
+    meta={currentPost}
     headings={headings}
   >
     <div data-pagefind-body>
       <Content components={{ ImageGallery }} />
     </div>
+    <BlogReadMoreVariants slot="footer" currentPost={currentPost} posts={posts} />
   </BlogPage>
 </Base>

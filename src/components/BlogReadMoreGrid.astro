@@ -1,0 +1,47 @@
+---
+import BlogRecommendationCard from "./BlogRecommendationCard.astro";
+import type { BlogPost } from "../lib/content";
+
+type RecommendationItem = {
+  post: BlogPost;
+  eyebrow?: string;
+};
+
+interface Props {
+  headingId: string;
+  title: string;
+  description: string;
+  items: RecommendationItem[];
+}
+
+const { headingId, title, description, items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="mt-12 border-t border-orange/20 pt-8 dark:border-zinc-800" aria-labelledby={headingId}>
+      <div class="mb-5 space-y-2">
+        <p class="font-geist-mono text-xs font-bold uppercase tracking-[0.22em] text-orange dark:text-orange">
+          Read more
+        </p>
+        <h2 id={headingId} class="font-geist-mono text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+          {title}
+        </h2>
+        <p class="max-w-2xl font-geist text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+          {description}
+        </p>
+      </div>
+
+      <div class:list={[
+        "grid gap-3",
+        items.length === 1 && "sm:grid-cols-1",
+        items.length === 2 && "sm:grid-cols-2",
+        items.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3",
+      ]}>
+        {items.map((item) => (
+          <BlogRecommendationCard post={item.post} eyebrow={item.eyebrow} />
+        ))}
+      </div>
+    </section>
+  )
+}

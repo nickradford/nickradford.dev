@@ -71,6 +71,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
         <div class={articleClasses}>
           <slot />
         </div>
+        <slot name="footer" />
       </div>
       <div class="site-right-rail hidden md:block px-6 py-4 md:py-8">
         <BlogTableOfContents headings={headings} />

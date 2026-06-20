@@ -4,6 +4,11 @@ export const prerender = true;
 import Base from "../layouts/BaseLayout.astro";
 import Page from "../components/Page.astro";
 import { DecodeText } from "../components/DecodeText";
+import BlogRecommendationCard from "../components/BlogRecommendationCard.astro";
+import { getLatestPosts } from "../lib/get-latest-posts";
+
+const { posts } = await getLatestPosts();
+const latestPost = posts[0];
 
 const recoveryLinks = [
   { href: "/", label: "Home", detail: "Back to the main landing page." },
@@ -42,6 +47,13 @@ const recoveryLinks = [
                     Return home <i class="ph ph-house"></i>
                   </a>
                 </div>
+                {
+                  latestPost && (
+                    <div class="mt-8 max-w-2xl">
+                      <BlogRecommendationCard post={latestPost} eyebrow="Latest post" />
+                    </div>
+                  )
+                }
             </div>
           </div>
           <div class="site-right-rail hidden md:flex" />
