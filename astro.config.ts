@@ -21,11 +21,30 @@ import whichly from "@whichly/astro";
 const showWhichlyPicker =
   process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV === "preview";
 
+function phosphorRegularWoff2Only() {
+  return {
+    name: "phosphor-regular-woff2-only",
+    enforce: "pre" as const,
+    transform(code: string, id: string) {
+      if (!id.includes("@phosphor-icons/web/src/regular/style.css")) {
+        return null;
+      }
+
+      return code
+        .replace(
+          /src:\s*url\("\.\/Phosphor\.woff2"\) format\("woff2"\),\s*url\("\.\/Phosphor\.woff"\) format\("woff"\),\s*url\("\.\/Phosphor\.ttf"\) format\("truetype"\),\s*url\("\.\/Phosphor\.svg#Phosphor"\) format\("svg"\);/,
+          'src: url("./Phosphor.woff2") format("woff2");',
+        )
+        .replace("font-display: block;", "font-display: swap;");
+    },
+  };
+}
+
 export default defineConfig({
   site: "https://nickradford.dev",
   trailingSlash: "never",
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [phosphorRegularWoff2Only(), tailwindcss()],
     optimizeDeps: {
       include: [
         "@keystatic/core",

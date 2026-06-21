@@ -26,6 +26,7 @@
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.48",
     "@pagefind/component-ui": "^1.5.0-alpha.3",
+    "@phosphor-icons/web": "2.1.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.0",
     "agentation": "^3.0.2",
