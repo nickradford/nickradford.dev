@@ -9,8 +9,9 @@ import "@fontsource/geist-mono/600.css";
 import "@fontsource/geist-mono/700.css";
 import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
-import AgentationDev from "../components/AgentationDev.tsx";
+import ThemeRandomizer from "../components/ThemeRandomizer";
 import { getOgImageUrl } from "../lib/og";
+import { getThemeLabPreloadScript } from "../lib/theme-lab";
 import { ClientRouter } from "astro:transitions";
 
 type Props = {
@@ -44,6 +45,7 @@ const socialImageUrl = new URL(
   socialImagePath,
   Astro.url.origin,
 ).toString();
+const themeLabPreloadScript = getThemeLabPreloadScript();
 ---
 
 <html lang="en">
@@ -55,12 +57,12 @@ const socialImageUrl = new URL(
     />
     <meta name="theme-color" content="#09090b" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <script is:inline>
-      if (window.location.hash) {
-        document.documentElement.dataset.initialHashScroll = "true";
-      }
-    </script>
+    <script is:inline set:html={themeLabPreloadScript}></script>
     <style is:inline>
+      html[data-theme-lab-found="true"] .theme-lab-discovery-trigger {
+        display: none !important;
+      }
+
       html[data-initial-hash-scroll="true"] body {
         visibility: hidden;
       }
@@ -129,7 +131,7 @@ const socialImageUrl = new URL(
         const storageKey = "theme-toggle";
         const themeColors = {
           dark: "#09090b",
-          light: "#fffff0",
+          light: "#fafafa",
         };
         let currentTheme;
 
@@ -150,6 +152,15 @@ const socialImageUrl = new URL(
           }
         }
 
+        function getThemeColor(theme) {
+          const token = theme === "dark" ? "--color-zinc-950" : "--color-ivory";
+          const value = getComputedStyle(document.documentElement)
+            .getPropertyValue(token)
+            .trim();
+
+          return value || themeColors[theme];
+        }
+
         function setThemeColor(theme) {
           let themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
@@ -159,7 +170,7 @@ const socialImageUrl = new URL(
             document.head.appendChild(themeColorMeta);
           }
 
-          themeColorMeta.setAttribute("content", themeColors[theme]);
+          themeColorMeta.setAttribute("content", getThemeColor(theme));
 
           const appleStatusBarMeta = document.querySelector(
             'meta[name="apple-mobile-web-app-status-bar-style"]',
@@ -175,7 +186,7 @@ const socialImageUrl = new URL(
           root.classList.toggle("dark", theme === "dark");
           root.dataset.theme = theme;
           root.style.colorScheme = theme;
-          root.style.backgroundColor = themeColors[theme];
+          root.style.backgroundColor = getThemeColor(theme);
           setThemeColor(theme);
         }
 
@@ -202,6 +213,7 @@ const socialImageUrl = new URL(
     <div class="flex flex-col items-center w-full min-h-fill-available flex-1">
       <Nav transition:persist />
       <slot />
+      <ThemeRandomizer currentPath={Astro.url.pathname} client:load />
       <script is:inline>
         (function () {
           if (!document.documentElement.dataset.initialHashScroll) {
@@ -392,6 +404,5 @@ const socialImageUrl = new URL(
         });
       </script>
     </div>
-    {import.meta.env.DEV && <AgentationDev client:only="react" />}
   </body>
 </html>

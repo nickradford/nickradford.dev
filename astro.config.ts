@@ -16,6 +16,10 @@ import markdoc from "@astrojs/markdoc";
 
 import metaTags from "astro-meta-tags";
 import { astroGrab } from "astro-grab";
+import whichly from "@whichly/astro";
+
+const showWhichlyPicker =
+  process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV === "preview";
 
 export default defineConfig({
   site: "https://nickradford.dev",
@@ -69,5 +73,6 @@ export default defineConfig({
     keystatic(),
     metaTags(),
     astroGrab(),
+    whichly({ floating: showWhichlyPicker }),
   ],
 });

@@ -1,8 +1,15 @@
 ---
 import Base from "../../layouts/BaseLayout.astro";
 import BlogPage from "../../components/BlogPage.astro";
+import BlogRelatedPosts from "../../components/BlogRelatedPosts.astro";
 import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime, toExcerpt } from "../../lib/content";
+import { getLatestPosts } from "../../lib/get-latest-posts";
+import {
+  getAdjacentPosts,
+  getLatestReadMorePosts,
+  getRelatedPostsByTags,
+} from "../../lib/blog-recommendations";
 import { getOgImageUrl } from "../../lib/og";
 import ImageGallery from "src/components/mdx/ImageGallery.astro";
 
@@ -17,6 +24,30 @@ const { slug } = Astro.params;
 const entry = await getEntry("blog", slug);
 const { Content, headings } = await entry.render();
 const readingTime = calculateReadingTime(entry.body);
+const currentPost = {
+  title: entry.data.title,
+  description: entry.data.description,
+  date: entry.data.date,
+  slug: entry.slug,
+  changelog: entry.data.changelog,
+  excerpt: "",
+  readingTime,
+  tags: entry.data.tags,
+};
+const { posts } = await getLatestPosts();
+const adjacentPosts = getAdjacentPosts(posts, currentPost.slug);
+const tagRelatedItems = getRelatedPostsByTags(posts, currentPost).map(
+  ({ post, sharedTags }) => ({
+    post,
+    sharedTags,
+  }),
+);
+const fallbackItems = getLatestReadMorePosts(posts, currentPost.slug).map((post) => ({
+  post,
+}));
+const relatedItems =
+  tagRelatedItems.length > 0 ? tagRelatedItems : fallbackItems;
+const isRelatedFallback = tagRelatedItems.length === 0;
 const pageTitle = entry.data.seoTitle ?? entry.data.title;
 const pageDescription = entry.data.description ?? toExcerpt(entry.body);
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
@@ -53,18 +84,17 @@ const blogPostingStructuredData = {
   structuredData={blogPostingStructuredData}
 >
   <BlogPage
-    meta={{
-      title: entry.data.title,
-      date: entry.data.date,
-      slug: entry.slug,
-      changelog: entry.data.changelog,
-      excerpt: "",
-      readingTime,
-    }}
+    meta={currentPost}
     headings={headings}
+    adjacentPosts={adjacentPosts}
   >
     <div data-pagefind-body>
       <Content components={{ ImageGallery }} />
     </div>
+    <BlogRelatedPosts
+      slot="footer"
+      items={relatedItems}
+      isFallback={isRelatedFallback}
+    />
   </BlogPage>
 </Base>

@@ -16,9 +16,9 @@
   --font-geist: Geist, sans-serif;
   --font-geist-mono: Geist Mono, monospace;
 
-  --color-orange: #ff9500;
+  --color-orange: #f97316;
   --color-primary: #feee16;
-  --color-ivory: #fffff0;
+  --color-ivory: #fafafa;
 }
 
 @layer utilities {
@@ -57,7 +57,7 @@
 
   .dark .dot-grid {
     background-image: radial-gradient(
-      color-mix(in srgb, var(--color-zinc-100) 10%, transparent) 1px,
+      color-mix(in srgb, var(--color-orange) 14%, transparent) 1px,
       transparent 1px
     );
   }
@@ -130,7 +130,7 @@ h6 {
 }
 
 ::selection {
-  background-color: #ff9500;
+  background-color: var(--color-orange);
   color: #000000;
 }
 
@@ -143,9 +143,20 @@ pre {
   margin-block: 1.75em;
 }
 
+.prose :where(pre):not(:where(.not-prose *)),
 .code-block-wrapper > pre {
+  border: 1px solid var(--theme-code-border, var(--color-zinc-800));
+  background: var(--theme-code-bg, var(--color-zinc-900)) !important;
+  color: var(--theme-code-text, var(--color-zinc-100)) !important;
   margin-block: 0;
   white-space: pre-wrap;
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--theme-code-bg, #000000) 38%, transparent);
+}
+
+.prose :where(pre code):not(:where(.not-prose *)),
+.code-block-wrapper pre code {
+  color: inherit !important;
+  text-shadow: none;
 }
 
 .code-copy-button {
@@ -153,10 +164,10 @@ pre {
   top: 0.75rem;
   right: 0.75rem;
   z-index: 10;
-  border: 1px solid rgb(82 82 91 / 0.85);
+  border: 1px solid var(--theme-code-border, rgb(82 82 91 / 0.85));
   border-radius: 0.375rem;
-  background: rgb(24 24 27 / 0.88);
-  color: rgb(244 244 245);
+  background: var(--theme-code-surface, rgb(24 24 27));
+  color: var(--theme-code-text, rgb(244 244 245));
   padding: 0.25rem 0.625rem;
   font-family: var(--font-geist-mono);
   font-size: 0.75rem;
@@ -170,7 +181,8 @@ pre {
 
 .code-copy-button:hover {
   border-color: var(--color-orange);
-  background: rgb(39 39 42 / 0.95);
+  background: var(--theme-code-surface, rgb(39 39 42));
+  color: var(--theme-code-keyword, var(--color-orange));
 }
 
 .code-copy-button:focus-visible {
@@ -179,8 +191,8 @@ pre {
 }
 
 .code-copy-button[data-copied="true"] {
-  border-color: rgb(52 211 153 / 0.75);
-  color: rgb(209 250 229);
+  border-color: color-mix(in srgb, var(--theme-code-success, #10b981) 76%, transparent);
+  color: var(--theme-code-success, #10b981);
 }
 
 .rehype-code-title:has(+ pre) + pre {
@@ -188,7 +200,11 @@ pre {
 }
 
 .rehype-code-title {
-  @apply bg-sky-800 px-4 py-2 font-geist-mono rounded-t-md text-sm text-sky-100 font-semibold;
+  border: 1px solid var(--theme-code-border, var(--color-zinc-800));
+  border-bottom: 0;
+  background: var(--theme-code-surface, var(--color-zinc-900));
+  color: var(--theme-code-text, var(--color-zinc-100));
+  @apply px-4 py-2 font-geist-mono rounded-t-md text-sm font-semibold;
 }
 
 .code-highlight {
@@ -197,6 +213,7 @@ pre {
 }
 
 .code-line {
+  color: inherit !important;
   display: flex;
   min-height: 1.6rem;
   padding-inline: 1em;
@@ -206,28 +223,31 @@ pre {
 }
 
 .code-line .line {
+  color: inherit !important;
   padding-left: 1em;
 }
 
 .code-line.inserted {
-  background-color: rgba(16, 185, 129, 0.2);
+  background-color: var(--theme-code-inserted-bg, rgba(16, 185, 129, 0.2));
+  color: var(--theme-code-inserted-fg, currentColor);
 }
 
 .code-line.deleted {
-  background-color: rgba(239, 68, 68, 0.2);
+  background-color: var(--theme-code-deleted-bg, rgba(239, 68, 68, 0.2));
+  color: var(--theme-code-deleted-fg, currentColor);
 }
 
 .highlight-line {
   margin-inline: -16px;
-  background-color: rgba(55, 65, 81, 0.5);
-  border-left: 4px solid rgb(59, 130, 246);
+  background-color: var(--theme-code-highlight-bg, rgba(55, 65, 81, 0.5));
+  border-left: 4px solid var(--theme-code-highlight-border, var(--color-orange));
 }
 
 .line-number::before {
   width: 1rem;
   text-align: right;
   margin-left: -8px;
-  color: rgb(156, 163, 175);
+  color: var(--theme-code-muted, rgb(156, 163, 175));
   content: attr(line);
 }
 
@@ -236,10 +256,157 @@ pre[data-language="text"] .line-number::before {
   content: none;
 }
 
+pre[data-language="text"] code,
+pre[data-language="text"] .code-line,
+pre[data-language="text"] .code-line .line,
+pre[data-language="md"] code,
+pre[data-language="md"] .code-line,
+pre[data-language="md"] .code-line .line,
+pre[data-language="markdown"] code,
+pre[data-language="markdown"] .code-line,
+pre[data-language="markdown"] .code-line .line {
+  color: var(--theme-code-text, var(--color-zinc-100)) !important;
+}
+
 pre[data-language="text"] .code-line .line {
   padding-left: 0;
 }
 
 .astro-code {
   @apply whitespace-pre-wrap;
+}
+
+.code-block-wrapper [style*="color:#E1E4E8" i],
+.prose :where(pre [style*="color:#E1E4E8" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-text, var(--color-zinc-100)) !important;
+}
+
+.code-block-wrapper [style*="color:#6A737D" i],
+.prose :where(pre [style*="color:#6A737D" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-comment, var(--color-zinc-500)) !important;
+}
+
+.code-block-wrapper [style*="color:#F97583" i],
+.prose :where(pre [style*="color:#F97583" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-keyword, var(--color-orange)) !important;
+}
+
+.code-block-wrapper [style*="color:#9ECBFF" i],
+.code-block-wrapper [style*="color:#85E89D" i],
+.prose :where(pre [style*="color:#9ECBFF" i]):not(:where(.not-prose *)),
+.prose :where(pre [style*="color:#85E89D" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-string, var(--color-orange)) !important;
+}
+
+.code-block-wrapper [style*="color:#79B8FF" i],
+.code-block-wrapper [style*="color:#FFAB70" i],
+.prose :where(pre [style*="color:#79B8FF" i]):not(:where(.not-prose *)),
+.prose :where(pre [style*="color:#FFAB70" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-function, var(--color-orange)) !important;
+}
+
+.code-block-wrapper [style*="color:#B392F0" i],
+.prose :where(pre [style*="color:#B392F0" i]):not(:where(.not-prose *)) {
+  color: var(--theme-code-variable, var(--color-zinc-200)) !important;
+}
+
+.code-block-wrapper .token.comment,
+.code-block-wrapper .token.prolog,
+.code-block-wrapper .token.doctype,
+.code-block-wrapper .token.cdata,
+.prose :where(pre .token.comment):not(:where(.not-prose *)),
+.prose :where(pre .token.prolog):not(:where(.not-prose *)),
+.prose :where(pre .token.doctype):not(:where(.not-prose *)),
+.prose :where(pre .token.cdata):not(:where(.not-prose *)) {
+  color: var(--theme-code-comment, var(--color-zinc-500)) !important;
+}
+
+.code-block-wrapper .token.punctuation,
+.code-block-wrapper .token.attr-equals,
+.prose :where(pre .token.punctuation):not(:where(.not-prose *)),
+.prose :where(pre .token.attr-equals):not(:where(.not-prose *)) {
+  color: var(--theme-code-punctuation, var(--color-zinc-300)) !important;
+}
+
+.code-block-wrapper .token.property,
+.code-block-wrapper .token.tag,
+.code-block-wrapper .token.boolean,
+.code-block-wrapper .token.constant,
+.code-block-wrapper .token.symbol,
+.code-block-wrapper .token.deleted,
+.code-block-wrapper .token.title,
+.code-block-wrapper .token.number,
+.prose :where(pre .token.property):not(:where(.not-prose *)),
+.prose :where(pre .token.tag):not(:where(.not-prose *)),
+.prose :where(pre .token.boolean):not(:where(.not-prose *)),
+.prose :where(pre .token.constant):not(:where(.not-prose *)),
+.prose :where(pre .token.symbol):not(:where(.not-prose *)),
+.prose :where(pre .token.deleted):not(:where(.not-prose *)),
+.prose :where(pre .token.title):not(:where(.not-prose *)),
+.prose :where(pre .token.number):not(:where(.not-prose *)) {
+  color: var(--theme-code-number, var(--color-orange)) !important;
+}
+
+.code-block-wrapper .token.selector,
+.code-block-wrapper .token.attr-name,
+.code-block-wrapper .token.string,
+.code-block-wrapper .token.char,
+.code-block-wrapper .token.builtin,
+.code-block-wrapper .token.inserted,
+.prose :where(pre .token.selector):not(:where(.not-prose *)),
+.prose :where(pre .token.attr-name):not(:where(.not-prose *)),
+.prose :where(pre .token.string):not(:where(.not-prose *)),
+.prose :where(pre .token.char):not(:where(.not-prose *)),
+.prose :where(pre .token.builtin):not(:where(.not-prose *)),
+.prose :where(pre .token.inserted):not(:where(.not-prose *)) {
+  color: var(--theme-code-string, var(--color-orange)) !important;
+}
+
+.code-block-wrapper .token.operator,
+.code-block-wrapper .token.entity,
+.code-block-wrapper .token.url,
+.code-block-wrapper .language-css .token.string,
+.code-block-wrapper .style .token.string,
+.prose :where(pre .token.operator):not(:where(.not-prose *)),
+.prose :where(pre .token.entity):not(:where(.not-prose *)),
+.prose :where(pre .token.url):not(:where(.not-prose *)),
+.prose :where(pre .language-css .token.string):not(:where(.not-prose *)),
+.prose :where(pre .style .token.string):not(:where(.not-prose *)) {
+  color: var(--theme-code-operator, var(--color-zinc-300)) !important;
+}
+
+.code-block-wrapper .token.atrule,
+.code-block-wrapper .token.attr-value,
+.code-block-wrapper .token.keyword,
+.prose :where(pre .token.atrule):not(:where(.not-prose *)),
+.prose :where(pre .token.attr-value):not(:where(.not-prose *)),
+.prose :where(pre .token.keyword):not(:where(.not-prose *)) {
+  color: var(--theme-code-keyword, var(--color-orange)) !important;
+}
+
+.code-block-wrapper .token.function,
+.code-block-wrapper .token.class-name,
+.prose :where(pre .token.function):not(:where(.not-prose *)),
+.prose :where(pre .token.class-name):not(:where(.not-prose *)) {
+  color: var(--theme-code-function, var(--color-orange)) !important;
+}
+
+.code-block-wrapper .token.regex,
+.code-block-wrapper .token.important,
+.code-block-wrapper .token.variable,
+.code-block-wrapper .token.namespace,
+.prose :where(pre .token.regex):not(:where(.not-prose *)),
+.prose :where(pre .token.important):not(:where(.not-prose *)),
+.prose :where(pre .token.variable):not(:where(.not-prose *)),
+.prose :where(pre .token.namespace):not(:where(.not-prose *)) {
+  color: var(--theme-code-variable, var(--color-zinc-200)) !important;
+}
+
+.token.important,
+.token.bold {
+  font-weight: 700;
+}
+
+.token.italic {
+  font-style: italic;
 }

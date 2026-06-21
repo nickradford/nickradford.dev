@@ -172,9 +172,14 @@ const { images } = Astro.props;
     }
 
     .swiper-caption {
-      @apply text-sm font-mono text-zinc-950 dark:text-zinc-200 m-0 leading-snug;
+      @apply text-sm font-mono m-0 leading-snug;
       @apply bg-orange/85 p-4 rounded-xl backdrop-blur mx-4;
       @apply dark:bg-transparent;
+      color: var(--theme-accent-foreground, #09090b);
+    }
+
+    html.dark .swiper-caption {
+      color: var(--color-zinc-200);
     }
 
     .swiper-slide:not(.swiper-slide-active) img {

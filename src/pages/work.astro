@@ -373,7 +373,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       bottom: 0.25rem;
       left: 0.25rem;
       width: calc((100% - 0.5rem) / 2);
-      background: rgba(251, 146, 60, 0.35);
+      background: color-mix(in srgb, var(--color-orange) 24%, transparent);
       transition:
         transform 180ms ease,
         background-color 180ms ease;
@@ -392,7 +392,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     .work-view-toggle:hover {
-      color: rgb(234 88 12);
+      color: var(--color-orange);
     }
 
     .work-view-toggle.is-active {
@@ -400,7 +400,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     :global(.dark) .work-view-control::before {
-      background: rgb(39 39 42);
+      background: color-mix(in srgb, var(--color-orange) 28%, var(--color-zinc-900));
     }
 
     :global(.dark) .work-view-toggle {
@@ -408,7 +408,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     :global(.dark) .work-view-toggle:hover {
-      color: rgb(251 146 60);
+      color: var(--color-orange);
     }
 
     :global(.dark) .work-view-toggle.is-active {
