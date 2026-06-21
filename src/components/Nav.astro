@@ -37,18 +37,79 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="flex items-stretch justify-end divide-x divide-orange/20 dark:divide-zinc-800">
       <SearchTrigger class="text-lg px-6 py-4" currentPath={currentPath} />
-      <Toggle class='flex items-center transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-5'>
-        <Fragment slot="icon-light">
-          <div class="ph ph-moon-stars"></div>
-         </Fragment>
-         <Fragment slot="icon-dark">
-           <div class="ph ph-sun"></div>
-         </Fragment>
-      </Toggle>
+      <div class="theme-toggle-cluster relative flex items-stretch">
+        <Toggle class='flex items-center transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-5'>
+          <Fragment slot="icon-light">
+            <div class="ph ph-moon-stars"></div>
+           </Fragment>
+           <Fragment slot="icon-dark">
+             <div class="ph ph-sun"></div>
+           </Fragment>
+        </Toggle>
+        <div
+          class="theme-lab-toggle-actions absolute right-1 top-full mt-1 hidden items-center border border-orange/20 bg-ivory/95 shadow-lg shadow-zinc-900/10 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 dark:shadow-black/40 md:flex"
+          aria-label="Theme Lab actions"
+        >
+          <button
+            type="button"
+            class="inline-flex size-8 items-center justify-center text-zinc-500 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
+            data-theme-lab-open
+            title="Open Theme Lab"
+          >
+            <i class="ph ph-palette" aria-hidden="true"></i>
+            <span class="sr-only">Open Theme Lab</span>
+          </button>
+          <button
+            type="button"
+            class="inline-flex size-8 items-center justify-center border-l border-orange/20 text-zinc-500 transition-colors hover:text-orange dark:border-zinc-800 dark:text-zinc-400 dark:hover:text-orange"
+            data-theme-lab-reset
+            title="Reset custom theme"
+          >
+            <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>
+            <span class="sr-only">Reset custom theme</span>
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
   <div class="site-right-rail"></div>
 </div>
+
+<style>
+  .theme-lab-toggle-actions {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.25rem);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+  }
+
+  .theme-lab-toggle-actions::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    width: 5.5rem;
+    height: 1.25rem;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  :global(html:not([data-theme-lab-found="true"])) .theme-lab-toggle-actions {
+    display: none;
+  }
+
+  :global(html[data-theme-lab-found="true"])
+    .theme-toggle-cluster:hover
+    .theme-lab-toggle-actions,
+  :global(html[data-theme-lab-found="true"])
+    .theme-toggle-cluster:focus-within
+    .theme-lab-toggle-actions {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+</style>
 
 <!-- Mobile Header -->
 <div

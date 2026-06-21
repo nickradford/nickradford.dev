@@ -76,7 +76,7 @@ const recoveryLinks = [
                 <div id="terminal-body" class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">1</span>
-                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span id="attempted-path" class="text-orange-600 dark:text-orange-400">/&hellip;</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
+                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span id="attempted-path" class="text-orange">/&hellip;</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
                   </div>
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">2</span>
@@ -117,7 +117,7 @@ const recoveryLinks = [
                   {recoveryLinks.map((link, i) => (
                     <a href={link.href} class="terminal-line group flex hover:bg-orange/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer" style="height:0;overflow:hidden;">
                       <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">{9 + i}</span>
-                      <span class="terminal-content text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange-600 dark:text-orange-400 group-hover:underline group-hover:text-orange-500 dark:group-hover:text-orange-300">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
+                      <span class="terminal-content text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange group-hover:underline">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
                     </a>
                   ))}
                 </div>
@@ -287,14 +287,14 @@ const recoveryLinks = [
 <style>
   .route-wash {
     background:
-      linear-gradient(100deg, rgb(255 149 0 / 0.1) 0%, transparent 34%),
-      linear-gradient(260deg, rgb(255 149 0 / 0.1) 0%, transparent 36%);
+      linear-gradient(100deg, color-mix(in srgb, var(--color-orange) 12%, transparent) 0%, transparent 34%),
+      linear-gradient(260deg, color-mix(in srgb, var(--color-orange) 12%, transparent) 0%, transparent 36%);
   }
 
   :global(.dark) .route-wash {
     background:
       linear-gradient(100deg, var(--color-zinc-900) 0%, transparent 38%, transparent 62%, var(--color-zinc-900) 100%),
-      linear-gradient(260deg, rgb(113 113 122 / 0.22) 0%, transparent 42%);
+      linear-gradient(260deg, color-mix(in srgb, var(--color-orange) 18%, transparent) 0%, transparent 42%);
   }
 
   .terminal-cursor {
