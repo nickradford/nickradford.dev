@@ -20,6 +20,13 @@ export type ThemeValues = {
 
 export type PaletteField = keyof Palette;
 
+export type CustomTheme = {
+  id: string;
+  name: string;
+  mode: ThemeMode;
+  palette: Palette;
+};
+
 type PalettePreset = {
   id: string;
   name: string;
@@ -29,9 +36,11 @@ type PalettePreset = {
 export const STYLE_ID = "theme-randomizer-style";
 export const CURRENT_STORAGE_KEY = "theme-randomizer-current";
 export const HISTORY_STORAGE_KEY = "theme-randomizer-history";
+export const CUSTOM_STORAGE_KEY = "theme-randomizer-custom";
 export const FOUND_STORAGE_KEY = "theme-randomizer-found";
 export const DAILY_STORAGE_KEY = "theme-randomizer-daily";
 export const THEME_STORAGE_KEY = "theme-toggle";
+export const CUSTOM_THEME_LIMIT_PER_MODE = 4;
 
 export const THEME_COLORS: Record<ThemeMode, string> = {
   dark: "#09090b",

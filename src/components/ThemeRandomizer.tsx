@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   buildThemeCss,
   CURRENT_STORAGE_KEY,
+  CUSTOM_THEME_LIMIT_PER_MODE,
+  CUSTOM_STORAGE_KEY,
   DAILY_STORAGE_KEY,
   fields,
   FOUND_STORAGE_KEY,
@@ -14,6 +16,7 @@ import {
   originalTheme,
   serializeTheme,
   STYLE_ID,
+  type CustomTheme,
   type Palette,
   type PaletteField,
   type ThemeMode,
@@ -94,6 +97,96 @@ function loadHistory() {
   }
 }
 
+function isPalette(value: unknown): value is Palette {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const palette = value as Partial<Palette>;
+
+  return fields.every(({ key }) => typeof palette[key] === "string");
+}
+
+function normalizeCustomTheme(value: unknown): CustomTheme | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const raw = value as Partial<CustomTheme>;
+
+  if (
+    raw.id &&
+    raw.name &&
+    (raw.mode === "light" || raw.mode === "dark") &&
+    isPalette(raw.palette)
+  ) {
+    return {
+      id: raw.id,
+      name: raw.name,
+      mode: raw.mode,
+      palette: raw.palette,
+    };
+  }
+
+  return null;
+}
+
+function loadCustomThemes() {
+  try {
+    const stored = window.localStorage.getItem(CUSTOM_STORAGE_KEY);
+    const parsed = stored ? (JSON.parse(stored) as unknown[]) : [];
+
+    return parsed
+      .map((item) => normalizeCustomTheme(item))
+      .filter(Boolean) as CustomTheme[];
+  } catch {
+    return [];
+  }
+}
+
+function getCustomThemePaletteKey(theme: CustomTheme) {
+  return JSON.stringify({
+    mode: theme.mode,
+    palette: theme.palette,
+  });
+}
+
+function getFallbackThemeName() {
+  const adjectives = ["Brisk", "Quiet", "Bright", "Deep", "Soft", "Wild"];
+  const nouns = ["Signal", "Canvas", "Archive", "Circuit", "Ledger", "Paper"];
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+  return `${adjective} ${noun}`;
+}
+
+async function generateThemeName() {
+  try {
+    const { uniqueNamesGenerator, adjectives, colors, animals } = await import(
+      "unique-names-generator"
+    );
+
+    return uniqueNamesGenerator({
+      dictionaries: [adjectives, colors, animals],
+      length: 3,
+      separator: " ",
+      style: "capital",
+    });
+  } catch {
+    return getFallbackThemeName();
+  }
+}
+
+function shouldIgnoreKeyboardShortcut(target: EventTarget | null) {
+  if (!(target instanceof Element)) {
+    return false;
+  }
+
+  return Boolean(
+    target.closest("input, textarea, select, [contenteditable], [role='textbox']"),
+  );
+}
+
 function Swatch({ value }: { value: string }) {
   return (
     <span
@@ -112,6 +205,11 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   const [selectedMode, setSelectedMode] = useState<ThemeMode>("light");
   const [values, setValues] = useState<ThemeValues>(originalTheme);
   const [historyItems, setHistoryItems] = useState<ThemeValues[]>([]);
+  const [customThemes, setCustomThemes] = useState<CustomTheme[]>([]);
+  const [hasUnsavedCustomTheme, setHasUnsavedCustomTheme] = useState(false);
+  const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const [themeName, setThemeName] = useState("");
+  const [isGeneratingName, setIsGeneratingName] = useState(false);
   const valuesRef = useRef(values);
   const labRef = useRef<HTMLDivElement | null>(null);
   const historyMenuRef = useRef<HTMLDivElement | null>(null);
@@ -134,6 +232,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     setDailyEnabled(initialDailyEnabled);
     setSelectedMode(getActiveMode());
     setHistoryItems(loadHistory());
+    setCustomThemes(loadCustomThemes());
     setDiscovered(initialDiscovered);
     setFoundAttribute(initialDiscovered);
     applyTheme(initialTheme);
@@ -172,6 +271,8 @@ export default function ThemeRandomizer({ currentPath }: Props) {
 
     const handleLabReset = () => {
       setDailyEnabled(false);
+      setHasUnsavedCustomTheme(false);
+      setIsSaveOpen(false);
       window.localStorage.removeItem(DAILY_STORAGE_KEY);
       setValues(originalTheme);
       window.localStorage.removeItem(CURRENT_STORAGE_KEY);
@@ -238,6 +339,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
       }
 
       setIsHistoryOpen(false);
+      setIsSaveOpen(false);
       setIsOpen(false);
     };
 
@@ -249,11 +351,35 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   }, [isOpen]);
 
   const currentPalette = values[selectedMode];
+  const selectedModeCustomThemes = customThemes.filter(
+    (theme) => theme.mode === selectedMode,
+  );
   const showDiscoveryTrigger = currentPath === "/work" && !discovered;
 
   function openLab() {
     setDiscovered(true);
     setIsOpen(true);
+  }
+
+  function clearCustomDraft() {
+    setHasUnsavedCustomTheme(false);
+    setIsSaveOpen(false);
+    setThemeName("");
+  }
+
+  function markCustomDraft() {
+    setHasUnsavedCustomTheme(true);
+    setIsSaveOpen(false);
+  }
+
+  async function openSaveForm() {
+    setIsSaveOpen(true);
+    setIsGeneratingName(true);
+
+    const generatedName = await generateThemeName();
+
+    setThemeName((current) => current || generatedName);
+    setIsGeneratingName(false);
   }
 
   function saveHistory(next: ThemeValues) {
@@ -280,6 +406,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   function enableDailyTheme() {
     const theme = makeDailyTheme();
 
+    clearCustomDraft();
     setDailyEnabled(true);
     window.localStorage.setItem(DAILY_STORAGE_KEY, "true");
     setValues(theme);
@@ -296,6 +423,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     const previousTheme = historyItems[0] ?? originalTheme;
 
     disableDailyTheme();
+    clearCustomDraft();
     setValues(previousTheme);
     window.localStorage.setItem(
       CURRENT_STORAGE_KEY,
@@ -309,6 +437,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     mode: ThemeMode,
   ) {
     disableDailyTheme();
+    clearCustomDraft();
 
     const theme = {
       ...values,
@@ -323,6 +452,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
 
   function updateField(field: PaletteField, value: string) {
     disableDailyTheme();
+    markCustomDraft();
 
     setValues((current) => ({
       ...current,
@@ -343,6 +473,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
 
   function randomizeMode() {
     disableDailyTheme();
+    markCustomDraft();
 
     const next = {
       ...values,
@@ -357,6 +488,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
 
   function reset() {
     disableDailyTheme();
+    clearCustomDraft();
     setValues(originalTheme);
     window.localStorage.removeItem(CURRENT_STORAGE_KEY);
     applyTheme(originalTheme);
@@ -364,11 +496,141 @@ export default function ThemeRandomizer({ currentPath }: Props) {
 
   function applyHistoryItem(item: ThemeValues) {
     disableDailyTheme();
+    clearCustomDraft();
     setValues(item);
     window.localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(item));
     applyTheme(item);
     setIsHistoryOpen(false);
   }
+
+  function applyCustomTheme(item: CustomTheme) {
+    disableDailyTheme();
+    clearCustomDraft();
+    const theme = {
+      ...values,
+      id: `${item.id}-applied-${Date.now()}`,
+      name: item.name,
+      [item.mode]: item.palette,
+    };
+
+    setValues(theme);
+    window.localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(theme));
+    applyTheme(theme);
+    saveHistory(theme);
+  }
+
+  function deleteCustomTheme(themeId: string) {
+    setCustomThemes((current) => {
+      const updated = current.filter((item) => item.id !== themeId);
+
+      window.localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }
+
+  function saveCustomTheme(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const name = themeName.trim() || getFallbackThemeName();
+    const savedTheme = {
+      id: `custom-${selectedMode}-${Date.now()}`,
+      name,
+      mode: selectedMode,
+      palette: values[selectedMode],
+    };
+    const theme = {
+      ...values,
+      id: `${savedTheme.id}-applied`,
+      name,
+    };
+    const paletteKey = getCustomThemePaletteKey(savedTheme);
+
+    setValues(theme);
+    setCustomThemes((current) => {
+      const matchingModeThemes = current.filter(
+        (item) => item.mode === selectedMode,
+      );
+      const otherModeThemes = current.filter(
+        (item) => item.mode !== selectedMode,
+      );
+      const updated = [
+        savedTheme,
+        ...matchingModeThemes.filter(
+          (item) => getCustomThemePaletteKey(item) !== paletteKey,
+        ),
+      ].slice(0, CUSTOM_THEME_LIMIT_PER_MODE);
+      const nextThemes = [...updated, ...otherModeThemes];
+
+      window.localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(nextThemes));
+      return nextThemes;
+    });
+    saveHistory(theme);
+    clearCustomDraft();
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.repeat ||
+        !event.shiftKey ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        shouldIgnoreKeyboardShortcut(event.target)
+      ) {
+        return;
+      }
+
+      const key = event.key.toLowerCase();
+
+      if (!["t", "l", "d", "s", "y", "r"].includes(key)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (key === "t") {
+        setDiscovered(true);
+        setIsHistoryOpen(false);
+        setIsOpen((current) => {
+          if (current) {
+            setIsSaveOpen(false);
+          }
+
+          return !current;
+        });
+        return;
+      }
+
+      if (key === "l") {
+        selectMode("light");
+        return;
+      }
+
+      if (key === "d") {
+        selectMode("dark");
+        return;
+      }
+
+      if (key === "s") {
+        randomizeMode();
+        return;
+      }
+
+      if (key === "r") {
+        reset();
+        return;
+      }
+
+      toggleDailyTheme();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
 
   return (
     <>
@@ -391,25 +653,38 @@ export default function ThemeRandomizer({ currentPath }: Props) {
         >
           <section
             aria-label="Theme Lab"
-            className="w-[min(25rem,calc(100vw-2rem))] border backdrop-blur [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] [box-shadow:0_24px_80px_var(--theme-lab-shadow)]"
+            className="relative w-[min(25rem,calc(100vw-2rem))] overflow-hidden border backdrop-blur [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] [box-shadow:0_24px_80px_var(--theme-lab-shadow)]"
           >
             <header className="flex items-center justify-between border-b px-3 py-2 [border-color:var(--theme-lab-border)]">
               <div className="flex items-center gap-2 font-geist-mono text-xs font-bold">
                 <i className="ph ph-palette" aria-hidden="true" />
                 Theme Lab
               </div>
-              <button
-                type="button"
-                className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-orange"
-                onClick={() => {
-                  setIsHistoryOpen(false);
-                  setIsOpen(false);
-                }}
-                title="Collapse"
-              >
-                <i className="ph ph-x" aria-hidden="true" />
-                <span className="sr-only">Collapse</span>
-              </button>
+              <div className="flex items-center gap-1.5">
+                {hasUnsavedCustomTheme && !isSaveOpen && (
+                  <button
+                    type="button"
+                    className="inline-flex h-7 items-center gap-1.5 border px-2 font-geist-mono text-[0.625rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                    onClick={() => void openSaveForm()}
+                  >
+                    <i className="ph ph-floppy-disk" aria-hidden="true" />
+                    Save
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-orange"
+                  onClick={() => {
+                    setIsHistoryOpen(false);
+                    setIsSaveOpen(false);
+                    setIsOpen(false);
+                  }}
+                  title="Collapse"
+                >
+                  <i className="ph ph-x" aria-hidden="true" />
+                  <span className="sr-only">Collapse</span>
+                </button>
+              </div>
             </header>
 
             <div className="relative p-3">
@@ -431,19 +706,19 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 ))}
               </div>
 
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 grid grid-cols-4 gap-1.5">
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
                   onClick={randomizeMode}
                 >
                   <i className="ph ph-shuffle" aria-hidden="true" />
-                  Random
+                  <span className="truncate">Shuffle</span>
                 </button>
                 <button
                   type="button"
                   className={[
-                    "inline-flex items-center gap-2 border px-3 py-2 font-geist-mono text-xs transition-colors",
+                    "inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors",
                     dailyEnabled
                       ? "border-orange bg-orange [color:var(--theme-accent-foreground)] hover:bg-orange hover:[color:var(--theme-accent-foreground)]"
                       : "[border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange",
@@ -453,26 +728,26 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                   onClick={toggleDailyTheme}
                   aria-pressed={dailyEnabled}
                 >
-                  <i className="ph ph-dice-five" aria-hidden="true" />
-                  Daily
+                  <i className="ph ph-calendar-blank" aria-hidden="true" />
+                  <span className="truncate">Daily</span>
                 </button>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
                   onClick={reset}
                 >
                   <i className="ph ph-arrow-counter-clockwise" aria-hidden="true" />
-                  Reset
+                  <span className="truncate">Reset</span>
                 </button>
-                <div ref={historyMenuRef} className="relative ml-auto">
+                <div ref={historyMenuRef} className="relative min-w-0">
                   <button
                     type="button"
-                    className="inline-flex items-center gap-2 border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                    className="inline-flex w-full min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
                     onClick={() => setIsHistoryOpen((current) => !current)}
                     aria-expanded={isHistoryOpen}
                   >
                     <i className="ph ph-clock-counter-clockwise" aria-hidden="true" />
-                    History
+                    <span className="truncate">History</span>
                   </button>
 
                   {isHistoryOpen && (
@@ -483,7 +758,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                       </div>
                       {historyItems.length === 0 ? (
                         <p className="m-0 p-2 text-xs [color:var(--theme-lab-muted)]">
-                          Randomize or pick presets to build history.
+                          Shuffle or pick presets to build history.
                         </p>
                       ) : (
                         <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
@@ -556,6 +831,50 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 </div>
               </div>
 
+              {selectedModeCustomThemes.length > 0 && (
+                <div className="mt-3">
+                  <div className="mb-2 flex items-center justify-between font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] [color:var(--theme-lab-muted)]">
+                    <span>{selectedMode} custom</span>
+                    <span>
+                      {selectedModeCustomThemes.length}/
+                      {CUSTOM_THEME_LIMIT_PER_MODE}
+                    </span>
+                  </div>
+                  <div className="grid max-h-32 grid-cols-2 gap-2 overflow-y-auto pr-1">
+                    {selectedModeCustomThemes.map((theme) => (
+                      <div
+                        key={theme.id}
+                        className="grid min-h-12 grid-cols-[1fr_auto] border [border-color:var(--theme-lab-border)]"
+                      >
+                        <button
+                          type="button"
+                          className="flex min-w-0 items-center gap-2 px-2 py-2 text-left transition-colors hover:text-orange"
+                          onClick={() => applyCustomTheme(theme)}
+                        >
+                          <span className="flex gap-1">
+                            <Swatch value={theme.palette.base} />
+                            <Swatch value={theme.palette.accent} />
+                            <Swatch value={theme.palette.line} />
+                          </span>
+                          <span className="min-w-0 truncate font-geist-mono text-[0.6875rem] leading-tight">
+                            {theme.name}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          className="flex w-8 items-center justify-center border-l transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:text-orange"
+                          onClick={() => deleteCustomTheme(theme.id)}
+                          title={`Delete ${theme.name}`}
+                        >
+                          <i className="ph ph-trash" aria-hidden="true" />
+                          <span className="sr-only">Delete {theme.name}</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-3">
                 <div className="mb-2 font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] [color:var(--theme-lab-muted)]">
                   {selectedMode} values
@@ -586,6 +905,65 @@ export default function ThemeRandomizer({ currentPath }: Props) {
               </div>
 
             </div>
+
+            {isSaveOpen && (
+              <div className="absolute inset-0 z-20 flex items-end p-3 [background:color-mix(in_srgb,var(--theme-lab-solid-bg)_92%,transparent)] backdrop-blur">
+                <form
+                  className="w-full border p-3 shadow-lg [background:var(--theme-lab-solid-bg)] [border-color:var(--theme-lab-border)] [box-shadow:0_18px_48px_var(--theme-lab-shadow)]"
+                  onSubmit={saveCustomTheme}
+                >
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <label
+                      className="font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] [color:var(--theme-lab-muted)]"
+                      htmlFor="theme-lab-custom-name"
+                    >
+                      Theme name
+                    </label>
+                    <button
+                      type="button"
+                      className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-orange"
+                      onClick={() => {
+                        setIsSaveOpen(false);
+                        setThemeName("");
+                      }}
+                      title="Cancel"
+                    >
+                      <i className="ph ph-x" aria-hidden="true" />
+                      <span className="sr-only">Cancel</span>
+                    </button>
+                  </div>
+                  <input
+                    id="theme-lab-custom-name"
+                    type="text"
+                    className="w-full border px-3 py-2 font-geist-mono text-sm outline-none [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] focus:border-orange"
+                    value={themeName}
+                    placeholder={
+                      isGeneratingName ? "Generating name..." : "Custom theme"
+                    }
+                    onChange={(event) => setThemeName(event.currentTarget.value)}
+                  />
+                  <div className="mt-3 flex justify-end gap-2">
+                    <button
+                      type="button"
+                      className="border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:border-orange hover:text-orange"
+                      onClick={() => {
+                        setIsSaveOpen(false);
+                        setThemeName("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 border border-orange bg-orange px-3 py-2 font-geist-mono text-xs transition-colors [color:var(--theme-accent-foreground)]"
+                    >
+                      <i className="ph ph-floppy-disk" aria-hidden="true" />
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
           </section>
         </div>
       )}
