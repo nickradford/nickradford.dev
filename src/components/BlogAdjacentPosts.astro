@@ -1,0 +1,196 @@
+---
+import type { BlogPost } from "../lib/content";
+import { formatDate } from "../lib/format-date";
+
+interface Props {
+  currentPost: BlogPost;
+  newer?: BlogPost;
+  older?: BlogPost;
+}
+
+const { currentPost, newer, older } = Astro.props;
+const timelineItems = [
+  newer && { label: "Newer", post: newer, current: false, href: `/blog/${newer.slug}` },
+  { label: "Current", post: currentPost, current: true },
+  older && { label: "Older", post: older, current: false, href: `/blog/${older.slug}` },
+].filter(Boolean) as {
+  label: string;
+  post: BlogPost;
+  current: boolean;
+  href?: string;
+}[];
+const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+---
+
+{
+  timelineItems.length > 1 && (
+    <nav
+      aria-label="Adjacent posts"
+      class="pt-5"
+    >
+      <ol class="space-y-4 pl-4">
+        {timelineItems.map(({ label, post, current, href }, index) => {
+          const hasNext = index < timelineItems.length - 1;
+          const content = (
+            <>
+              <span class="font-geist-mono text-[0.625rem] uppercase leading-4 tracking-[0.18em] text-zinc-500 dark:text-zinc-500">
+                {label} / {compactDateFormatter.format(post.date)}
+              </span>
+              <span
+                class:list={[
+                  "mt-1 block font-geist-mono text-xs font-bold leading-snug transition-colors",
+                  current
+                    ? "text-zinc-500 dark:text-zinc-500"
+                    : "text-zinc-900 group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange",
+                ]}
+              >
+                {post.title}
+              </span>
+            </>
+          );
+
+          return (
+            <li
+              class:list={[
+                "group relative",
+                hasNext &&
+                  "after:absolute after:-left-4 after:top-[0.875rem] after:-bottom-[1.875rem] after:border-l after:border-dashed after:border-orange/25 dark:after:border-zinc-800",
+              ]}
+            >
+              <span
+                class:list={[
+                  "absolute -left-[1.25rem] top-[0.625rem] z-10 size-2 border border-ivory dark:border-zinc-950",
+                  current
+                    ? "bg-zinc-400 dark:bg-zinc-700"
+                    : "bg-orange dark:bg-zinc-500",
+                ]}
+                aria-hidden="true"
+              />
+              {href ? (
+                <a href={href} class="block no-underline">
+                  {content}
+                </a>
+              ) : (
+                <div aria-current="page">{content}</div>
+              )}
+
+              {href && (
+                <div
+                  aria-hidden="true"
+                  class="adjacent-post-hovercard pointer-events-none absolute bottom-[calc(100%+0.5rem)] right-0 z-50 text-left"
+                >
+                  <div class="adjacent-post-hovercard__panel relative z-10 border border-orange/20 bg-ivory text-left shadow-xl shadow-orange/10 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-zinc-950/40">
+                    <div class="mb-2 flex items-center gap-2 font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-500">
+                      <span>{formatDate(post.date, { dateStyle: "medium" })}</span>
+                      <span aria-hidden="true">/</span>
+                      <span>{post.readingTime.text}</span>
+                    </div>
+                    <p class="text-balance font-geist-mono text-sm font-bold leading-snug text-zinc-900 dark:text-zinc-50">
+                      {post.title}
+                    </p>
+                    <p class="mt-2 text-balance font-geist text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                      {post.description}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .adjacent-post-hovercard {
+    --adjacent-hovercard-inset-border: 0.875rem;
+    --adjacent-hovercard-panel-padding: 1rem;
+    --adjacent-hovercard-surface: var(--color-ivory);
+    --adjacent-hovercard-dot-color: rgb(113 113 122 / 0.22);
+    left: calc(
+      (var(--adjacent-hovercard-inset-border) +
+        var(--adjacent-hovercard-panel-padding)) * -1
+    );
+    opacity: 0;
+    transition: opacity 160ms ease-out;
+  }
+
+  :global(.dark) .adjacent-post-hovercard {
+    --adjacent-hovercard-surface: var(--color-zinc-950);
+    --adjacent-hovercard-dot-color: rgb(113 113 122 / 0.32);
+  }
+
+  .adjacent-post-hovercard__panel {
+    padding: var(--adjacent-hovercard-panel-padding);
+    padding-left: calc(
+      var(--adjacent-hovercard-inset-border) +
+        var(--adjacent-hovercard-panel-padding)
+    );
+    transform: translateY(0) scale(1);
+    transform-origin: center bottom;
+  }
+
+  .adjacent-post-hovercard__panel::before {
+    background-color: var(--adjacent-hovercard-surface);
+    background-image: radial-gradient(
+      circle,
+      var(--adjacent-hovercard-dot-color) 0.0625rem,
+      transparent 0.078125rem
+    );
+    background-position: 0.125rem 0.125rem;
+    background-size: 0.375rem 0.375rem;
+    content: "";
+    inset: 1px auto 1px 1px;
+    pointer-events: none;
+    position: absolute;
+    width: var(--adjacent-hovercard-inset-border);
+  }
+
+  .group:hover > .adjacent-post-hovercard,
+  .group:focus-within > .adjacent-post-hovercard {
+    opacity: 1;
+  }
+
+  .group:hover > .adjacent-post-hovercard .adjacent-post-hovercard__panel,
+  .group:focus-within
+    > .adjacent-post-hovercard
+    .adjacent-post-hovercard__panel {
+    animation: adjacent-post-hovercard-panel-in 180ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      both;
+  }
+
+  @keyframes adjacent-post-hovercard-panel-in {
+    from {
+      transform: translateY(0.25rem) scale(0.96);
+    }
+
+    to {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .adjacent-post-hovercard {
+      animation: none;
+      opacity: 0;
+    }
+
+    .group:hover > .adjacent-post-hovercard,
+    .group:focus-within > .adjacent-post-hovercard {
+      opacity: 1;
+    }
+
+    .group:hover > .adjacent-post-hovercard .adjacent-post-hovercard__panel,
+    .group:focus-within
+      > .adjacent-post-hovercard
+      .adjacent-post-hovercard__panel {
+      animation: none;
+    }
+  }
+</style>

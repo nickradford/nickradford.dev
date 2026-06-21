@@ -5,25 +5,35 @@ import ByLine from "./ByLine.astro";
 import AtomLink from "./AtomLink.astro";
 import DecodeText from "./DecodeText";
 import ChangelogGrid from "./ChangelogGrid.astro";
+import BlogAdjacentPosts from "./BlogAdjacentPosts.astro";
 import BlogTableOfContents from "./BlogTableOfContents.astro";
 
 import type { MarkdownHeading } from "astro";
 import type { BlogPost } from "../lib/content";
+import type { AdjacentPosts } from "../lib/blog-recommendations";
 
 interface Props {
   meta: BlogPost;
   headings?: MarkdownHeading[];
+  adjacentPosts?: AdjacentPosts;
 }
 
-const { meta, headings = [] } = Astro.props as Props;
+const { meta, headings = [], adjacentPosts } = Astro.props as Props;
+const hasTableOfContents = headings.some((heading) => heading.depth === 2);
 
 const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100 prose-blockquote:border-s-orange prose-hr:border-orange/25 dark:prose-hr:border-zinc-700`;
 ---
 
 <Page>
-  <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
+  <article
+    data-blog-post
+    class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-orange/20 dark:divide-zinc-800"
+  >
     {/* Header Section */}
-    <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+    <div
+      data-blog-post-header
+      class="flex md:divide-x divide-orange/20 dark:divide-zinc-800"
+    >
       <div class="site-left-rail hidden md:block pt-8"></div>
       <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
         <BackButton />
@@ -65,7 +75,10 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
     <ChangelogGrid changelog={meta.changelog} />
 
     {/* Content Section */}
-    <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+    <div
+      data-blog-post-content
+      class="flex md:divide-x divide-orange/20 dark:divide-zinc-800"
+    >
       <div class="site-left-rail hidden md:block"></div>
       <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-8 pb-12">
         <div class={articleClasses}>
@@ -73,14 +86,194 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
         </div>
         <slot name="footer" />
       </div>
-      <div class="site-right-rail hidden md:block px-6 py-4 md:py-8">
-        <BlogTableOfContents headings={headings} />
+      <div
+        data-blog-post-rail-column
+        class="site-right-rail hidden md:block px-6 py-4 md:py-8"
+      >
+        <aside class="hidden h-full min-h-[calc(100vh-14rem)] w-full max-w-72 xl:block">
+          <div
+            class:list={[
+              "blog-post-rail",
+              !hasTableOfContents && "blog-post-rail--without-toc",
+            ]}
+          >
+            {hasTableOfContents && (
+              <div class="blog-post-rail__toc">
+                <BlogTableOfContents headings={headings} />
+              </div>
+            )}
+            <div aria-hidden="true" class="blog-post-rail__spacer"></div>
+            <div class="blog-post-rail__adjacent">
+              <BlogAdjacentPosts
+                currentPost={meta}
+                newer={adjacentPosts?.newer}
+                older={adjacentPosts?.older}
+              />
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </article>
 </Page>
 
+<style>
+  .blog-post-rail {
+    --blog-rail-sticky-top: 7rem;
+    --blog-rail-bottom: 2rem;
+    --blog-rail-gap: clamp(2rem, 4svh, 3rem);
+    --blog-rail-vh: 100vh;
+    --blog-adjacent-enter-lead: clamp(9rem, 22svh, 16rem);
+
+    display: flex;
+    flex-direction: column;
+    height: calc(
+      var(--blog-rail-vh) - var(--blog-rail-sticky-top) -
+        var(--blog-rail-bottom)
+    );
+    min-height: 0;
+    position: sticky;
+    top: var(--blog-rail-sticky-top);
+    z-index: 10;
+  }
+
+  .blog-post-rail__toc {
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: thin;
+  }
+
+  .blog-post-rail__spacer {
+    flex: 1 0 var(--blog-rail-gap);
+    min-height: var(--blog-rail-gap);
+  }
+
+  .blog-post-rail__adjacent {
+    flex: 0 0 auto;
+    position: relative;
+    transform-origin: center center;
+    z-index: 40;
+  }
+
+  .blog-post-rail--without-toc .blog-post-rail__spacer {
+    min-height: 0;
+  }
+
+  @supports (height: 100svh) {
+    .blog-post-rail {
+      --blog-rail-vh: 100svh;
+    }
+  }
+
+  @keyframes blog-adjacent-enter {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem) scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll(root block)) {
+      .blog-post-rail__adjacent {
+        animation: blog-adjacent-enter 1s linear both;
+        animation-range:
+          max(
+            0px,
+            calc(
+              var(--blog-rail-stick-scroll-y, 24rem) -
+                var(--blog-adjacent-enter-lead)
+            )
+          )
+          var(--blog-rail-stick-scroll-y, 24rem);
+        animation-timeline: scroll(root block);
+      }
+    }
+  }
+</style>
+
 <script>
+  let cleanupBlogRailMeasurement: (() => void) | undefined;
+
+  function setupBlogRailMeasurement() {
+    cleanupBlogRailMeasurement?.();
+
+    const article = document.querySelector<HTMLElement>("[data-blog-post]");
+    const header = article?.querySelector<HTMLElement>("[data-blog-post-header]");
+    const content = article?.querySelector<HTMLElement>("[data-blog-post-content]");
+    const railColumn = article?.querySelector<HTMLElement>(
+      "[data-blog-post-rail-column]",
+    );
+    const rail = article?.querySelector<HTMLElement>(".blog-post-rail");
+
+    if (!article || !header || !content || !railColumn || !rail) {
+      cleanupBlogRailMeasurement = undefined;
+      return;
+    }
+
+    let frame = 0;
+
+    const measure = () => {
+      frame = 0;
+
+      const articleTop = article.getBoundingClientRect().top + window.scrollY;
+      const contentTop = content.getBoundingClientRect().top + window.scrollY;
+      const introHeight = Math.max(0, contentTop - articleTop);
+      const railColumnStyle = window.getComputedStyle(railColumn);
+      const railStyle = window.getComputedStyle(rail);
+      const railNaturalTop =
+        railColumn.getBoundingClientRect().top +
+        window.scrollY +
+        (Number.parseFloat(railColumnStyle.paddingTop) || 0);
+      const stickyTop = Number.parseFloat(railStyle.top) || 0;
+      const stickyScrollY = Math.max(0, railNaturalTop - stickyTop);
+
+      article.style.setProperty(
+        "--blog-post-intro-height",
+        `${Math.round(introHeight)}px`,
+      );
+      article.style.setProperty(
+        "--blog-rail-stick-scroll-y",
+        `${Math.round(stickyScrollY)}px`,
+      );
+    };
+
+    const queueMeasurement = () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      frame = window.requestAnimationFrame(measure);
+    };
+
+    const observer =
+      "ResizeObserver" in window
+        ? new ResizeObserver(queueMeasurement)
+        : undefined;
+
+    observer?.observe(header);
+    observer?.observe(content);
+    observer?.observe(railColumn);
+    window.addEventListener("resize", queueMeasurement);
+    document.fonts?.ready.then(queueMeasurement);
+    queueMeasurement();
+
+    cleanupBlogRailMeasurement = () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      observer?.disconnect();
+      window.removeEventListener("resize", queueMeasurement);
+    };
+  }
+
   function createCodeCopyButton() {
     const button = document.createElement("button");
     button.type = "button";
@@ -158,5 +351,9 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
   }
 
   setupCodeCopyButtons();
-  document.addEventListener("astro:page-load", setupCodeCopyButtons);
+  setupBlogRailMeasurement();
+  document.addEventListener("astro:page-load", () => {
+    setupCodeCopyButtons();
+    setupBlogRailMeasurement();
+  });
 </script>

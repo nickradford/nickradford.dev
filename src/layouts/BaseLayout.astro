@@ -9,7 +9,6 @@ import "@fontsource/geist-mono/600.css";
 import "@fontsource/geist-mono/700.css";
 import "../styles/tailwind.css";
 import Nav from "../components/Nav.astro";
-import AgentationDev from "../components/AgentationDev.tsx";
 import { getOgImageUrl } from "../lib/og";
 import { ClientRouter } from "astro:transitions";
 
@@ -386,6 +385,5 @@ const socialImageUrl = new URL(
         });
       </script>
     </div>
-    {import.meta.env.DEV && <AgentationDev client:only="react" />}
   </body>
 </html>
