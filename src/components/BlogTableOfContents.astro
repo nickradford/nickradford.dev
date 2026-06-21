@@ -34,7 +34,7 @@ const shouldRender = items.length > 0;
       <ol class="m-0 list-none space-y-1 p-0">
         <li class="m-0 p-0">
           <a
-            class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-orange dark:text-zinc-500 dark:hover:text-orange"
+            class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-accent dark:text-zinc-500 dark:hover:text-accent"
             data-toc-top-link
             href="#"
           >
@@ -44,7 +44,7 @@ const shouldRender = items.length > 0;
         {items.map((item) => (
           <li class="m-0 p-0">
             <a
-              class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-orange dark:text-zinc-500 dark:hover:text-orange"
+              class="blog-toc-link inline-block max-w-full px-4 py-1 text-left leading-5 text-zinc-500 no-underline transition-colors hover:text-accent dark:text-zinc-500 dark:hover:text-accent"
               data-toc-link
               href={`#${item.slug}`}
             >
@@ -59,7 +59,7 @@ const shouldRender = items.length > 0;
 
 <style>
   .blog-toc-marker {
-    color: var(--color-orange);
+    color: var(--color-accent);
     font-family: var(--font-geist-mono);
     inset: 0 auto auto 0;
     opacity: 0;

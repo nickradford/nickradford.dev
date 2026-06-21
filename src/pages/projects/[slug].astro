@@ -18,13 +18,13 @@ const { slug } = Astro.params;
 const entry = await getEntry("project", slug);
 const { Content } = await entry.render();
 
-const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100 prose-blockquote:border-s-orange prose-hr:border-orange/25 dark:prose-hr:border-zinc-700`;
+const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100 prose-blockquote:border-s-accent prose-hr:border-accent/25 dark:prose-hr:border-zinc-700`;
 ---
 
 <Base title={entry.data.name} description={entry.data.description}>
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-orange/20 dark:divide-zinc-800">
-      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-accent/20 dark:divide-zinc-800">
+      <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
         <div class="site-left-rail hidden md:block pt-8"></div>
         <div class="max-w-4xl w-full px-8 md:px-16 pt-8">
           <BackButton />
@@ -47,7 +47,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
                 entry.data.githubUrl && (
                   <ExternalLink
                     href={entry.data.githubUrl}
-                    class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-orange dark:text-zinc-300 dark:hover:text-orange transition-colors"
+                    class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
                   >
                     <i class="ph ph-github-logo text-base" /> GitHub
                   </ExternalLink>
@@ -57,7 +57,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
                 entry.data.publicUrl && (
                   <ExternalLink
                     href={entry.data.publicUrl}
-                    class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-orange dark:text-zinc-300 dark:hover:text-orange transition-colors"
+                    class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
                   >
                     <i class="ph ph-globe text-base" /> Visit
                   </ExternalLink>
@@ -71,7 +71,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
 
       {
         entry.data.screenshots.length > 0 && (
-          <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+          <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
             <div class="site-left-rail hidden md:block" />
             <div class="max-w-4xl w-full px-8 md:px-16 py-8">
               <div class="grid grid-cols-1 gap-4">
@@ -80,7 +80,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
                     src={src}
                     alt={entry.data.name}
                     loading="lazy"
-                    class="w-full rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
+                    class="w-full rounded-lg ring-1 ring-accent/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
                   />
                 ))}
               </div>
@@ -90,7 +90,7 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
         )
       }
 
-      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 relative">
+      <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800 relative">
         <div class="site-left-rail hidden md:block"></div>
         <div class="max-w-4xl w-full px-8 md:px-16 py-4 md:py-8 pb-12">
           <div class={articleClasses} data-pagefind-body>

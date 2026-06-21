@@ -27,15 +27,15 @@ const navLinks = [
     return (
       <a
         href={href}
-        class={`relative inline-block transition-colors text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange ${
+        class={`relative inline-block transition-colors text-sm font-geist-mono font-medium hover:text-accent dark:hover:text-accent ${
           variant === "desktop"
-            ? "md:border-r md:border-orange/20 dark:md:border-zinc-800 md:last:border-none"
+            ? "md:border-r md:border-accent/20 dark:md:border-zinc-800 md:last:border-none"
             : ""
-        } ${active ? "text-orange dark:text-orange md:bg-orange/5" : "text-zinc-600 dark:text-zinc-400"}`}
+        } ${active ? "text-accent dark:text-accent md:bg-accent/5" : "text-zinc-600 dark:text-zinc-400"}`}
       >
         {label}
         {active && variant === "mobile" && (
-          <span class="absolute bottom-1 left-3 right-3 h-px bg-orange" />
+          <span class="absolute bottom-1 left-3 right-3 h-px bg-accent" />
         )}
       </a>
     );

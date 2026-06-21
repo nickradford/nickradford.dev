@@ -16,7 +16,7 @@
   --font-geist: Geist, sans-serif;
   --font-geist-mono: Geist Mono, monospace;
 
-  --color-orange: #f97316;
+  --color-accent: #f97316;
   --color-primary: #feee16;
   --color-ivory: #fafafa;
 }
@@ -49,7 +49,7 @@
 
   .dot-grid {
     background-image: radial-gradient(
-      color-mix(in srgb, var(--color-orange) 18%, transparent) 1px,
+      color-mix(in srgb, var(--color-accent) 18%, transparent) 1px,
       transparent 1px
     );
     background-size: 16px 16px;
@@ -57,7 +57,7 @@
 
   .dark .dot-grid {
     background-image: radial-gradient(
-      color-mix(in srgb, var(--color-orange) 14%, transparent) 1px,
+      color-mix(in srgb, var(--color-accent) 14%, transparent) 1px,
       transparent 1px
     );
   }
@@ -85,7 +85,7 @@
 }
 
 mark {
-  @apply bg-orange px-2;
+  @apply bg-accent px-2;
   border-radius: 1rem;
 }
 
@@ -117,7 +117,7 @@ h6 {
 }
 
 .prose-anchor {
-  @apply ml-2 no-underline !text-orange opacity-0 transition-opacity;
+  @apply ml-2 no-underline !text-accent opacity-0 transition-opacity;
 }
 
 :is(h1, h2, h3, h4, h5, h6):hover > .prose-anchor,
@@ -130,7 +130,7 @@ h6 {
 }
 
 ::selection {
-  background-color: var(--color-orange);
+  background-color: var(--color-accent);
   color: #000000;
 }
 
@@ -180,13 +180,13 @@ pre {
 }
 
 .code-copy-button:hover {
-  border-color: var(--color-orange);
+  border-color: var(--color-accent);
   background: var(--theme-code-surface, rgb(39 39 42));
-  color: var(--theme-code-keyword, var(--color-orange));
+  color: var(--theme-code-keyword, var(--color-accent));
 }
 
 .code-copy-button:focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -240,7 +240,7 @@ pre {
 .highlight-line {
   margin-inline: -16px;
   background-color: var(--theme-code-highlight-bg, rgba(55, 65, 81, 0.5));
-  border-left: 4px solid var(--theme-code-highlight-border, var(--color-orange));
+  border-left: 4px solid var(--theme-code-highlight-border, var(--color-accent));
 }
 
 .line-number::before {
@@ -288,21 +288,21 @@ pre[data-language="text"] .code-line .line {
 
 .code-block-wrapper [style*="color:#F97583" i],
 .prose :where(pre [style*="color:#F97583" i]):not(:where(.not-prose *)) {
-  color: var(--theme-code-keyword, var(--color-orange)) !important;
+  color: var(--theme-code-keyword, var(--color-accent)) !important;
 }
 
 .code-block-wrapper [style*="color:#9ECBFF" i],
 .code-block-wrapper [style*="color:#85E89D" i],
 .prose :where(pre [style*="color:#9ECBFF" i]):not(:where(.not-prose *)),
 .prose :where(pre [style*="color:#85E89D" i]):not(:where(.not-prose *)) {
-  color: var(--theme-code-string, var(--color-orange)) !important;
+  color: var(--theme-code-string, var(--color-accent)) !important;
 }
 
 .code-block-wrapper [style*="color:#79B8FF" i],
 .code-block-wrapper [style*="color:#FFAB70" i],
 .prose :where(pre [style*="color:#79B8FF" i]):not(:where(.not-prose *)),
 .prose :where(pre [style*="color:#FFAB70" i]):not(:where(.not-prose *)) {
-  color: var(--theme-code-function, var(--color-orange)) !important;
+  color: var(--theme-code-function, var(--color-accent)) !important;
 }
 
 .code-block-wrapper [style*="color:#B392F0" i],
@@ -344,7 +344,7 @@ pre[data-language="text"] .code-line .line {
 .prose :where(pre .token.deleted):not(:where(.not-prose *)),
 .prose :where(pre .token.title):not(:where(.not-prose *)),
 .prose :where(pre .token.number):not(:where(.not-prose *)) {
-  color: var(--theme-code-number, var(--color-orange)) !important;
+  color: var(--theme-code-number, var(--color-accent)) !important;
 }
 
 .code-block-wrapper .token.selector,
@@ -359,7 +359,7 @@ pre[data-language="text"] .code-line .line {
 .prose :where(pre .token.char):not(:where(.not-prose *)),
 .prose :where(pre .token.builtin):not(:where(.not-prose *)),
 .prose :where(pre .token.inserted):not(:where(.not-prose *)) {
-  color: var(--theme-code-string, var(--color-orange)) !important;
+  color: var(--theme-code-string, var(--color-accent)) !important;
 }
 
 .code-block-wrapper .token.operator,
@@ -381,14 +381,14 @@ pre[data-language="text"] .code-line .line {
 .prose :where(pre .token.atrule):not(:where(.not-prose *)),
 .prose :where(pre .token.attr-value):not(:where(.not-prose *)),
 .prose :where(pre .token.keyword):not(:where(.not-prose *)) {
-  color: var(--theme-code-keyword, var(--color-orange)) !important;
+  color: var(--theme-code-keyword, var(--color-accent)) !important;
 }
 
 .code-block-wrapper .token.function,
 .code-block-wrapper .token.class-name,
 .prose :where(pre .token.function):not(:where(.not-prose *)),
 .prose :where(pre .token.class-name):not(:where(.not-prose *)) {
-  color: var(--theme-code-function, var(--color-orange)) !important;
+  color: var(--theme-code-function, var(--color-accent)) !important;
 }
 
 .code-block-wrapper .token.regex,

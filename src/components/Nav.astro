@@ -8,26 +8,26 @@ const currentPath = Astro.url.pathname;
 
 <!-- Desktop Header -->
 <div
-  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-orange/20 dark:border-zinc-800 hidden md:flex"
+  class="sticky top-0 z-20 w-full bg-ivory/70 dark:bg-zinc-950/70 backdrop-blur-md border-b border-l border-r border-accent/20 dark:border-zinc-800 hidden md:flex"
 >
-  <div class="site-left-rail border-r border-orange/20 dark:border-zinc-800"></div>
+  <div class="site-left-rail border-r border-accent/20 dark:border-zinc-800"></div>
   <nav
     id="page-header-nav"
-    class="max-w-4xl w-full flex items-stretch relative divide-x divide-orange/20 dark:divide-zinc-800 border-r border-orange/20 dark:border-zinc-800"
+    class="max-w-4xl w-full flex items-stretch relative divide-x divide-accent/20 dark:divide-zinc-800 border-r border-accent/20 dark:border-zinc-800"
   >
-    <div class="flex items-center border-orange/20 dark:border-zinc-800">
+    <div class="flex items-center border-accent/20 dark:border-zinc-800">
       <a
         href="/"
         class:list={[
-          "text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors hover:bg-orange/5",
-          currentPath === "/" ? "text-orange bg-orange/5" : "text-zinc-800 dark:text-zinc-100",
+          "text-lg px-8 md:px-16 h-full flex justify-center items-center font-geist-mono font-medium hover:text-accent dark:hover:text-accent transition-colors hover:bg-accent/5",
+          currentPath === "/" ? "text-accent bg-accent/5" : "text-zinc-800 dark:text-zinc-100",
         ]}
       >
         Nick&nbsp;Radford
       </a>
     </div>
     <div
-      class="flex-grow flex items-stretch justify-center border-r border-orange/20 dark:border-zinc-800"
+      class="flex-grow flex items-stretch justify-center border-r border-accent/20 dark:border-zinc-800"
     >
       <ul
         class={"flex items-stretch px-0 m-0 space-x-8 md:space-x-0 text-sm w-full *:flex-1 *:text-center *:px-4 *:flex *:items-center *:justify-center"}
@@ -35,10 +35,10 @@ const currentPath = Astro.url.pathname;
         <NavLinks currentPath={currentPath} variant="desktop" />
       </ul>
     </div>
-    <div class="flex items-stretch justify-end divide-x divide-orange/20 dark:divide-zinc-800">
+    <div class="flex items-stretch justify-end divide-x divide-accent/20 dark:divide-zinc-800">
       <SearchTrigger class="text-lg px-6 py-4" currentPath={currentPath} />
       <div class="theme-toggle-cluster relative flex items-stretch">
-        <Toggle class='flex items-center transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-6 py-5'>
+        <Toggle class='flex items-center transition-colors text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent text-lg px-6 py-5'>
           <Fragment slot="icon-light">
             <div class="ph ph-moon-stars"></div>
            </Fragment>
@@ -47,12 +47,12 @@ const currentPath = Astro.url.pathname;
            </Fragment>
         </Toggle>
         <div
-          class="theme-lab-toggle-actions absolute right-1 top-full mt-1 hidden items-center border border-orange/20 bg-ivory/95 shadow-lg shadow-zinc-900/10 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 dark:shadow-black/40 md:flex"
+          class="theme-lab-toggle-actions absolute right-1 top-full mt-1 hidden items-center border border-accent/20 bg-ivory/95 shadow-lg shadow-zinc-900/10 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 dark:shadow-black/40 md:flex"
           aria-label="Theme Lab actions"
         >
           <button
             type="button"
-            class="inline-flex size-8 items-center justify-center text-zinc-500 transition-colors hover:text-orange dark:text-zinc-400 dark:hover:text-orange"
+            class="inline-flex size-8 items-center justify-center text-zinc-500 transition-colors hover:text-accent dark:text-zinc-400 dark:hover:text-accent"
             data-theme-lab-open
             title="Open Theme Lab"
           >
@@ -61,7 +61,7 @@ const currentPath = Astro.url.pathname;
           </button>
           <button
             type="button"
-            class="inline-flex size-8 items-center justify-center border-l border-orange/20 text-zinc-500 transition-colors hover:text-orange dark:border-zinc-800 dark:text-zinc-400 dark:hover:text-orange"
+            class="inline-flex size-8 items-center justify-center border-l border-accent/20 text-zinc-500 transition-colors hover:text-accent dark:border-zinc-800 dark:text-zinc-400 dark:hover:text-accent"
             data-theme-lab-reset
             title="Reset custom theme"
           >
@@ -120,20 +120,20 @@ const currentPath = Astro.url.pathname;
       <a
         href="/"
         class:list={[
-          "relative text-sm font-geist-mono font-medium hover:text-orange dark:hover:text-orange transition-colors",
-          currentPath === "/" ? "text-orange" : "text-zinc-600 dark:text-zinc-400",
+          "relative text-sm font-geist-mono font-medium hover:text-accent dark:hover:text-accent transition-colors",
+          currentPath === "/" ? "text-accent" : "text-zinc-600 dark:text-zinc-400",
         ]}
       >
         Nick Radford
         {
           currentPath === "/" && (
-            <span class="absolute -bottom-1 left-0 right-0 h-px bg-orange" />
+            <span class="absolute -bottom-1 left-0 right-0 h-px bg-accent" />
           )
         }
       </a>
       <div class="flex items-center">
         <SearchTrigger class="text-lg px-3 py-2" currentPath={currentPath} />
-        <Toggle class='transition-colors text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange text-lg px-3 py-2'>
+        <Toggle class='transition-colors text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent text-lg px-3 py-2'>
         <Fragment slot="icon-light">
           <div class="ph ph-moon-stars"></div>
          </Fragment>

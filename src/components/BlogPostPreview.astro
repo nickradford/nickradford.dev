@@ -15,26 +15,26 @@ const { post, lastPost } = Astro.props;
 
 <a
   href={`/blog/${post.slug}`}
-  class="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors relative"
+  class="block group px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-accent/5 transition-colors relative"
 >
   <article class="flex flex-col space-y-3">
     <div class="space-y-2">
       <div class="flex items-center gap-3">
         <time
-          class="text-xs uppercase tracking-widest text-orange/75 dark:text-zinc-500 font-geist-mono"
+          class="text-xs uppercase tracking-widest text-accent/75 dark:text-zinc-500 font-geist-mono"
         >
           {formatDate(post.date)}
         </time>
         {
           post.draft && (
-            <span class="text-xs uppercase tracking-widest font-geist-mono font-medium px-2 py-1 bg-orange/20 dark:bg-orange/10 text-orange rounded">
+            <span class="text-xs uppercase tracking-widest font-geist-mono font-medium px-2 py-1 bg-accent/20 dark:bg-accent/10 text-accent rounded">
               Draft
             </span>
           )
         }
       </div>
       <h3
-        class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+        class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-accent dark:group-hover:text-accent transition-colors"
       >
         {post.title}
       </h3>
@@ -43,7 +43,7 @@ const { post, lastPost } = Astro.props;
       {post.excerpt}
     </p>
     <span
-      class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange transition-colors pt-2"
+      class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-accent dark:text-zinc-400 dark:group-hover:text-accent transition-colors pt-2"
     >
       Read more <i class="ph ph-arrow-right top-px relative"></i>
     </span>

@@ -10,11 +10,11 @@ const { posts } = Astro.props;
 ---
 
 <div class="w-full">
-  <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+  <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
     <div class="site-left-rail hidden md:flex"></div>
     <div class="max-w-4xl w-full overflow-x-auto">
       <table class="w-full border-collapse text-left">
-        <thead class="border-b border-orange/20 dark:border-zinc-800">
+        <thead class="border-b border-accent/20 dark:border-zinc-800">
           <tr class="font-geist-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
             <th class="px-8 py-3 font-medium md:pl-16">Date</th>
             <th class="px-4 py-3 font-medium">Title</th>
@@ -22,17 +22,17 @@ const { posts } = Astro.props;
             <th class="px-8 py-3 text-right font-medium md:pr-16">Read</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-orange/20 dark:divide-zinc-800">
+        <tbody class="divide-y divide-accent/20 dark:divide-zinc-800">
           {
             posts.map((post) => (
-              <tr class="group transition-colors hover:bg-orange/5 dark:hover:bg-zinc-900/40">
-                <td class="whitespace-nowrap px-8 py-3 align-top font-geist-mono text-xs text-orange/75 md:pl-16 dark:text-zinc-500">
+              <tr class="group transition-colors hover:bg-accent/5 dark:hover:bg-zinc-900/40">
+                <td class="whitespace-nowrap px-8 py-3 align-top font-geist-mono text-xs text-accent/75 md:pl-16 dark:text-zinc-500">
                   {formatDate(post.date, { dateStyle: "medium" })}
                 </td>
                 <td class="px-4 py-3 align-top">
                   <a
                     href={`/blog/${post.slug}`}
-                    class="font-geist-mono text-sm font-bold text-zinc-900 no-underline transition-colors group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange"
+                    class="font-geist-mono text-sm font-bold text-zinc-900 no-underline transition-colors group-hover:text-accent dark:text-zinc-50 dark:group-hover:text-accent"
                   >
                     {post.title}
                   </a>

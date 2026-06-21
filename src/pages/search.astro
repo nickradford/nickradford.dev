@@ -15,7 +15,7 @@ const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
 <Base title="Search" description={description} noindex={true}>
   <Page class="min-h-[calc(100vh-64px)]">
 
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex flex-col flex-1">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full flex flex-col flex-1">
       <PageHeader class="relative">
         <DecodeText
           slot="title"
@@ -23,12 +23,12 @@ const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
           value="Search"
           className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
         />
-        <Text slot="description" class='leading-8'>{description} <br/>Try searching for {exampleSearchTerms.map(term => <a class='px-2 py-1 mr-2 squircle bg-orange/85 hover:bg-orange transition-colors text-zinc-800' href={`/search?q=${term}`}>{term}</a>)}</Text>
+        <Text slot="description" class='leading-8'>{description} <br/>Try searching for {exampleSearchTerms.map(term => <a class='px-2 py-1 mr-2 squircle bg-accent/85 hover:bg-accent transition-colors text-zinc-800' href={`/search?q=${term}`}>{term}</a>)}</Text>
       </PageHeader>
 
       {/* Search Section */}
       <div class="w-full flex-1 flex flex-col relative">
-        <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800 flex-1">
+        <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800 flex-1">
           <div class="site-left-rail" />
           <div class="max-w-4xl w-full px-8 md:px-16 py-12 relative spacing-y-8">
             <Frame corners={["top", "bottomLeft"]} />
@@ -42,7 +42,7 @@ const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
                   type="text"
                   placeholder="Search..."
                   autofocus
-                  class="w-full pl-12 pr-4 py-3 bg-orange/10 dark:bg-zinc-900 border border-orange/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange/50 transition-all font-geist"
+                  class="w-full pl-12 pr-4 py-3 bg-accent/10 dark:bg-zinc-900 border border-accent/20 dark:border-zinc-800 squircle text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all font-geist"
                 />
                 <div class="absolute inset-y-0 right-0 top-4 pr-4 hidden" data-spinner>
                     <i class="ph ph-spinner  text-zinc-400 animate-spin inline-block [animation-duration:2s]"></i>
@@ -51,12 +51,12 @@ const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
                     <i class="ph ph-x text-lg"></i>
                 </button>
               </div>
-              <p class="text-xs text-orange/85 dark:text-orange/75 font-geist-mono mt-4 hidden" data-result-count></p>
+              <p class="text-xs text-accent/85 dark:text-accent/75 font-geist-mono mt-4 hidden" data-result-count></p>
             </div>
             <div data-search-results ></div>
             <template id="result-template">
-              <a href="#" class='border-t border-orange/20 dark:border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-3 group no-underline hover:bg-orange/5 transition-colors' data-astro-reload>
-                <h2 class='text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors'>Much ado about something...</h2>
+              <a href="#" class='border-t border-accent/20 dark:border-zinc-800 -mx-8 md:-mx-16 px-8 md:px-16 py-6 relative flex flex-col space-y-3 group no-underline hover:bg-accent/5 transition-colors' data-astro-reload>
+                <h2 class='text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-accent dark:group-hover:text-accent transition-colors'>Much ado about something...</h2>
                 <p class='leading-relaxed text-zinc-700 dark:text-zinc-300 prose font-geist'>This is the excerpt that will have a <mark>&lt;mark&gt; tag</mark></p>
                 <Frame corners={['top']} />
               </a>

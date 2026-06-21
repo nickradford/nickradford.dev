@@ -27,7 +27,7 @@ const nowBuilding = [
 
 <Base description="Staff Product Engineer in San Francisco building full-stack SaaS, internal tools, design systems, and developer platforms.">
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full">
       {/* Hero Section */}
       <PageHeader>
         <h1
@@ -63,8 +63,8 @@ const nowBuilding = [
                   <li>
                     <a
                       href={project.href}
-                      class="group inline hover:bg-orange/5 dark:hover:bg-zinc-900/60"
-                    ><span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange group-hover:underline [overflow-wrap:anywhere]">{project.urlLabel}</span><span class="text-stone-400 dark:text-zinc-500">]({project.label})</span></a>
+                      class="group inline hover:bg-accent/5 dark:hover:bg-zinc-900/60"
+                    ><span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-accent dark:text-accent group-hover:text-accent dark:group-hover:text-accent group-hover:underline [overflow-wrap:anywhere]">{project.urlLabel}</span><span class="text-stone-400 dark:text-zinc-500">]({project.label})</span></a>
                     <span class="text-stone-400 dark:text-zinc-600"> - </span>
                     <span>{project.description}</span>
                   </li>
@@ -77,11 +77,11 @@ const nowBuilding = [
 
       {/* Social Links Section */}
       <div
-        class="w-full border-b border-orange/20 dark:border-zinc-800 hidden md:flex divide-x divide-orange/20 dark:divide-zinc-800"
+        class="w-full border-b border-accent/20 dark:border-zinc-800 hidden md:flex divide-x divide-accent/20 dark:divide-zinc-800"
       >
         <div class="site-left-rail"></div>
         <div class="dot-grid max-w-4xl w-full">
-          <nav class="flex divide-x divide-orange/20 dark:divide-zinc-800">
+          <nav class="flex divide-x divide-accent/20 dark:divide-zinc-800">
             <div class="w-8 shrink-0 md:w-16" aria-hidden="true"></div>
             {
               links.map(([href, label, icon, download]) => (
@@ -89,7 +89,7 @@ const nowBuilding = [
                   href={href}
                   icon={icon}
                   download={download}
-                  class="block bg-ivory px-8 py-6 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-orange dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-orange md:px-4"
+                  class="block bg-ivory px-8 py-6 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-accent dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-accent md:px-4"
                 >
                   {label}
                 </ExternalLink>
@@ -102,15 +102,15 @@ const nowBuilding = [
       </div>
 
       {/* Social Links Section Mobile */}
-      <div class="w-full border-b border-orange/20 dark:border-zinc-800 md:hidden">
-        <ul class="flex divide-x dark:divide-zinc-800 divide-orange/20">
+      <div class="w-full border-b border-accent/20 dark:border-zinc-800 md:hidden">
+        <ul class="flex divide-x dark:divide-zinc-800 divide-accent/20">
           {
             links.map(([href, label, , download]) => (
               <li class="flex-1 py-6 items-center flex justify-center">
                 <a
                   href={href}
                   download={download}
-                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-orange dark:text-zinc-400 dark:hover:text-orange transition-colors"
+                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent transition-colors"
                 >
                   {label}
                 </a>

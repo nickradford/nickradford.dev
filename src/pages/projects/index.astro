@@ -26,7 +26,7 @@ const projects = [
 
 <Base title="Projects" description={description}>
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full">
       <PageHeader>
         <DecodeText
           slot="title"
@@ -37,10 +37,10 @@ const projects = [
         <Text slot="description">{description}</Text>
       </PageHeader>
 
-      <div class="w-full flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800">
+      <div class="w-full flex-col space-y-0 divide-y divide-accent/20 dark:divide-zinc-800">
         {
           projects.map((project, index) => (
-            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+            <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
               <div class="site-left-rail" />
               <div class="max-w-4xl w-full">
                 <ProjectPreview

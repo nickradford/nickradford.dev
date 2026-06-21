@@ -286,15 +286,15 @@ const themeLabPreloadScript = getThemeLabPreloadScript();
               links.forEach((link) => {
                 if (active) {
                   link.classList.add(
-                    "text-orange",
-                    "dark:text-orange",
-                    "md:bg-orange/5",
+                    "text-accent",
+                    "dark:text-accent",
+                    "md:bg-accent/5",
                   );
                 } else {
                   link.classList.remove(
-                    "text-orange",
-                    "dark:text-orange",
-                    "md:bg-orange/5",
+                    "text-accent",
+                    "dark:text-accent",
+                    "md:bg-accent/5",
                   );
                 }
               });
@@ -316,9 +316,9 @@ const themeLabPreloadScript = getThemeLabPreloadScript();
 
               links.forEach((link) => {
                 if (active) {
-                  link.classList.add("text-orange", "dark:text-orange");
+                  link.classList.add("text-accent", "dark:text-accent");
                 } else {
-                  link.classList.remove("text-orange", "dark:text-orange");
+                  link.classList.remove("text-accent", "dark:text-accent");
                 }
 
                 // Handle mobile underline
@@ -326,7 +326,7 @@ const themeLabPreloadScript = getThemeLabPreloadScript();
                 if (active && !span) {
                   const newSpan = document.createElement("span");
                   newSpan.className =
-                    "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-orange";
+                    "md:hidden absolute bottom-0 left-0 right-0 h-[2px] bg-accent";
                   link.appendChild(newSpan);
                 } else if (!active && span) {
                   span.remove();

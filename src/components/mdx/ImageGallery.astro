@@ -158,10 +158,10 @@ const { images } = Astro.props;
     @reference "../../styles/tailwind.css";
 
     .swiper-scrollbar {
-      @apply h-1 bg-orange/50 rounded-none;
+      @apply h-1 bg-accent/50 rounded-none;
     }
     .swiper-scrollbar-drag {
-      @apply bg-orange h-1 cursor-grab;
+      @apply bg-accent h-1 cursor-grab;
     }
 
 
@@ -173,7 +173,7 @@ const { images } = Astro.props;
 
     .swiper-caption {
       @apply text-sm font-mono m-0 leading-snug;
-      @apply bg-orange/85 p-4 rounded-xl backdrop-blur mx-4;
+      @apply bg-accent/85 p-4 rounded-xl backdrop-blur mx-4;
       @apply dark:bg-transparent;
       color: var(--theme-accent-foreground, #09090b);
     }

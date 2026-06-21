@@ -45,7 +45,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
                   "mt-1 block font-geist-mono text-xs font-bold leading-snug transition-colors",
                   current
                     ? "text-zinc-500 dark:text-zinc-500"
-                    : "text-zinc-900 group-hover:text-orange dark:text-zinc-50 dark:group-hover:text-orange",
+                    : "text-zinc-900 group-hover:text-accent dark:text-zinc-50 dark:group-hover:text-accent",
                 ]}
               >
                 {post.title}
@@ -58,7 +58,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
               class:list={[
                 "group relative",
                 hasNext &&
-                  "after:absolute after:-left-4 after:top-[0.875rem] after:-bottom-[1.875rem] after:border-l after:border-dashed after:border-orange/25 dark:after:border-zinc-800",
+                  "after:absolute after:-left-4 after:top-[0.875rem] after:-bottom-[1.875rem] after:border-l after:border-dashed after:border-accent/25 dark:after:border-zinc-800",
               ]}
             >
               <span
@@ -66,7 +66,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
                   "absolute -left-[1.25rem] top-[0.625rem] z-10 size-2 border border-ivory dark:border-zinc-950",
                   current
                     ? "bg-zinc-400 dark:bg-zinc-700"
-                    : "bg-orange dark:bg-zinc-500",
+                    : "bg-accent dark:bg-zinc-500",
                 ]}
                 aria-hidden="true"
               />
@@ -83,7 +83,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
                   aria-hidden="true"
                   class="adjacent-post-hovercard pointer-events-none absolute bottom-[calc(100%+0.5rem)] right-0 z-50 text-left"
                 >
-                  <div class="adjacent-post-hovercard__panel relative z-10 border border-orange/20 bg-ivory text-left shadow-xl shadow-zinc-900/10 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-zinc-950/40">
+                  <div class="adjacent-post-hovercard__panel relative z-10 border border-accent/20 bg-ivory text-left shadow-xl shadow-zinc-900/10 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-zinc-950/40">
                     <div class="mb-2 flex items-center gap-2 font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-500">
                       <span>{formatDate(post.date, { dateStyle: "medium" })}</span>
                       <span aria-hidden="true">/</span>

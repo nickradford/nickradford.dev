@@ -26,9 +26,9 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<div class={cn(`changelog-container cursor-pointer h-full group font-geist-mono hover:bg-orange/5 transition-colors`, rootClass)} data-changelog data-default-expanded={defaultExpanded}>
+<div class={cn(`changelog-container cursor-pointer h-full group font-geist-mono hover:bg-accent/5 transition-colors`, rootClass)} data-changelog data-default-expanded={defaultExpanded}>
   <div
-    class="changelog-header flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-geist-mono text-xs py-4 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+    class="changelog-header flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-geist-mono text-xs py-4 group-hover:text-accent dark:group-hover:text-accent transition-colors"
     aria-expanded={defaultExpanded ? "true" : "false"}
     aria-controls="changelog-content"
   >

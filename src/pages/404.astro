@@ -25,9 +25,9 @@ const recoveryLinks = [
   noindex={true}
 >
   <Page class="min-h-[calc(100vh-64px)]">
-    <article class="w-full flex-1 flex flex-col border-l border-r border-orange/20 dark:border-zinc-800">
-      <section class="relative border-b border-orange/20 dark:border-zinc-800 overflow-hidden">
-        <div class="relative flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800">
+    <article class="w-full flex-1 flex flex-col border-l border-r border-accent/20 dark:border-zinc-800">
+      <section class="relative border-b border-accent/20 dark:border-zinc-800 overflow-hidden">
+        <div class="relative flex flex-col md:flex-row md:divide-x divide-accent/20 dark:divide-zinc-800">
           <div class="site-left-rail hidden md:flex" />
           <div class="max-w-4xl w-full px-8 md:px-16 py-10 md:py-14 relative">
             <p class="font-geist-mono text-xs uppercase tracking-[0.22em] text-zinc-500 dark:text-zinc-400">
@@ -42,7 +42,7 @@ const recoveryLinks = [
                 <div class="mt-7 flex flex-wrap gap-3">
                   <a
                     href="/"
-                    class="inline-flex items-center gap-2 px-5 py-3 bg-orange text-zinc-950 font-geist-mono text-sm font-medium hover:bg-orange/90 transition-colors"
+                    class="inline-flex items-center gap-2 px-5 py-3 bg-accent text-zinc-950 font-geist-mono text-sm font-medium hover:bg-accent/90 transition-colors"
                   >
                     Return home <i class="ph ph-house"></i>
                   </a>
@@ -60,14 +60,14 @@ const recoveryLinks = [
         </div>
       </section>
 
-      <section class="w-full border-orange/20 dark:border-zinc-800 relative overflow-hidden">
+      <section class="w-full border-accent/20 dark:border-zinc-800 relative overflow-hidden">
         <div class="pointer-events-none absolute inset-0"></div>
         <div class="flex flex-col md:flex-row ">
           <div class="site-left-rail hidden md:flex" />
           <div class="max-w-4xl w-full py-8 relative text-[10px]">
             <div class="relative font-geist-mono">
-              <div class="relative bg-ivory dark:bg-zinc-950 border border-orange/20 dark:border-zinc-800 overflow-hidden shadow-orange/10 dark:shadow-zinc-100/5 shadow-xl">
-                <div class="flex items-center gap-1.5 px-3 py-2 bg-orange/5 dark:bg-zinc-900/50 border-b border-orange/20 dark:border-zinc-800">
+              <div class="relative bg-ivory dark:bg-zinc-950 border border-accent/20 dark:border-zinc-800 overflow-hidden shadow-accent/10 dark:shadow-zinc-100/5 shadow-xl">
+                <div class="flex items-center gap-1.5 px-3 py-2 bg-accent/5 dark:bg-zinc-900/50 border-b border-accent/20 dark:border-zinc-800">
                   <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
                   <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
                   <div class="size-2 rounded-full bg-zinc-400 dark:bg-zinc-700"></div>
@@ -76,7 +76,7 @@ const recoveryLinks = [
                 <div id="terminal-body" class="p-4 md:px-6 font-geist-mono text-sm leading-7 overflow-x-auto">
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">1</span>
-                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span id="attempted-path" class="text-orange">/&hellip;</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
+                    <span class="terminal-content"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">GET</span> <span id="attempted-path" class="text-accent">/&hellip;</span> <span class="text-stone-400 dark:text-zinc-500">HTTP/1.1</span></span>
                   </div>
                   <div class="terminal-line flex" style="height:0;overflow:hidden;">
                     <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">2</span>
@@ -115,9 +115,9 @@ const recoveryLinks = [
                     <span class="terminal-content"></span>
                   </div>
                   {recoveryLinks.map((link, i) => (
-                    <a href={link.href} class="terminal-line group flex hover:bg-orange/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer" style="height:0;overflow:hidden;">
+                    <a href={link.href} class="terminal-line group flex hover:bg-accent/5 dark:hover:bg-zinc-900/50 -mx-6 px-6 cursor-pointer" style="height:0;overflow:hidden;">
                       <span class="select-none text-stone-400 dark:text-zinc-700 w-6 text-right mr-4 shrink-0">{9 + i}</span>
-                      <span class="terminal-content text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-orange group-hover:underline">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
+                      <span class="terminal-content text-stone-600 dark:text-zinc-400">- <span class="text-stone-400 dark:text-zinc-500">[</span><span class="text-accent dark:text-accent group-hover:underline">{link.label.toLowerCase()}</span><span class="text-stone-400 dark:text-zinc-500">]({link.href})</span> <span class="text-stone-400 dark:text-zinc-600">— {link.detail}</span></span>
                     </a>
                   ))}
                 </div>
@@ -287,19 +287,19 @@ const recoveryLinks = [
 <style>
   .route-wash {
     background:
-      linear-gradient(100deg, color-mix(in srgb, var(--color-orange) 12%, transparent) 0%, transparent 34%),
-      linear-gradient(260deg, color-mix(in srgb, var(--color-orange) 12%, transparent) 0%, transparent 36%);
+      linear-gradient(100deg, color-mix(in srgb, var(--color-accent) 12%, transparent) 0%, transparent 34%),
+      linear-gradient(260deg, color-mix(in srgb, var(--color-accent) 12%, transparent) 0%, transparent 36%);
   }
 
   :global(.dark) .route-wash {
     background:
       linear-gradient(100deg, var(--color-zinc-900) 0%, transparent 38%, transparent 62%, var(--color-zinc-900) 100%),
-      linear-gradient(260deg, color-mix(in srgb, var(--color-orange) 18%, transparent) 0%, transparent 42%);
+      linear-gradient(260deg, color-mix(in srgb, var(--color-accent) 18%, transparent) 0%, transparent 42%);
   }
 
   .terminal-cursor {
     display: inline-block;
-    color: var(--color-orange);
+    color: var(--color-accent);
     opacity: 0.7;
     animation: cursor-blink 0.7s step-end infinite;
     font-size: 0.875rem;

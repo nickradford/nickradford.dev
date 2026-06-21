@@ -88,7 +88,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
   description="Staff Product Engineer with 10+ years building production web applications, internal tools, design systems, developer platforms, and full-stack SaaS products."
 >
   <Page class="min-h-[calc(100vh-64px)]">
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex-1 flex flex-col">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full flex-1 flex flex-col">
       {/* Header Section */}
       <PageHeader>
         <div
@@ -103,7 +103,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
           <a
             href="/nick-radford-resume-2026-06-18.pdf"
             download="Nick Radford Resume.pdf"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-orange hover:bg-orange/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-accent hover:bg-accent/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
             data-umami-event="Download Resume"
             data-umami-event-resume-version="nick-radford-resume-2026-06-18.pdf"
           >
@@ -116,8 +116,8 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
         </Text>
       </PageHeader>
 
-      <section class="w-full border-b border-orange/20 dark:border-zinc-800">
-        <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <section class="w-full border-b border-accent/20 dark:border-zinc-800">
+        <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
           <div class="site-left-rail hidden md:flex" />
           <div class="max-w-4xl w-full">
             <div class="px-8 md:px-16 py-8 md:py-10 space-y-6">
@@ -140,7 +140,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
               </ul>
             </div>
             <div
-              class="dot-grid border-t border-orange/20 px-8 pb-10 pt-6 dark:border-zinc-800 md:px-16 md:pb-12 md:pt-7"
+              class="dot-grid border-t border-accent/20 px-8 pb-10 pt-6 dark:border-zinc-800 md:px-16 md:pb-12 md:pt-7"
               data-tech-chip-region
             >
               <ul class="flex flex-wrap justify-center gap-2">
@@ -153,9 +153,9 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                         data-skill-popover-trigger={skill.detail ? true : undefined}
                         data-tech-chip
                         class:list={[
-                          "tech-chip inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-geist-mono border border-orange/20 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 bg-ivory/90 dark:bg-zinc-950/90",
+                          "tech-chip inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-geist-mono border border-accent/20 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 bg-ivory/90 dark:bg-zinc-950/90",
                           skill.detail &&
-                            "skill-popover-trigger cursor-help outline-none focus-visible:ring-2 focus-visible:ring-orange/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:focus-visible:ring-offset-zinc-950",
+                            "skill-popover-trigger cursor-help outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:focus-visible:ring-offset-zinc-950",
                         ]}
                       >
                         {skill.label}
@@ -166,7 +166,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                           id={`skill-${skill.label.toLowerCase().replaceAll(" ", "-")}`}
                           role="tooltip"
                           data-skill-popover
-                          class="skill-popover pointer-events-none fixed z-50 w-max max-w-48 rounded border border-orange/20 dark:border-zinc-700 bg-ivory px-3 py-2 text-xs font-geist-mono leading-relaxed text-zinc-700 opacity-0 shadow-lg shadow-zinc-900/10 transition duration-150 ease-out dark:bg-zinc-950 dark:text-zinc-300 dark:shadow-black/40"
+                          class="skill-popover pointer-events-none fixed z-50 w-max max-w-48 rounded border border-accent/20 dark:border-zinc-700 bg-ivory px-3 py-2 text-xs font-geist-mono leading-relaxed text-zinc-700 opacity-0 shadow-lg shadow-zinc-900/10 transition duration-150 ease-out dark:bg-zinc-950 dark:text-zinc-300 dark:shadow-black/40"
                         >
                           {skill.detail}
                         </span>
@@ -182,14 +182,14 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </section>
 
       <div
-        class="relative z-10 flex h-0 md:divide-x divide-orange/20 dark:divide-zinc-800"
+        class="relative z-10 flex h-0 md:divide-x divide-accent/20 dark:divide-zinc-800"
         aria-label="Work history detail level"
       >
         <div class="site-left-rail hidden md:flex" />
         <div class="max-w-4xl w-full flex justify-center">
           <div
             class:list={[
-              "work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-orange/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30",
+              "work-view-control inline-flex h-9 -translate-y-1/2 items-center border border-accent/20 bg-ivory p-1 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30",
               "is-initial-render",
               isInitiallyDetailed && "is-detailed",
             ]}
@@ -228,7 +228,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       <div
         id="work-history"
         class:list={[
-          "work-history w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800",
+          "work-history w-full flex flex-col space-y-0 divide-y divide-accent/20 dark:divide-zinc-800 border-b border-accent/20 dark:border-zinc-800",
           "is-initial-render",
           isInitiallyDetailed && "is-detailed",
         ]}
@@ -241,7 +241,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
             return (
               <div
                 id={`work-${getWorkSlug(job.company)}`}
-                class="scroll-mt-24 flex flex-col md:flex-row md:divide-x divide-orange/20 dark:divide-zinc-800 relative"
+                class="scroll-mt-24 flex flex-col md:flex-row md:divide-x divide-accent/20 dark:divide-zinc-800 relative"
               >
                 <div class="site-left-rail hidden md:flex" />
                 <div
@@ -272,7 +272,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                       <div class="space-y-2">
                         <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
                           <div class="space-y-1">
-                            <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors ease-in duration-300">
+                            <h3 class="text-base font-geist-mono font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-accent dark:group-hover:text-accent transition-colors ease-in duration-300">
                               {job.company}
                               {job.extraInfo && (
                                 <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-2">
@@ -333,7 +333,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
                   {(job.summary || job.highlights || job.technologies) && (
                     <button
                       type="button"
-                      class="work-row-more absolute bottom-0 left-1/2 z-10 px-5 py-3 text-xs font-geist-mono text-zinc-500 hover:text-orange focus-visible:text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:text-zinc-500 dark:hover:text-orange dark:focus-visible:text-orange dark:focus-visible:ring-offset-zinc-950"
+                      class="work-row-more absolute bottom-0 left-1/2 z-10 px-5 py-3 text-xs font-geist-mono text-zinc-500 hover:text-accent focus-visible:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:text-zinc-500 dark:hover:text-accent dark:focus-visible:text-accent dark:focus-visible:ring-offset-zinc-950"
                       aria-expanded={jobExpanded ? "true" : "false"}
                       aria-controls={`work-detail-${index}`}
                       data-work-row-toggle
@@ -351,7 +351,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       </div>
 
       {/* Fill remaining space with vertical borders */}
-      <div class="flex-1 flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex-1 flex md:divide-x divide-accent/20 dark:divide-zinc-800">
         <div class="site-left-rail hidden md:flex" />
         <div class="max-w-4xl w-full" />
         <div class="site-right-rail hidden md:flex" />
@@ -373,7 +373,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       bottom: 0.25rem;
       left: 0.25rem;
       width: calc((100% - 0.5rem) / 2);
-      background: color-mix(in srgb, var(--color-orange) 24%, transparent);
+      background: color-mix(in srgb, var(--color-accent) 24%, transparent);
       transition:
         transform 180ms ease,
         background-color 180ms ease;
@@ -392,7 +392,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     .work-view-toggle:hover {
-      color: var(--color-orange);
+      color: var(--color-accent);
     }
 
     .work-view-toggle.is-active {
@@ -400,7 +400,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     :global(.dark) .work-view-control::before {
-      background: color-mix(in srgb, var(--color-orange) 28%, var(--color-zinc-900));
+      background: color-mix(in srgb, var(--color-accent) 28%, var(--color-zinc-900));
     }
 
     :global(.dark) .work-view-toggle {
@@ -408,7 +408,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
     }
 
     :global(.dark) .work-view-toggle:hover {
-      color: var(--color-orange);
+      color: var(--color-accent);
     }
 
     :global(.dark) .work-view-toggle.is-active {
@@ -567,8 +567,8 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
       width: 9px;
       height: 9px;
       transform: translateX(-50%) rotate(45deg);
-      border-right: 1px solid rgba(251, 146, 60, 0.2);
-      border-bottom: 1px solid rgba(251, 146, 60, 0.2);
+      border-right: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
       background: inherit;
     }
 

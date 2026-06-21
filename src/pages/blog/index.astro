@@ -13,7 +13,7 @@ const { posts } = await getLatestPosts();
 
 <Base title="Blog" description={description}>
   <Page>
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full">
       <PageHeader>
         <DecodeText
           slot="title"
@@ -25,7 +25,7 @@ const { posts } = await getLatestPosts();
       </PageHeader>
 
       {/* Blog Posts Section */}
-      <section class="w-full border-b border-orange/20 dark:border-zinc-800">
+      <section class="w-full border-b border-accent/20 dark:border-zinc-800">
         <BlogArchiveList posts={posts} />
       </section>
     </article>

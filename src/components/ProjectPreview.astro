@@ -20,7 +20,7 @@ const hasLinks = project.githubUrl || project.publicUrl;
 <div class="group relative">
   <a
     href={`/projects/${project.slug}`}
-    class="block px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-orange/5 transition-colors"
+    class="block px-8 md:px-16 py-6 no-underline hover:text-inherit hover:bg-accent/5 transition-colors"
   >
     <article class="flex flex-col md:flex-row gap-6">
       {
@@ -29,13 +29,13 @@ const hasLinks = project.githubUrl || project.publicUrl;
             src={project.screenshots[0]}
             alt={project.name}
             loading="lazy"
-            class="w-full md:w-48 aspect-video object-cover rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
+            class="w-full md:w-48 aspect-video object-cover rounded-lg ring-1 ring-accent/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
           />
         )
       }
       <div class="flex flex-col space-y-3 min-w-0 flex-1">
         <h3
-          class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-orange dark:group-hover:text-orange transition-colors"
+          class="text-2xl font-geist-mono font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-accent dark:group-hover:text-accent transition-colors"
         >
           {project.name}
         </h3>
@@ -43,7 +43,7 @@ const hasLinks = project.githubUrl || project.publicUrl;
           {project.description}
         </p>
         <span
-          class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-orange dark:text-zinc-400 dark:group-hover:text-orange transition-colors pt-2"
+          class="text-sm font-geist-mono font-medium text-zinc-600 group-hover:text-accent dark:text-zinc-400 dark:group-hover:text-accent transition-colors pt-2"
         >
           View project <i class="ph ph-arrow-right top-px relative"></i>
         </span>
@@ -53,7 +53,7 @@ const hasLinks = project.githubUrl || project.publicUrl;
   {
     hasLinks && (
       <div
-        class="px-8 md:px-16 py-3 flex items-center gap-2 border-t border-orange/20 dark:border-zinc-800 [--dot-color:rgba(0,0,0,0.06)] dark:[--dot-color:rgba(255,255,255,0.06)]"
+        class="px-8 md:px-16 py-3 flex items-center gap-2 border-t border-accent/20 dark:border-zinc-800 [--dot-color:rgba(0,0,0,0.06)] dark:[--dot-color:rgba(255,255,255,0.06)]"
         style={{
           backgroundImage:
             "radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0)",
@@ -65,7 +65,7 @@ const hasLinks = project.githubUrl || project.publicUrl;
             href={project.githubUrl}
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-orange/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-orange dark:hover:text-orange hover:border-orange/40 dark:hover:border-orange/40 transition-colors bg-ivory dark:bg-zinc-900"
+            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-accent/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent hover:border-accent/40 dark:hover:border-accent/40 transition-colors bg-ivory dark:bg-zinc-900"
           >
             <i class="ph ph-github-logo" /> GitHub
           </a>
@@ -75,7 +75,7 @@ const hasLinks = project.githubUrl || project.publicUrl;
             href={project.publicUrl}
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-orange/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-orange dark:hover:text-orange hover:border-orange/40 dark:hover:border-orange/40 transition-colors bg-ivory dark:bg-zinc-900"
+            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-accent/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent hover:border-accent/40 dark:hover:border-accent/40 transition-colors bg-ivory dark:bg-zinc-900"
           >
             <i class="ph ph-globe" /> Live
           </a>

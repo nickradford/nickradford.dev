@@ -24,7 +24,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 <div class="w-full">
   {
     years.map((year) => (
-      <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
         <div class="site-left-rail hidden md:flex"></div>
         <section class="max-w-4xl w-full px-8 py-7 md:px-16 md:py-5">
           <ol>
@@ -34,17 +34,17 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
                   href={`/blog/${post.slug}`}
                   class="group block no-underline sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:items-start md:grid-cols-[5rem_minmax(0,1fr)]"
                 >
-                  <span class="hidden py-3 font-geist-mono text-sm font-bold text-orange sm:block dark:text-zinc-300">
+                  <span class="hidden py-3 font-geist-mono text-sm font-bold text-accent sm:block dark:text-zinc-300">
                     {index === 0 ? year : ""}
                   </span>
                   <span
                     class:list={[
                       "block py-5 sm:grid sm:gap-2 sm:py-3 sm:grid-cols-[4.75rem_minmax(0,1fr)_4.5rem] sm:items-baseline md:grid-cols-[5.5rem_minmax(0,1fr)_5rem]",
-                      index > 0 && "border-t border-orange/20 dark:border-zinc-800",
+                      index > 0 && "border-t border-accent/20 dark:border-zinc-800",
                     ]}
                   >
                     {index === 0 && (
-                      <span class="mb-6 block font-geist-mono text-sm font-bold text-orange sm:hidden dark:text-zinc-300">
+                      <span class="mb-6 block font-geist-mono text-sm font-bold text-accent sm:hidden dark:text-zinc-300">
                         {year}
                       </span>
                     )}
@@ -56,7 +56,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
                         {post.readingTime.text}
                       </span>
                     </span>
-                    <span class="block font-geist-mono text-sm font-bold leading-relaxed text-zinc-900 transition-colors group-hover:text-orange sm:leading-normal dark:text-zinc-50 dark:group-hover:text-orange">
+                    <span class="block font-geist-mono text-sm font-bold leading-relaxed text-zinc-900 transition-colors group-hover:text-accent sm:leading-normal dark:text-zinc-50 dark:group-hover:text-accent">
                       {post.title}
                     </span>
                     <span class="hidden font-geist-mono text-xs text-zinc-500 sm:block sm:text-right dark:text-zinc-500">

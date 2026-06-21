@@ -813,7 +813,7 @@ export function buildThemeCss(values: ThemeValues) {
   return `
 html:not(.dark) {
   --color-ivory: ${values.light.base};
-  --color-orange: ${values.light.accent};
+  --color-accent: ${values.light.accent};
   --theme-accent-foreground: ${lightAccentForeground};
   --theme-lab-bg: color-mix(in srgb, ${values.light.surface} 94%, transparent);
   --theme-lab-solid-bg: ${values.light.surface};
@@ -841,11 +841,11 @@ html:not(.dark) {
   --theme-code-deleted-bg: ${lightCode.deletedBg};
   --theme-code-deleted-fg: ${lightCode.deletedFg};
   --theme-code-success: ${lightCode.success};
-  --color-orange-300: color-mix(in srgb, ${values.light.accent} 58%, white);
-  --color-orange-400: color-mix(in srgb, ${values.light.accent} 76%, white);
-  --color-orange-500: ${values.light.accent};
-  --color-orange-600: color-mix(in srgb, ${values.light.accent} 88%, black);
-  --color-orange-700: color-mix(in srgb, ${values.light.accent} 74%, black);
+  --color-accent-300: color-mix(in srgb, ${values.light.accent} 58%, white);
+  --color-accent-400: color-mix(in srgb, ${values.light.accent} 76%, white);
+  --color-accent-500: ${values.light.accent};
+  --color-accent-600: color-mix(in srgb, ${values.light.accent} 88%, black);
+  --color-accent-700: color-mix(in srgb, ${values.light.accent} 74%, black);
   --color-zinc-950: ${values.light.ink};
   --color-zinc-900: ${values.light.ink};
   --color-zinc-800: ${values.light.ink};
@@ -861,7 +861,7 @@ html:not(.dark) {
 
 html.dark {
   --color-ivory: ${values.light.base};
-  --color-orange: ${values.dark.accent};
+  --color-accent: ${values.dark.accent};
   --theme-accent-foreground: ${darkAccentForeground};
   --theme-lab-bg: color-mix(in srgb, ${values.dark.surface} 94%, transparent);
   --theme-lab-solid-bg: ${values.dark.surface};
@@ -889,11 +889,11 @@ html.dark {
   --theme-code-deleted-bg: ${darkCode.deletedBg};
   --theme-code-deleted-fg: ${darkCode.deletedFg};
   --theme-code-success: ${darkCode.success};
-  --color-orange-300: color-mix(in srgb, ${values.dark.accent} 74%, white);
-  --color-orange-400: ${values.dark.accent};
-  --color-orange-500: color-mix(in srgb, ${values.dark.accent} 88%, white);
-  --color-orange-600: color-mix(in srgb, ${values.dark.accent} 72%, black);
-  --color-orange-700: color-mix(in srgb, ${values.dark.accent} 58%, black);
+  --color-accent-300: color-mix(in srgb, ${values.dark.accent} 74%, white);
+  --color-accent-400: ${values.dark.accent};
+  --color-accent-500: color-mix(in srgb, ${values.dark.accent} 88%, white);
+  --color-accent-600: color-mix(in srgb, ${values.dark.accent} 72%, black);
+  --color-accent-700: color-mix(in srgb, ${values.dark.accent} 58%, black);
   --color-zinc-950: ${values.dark.base};
   --color-zinc-900: ${values.dark.surface};
   --color-zinc-800: ${values.dark.line};
@@ -917,22 +917,22 @@ html.dark body {
   background-color: ${values.dark.base};
 }
 
-html:not(.dark) .border-orange\\/20,
-html:not(.dark) .border-orange\\/25,
-html:not(.dark) .border-orange\\/30,
-html:not(.dark) .border-t-orange\\/20,
-html:not(.dark) .border-y-orange\\/20,
-html:not(.dark) .border-r-orange\\/20,
-html:not(.dark) .border-l-orange\\/20 {
+html:not(.dark) .border-accent\\/20,
+html:not(.dark) .border-accent\\/25,
+html:not(.dark) .border-accent\\/30,
+html:not(.dark) .border-t-accent\\/20,
+html:not(.dark) .border-y-accent\\/20,
+html:not(.dark) .border-r-accent\\/20,
+html:not(.dark) .border-l-accent\\/20 {
   border-color: ${values.light.line} !important;
 }
 
-html:not(.dark) .divide-orange\\/20 > :not([hidden]) ~ :not([hidden]),
-html:not(.dark) .divide-orange\\/20 > :not(:last-child) {
+html:not(.dark) .divide-accent\\/20 > :not([hidden]) ~ :not([hidden]),
+html:not(.dark) .divide-accent\\/20 > :not(:last-child) {
   border-color: ${values.light.line} !important;
 }
 
-html:not(.dark) .shadow-orange\\/10 {
+html:not(.dark) .shadow-accent\\/10 {
   --tw-shadow-color: ${lightAccentShadow} !important;
 }
 
@@ -941,17 +941,17 @@ html:not(.dark) .shadow-zinc-900\\/10 {
   --tw-shadow-color: ${lightShadow} !important;
 }
 
-html:not(.dark) .bg-orange.text-zinc-950,
-html:not(.dark) .bg-orange.text-zinc-900,
-html:not(.dark) .bg-orange.text-zinc-800,
-html:not(.dark) .bg-orange\\/85.text-zinc-800,
-html:not(.dark) .bg-orange .text-zinc-950,
-html:not(.dark) .bg-orange .text-zinc-900,
-html:not(.dark) .bg-orange .text-zinc-800 {
+html:not(.dark) .bg-accent.text-zinc-950,
+html:not(.dark) .bg-accent.text-zinc-900,
+html:not(.dark) .bg-accent.text-zinc-800,
+html:not(.dark) .bg-accent\\/85.text-zinc-800,
+html:not(.dark) .bg-accent .text-zinc-950,
+html:not(.dark) .bg-accent .text-zinc-900,
+html:not(.dark) .bg-accent .text-zinc-800 {
   color: ${lightAccentForeground} !important;
 }
 
-html.dark .shadow-orange\\/10 {
+html.dark .shadow-accent\\/10 {
   --tw-shadow-color: ${darkAccentShadow} !important;
 }
 
@@ -963,13 +963,13 @@ html.dark .dark\\:shadow-black\\/50 {
   --tw-shadow-color: ${darkShadow} !important;
 }
 
-html.dark .bg-orange.text-zinc-950,
-html.dark .bg-orange.text-zinc-900,
-html.dark .bg-orange.text-zinc-800,
-html.dark .bg-orange\\/85.text-zinc-800,
-html.dark .bg-orange .text-zinc-950,
-html.dark .bg-orange .text-zinc-900,
-html.dark .bg-orange .text-zinc-800 {
+html.dark .bg-accent.text-zinc-950,
+html.dark .bg-accent.text-zinc-900,
+html.dark .bg-accent.text-zinc-800,
+html.dark .bg-accent\\/85.text-zinc-800,
+html.dark .bg-accent .text-zinc-950,
+html.dark .bg-accent .text-zinc-900,
+html.dark .bg-accent .text-zinc-800 {
   color: ${darkAccentForeground} !important;
 }
 `.trim();

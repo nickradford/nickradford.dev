@@ -402,7 +402,7 @@ function ConceptGlowSlider({
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-orange/45"
+          className="pointer-events-none absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-accent/45"
           style={{
             left: `${percentage}%`,
             backgroundColor: palette.accent,
@@ -1013,7 +1013,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
       {!isOpen && showDiscoveryTrigger && (
         <button
           type="button"
-          className="theme-lab-discovery-trigger fixed right-3 top-1/2 z-[60] hidden -translate-y-1/2 items-center gap-2 border px-2 py-3 font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] opacity-35 shadow-lg backdrop-blur transition [background:color-mix(in_srgb,var(--theme-lab-bg)_72%,transparent)] [border-color:var(--theme-lab-border)] [box-shadow:0_18px_42px_var(--theme-lab-shadow)] [color:var(--theme-lab-muted)] hover:border-orange hover:text-orange hover:opacity-100 focus-visible:opacity-100 xl:flex"
+          className="theme-lab-discovery-trigger fixed right-3 top-1/2 z-[60] hidden -translate-y-1/2 items-center gap-2 border px-2 py-3 font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] opacity-35 shadow-lg backdrop-blur transition [background:color-mix(in_srgb,var(--theme-lab-bg)_72%,transparent)] [border-color:var(--theme-lab-border)] [box-shadow:0_18px_42px_var(--theme-lab-shadow)] [color:var(--theme-lab-muted)] hover:border-accent hover:text-accent hover:opacity-100 focus-visible:opacity-100 xl:flex"
           onClick={openLab}
           title="Open Theme Lab"
         >
@@ -1045,7 +1045,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 {hasUnsavedCustomTheme && !isSaveOpen && (
                   <button
                     type="button"
-                    className="inline-flex h-7 items-center gap-1.5 border px-2 font-geist-mono text-[0.625rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                    className="inline-flex h-7 items-center gap-1.5 border px-2 font-geist-mono text-[0.625rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-accent hover:text-accent"
                     onClick={() => void openSaveForm()}
                   >
                     <i className="ph ph-floppy-disk" aria-hidden="true" />
@@ -1054,7 +1054,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 )}
                 <button
                   type="button"
-                  className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-orange"
+                  className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-accent"
                   onClick={() => {
                     setIsHistoryOpen(false);
                     setIsSaveOpen(false);
@@ -1077,8 +1077,8 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                     className={[
                       "px-3 py-2 font-geist-mono text-xs capitalize transition-colors",
                       selectedMode === mode
-                        ? "bg-orange [color:var(--theme-accent-foreground)]"
-                        : "[color:var(--theme-lab-muted)] hover:text-orange",
+                        ? "bg-accent [color:var(--theme-accent-foreground)]"
+                        : "[color:var(--theme-lab-muted)] hover:text-accent",
                     ].join(" ")}
                     onClick={() => selectMode(mode)}
                   >
@@ -1096,8 +1096,8 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                       className={[
                         "px-3 py-2 font-geist-mono text-xs capitalize transition-colors",
                         activeLabTab === tab
-                          ? "bg-orange [color:var(--theme-accent-foreground)]"
-                          : "[color:var(--theme-lab-muted)] hover:text-orange",
+                          ? "bg-accent [color:var(--theme-accent-foreground)]"
+                          : "[color:var(--theme-lab-muted)] hover:text-accent",
                       ].join(" ")}
                       onClick={() => setActiveLabTab(tab)}
                     >
@@ -1112,7 +1112,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
               <div className="mt-3 grid grid-cols-4 gap-1.5">
                 <button
                   type="button"
-                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-accent hover:text-accent"
                   onClick={randomizeMode}
                 >
                   <i className="ph ph-shuffle" aria-hidden="true" />
@@ -1123,8 +1123,8 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                   className={[
                     "inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors",
                     dailyEnabled
-                      ? "border-orange bg-orange [color:var(--theme-accent-foreground)] hover:bg-orange hover:[color:var(--theme-accent-foreground)]"
-                      : "[border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange",
+                      ? "border-accent bg-accent [color:var(--theme-accent-foreground)] hover:bg-accent hover:[color:var(--theme-accent-foreground)]"
+                      : "[border-color:var(--theme-lab-border)] hover:border-accent hover:text-accent",
                   ]
                     .filter(Boolean)
                     .join(" ")}
@@ -1136,7 +1136,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 </button>
                 <button
                   type="button"
-                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-accent hover:text-accent"
                   onClick={reset}
                 >
                   <i className="ph ph-arrow-counter-clockwise" aria-hidden="true" />
@@ -1145,7 +1145,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 <div ref={historyMenuRef} className="relative min-w-0">
                   <button
                     type="button"
-                    className="inline-flex w-full min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-orange hover:text-orange"
+                    className="inline-flex w-full min-w-0 items-center justify-center gap-1.5 border px-2 py-2 font-geist-mono text-[0.6875rem] transition-colors [border-color:var(--theme-lab-border)] hover:border-accent hover:text-accent"
                     onClick={() => setIsHistoryOpen((current) => !current)}
                     aria-expanded={isHistoryOpen}
                   >
@@ -1172,7 +1172,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                               <button
                                 key={item.id}
                                 type="button"
-                                className="group w-full border px-2 py-2 text-left transition-colors [border-color:var(--theme-lab-border)] hover:border-orange focus-visible:border-orange"
+                                className="group w-full border px-2 py-2 text-left transition-colors [border-color:var(--theme-lab-border)] hover:border-accent focus-visible:border-accent"
                                 onClick={() => applyHistoryItem(item)}
                               >
                                 <span className="min-w-0 truncate font-geist-mono text-[0.6875rem]">
@@ -1196,7 +1196,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                                     </span>
                                   ))}
                                 </span>
-                                <span className="mt-2 block font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)] group-hover:text-orange">
+                                <span className="mt-2 block font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)] group-hover:text-accent">
                                   {selectedMode}
                                 </span>
                               </button>
@@ -1218,7 +1218,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                     <button
                       key={preset.id}
                       type="button"
-                      className="flex min-h-12 items-center gap-2 border px-2 py-2 text-left transition-colors [border-color:var(--theme-lab-border)] hover:border-orange"
+                      className="flex min-h-12 items-center gap-2 border px-2 py-2 text-left transition-colors [border-color:var(--theme-lab-border)] hover:border-accent"
                       onClick={() => applyPreset(preset, selectedMode)}
                     >
                       <span className="flex gap-1">
@@ -1251,7 +1251,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                       >
                         <button
                           type="button"
-                          className="flex min-w-0 items-center gap-2 px-2 py-2 text-left transition-colors hover:text-orange"
+                          className="flex min-w-0 items-center gap-2 px-2 py-2 text-left transition-colors hover:text-accent"
                           onClick={() => applyCustomTheme(theme)}
                         >
                           <span className="flex gap-1">
@@ -1265,7 +1265,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                         </button>
                         <button
                           type="button"
-                          className="flex w-8 items-center justify-center border-l transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:text-orange"
+                          className="flex w-8 items-center justify-center border-l transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:text-accent"
                           onClick={() => deleteCustomTheme(theme.id)}
                           title={`Delete ${theme.name}`}
                         >
@@ -1388,8 +1388,8 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                           className={[
                             "flex size-7 shrink-0 items-center justify-center rounded-full border transition",
                             isActive
-                              ? "border-orange"
-                              : "[border-color:var(--theme-lab-border)] hover:border-orange",
+                              ? "border-accent"
+                              : "[border-color:var(--theme-lab-border)] hover:border-accent",
                           ].join(" ")}
                           onClick={() => applyPreset(preset, selectedMode)}
                           title={preset.name}
@@ -1449,7 +1449,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                     </label>
                     <button
                       type="button"
-                      className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-orange"
+                      className="inline-flex size-7 items-center justify-center transition-colors [color:var(--theme-lab-muted)] hover:text-accent"
                       onClick={() => {
                         setIsSaveOpen(false);
                         setThemeName("");
@@ -1463,7 +1463,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                   <input
                     id="theme-lab-custom-name"
                     type="text"
-                    className="w-full border px-3 py-2 font-geist-mono text-sm outline-none [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] focus:border-orange"
+                    className="w-full border px-3 py-2 font-geist-mono text-sm outline-none [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] focus:border-accent"
                     value={themeName}
                     placeholder={
                       isGeneratingName ? "Generating name..." : "Custom theme"
@@ -1473,7 +1473,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                   <div className="mt-3 flex justify-end gap-2">
                     <button
                       type="button"
-                      className="border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:border-orange hover:text-orange"
+                      className="border px-3 py-2 font-geist-mono text-xs transition-colors [border-color:var(--theme-lab-border)] [color:var(--theme-lab-muted)] hover:border-accent hover:text-accent"
                       onClick={() => {
                         setIsSaveOpen(false);
                         setThemeName("");
@@ -1483,7 +1483,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                     </button>
                     <button
                       type="submit"
-                      className="inline-flex items-center gap-2 border border-orange bg-orange px-3 py-2 font-geist-mono text-xs transition-colors [color:var(--theme-accent-foreground)]"
+                      className="inline-flex items-center gap-2 border border-accent bg-accent px-3 py-2 font-geist-mono text-xs transition-colors [color:var(--theme-accent-foreground)]"
                     >
                       <i className="ph ph-floppy-disk" aria-hidden="true" />
                       Save

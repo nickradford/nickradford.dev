@@ -45,7 +45,7 @@ const normalizedLinks = links.map((link) => {
 
 <Base title="Links" description={description}>
   <Page class="min-h-[calc(100vh-64px)]">
-    <article class="border-l border-r border-orange/20 dark:border-zinc-800 w-full flex-1 flex flex-col">
+    <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full flex-1 flex flex-col">
       <PageHeader>
         <DecodeText
           slot="title"
@@ -56,12 +56,12 @@ const normalizedLinks = links.map((link) => {
         <Text slot="description">{description}</Text>
       </PageHeader>
 
-      <div class="w-full flex flex-col space-y-0 divide-y divide-orange/20 dark:divide-zinc-800 border-b border-orange/20 dark:border-zinc-800">
+      <div class="w-full flex flex-col space-y-0 divide-y divide-accent/20 dark:divide-zinc-800 border-b border-accent/20 dark:border-zinc-800">
         {
           normalizedLinks.map((link, index) => (
-            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+            <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
               <div class="site-left-rail hidden md:flex" />
-              <article class="max-w-4xl w-full group px-8 md:px-16 py-8 md:py-9 hover:bg-orange/5 dark:hover:bg-zinc-900/40 transition-colors">
+              <article class="max-w-4xl w-full group px-8 md:px-16 py-8 md:py-9 hover:bg-accent/5 dark:hover:bg-zinc-900/40 transition-colors">
                 <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-8">
                   <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.18em] font-geist-mono text-zinc-500 dark:text-zinc-400">
@@ -75,7 +75,7 @@ const normalizedLinks = links.map((link) => {
                         href={link.url}
                         target="_blank"
                         rel="noopener nofollow"
-                        class="inline items-center gap-2 text-2xl md:text-3xl font-geist-mono font-bold tracking-tight leading-[1.2] text-zinc-900 dark:text-zinc-50 hover:text-orange dark:hover:text-orange transition-colors"
+                        class="inline items-center gap-2 text-2xl md:text-3xl font-geist-mono font-bold tracking-tight leading-[1.2] text-zinc-900 dark:text-zinc-50 hover:text-accent dark:hover:text-accent transition-colors"
                       >
                         {link.title}&nbsp;<i class="ph ph-arrow-up-right text-lg md:text-xl shrink-0" />
                       </a>
@@ -97,7 +97,7 @@ const normalizedLinks = links.map((link) => {
                           href={link.twitterProfileUrl}
                           target="_blank"
                           rel="noopener nofollow"
-                          class="hover:text-orange dark:hover:text-orange transition-colors"
+                          class="hover:text-accent dark:hover:text-accent transition-colors"
                         >
                           @{link.twitterUsername}
                         </a>
@@ -112,7 +112,7 @@ const normalizedLinks = links.map((link) => {
                           src={link.imageUrl}
                           alt={link.title}
                           loading="lazy"
-                          class="w-full md:w-55 aspect-4/3 object-cover rounded-lg ring-1 ring-orange/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
+                          class="w-full md:w-55 aspect-4/3 object-cover rounded-lg ring-1 ring-accent/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
                         />
                       </a>
                     )
@@ -125,10 +125,10 @@ const normalizedLinks = links.map((link) => {
         }
         {
           normalizedLinks.length === 0 && (
-            <div class="flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+            <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
               <div class="site-left-rail hidden md:flex" />
               <div class="max-w-4xl w-full px-8 md:px-16 py-14">
-                <div class="rounded-2xl border border-dashed border-orange/30 dark:border-zinc-800 bg-orange/5 dark:bg-zinc-900/40 p-8 md:p-10">
+                <div class="rounded-2xl border border-dashed border-accent/30 dark:border-zinc-800 bg-accent/5 dark:bg-zinc-900/40 p-8 md:p-10">
                   <p class="font-geist-mono text-sm md:text-base text-zinc-600 dark:text-zinc-300">
                     No links yet. Add your first entry in Keystatic under <code>Inspo Links</code>.
                   </p>
@@ -140,7 +140,7 @@ const normalizedLinks = links.map((link) => {
         }
       </div>
 
-      <div class="flex-1 flex md:divide-x divide-orange/20 dark:divide-zinc-800">
+      <div class="flex-1 flex md:divide-x divide-accent/20 dark:divide-zinc-800">
         <div class="site-left-rail hidden md:flex" />
         <div class="max-w-4xl w-full" />
         <div class="site-right-rail hidden md:flex" />
