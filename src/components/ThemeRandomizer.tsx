@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import {
   buildThemeCss,
   CURRENT_STORAGE_KEY,
@@ -7,24 +13,36 @@ import {
   DAILY_STORAGE_KEY,
   fields,
   FOUND_STORAGE_KEY,
+  getConceptHarmonyPoints,
   HISTORY_STORAGE_KEY,
   historySwatches,
+  makeConceptPalette,
   makeDailyTheme,
-  makeRandomPalette,
+  makeRandomConceptPoint,
   modePresets,
   normalizeTheme,
   originalTheme,
   serializeTheme,
   STYLE_ID,
+  type ConceptPoint,
   type CustomTheme,
   type Palette,
   type PaletteField,
+  type PalettePreset,
   type ThemeMode,
   type ThemeValues,
 } from "../lib/theme-lab";
 
 type Props = {
   currentPath: string;
+};
+
+type ConceptMotion = "spring" | "direct";
+
+const fallbackConceptPoint: ConceptPoint = {
+  voltage: 0.58,
+  entropy: 0.24,
+  glow: 0.18,
 };
 
 declare global {
@@ -187,6 +205,62 @@ function shouldIgnoreKeyboardShortcut(target: EventTarget | null) {
   );
 }
 
+function clamp01(value: number) {
+  return Math.min(1, Math.max(0, value));
+}
+
+function pointFromPointer(
+  event: ReactPointerEvent<HTMLDivElement>,
+  glow: number,
+): ConceptPoint {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const voltage = clamp01((event.clientX - rect.left) / rect.width);
+  const entropy = clamp01(1 - (event.clientY - rect.top) / rect.height);
+
+  return {
+    voltage: Number(voltage.toFixed(3)),
+    entropy: Number(entropy.toFixed(3)),
+    glow,
+  };
+}
+
+function formatConceptValue(value: number) {
+  return Math.round(value * 100);
+}
+
+function getConceptPointKey(point: ConceptPoint) {
+  return [
+    formatConceptValue(point.voltage),
+    formatConceptValue(point.entropy),
+    formatConceptValue(point.glow),
+  ].join("-");
+}
+
+function getPaletteKey(palette: Palette) {
+  return fields.map(({ key }) => palette[key]).join("|");
+}
+
+function findPresetForPalette(mode: ThemeMode, palette: Palette) {
+  const paletteKey = getPaletteKey(palette);
+
+  return modePresets[mode].find(
+    (preset) => getPaletteKey(preset.palette) === paletteKey,
+  );
+}
+
+const springTransition =
+  "560ms cubic-bezier(0.22, 1.38, 0.36, 1)";
+const directColorTransition =
+  "background-color 120ms linear, border-color 120ms linear, box-shadow 120ms linear";
+const conceptDragThreshold = 4;
+
+type ConceptPointerIntent = {
+  hasDragged: boolean;
+  point: ConceptPoint;
+  x: number;
+  y: number;
+};
+
 function Swatch({ value }: { value: string }) {
   return (
     <span
@@ -197,13 +271,175 @@ function Swatch({ value }: { value: string }) {
   );
 }
 
+function ConceptPadPoint({
+  color,
+  isPrimary = false,
+  motion,
+  palette,
+  point,
+}: {
+  color: string;
+  isPrimary?: boolean;
+  motion: ConceptMotion;
+  palette: Palette;
+  point: ConceptPoint;
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      className={[
+        "pointer-events-none absolute rounded-full border-[3px]",
+        isPrimary ? "size-9" : "size-6 opacity-95",
+      ].join(" ")}
+      style={{
+        left: `${point.voltage * 100}%`,
+        bottom: `${point.entropy * 100}%`,
+        transform: "translate(-50%, 50%)",
+        transition:
+          motion === "spring"
+            ? [
+                `left ${springTransition}`,
+                `bottom ${springTransition}`,
+                `background-color ${springTransition}`,
+                `border-color ${springTransition}`,
+                `box-shadow ${springTransition}`,
+              ].join(", ")
+            : directColorTransition,
+        backgroundColor: color,
+        borderColor: palette.surface,
+        boxShadow: isPrimary
+          ? `0 4px 10px color-mix(in srgb, ${palette.shadow} 42%, transparent)`
+          : `0 3px 8px color-mix(in srgb, ${color} 18%, transparent)`,
+      }}
+    />
+  );
+}
+
+function ConceptHarmonyPoints({
+  motion,
+  palette,
+  points,
+}: {
+  motion: ConceptMotion;
+  palette: Palette;
+  points: [ConceptPoint, ConceptPoint, ConceptPoint];
+}) {
+  const swatches = [
+    { color: palette.accent, isPrimary: true, key: "primary", point: points[0] },
+    { color: palette.muted, key: "secondary", point: points[1] },
+    { color: palette.subtle, key: "tertiary", point: points[2] },
+  ];
+
+  return (
+    <span className="pointer-events-none absolute inset-0">
+      {swatches
+        .slice(1)
+        .map((swatch) => (
+          <ConceptPadPoint
+            key={swatch.key}
+            color={swatch.color}
+            motion={motion}
+            palette={palette}
+            point={swatch.point}
+          />
+        ))}
+      <ConceptPadPoint
+        color={swatches[0].color}
+        isPrimary
+        motion={motion}
+        palette={palette}
+        point={swatches[0].point}
+      />
+    </span>
+  );
+}
+
+function ConceptGlowSlider({
+  motion,
+  palette,
+  value,
+  onChange,
+}: {
+  motion: ConceptMotion;
+  palette: Palette;
+  value: number;
+  onChange: (value: number, motion?: ConceptMotion) => void;
+}) {
+  const percentage = formatConceptValue(value);
+
+  return (
+    <label className="mt-3 block border p-2 [border-color:var(--theme-lab-border)]">
+      <span className="mb-2 flex items-center justify-between font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] [color:var(--theme-lab-muted)]">
+        <span>Paper</span>
+        <span>Glow</span>
+      </span>
+      <span className="relative block h-7">
+        <span
+          aria-hidden="true"
+          className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 [background:var(--theme-lab-border)]"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute left-0 top-1/2 h-1 -translate-y-1/2"
+          style={{
+            width: `${percentage}%`,
+            backgroundColor: palette.accent,
+            transition:
+              motion === "spring"
+                ? `width ${springTransition}, background-color ${springTransition}`
+                : "background-color 120ms linear",
+          }}
+        />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={percentage}
+          className="peer absolute inset-0 z-10 h-7 w-full cursor-pointer opacity-0"
+          onChange={(event) =>
+            onChange(Number(event.currentTarget.value) / 100, "direct")
+          }
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-orange/45"
+          style={{
+            left: `${percentage}%`,
+            backgroundColor: palette.accent,
+            borderColor: palette.surface,
+            boxShadow: `0 4px 10px color-mix(in srgb, ${palette.accent} 28%, transparent)`,
+            transition:
+              motion === "spring"
+                ? [
+                    `left ${springTransition}`,
+                    `background-color ${springTransition}`,
+                    `border-color ${springTransition}`,
+                    `box-shadow ${springTransition}`,
+                  ].join(", ")
+                : directColorTransition,
+          }}
+        />
+      </span>
+    </label>
+  );
+}
+
 export default function ThemeRandomizer({ currentPath }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isConceptPadUnlocked, setIsConceptPadUnlocked] = useState(false);
+  const [activeLabTab, setActiveLabTab] = useState<"tokens" | "mood">(
+    "tokens",
+  );
   const [discovered, setDiscovered] = useState(false);
   const [dailyEnabled, setDailyEnabled] = useState(false);
   const [selectedMode, setSelectedMode] = useState<ThemeMode>("light");
   const [values, setValues] = useState<ThemeValues>(originalTheme);
+  const [conceptPoint, setConceptPoint] = useState<ConceptPoint>(
+    modePresets.light.find((preset) => preset.id === "original")?.point ??
+      fallbackConceptPoint,
+  );
+  const [conceptMotion, setConceptMotion] = useState<ConceptMotion>("spring");
   const [historyItems, setHistoryItems] = useState<ThemeValues[]>([]);
   const [customThemes, setCustomThemes] = useState<CustomTheme[]>([]);
   const [hasUnsavedCustomTheme, setHasUnsavedCustomTheme] = useState(false);
@@ -213,6 +449,7 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   const valuesRef = useRef(values);
   const labRef = useRef<HTMLDivElement | null>(null);
   const historyMenuRef = useRef<HTMLDivElement | null>(null);
+  const conceptPointerIntentRef = useRef<ConceptPointerIntent | null>(null);
 
   useEffect(() => {
     valuesRef.current = values;
@@ -225,12 +462,17 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     const initialTheme = initialDailyEnabled
       ? makeDailyTheme()
       : storedTheme ?? originalTheme;
+    const initialMode = getActiveMode();
     const initialDiscovered =
       window.localStorage.getItem(FOUND_STORAGE_KEY) === "true";
 
     setValues(initialTheme);
     setDailyEnabled(initialDailyEnabled);
-    setSelectedMode(getActiveMode());
+    setSelectedMode(initialMode);
+    setConceptPoint(
+      findPresetForPalette(initialMode, initialTheme[initialMode])?.point ??
+        fallbackConceptPoint,
+    );
     setHistoryItems(loadHistory());
     setCustomThemes(loadCustomThemes());
     setDiscovered(initialDiscovered);
@@ -238,7 +480,16 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     applyTheme(initialTheme);
 
     const observer = new MutationObserver(() => {
-      setSelectedMode(getActiveMode());
+      const mode = getActiveMode();
+      const preset = findPresetForPalette(mode, valuesRef.current[mode]);
+
+      setSelectedMode(mode);
+
+      if (preset) {
+        setConceptMotion("spring");
+        setConceptPoint(preset.point);
+      }
+
       syncChromeTheme(valuesRef.current);
     });
 
@@ -270,9 +521,16 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     };
 
     const handleLabReset = () => {
+      const mode = getActiveMode();
+
       setDailyEnabled(false);
       setHasUnsavedCustomTheme(false);
       setIsSaveOpen(false);
+      setConceptMotion("spring");
+      setConceptPoint(
+        modePresets[mode].find((preset) => preset.id === "original")?.point ??
+          fallbackConceptPoint,
+      );
       window.localStorage.removeItem(DAILY_STORAGE_KEY);
       setValues(originalTheme);
       window.localStorage.removeItem(CURRENT_STORAGE_KEY);
@@ -351,6 +609,9 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   }, [isOpen]);
 
   const currentPalette = values[selectedMode];
+  const conceptPalette = currentPalette;
+  const conceptHarmonyPoints = getConceptHarmonyPoints(conceptPoint);
+  const activeConceptKey = getConceptPointKey(conceptPoint);
   const selectedModeCustomThemes = customThemes.filter(
     (theme) => theme.mode === selectedMode,
   );
@@ -359,6 +620,12 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   function openLab() {
     setDiscovered(true);
     setIsOpen(true);
+  }
+
+  function unlockConceptPad() {
+    setIsConceptPadUnlocked(true);
+    setActiveLabTab("mood");
+    setIsHistoryOpen(false);
   }
 
   function clearCustomDraft() {
@@ -432,12 +699,11 @@ export default function ThemeRandomizer({ currentPath }: Props) {
     applyTheme(previousTheme);
   }
 
-  function applyPreset(
-    preset: { id: string; name: string; palette: Palette },
-    mode: ThemeMode,
-  ) {
+  function applyPreset(preset: PalettePreset, mode: ThemeMode) {
     disableDailyTheme();
     clearCustomDraft();
+    setConceptMotion("spring");
+    setConceptPoint(preset.point);
 
     const theme = {
       ...values,
@@ -466,7 +732,15 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   }
 
   function selectMode(mode: ThemeMode) {
+    const preset = findPresetForPalette(mode, valuesRef.current[mode]);
+
     setSelectedMode(mode);
+
+    if (preset) {
+      setConceptMotion("spring");
+      setConceptPoint(preset.point);
+    }
+
     window.astroThemeToggle?.setTheme(mode);
     window.requestAnimationFrame(() => syncChromeTheme(valuesRef.current));
   }
@@ -474,29 +748,131 @@ export default function ThemeRandomizer({ currentPath }: Props) {
   function randomizeMode() {
     disableDailyTheme();
     markCustomDraft();
+    setConceptMotion("spring");
 
+    const nextPoint = makeRandomConceptPoint();
     const next = {
       ...values,
       id: `random-${selectedMode}-${Date.now()}`,
-      name: `Random ${selectedMode}`,
-      [selectedMode]: makeRandomPalette(selectedMode),
+      name: `Shuffle ${selectedMode}`,
+      [selectedMode]: makeConceptPalette(selectedMode, nextPoint),
     };
 
+    setConceptPoint(nextPoint);
     setValues(next);
     saveHistory(next);
+  }
+
+  function applyConceptPoint(
+    nextPoint: ConceptPoint,
+    motion: ConceptMotion = "spring",
+  ) {
+    disableDailyTheme();
+    markCustomDraft();
+    setConceptMotion(motion);
+    setConceptPoint(nextPoint);
+
+    setValues((current) => ({
+      ...current,
+      id: `mood-${selectedMode}-${formatConceptValue(nextPoint.voltage)}-${formatConceptValue(nextPoint.entropy)}-${formatConceptValue(nextPoint.glow)}`,
+      name: `Mood ${formatConceptValue(nextPoint.voltage)} / ${formatConceptValue(nextPoint.entropy)} / ${formatConceptValue(nextPoint.glow)}`,
+      [selectedMode]: makeConceptPalette(selectedMode, nextPoint),
+    }));
+  }
+
+  function handleConceptPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    event.currentTarget.setPointerCapture(event.pointerId);
+
+    conceptPointerIntentRef.current = {
+      hasDragged: false,
+      point: pointFromPointer(event, conceptPoint.glow),
+      x: event.clientX,
+      y: event.clientY,
+    };
+  }
+
+  function handleConceptPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const intent = conceptPointerIntentRef.current;
+
+    if (!intent || event.buttons !== 1) {
+      return;
+    }
+
+    const distance = Math.hypot(event.clientX - intent.x, event.clientY - intent.y);
+
+    if (distance < conceptDragThreshold && !intent.hasDragged) {
+      return;
+    }
+
+    intent.hasDragged = true;
+    applyConceptPoint(pointFromPointer(event, conceptPoint.glow), "direct");
+  }
+
+  function handleConceptPointerUp(event: ReactPointerEvent<HTMLDivElement>) {
+    const intent = conceptPointerIntentRef.current;
+
+    if (!intent) {
+      return;
+    }
+
+    conceptPointerIntentRef.current = null;
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    if (intent.hasDragged) {
+      setConceptMotion("spring");
+      return;
+    }
+
+    applyConceptPoint(intent.point, "spring");
+  }
+
+  function handleConceptPointerCancel(event: ReactPointerEvent<HTMLDivElement>) {
+    conceptPointerIntentRef.current = null;
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    setConceptMotion("spring");
+  }
+
+  function updateConceptGlow(value: number, motion: ConceptMotion = "spring") {
+    applyConceptPoint(
+      {
+        ...conceptPoint,
+        glow: Number(clamp01(value).toFixed(3)),
+      },
+      motion,
+    );
   }
 
   function reset() {
     disableDailyTheme();
     clearCustomDraft();
+    setConceptMotion("spring");
+    setConceptPoint(
+      modePresets[selectedMode].find((preset) => preset.id === "original")
+        ?.point ?? fallbackConceptPoint,
+    );
     setValues(originalTheme);
     window.localStorage.removeItem(CURRENT_STORAGE_KEY);
     applyTheme(originalTheme);
   }
 
   function applyHistoryItem(item: ThemeValues) {
+    const preset = findPresetForPalette(selectedMode, item[selectedMode]);
+
     disableDailyTheme();
     clearCustomDraft();
+
+    if (preset) {
+      setConceptMotion("spring");
+      setConceptPoint(preset.point);
+    }
+
     setValues(item);
     window.localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(item));
     applyTheme(item);
@@ -656,10 +1032,15 @@ export default function ThemeRandomizer({ currentPath }: Props) {
             className="relative w-[min(25rem,calc(100vw-2rem))] overflow-hidden border backdrop-blur [background:var(--theme-lab-bg)] [border-color:var(--theme-lab-border)] [box-shadow:0_24px_80px_var(--theme-lab-shadow)]"
           >
             <header className="flex items-center justify-between border-b px-3 py-2 [border-color:var(--theme-lab-border)]">
-              <div className="flex items-center gap-2 font-geist-mono text-xs font-bold">
+              <button
+                type="button"
+                className="flex items-center gap-2 border-0 bg-transparent p-0 font-geist-mono text-xs font-bold text-inherit"
+                onDoubleClick={unlockConceptPad}
+                title="Theme Lab"
+              >
                 <i className="ph ph-palette" aria-hidden="true" />
                 Theme Lab
-              </div>
+              </button>
               <div className="flex items-center gap-1.5">
                 {hasUnsavedCustomTheme && !isSaveOpen && (
                   <button
@@ -706,6 +1087,28 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                 ))}
               </div>
 
+              {isConceptPadUnlocked && (
+                <div className="mt-3 grid grid-cols-2 gap-1 border p-1 [border-color:var(--theme-lab-border)]">
+                  {(["tokens", "mood"] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      type="button"
+                      className={[
+                        "px-3 py-2 font-geist-mono text-xs capitalize transition-colors",
+                        activeLabTab === tab
+                          ? "bg-orange [color:var(--theme-accent-foreground)]"
+                          : "[color:var(--theme-lab-muted)] hover:text-orange",
+                      ].join(" ")}
+                      onClick={() => setActiveLabTab(tab)}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {activeLabTab === "tokens" ? (
+                <>
               <div className="mt-3 grid grid-cols-4 gap-1.5">
                 <button
                   type="button"
@@ -903,7 +1306,132 @@ export default function ThemeRandomizer({ currentPath }: Props) {
                   ))}
                 </div>
               </div>
+                </>
+              ) : (
+                <div className="mt-3">
+                  <div className="mb-2 flex items-center justify-between font-geist-mono text-[0.625rem] uppercase tracking-[0.18em] [color:var(--theme-lab-muted)]">
+                    <span>Mood</span>
+                    <span>
+                      {formatConceptValue(conceptPoint.voltage)} /{" "}
+                      {formatConceptValue(conceptPoint.entropy)} /{" "}
+                      {formatConceptValue(conceptPoint.glow)}
+                    </span>
+                  </div>
+                  <div
+                    className="relative aspect-square touch-none select-none overflow-hidden border [border-color:var(--theme-lab-border)]"
+                    role="application"
+                    aria-label="Calm to voltage and order to entropy mood field"
+                    onPointerDown={handleConceptPointerDown}
+                    onPointerMove={handleConceptPointerMove}
+                    onPointerUp={handleConceptPointerUp}
+                    onPointerCancel={handleConceptPointerCancel}
+                    style={{
+                      backgroundColor: conceptPalette.surface,
+                      backgroundImage: [
+                        `radial-gradient(color-mix(in srgb, ${conceptPalette.line} 58%, transparent) 1px, transparent 1px)`,
+                        `linear-gradient(to right, color-mix(in srgb, ${conceptPalette.surface} 88%, ${conceptPalette.line}), color-mix(in srgb, ${conceptPalette.accent} 22%, ${conceptPalette.surface}))`,
+                        `linear-gradient(to top, color-mix(in srgb, ${conceptPalette.base} 92%, ${conceptPalette.ink}), color-mix(in srgb, ${conceptPalette.accent} 16%, ${conceptPalette.surface}))`,
+                      ].join(", "),
+                      backgroundSize: "8px 8px, 100% 100%, 100% 100%",
+                    }}
+                  >
+                    <div
+                      className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 [background:var(--theme-lab-border)]"
+                      style={{
+                        WebkitMaskImage:
+                          "linear-gradient(to right, transparent, black 18%, black 82%, transparent)",
+                        maskImage:
+                          "linear-gradient(to right, transparent, black 18%, black 82%, transparent)",
+                      }}
+                    />
+                    <div
+                      className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 [background:var(--theme-lab-border)]"
+                      style={{
+                        WebkitMaskImage:
+                          "linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)",
+                        maskImage:
+                          "linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)",
+                      }}
+                    />
+                    <div className="pointer-events-none absolute left-1/2 top-2 -translate-x-1/2 font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)]">
+                      Entropy
+                    </div>
+                    <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)]">
+                      Order
+                    </div>
+                    <div className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)]">
+                      Calm
+                    </div>
+                    <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-right font-geist-mono text-[0.5625rem] uppercase tracking-[0.16em] [color:var(--theme-lab-muted)]">
+                      Voltage
+                    </div>
+                    <ConceptHarmonyPoints
+                      motion={conceptMotion}
+                      palette={conceptPalette}
+                      points={conceptHarmonyPoints}
+                    />
+                    <span className="sr-only">
+                      Voltage {formatConceptValue(conceptPoint.voltage)}, entropy{" "}
+                      {formatConceptValue(conceptPoint.entropy)}, glow{" "}
+                      {formatConceptValue(conceptPoint.glow)}
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-2">
+                    {modePresets[selectedMode].map((preset) => {
+                      const isActive =
+                        getConceptPointKey(preset.point) === activeConceptKey;
 
+                      return (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          className={[
+                            "flex size-7 shrink-0 items-center justify-center rounded-full border transition",
+                            isActive
+                              ? "border-orange"
+                              : "[border-color:var(--theme-lab-border)] hover:border-orange",
+                          ].join(" ")}
+                          onClick={() => applyPreset(preset, selectedMode)}
+                          title={preset.name}
+                          aria-label={`${preset.name} preset mood point`}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="size-5 rounded-full border [border-color:var(--theme-lab-solid-bg)]"
+                            style={{ backgroundColor: preset.palette.accent }}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <ConceptGlowSlider
+                    motion={conceptMotion}
+                    palette={conceptPalette}
+                    value={conceptPoint.glow}
+                    onChange={updateConceptGlow}
+                  />
+                  <div className="mt-3 grid grid-cols-4 gap-1.5">
+                    {historySwatches.map((swatch) => (
+                      <div
+                        key={swatch.key}
+                        className="min-w-0 border p-2 [border-color:var(--theme-lab-border)]"
+                        title={`${swatch.label}: ${conceptPalette[swatch.key]}`}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="mb-1 block h-5 border [border-color:var(--theme-lab-border)]"
+                          style={{
+                            backgroundColor: conceptPalette[swatch.key],
+                          }}
+                        />
+                        <span className="block truncate font-geist-mono text-[0.5625rem] uppercase tracking-[0.08em] [color:var(--theme-lab-muted)]">
+                          {swatch.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {isSaveOpen && (

@@ -27,9 +27,39 @@ export type CustomTheme = {
   palette: Palette;
 };
 
-type PalettePreset = {
+export type ConceptPoint = {
+  voltage: number;
+  entropy: number;
+  glow: number;
+};
+
+type CodePalette = {
+  bg: string;
+  surface: string;
+  border: string;
+  text: string;
+  muted: string;
+  comment: string;
+  punctuation: string;
+  keyword: string;
+  function: string;
+  string: string;
+  number: string;
+  variable: string;
+  operator: string;
+  highlightBg: string;
+  highlightBorder: string;
+  insertedBg: string;
+  insertedFg: string;
+  deletedBg: string;
+  deletedFg: string;
+  success: string;
+};
+
+export type PalettePreset = {
   id: string;
   name: string;
+  point: ConceptPoint;
   palette: Palette;
 };
 
@@ -77,11 +107,13 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "original",
       name: "Original",
+      point: { voltage: 0.58, entropy: 0.24, glow: 0.18 },
       palette: originalTheme.light,
     },
     {
       id: "classic-ivory",
       name: "Classic Ivory",
+      point: { voltage: 0.48, entropy: 0.08, glow: 0.08 },
       palette: {
         base: "#fffff0",
         surface: "#fffff0",
@@ -96,6 +128,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "blue-note",
       name: "Blue Note",
+      point: { voltage: 0.7, entropy: 0.18, glow: 0.4 },
       palette: {
         base: "#f1f7ff",
         surface: "#ffffff",
@@ -110,6 +143,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "blush-code",
       name: "Blush Code",
+      point: { voltage: 0.36, entropy: 0.34, glow: 0.58 },
       palette: {
         base: "#fff5f7",
         surface: "#ffffff",
@@ -124,6 +158,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "slate-mist",
       name: "Slate Mist",
+      point: { voltage: 0.56, entropy: 0.18, glow: 0.28 },
       palette: {
         base: "#f8fafc",
         surface: "#ffffff",
@@ -138,6 +173,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "sage-paper",
       name: "Sage Paper",
+      point: { voltage: 0.22, entropy: 0.14, glow: 0.2 },
       palette: {
         base: "#fbfbf4",
         surface: "#fffffb",
@@ -152,6 +188,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "oxblood-print",
       name: "Oxblood Print",
+      point: { voltage: 0.82, entropy: 0.36, glow: 0.44 },
       palette: {
         base: "#fff8f7",
         surface: "#ffffff",
@@ -166,6 +203,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "lilac-terminal",
       name: "Lilac Terminal",
+      point: { voltage: 0.44, entropy: 0.78, glow: 0.58 },
       palette: {
         base: "#fcf8ff",
         surface: "#ffffff",
@@ -182,11 +220,13 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "original",
       name: "Original",
+      point: { voltage: 0.68, entropy: 0.28, glow: 0.34 },
       palette: originalTheme.dark,
     },
     {
       id: "midnight-peach",
       name: "Midnight Peach",
+      point: { voltage: 0.54, entropy: 0.46, glow: 0.62 },
       palette: {
         base: "#080b1a",
         surface: "#12172b",
@@ -201,6 +241,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "circuit-lime",
       name: "Circuit Lime",
+      point: { voltage: 0.88, entropy: 0.18, glow: 0.54 },
       palette: {
         base: "#070a12",
         surface: "#121826",
@@ -215,6 +256,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "slate-neon",
       name: "Slate Neon",
+      point: { voltage: 0.76, entropy: 0.24, glow: 0.38 },
       palette: {
         base: "#020617",
         surface: "#0f172a",
@@ -229,6 +271,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "sage-terminal",
       name: "Sage Terminal",
+      point: { voltage: 0.24, entropy: 0.18, glow: 0.26 },
       palette: {
         base: "#0d100b",
         surface: "#191d16",
@@ -243,6 +286,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "oxblood-night",
       name: "Oxblood Night",
+      point: { voltage: 0.72, entropy: 0.54, glow: 0.52 },
       palette: {
         base: "#120609",
         surface: "#241113",
@@ -257,6 +301,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "violet-void",
       name: "Violet Void",
+      point: { voltage: 0.42, entropy: 0.86, glow: 0.42 },
       palette: {
         base: "#0d0718",
         surface: "#1b112b",
@@ -271,6 +316,7 @@ export const modePresets: Record<ThemeMode, PalettePreset[]> = {
     {
       id: "blueprint",
       name: "Blueprint",
+      point: { voltage: 0.62, entropy: 0.14, glow: 0.32 },
       palette: {
         base: "#07111f",
         surface: "#0f1d33",
@@ -321,6 +367,27 @@ export function hexToRgb(hex: string) {
   };
 }
 
+function rgbToHex({ r, g, b }: { r: number; g: number; b: number }) {
+  const toHex = (value: number) =>
+    Math.round(clamp(value, 0, 255))
+      .toString(16)
+      .padStart(2, "0");
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function mixHex(from: string, to: string, amount: number) {
+  const start = hexToRgb(from);
+  const end = hexToRgb(to);
+  const mixAmount = clamp01(amount);
+
+  return rgbToHex({
+    r: lerp(start.r, end.r, mixAmount),
+    g: lerp(start.g, end.g, mixAmount),
+    b: lerp(start.b, end.b, mixAmount),
+  });
+}
+
 export function hexToRgba(hex: string, alpha: number) {
   const { r, g, b } = hexToRgb(hex);
   return `rgb(${r} ${g} ${b} / ${alpha})`;
@@ -341,6 +408,103 @@ export function getRelativeLuminance(hex: string) {
 
 export function getAccentForeground(accent: string) {
   return getRelativeLuminance(accent) > 0.42 ? "#09090b" : "#ffffff";
+}
+
+function getContrastRatio(foreground: string, background: string) {
+  const foregroundLuminance = getRelativeLuminance(foreground);
+  const backgroundLuminance = getRelativeLuminance(background);
+  const light = Math.max(foregroundLuminance, backgroundLuminance);
+  const dark = Math.min(foregroundLuminance, backgroundLuminance);
+
+  return (light + 0.05) / (dark + 0.05);
+}
+
+function getReadableColor(color: string, background: string, minContrast = 4.5) {
+  if (getContrastRatio(color, background) >= minContrast) {
+    return color;
+  }
+
+  const target = getRelativeLuminance(background) > 0.5 ? "#111111" : "#ffffff";
+
+  for (let amount = 0.08; amount <= 1; amount += 0.04) {
+    const candidate = mixHex(color, target, amount);
+
+    if (getContrastRatio(candidate, background) >= minContrast) {
+      return candidate;
+    }
+  }
+
+  return target;
+}
+
+function getCodePalette(palette: Palette, mode: ThemeMode): CodePalette {
+  const isDark = mode === "dark";
+  const bg = isDark
+    ? mixHex(palette.base, palette.surface, 0.34)
+    : mixHex(palette.surface, palette.ink, 0.07);
+  const surface = isDark
+    ? mixHex(bg, palette.accent, 0.14)
+    : mixHex(bg, palette.accent, 0.08);
+  const border = isDark
+    ? mixHex(bg, palette.accent, 0.32)
+    : mixHex(bg, palette.accent, 0.22);
+  const text = getReadableColor(palette.ink, bg, 7);
+  const muted = getReadableColor(palette.subtle, bg, 3.25);
+  const comment = getReadableColor(mixHex(palette.subtle, text, 0.2), bg, 4.5);
+  const punctuation = getReadableColor(mixHex(palette.muted, text, 0.16), bg, 4.5);
+  const keyword = getReadableColor(palette.accent, bg, 4.75);
+  const functionColor = getReadableColor(
+    mixHex(palette.accent, text, isDark ? 0.22 : 0.34),
+    bg,
+    4.75,
+  );
+  const stringColor = getReadableColor(
+    mixHex(palette.muted, palette.accent, isDark ? 0.3 : 0.46),
+    bg,
+    4.5,
+  );
+  const number = getReadableColor(
+    mixHex(palette.accent, text, isDark ? 0.12 : 0.24),
+    bg,
+    4.75,
+  );
+  const variable = getReadableColor(
+    mixHex(palette.muted, palette.accent, isDark ? 0.42 : 0.3),
+    bg,
+    4.5,
+  );
+  const operator = getReadableColor(
+    mixHex(palette.subtle, palette.accent, isDark ? 0.26 : 0.18),
+    bg,
+    4.5,
+  );
+  const success = getReadableColor(isDark ? "#34d399" : "#047857", bg, 4.5);
+  const deletedFg = getReadableColor(isDark ? "#fca5a5" : "#b91c1c", bg, 4.5);
+
+  return {
+    bg,
+    surface,
+    border,
+    text,
+    muted,
+    comment,
+    punctuation,
+    keyword,
+    function: functionColor,
+    string: stringColor,
+    number,
+    variable,
+    operator,
+    highlightBg: isDark
+      ? mixHex(bg, palette.accent, 0.18)
+      : mixHex(bg, palette.accent, 0.1),
+    highlightBorder: keyword,
+    insertedBg: mixHex(bg, "#10b981", isDark ? 0.18 : 0.12),
+    insertedFg: success,
+    deletedBg: mixHex(bg, "#ef4444", isDark ? 0.18 : 0.12),
+    deletedFg,
+    success,
+  };
 }
 
 export function hslToHex(h: number, s: number, l: number) {
@@ -379,6 +543,36 @@ export function hslToHex(h: number, s: number, l: number) {
       .padStart(2, "0");
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function clamp01(value: number) {
+  return Math.min(1, Math.max(0, value));
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function lerp(start: number, end: number, amount: number) {
+  return start + (end - start) * amount;
+}
+
+function wrapHue(value: number) {
+  return ((value % 360) + 360) % 360;
+}
+
+function smooth(value: number) {
+  const clamped = clamp01(value);
+
+  return clamped * clamped * (3 - 2 * clamped);
+}
+
+function hslToken(h: number, s: number, l: number) {
+  return hslToHex(wrapHue(h), clamp(s, 0, 100), clamp(l, 0, 100));
+}
+
+function normalizePointValue(value: number) {
+  return Number(clamp01(value).toFixed(3));
 }
 
 export function getLocalDateKey(date = new Date()) {
@@ -421,103 +615,75 @@ export function randomBetween(
   return min + random() * (max - min);
 }
 
-export function pick<T>(items: T[], random = Math.random) {
-  return items[Math.floor(random() * items.length)];
+export function makeRandomConceptPoint(random = Math.random): ConceptPoint {
+  return {
+    voltage: normalizePointValue(randomBetween(0.04, 0.96, random)),
+    entropy: normalizePointValue(randomBetween(0.06, 0.96, random)),
+    glow: normalizePointValue(randomBetween(0.08, 0.94, random)),
+  };
 }
 
 export function makeRandomPalette(
   mode: ThemeMode,
   random = Math.random,
 ): Palette {
-  const baseHue = pick([22, 36, 48, 96, 152, 204, 244, 322], random);
-  const accentHue =
-    random() > 0.3
-      ? baseHue + randomBetween(-48, 58, random)
-      : pick([18, 28, 156, 188, 222, 262, 336], random);
+  return makeConceptPalette(mode, makeRandomConceptPoint(random));
+}
 
-  if (mode === "dark") {
-    return {
-      base: hslToHex(
-        baseHue,
-        randomBetween(8, 22, random),
-        randomBetween(3, 8, random),
-      ),
-      surface: hslToHex(
-        baseHue,
-        randomBetween(8, 24, random),
-        randomBetween(9, 15, random),
-      ),
-      accent: hslToHex(
-        accentHue,
-        randomBetween(62, 90, random),
-        randomBetween(54, 68, random),
-      ),
-      ink: hslToHex(
-        baseHue,
-        randomBetween(6, 16, random),
-        randomBetween(93, 98, random),
-      ),
-      muted: hslToHex(
-        baseHue,
-        randomBetween(8, 18, random),
-        randomBetween(76, 86, random),
-      ),
-      subtle: hslToHex(
-        baseHue,
-        randomBetween(6, 16, random),
-        randomBetween(42, 54, random),
-      ),
-      line: hslToHex(
-        baseHue,
-        randomBetween(8, 24, random),
-        randomBetween(15, 23, random),
-      ),
-      shadow: "#000000",
-    };
-  }
+function rotateConceptPoint(point: ConceptPoint, turns: number): ConceptPoint {
+  const angle = turns * Math.PI * 2;
+  const dx = point.voltage - 0.5;
+  const dy = point.entropy - 0.5;
+  const nextX = 0.5 + dx * Math.cos(angle) - dy * Math.sin(angle);
+  const nextY = 0.5 + dx * Math.sin(angle) + dy * Math.cos(angle);
+  const fit = Math.max(Math.abs(nextX - 0.5), Math.abs(nextY - 0.5));
+  const scale = fit > 0.48 ? 0.48 / fit : 1;
 
   return {
-    base: hslToHex(
-      baseHue,
-      randomBetween(4, 16, random),
-      randomBetween(96, 99, random),
-    ),
-    surface: hslToHex(
-      baseHue,
-      randomBetween(0, 8, random),
-      randomBetween(99, 100, random),
-    ),
-    accent: hslToHex(
-      accentHue,
-      randomBetween(62, 88, random),
-      randomBetween(38, 50, random),
-    ),
-    ink: hslToHex(
-      baseHue,
-      randomBetween(8, 22, random),
-      randomBetween(8, 15, random),
-    ),
-    muted: hslToHex(
-      baseHue,
-      randomBetween(7, 17, random),
-      randomBetween(34, 43, random),
-    ),
-    subtle: hslToHex(
-      baseHue,
-      randomBetween(6, 14, random),
-      randomBetween(48, 56, random),
-    ),
-    line: hslToHex(
-      baseHue,
-      randomBetween(7, 18, random),
-      randomBetween(86, 92, random),
-    ),
-    shadow: hslToHex(
-      baseHue,
-      randomBetween(8, 24, random),
-      randomBetween(8, 16, random),
-    ),
+    voltage: normalizePointValue(0.5 + (nextX - 0.5) * scale),
+    entropy: normalizePointValue(0.5 + (nextY - 0.5) * scale),
+    glow: point.glow,
   };
+}
+
+export function getConceptHarmonyPoints(
+  point: ConceptPoint,
+): [ConceptPoint, ConceptPoint, ConceptPoint] {
+  const primary = {
+    voltage: normalizePointValue(point.voltage),
+    entropy: normalizePointValue(point.entropy),
+    glow: normalizePointValue(point.glow),
+  };
+
+  return [
+    primary,
+    rotateConceptPoint(primary, 1 / 3),
+    rotateConceptPoint(primary, -1 / 3),
+  ];
+}
+
+function getConceptPointHue(point: ConceptPoint) {
+  const voltage = smooth(point.voltage);
+  const entropy = smooth(point.entropy);
+  const glow = smooth(point.glow);
+
+  return wrapHue(
+    222 -
+      voltage * 176 +
+      entropy * 88 +
+      Math.sin((glow + entropy) * Math.PI) * 24,
+  );
+}
+
+function getConceptAccentHue(point: ConceptPoint) {
+  const voltage = smooth(point.voltage);
+  const entropy = smooth(point.entropy);
+  const glow = smooth(point.glow);
+  const baseHue = getConceptPointHue(point);
+
+  return wrapHue(
+    baseHue + lerp(24, 172, entropy) + voltage * 42 + glow * 18,
+  );
 }
 
 export function makeDailyTheme(dateKey = getLocalDateKey()): ThemeValues {
@@ -529,13 +695,120 @@ export function makeDailyTheme(dateKey = getLocalDateKey()): ThemeValues {
   };
 }
 
+export function makeConceptPalette(
+  mode: ThemeMode,
+  point: ConceptPoint,
+): Palette {
+  const [primaryPoint, secondaryPoint, tertiaryPoint] =
+    getConceptHarmonyPoints(point);
+  const voltage = smooth(point.voltage);
+  const entropy = smooth(point.entropy);
+  const glow = smooth(point.glow);
+  const paper = 1 - glow;
+  const energy = clamp01(voltage * 0.42 + entropy * 0.32 + glow * 0.26);
+  const baseHue = getConceptPointHue(primaryPoint);
+  const accentHue = getConceptAccentHue(primaryPoint);
+  const companionHue = getConceptAccentHue(secondaryPoint);
+  const lineHue = getConceptAccentHue(tertiaryPoint);
+  const inkHue = wrapHue(baseHue + lerp(-8, 24, entropy));
+  const baseChroma = lerp(3, 24, entropy) + glow * 8 + voltage * 5;
+  const surfaceChroma = lerp(1, 18, entropy) + glow * 7;
+  const accentChroma = lerp(52, 96, energy);
+
+  if (mode === "dark") {
+    return {
+      base: hslToken(
+        baseHue,
+        baseChroma,
+        lerp(3.5, 9, glow * 0.55 + entropy * 0.45),
+      ),
+      surface: hslToken(
+        baseHue + glow * 10,
+        surfaceChroma + 5,
+        lerp(9, 18, glow * 0.62 + entropy * 0.38),
+      ),
+      accent: hslToken(
+        accentHue,
+        accentChroma,
+        lerp(52, 72, glow * 0.45 + voltage * 0.35 + entropy * 0.2),
+      ),
+      ink: hslToken(
+        inkHue,
+        lerp(6, 22, entropy) + glow * 4,
+        lerp(91, 98, paper * 0.48 + voltage * 0.52),
+      ),
+      muted: hslToken(
+        companionHue,
+        lerp(8, 28, entropy) + glow * 8,
+        lerp(68, 86, glow * 0.5 + voltage * 0.5),
+      ),
+      subtle: hslToken(
+        lineHue,
+        lerp(8, 28, entropy) + glow * 8,
+        lerp(38, 57, voltage * 0.4 + glow * 0.6),
+      ),
+      line: hslToken(
+        companionHue,
+        lerp(8, 36, entropy) + glow * 10,
+        lerp(15, 30, entropy * 0.45 + glow * 0.55),
+      ),
+      shadow: "#000000",
+    };
+  }
+
+  return {
+    base: hslToken(
+      baseHue,
+      baseChroma,
+      lerp(99.2, 94.5, entropy * 0.48 + glow * 0.52),
+    ),
+    surface: hslToken(
+      baseHue - glow * 8 + paper * 6,
+      surfaceChroma,
+      lerp(100, 96.8, glow * 0.7 + entropy * 0.3),
+    ),
+    accent: hslToken(
+      accentHue,
+      accentChroma,
+      lerp(34, 58, voltage * 0.44 + glow * 0.36 + entropy * 0.2),
+    ),
+    ink: hslToken(
+      inkHue,
+      lerp(8, 28, entropy) + voltage * 5,
+      lerp(7, 15, paper * 0.58 + entropy * 0.42),
+    ),
+    muted: hslToken(
+      companionHue,
+      lerp(7, 24, entropy) + glow * 5,
+      lerp(31, 47, voltage * 0.32 + glow * 0.42 + entropy * 0.26),
+    ),
+    subtle: hslToken(
+      lineHue,
+      lerp(7, 23, entropy) + glow * 8,
+      lerp(46, 63, glow * 0.42 + entropy * 0.38 + voltage * 0.2),
+    ),
+    line: hslToken(
+      companionHue,
+      lerp(8, 36, entropy) + glow * 10,
+      lerp(91, 80, entropy * 0.58 + glow * 0.42),
+    ),
+    shadow: hslToken(
+      accentHue,
+      lerp(10, 34, entropy) + glow * 8,
+      lerp(10, 20, voltage * 0.4 + entropy * 0.38 + glow * 0.22),
+    ),
+  };
+}
+
 export function buildThemeCss(values: ThemeValues) {
   const lightShadow = hexToRgba(values.light.shadow, 0.08);
   const lightAccentShadow = hexToRgba(values.light.accent, 0.08);
   const lightAccentForeground = getAccentForeground(values.light.accent);
+  const lightCode = getCodePalette(values.light, "light");
   const darkShadow = hexToRgba(values.dark.shadow, 0.42);
   const darkAccentShadow = hexToRgba(values.dark.accent, 0.12);
   const darkAccentForeground = getAccentForeground(values.dark.accent);
+  const darkCode = getCodePalette(values.dark, "dark");
 
   return `
 html:not(.dark) {
@@ -548,6 +821,26 @@ html:not(.dark) {
   --theme-lab-ink: ${values.light.ink};
   --theme-lab-muted: ${values.light.subtle};
   --theme-lab-shadow: ${hexToRgba(values.light.shadow, 0.1)};
+  --theme-code-bg: ${lightCode.bg};
+  --theme-code-surface: ${lightCode.surface};
+  --theme-code-border: ${lightCode.border};
+  --theme-code-text: ${lightCode.text};
+  --theme-code-muted: ${lightCode.muted};
+  --theme-code-comment: ${lightCode.comment};
+  --theme-code-punctuation: ${lightCode.punctuation};
+  --theme-code-keyword: ${lightCode.keyword};
+  --theme-code-function: ${lightCode.function};
+  --theme-code-string: ${lightCode.string};
+  --theme-code-number: ${lightCode.number};
+  --theme-code-variable: ${lightCode.variable};
+  --theme-code-operator: ${lightCode.operator};
+  --theme-code-highlight-bg: ${lightCode.highlightBg};
+  --theme-code-highlight-border: ${lightCode.highlightBorder};
+  --theme-code-inserted-bg: ${lightCode.insertedBg};
+  --theme-code-inserted-fg: ${lightCode.insertedFg};
+  --theme-code-deleted-bg: ${lightCode.deletedBg};
+  --theme-code-deleted-fg: ${lightCode.deletedFg};
+  --theme-code-success: ${lightCode.success};
   --color-orange-300: color-mix(in srgb, ${values.light.accent} 58%, white);
   --color-orange-400: color-mix(in srgb, ${values.light.accent} 76%, white);
   --color-orange-500: ${values.light.accent};
@@ -576,6 +869,26 @@ html.dark {
   --theme-lab-ink: ${values.dark.ink};
   --theme-lab-muted: ${values.dark.subtle};
   --theme-lab-shadow: ${hexToRgba(values.dark.shadow, 0.42)};
+  --theme-code-bg: ${darkCode.bg};
+  --theme-code-surface: ${darkCode.surface};
+  --theme-code-border: ${darkCode.border};
+  --theme-code-text: ${darkCode.text};
+  --theme-code-muted: ${darkCode.muted};
+  --theme-code-comment: ${darkCode.comment};
+  --theme-code-punctuation: ${darkCode.punctuation};
+  --theme-code-keyword: ${darkCode.keyword};
+  --theme-code-function: ${darkCode.function};
+  --theme-code-string: ${darkCode.string};
+  --theme-code-number: ${darkCode.number};
+  --theme-code-variable: ${darkCode.variable};
+  --theme-code-operator: ${darkCode.operator};
+  --theme-code-highlight-bg: ${darkCode.highlightBg};
+  --theme-code-highlight-border: ${darkCode.highlightBorder};
+  --theme-code-inserted-bg: ${darkCode.insertedBg};
+  --theme-code-inserted-fg: ${darkCode.insertedFg};
+  --theme-code-deleted-bg: ${darkCode.deletedBg};
+  --theme-code-deleted-fg: ${darkCode.deletedFg};
+  --theme-code-success: ${darkCode.success};
   --color-orange-300: color-mix(in srgb, ${values.dark.accent} 74%, white);
   --color-orange-400: ${values.dark.accent};
   --color-orange-500: color-mix(in srgb, ${values.dark.accent} 88%, white);
@@ -730,17 +1043,34 @@ export function getThemeValues(value: unknown): ThemeValues | null {
 export function getThemeLabPreloadScript() {
   const functionSources = [
     hexToRgb,
+    rgbToHex,
+    mixHex,
     hexToRgba,
     getRelativeLuminance,
     getAccentForeground,
+    getContrastRatio,
+    getReadableColor,
+    getCodePalette,
     hslToHex,
+    clamp01,
+    clamp,
+    lerp,
+    wrapHue,
+    smooth,
+    hslToken,
+    normalizePointValue,
     getLocalDateKey,
     hashSeed,
     createSeededRandom,
     randomBetween,
-    pick,
+    makeRandomConceptPoint,
+    rotateConceptPoint,
+    getConceptHarmonyPoints,
+    getConceptPointHue,
+    getConceptAccentHue,
     makeRandomPalette,
     makeDailyTheme,
+    makeConceptPalette,
     getThemeValues,
     buildThemeCss,
   ]
