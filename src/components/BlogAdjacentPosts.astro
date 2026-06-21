@@ -6,9 +6,10 @@ interface Props {
   currentPost: BlogPost;
   newer?: BlogPost;
   older?: BlogPost;
+  dotAnimation?: "spin" | "ticker";
 }
 
-const { currentPost, newer, older } = Astro.props;
+const { currentPost, newer, older, dotAnimation = "ticker" } = Astro.props;
 const timelineItems = [
   newer && { label: "Newer", post: newer, current: false, href: `/blog/${newer.slug}` },
   { label: "Current", post: currentPost, current: true },
@@ -81,6 +82,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
               {href && (
                 <div
                   aria-hidden="true"
+                  data-dot-animation={dotAnimation}
                   class="adjacent-post-hovercard pointer-events-none absolute bottom-[calc(100%+0.5rem)] right-0 z-50 text-left"
                 >
                   <div class="adjacent-post-hovercard__panel relative z-10 border border-accent/20 bg-ivory text-left shadow-xl shadow-zinc-900/10 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-zinc-950/40">
@@ -112,6 +114,12 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
     --adjacent-hovercard-panel-padding: 1rem;
     --adjacent-hovercard-surface: var(--color-ivory);
     --adjacent-hovercard-dot-color: rgb(113 113 122 / 0.22);
+    --adjacent-hovercard-dot-row: 0.375rem;
+    --adjacent-hovercard-dot-start-y: 36.125rem;
+    --adjacent-hovercard-dot-rest-y: 0.125rem;
+    --adjacent-hovercard-dot-tick-y: -0.625rem;
+    --adjacent-hovercard-dot-tick-overshoot-y: -0.7rem;
+    --adjacent-hovercard-dot-tick-rebound-y: -0.59rem;
     left: calc(
       (var(--adjacent-hovercard-inset-border) +
         var(--adjacent-hovercard-panel-padding)) * -1
@@ -158,8 +166,9 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
       var(--adjacent-hovercard-dot-color) 0.0625rem,
       transparent 0.078125rem
     );
-    background-position: 0.125rem 0.125rem;
-    background-size: 0.375rem 0.375rem;
+    background-position: 0.125rem var(--adjacent-hovercard-dot-rest-y);
+    background-size: var(--adjacent-hovercard-dot-row)
+      var(--adjacent-hovercard-dot-row);
     content: "";
     inset: 1px auto 1px 1px;
     mask-image: linear-gradient(
@@ -172,6 +181,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
     pointer-events: none;
     position: absolute;
     width: var(--adjacent-hovercard-inset-border);
+    will-change: background-position;
   }
 
   :global(.dark) .adjacent-post-hovercard__panel::before {
@@ -195,6 +205,26 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
       both;
   }
 
+  .group:hover
+    > .adjacent-post-hovercard[data-dot-animation="spin"]
+    .adjacent-post-hovercard__panel::after,
+  .group:focus-within
+    > .adjacent-post-hovercard[data-dot-animation="spin"]
+    .adjacent-post-hovercard__panel::after {
+    animation: adjacent-post-hovercard-dots-in 3000ms
+      cubic-bezier(0.08, 0.82, 0.12, 1)
+      both;
+  }
+
+  .group:hover
+    > .adjacent-post-hovercard[data-dot-animation="ticker"]
+    .adjacent-post-hovercard__panel::after,
+  .group:focus-within
+    > .adjacent-post-hovercard[data-dot-animation="ticker"]
+    .adjacent-post-hovercard__panel::after {
+    animation: adjacent-post-hovercard-dots-tick 1000ms infinite;
+  }
+
   @keyframes adjacent-post-hovercard-panel-in {
     from {
       transform: translateY(0.25rem) scale(0.96);
@@ -202,6 +232,38 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
 
     to {
       transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes adjacent-post-hovercard-dots-in {
+    from {
+      background-position: 0.125rem var(--adjacent-hovercard-dot-start-y);
+    }
+
+    to {
+      background-position: 0.125rem var(--adjacent-hovercard-dot-rest-y);
+    }
+  }
+
+  @keyframes adjacent-post-hovercard-dots-tick {
+    0% {
+      background-position: 0.125rem var(--adjacent-hovercard-dot-rest-y);
+    }
+
+    62% {
+      background-position: 0.125rem
+        var(--adjacent-hovercard-dot-tick-overshoot-y);
+      animation-timing-function: cubic-bezier(0.18, 0.9, 0.2, 1.35);
+    }
+
+    82% {
+      background-position: 0.125rem
+        var(--adjacent-hovercard-dot-tick-rebound-y);
+      animation-timing-function: cubic-bezier(0.2, 0.85, 0.22, 1);
+    }
+
+    100% {
+      background-position: 0.125rem var(--adjacent-hovercard-dot-tick-y);
     }
   }
 
@@ -220,6 +282,15 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
     .group:focus-within
       > .adjacent-post-hovercard
       .adjacent-post-hovercard__panel {
+      animation: none;
+    }
+
+    .group:hover
+      > .adjacent-post-hovercard
+      .adjacent-post-hovercard__panel::after,
+    .group:focus-within
+      > .adjacent-post-hovercard
+      .adjacent-post-hovercard__panel::after {
       animation: none;
     }
   }
