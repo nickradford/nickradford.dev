@@ -1,0 +1,832 @@
+---
+import {
+  getGitHubContributionCalendar,
+  type GitHubContributionCalendar,
+} from "../lib/github-contributions";
+
+interface Props {
+  href: string;
+  label: string;
+  class?: string;
+  contributions?: GitHubContributionCalendar | null;
+}
+
+const {
+  href,
+  label,
+  class: className = "",
+  contributions: providedContributions,
+} = Astro.props;
+const contributions =
+  providedContributions === undefined
+    ? await getGitHubContributionCalendar()
+    : providedContributions;
+const cardId = `github-contributions-${Math.random().toString(36).slice(2)}`;
+const maxContributionCount = contributions?.maxContributionCount ?? 0;
+let monthColumn = 1;
+
+const formatContributionCount = (count: number) =>
+  new Intl.NumberFormat("en-US").format(count);
+const formatAverage = (count: number) =>
+  new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 1,
+    minimumFractionDigits: count < 10 ? 1 : 0,
+  }).format(count);
+const formatDay = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+const formatTooltipDay = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+const getContributionOpacity = (count: number) => {
+  if (!count || !maxContributionCount) {
+    return "0";
+  }
+
+  const normalized = count / maxContributionCount;
+  return String(Math.min(0.95, Math.max(0.22, 0.18 + normalized * 0.77)));
+};
+
+const statItems = contributions
+  ? [
+      {
+        label: "per day",
+        value: formatAverage(contributions.stats.averagePerDay),
+        detail: "approximately",
+      },
+      {
+        label: "best day",
+        value: contributions.stats.busiestDay
+          ? formatContributionCount(contributions.stats.busiestDay.contributionCount)
+          : "0",
+        detail: contributions.stats.busiestDay
+          ? formatDay(contributions.stats.busiestDay.date)
+          : undefined,
+      },
+      {
+        label: "hot day",
+        value: contributions.stats.busiestWeekday?.label ?? "n/a",
+        detail: contributions.stats.busiestWeekday
+          ? formatContributionCount(contributions.stats.busiestWeekday.contributionCount)
+          : undefined,
+      },
+      {
+        label: "streak",
+        value: `${contributions.stats.currentStreak || contributions.stats.longestStreak}d`,
+        detail:
+          contributions.stats.currentStreak > 0
+            ? "current"
+            : `${contributions.stats.longestStreak}d best`,
+      },
+      {
+        label: "hot hour",
+        value: contributions.stats.recentBusiestHour?.label ?? "n/a",
+        detail: contributions.stats.recentBusiestHour
+          ? `${formatContributionCount(contributions.stats.recentBusiestHour.commitCount)} recent commits`
+          : "public events",
+      },
+    ]
+  : [];
+---
+
+{
+  contributions ? (
+    <span class="github-contribution-hover-card">
+      <a
+        href={href}
+        class={className}
+        target="_blank"
+        rel="noopener"
+        aria-describedby={cardId}
+      >
+        {label}
+      </a>
+      <span
+        id={cardId}
+        role="tooltip"
+        class="github-contribution-hover-card__card"
+        data-github-contribution-card
+      >
+        <span class="github-contribution-hover-card__header">
+          <span>
+            <span class="github-contribution-hover-card__eyebrow">GitHub</span>
+            <span class="github-contribution-hover-card__user">@nickradford</span>
+          </span>
+          <span class="github-contribution-hover-card__total">
+            {formatContributionCount(contributions.totalContributions)}
+          </span>
+        </span>
+        <span class="github-contribution-hover-card__meta">
+          contributions in the last year
+        </span>
+        <span class="github-contribution-hover-card__stats" aria-label="GitHub contribution stats">
+          {
+            statItems.map((stat) => (
+              <span class="github-contribution-hover-card__stat">
+                <span class="github-contribution-hover-card__stat-value">{stat.value}</span>
+                <span class="github-contribution-hover-card__stat-label">{stat.label}</span>
+                {stat.detail && (
+                  <span class="github-contribution-hover-card__stat-detail">
+                    {stat.detail}
+                  </span>
+                )}
+              </span>
+            ))
+          }
+        </span>
+        <span
+          class="github-contribution-hover-card__months"
+          style={`--github-contribution-week-count:${contributions.weeks.length}`}
+          aria-hidden="true"
+        >
+          {
+            contributions.months.map((month) => {
+              const start = monthColumn;
+              monthColumn += month.totalWeeks;
+
+              return (
+                <span
+                  class="github-contribution-hover-card__month"
+                  style={`grid-column:${start} / span ${month.totalWeeks}`}
+                >
+                  {month.totalWeeks > 1 ? month.name.slice(0, 3) : ""}
+                </span>
+              );
+            })
+          }
+        </span>
+        <span class="github-contribution-hover-card__body" data-contribution-chart>
+          <span class="github-contribution-hover-card__days" aria-hidden="true">
+            <span>Mon</span>
+            <span>Wed</span>
+            <span>Fri</span>
+          </span>
+          <span
+            class="github-contribution-hover-card__weeks"
+            style={`--github-contribution-week-count:${contributions.weeks.length}`}
+            aria-label={`${formatContributionCount(contributions.totalContributions)} GitHub contributions in the last year`}
+          >
+            {
+              contributions.weeks.map((week, weekIndex) => (
+                <span
+                  class="github-contribution-hover-card__week"
+                  style={`--github-contribution-week-index:${weekIndex}`}
+                >
+                  {week.contributionDays.map((day) => (
+                    <span
+                      class="github-contribution-hover-card__day"
+                      data-active={day.contributionCount > 0 ? "true" : "false"}
+                      data-contribution-tooltip
+                      data-contribution-date={formatTooltipDay(day.date)}
+                      data-contribution-count={`${formatContributionCount(day.contributionCount)} ${
+                        day.contributionCount === 1 ? "contribution" : "contributions"
+                      }`}
+                      aria-label={`${formatContributionCount(day.contributionCount)} ${
+                        day.contributionCount === 1 ? "contribution" : "contributions"
+                      } on ${formatTooltipDay(day.date)}`}
+                      style={`--github-contribution-opacity:${getContributionOpacity(day.contributionCount)};--github-contribution-delay:${weekIndex * 18 + day.weekday * 18}ms;grid-row:${day.weekday + 1}`}
+                    />
+                  ))}
+                </span>
+              ))
+            }
+          </span>
+        </span>
+        <span
+          class="github-contribution-hover-card__square-tooltip"
+          data-contribution-shared-tooltip
+          aria-hidden="true"
+        >
+          <span
+            class="github-contribution-hover-card__square-tooltip-count"
+            data-contribution-shared-tooltip-count
+          />
+          <span
+            class="github-contribution-hover-card__square-tooltip-date"
+            data-contribution-shared-tooltip-date
+          />
+        </span>
+      </span>
+    </span>
+  ) : (
+    <a href={href} class={className} target="_blank" rel="noopener">
+      {label}
+    </a>
+  )
+}
+
+<script>
+  const RIPPLE_STORAGE_KEY = "github-contribution-hover-card-ripple-seen";
+  const SHOULD_REMEMBER_RIPPLE = !import.meta.env.DEV;
+
+  function initGitHubContributionRipple() {
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-github-contribution-card]"),
+    );
+
+    cards.forEach((card) => {
+      if (card.dataset.githubContributionRippleBound === "true") return;
+
+      const trigger = card.previousElementSibling;
+      if (!(trigger instanceof HTMLElement)) return;
+      const root = card.closest<HTMLElement>(".github-contribution-hover-card");
+      if (!root) return;
+
+      let closeTimer = 0;
+      let ripplePlayedThisPage = false;
+
+      const openCard = () => {
+        window.clearTimeout(closeTimer);
+        root.dataset.open = "true";
+      };
+
+      const closeCardSoon = () => {
+        window.clearTimeout(closeTimer);
+        closeTimer = window.setTimeout(() => {
+          root.dataset.open = "false";
+          hideTooltip();
+        }, 100);
+      };
+
+      const playRipple = () => {
+        if (!SHOULD_REMEMBER_RIPPLE && ripplePlayedThisPage) {
+          return;
+        }
+
+        if (
+          SHOULD_REMEMBER_RIPPLE &&
+          window.sessionStorage.getItem(RIPPLE_STORAGE_KEY) === "true"
+        ) {
+          return;
+        }
+
+        if (SHOULD_REMEMBER_RIPPLE) {
+          window.sessionStorage.setItem(RIPPLE_STORAGE_KEY, "true");
+        }
+
+        ripplePlayedThisPage = true;
+        card.dataset.ripple = "true";
+        window.setTimeout(() => {
+          delete card.dataset.ripple;
+        }, 1700);
+      };
+
+      card.dataset.githubContributionRippleBound = "true";
+      trigger.addEventListener("pointerenter", () => {
+        openCard();
+        playRipple();
+      });
+      trigger.addEventListener("focus", () => {
+        openCard();
+        playRipple();
+      });
+      root.addEventListener("pointerenter", () => {
+        window.clearTimeout(closeTimer);
+      });
+      root.addEventListener("pointerleave", closeCardSoon);
+      root.addEventListener("focusout", (event) => {
+        const relatedTarget = event.relatedTarget;
+
+        if (relatedTarget instanceof Node && root.contains(relatedTarget)) {
+          return;
+        }
+
+        closeCardSoon();
+      });
+
+      const tooltip = card.querySelector<HTMLElement>(
+        "[data-contribution-shared-tooltip]",
+      );
+      const tooltipCount = card.querySelector<HTMLElement>(
+        "[data-contribution-shared-tooltip-count]",
+      );
+      const tooltipDate = card.querySelector<HTMLElement>(
+        "[data-contribution-shared-tooltip-date]",
+      );
+      const chart = card.querySelector<HTMLElement>("[data-contribution-chart]");
+
+      if (!tooltip || !tooltipCount || !tooltipDate || !chart) return;
+
+      const contributionDays = Array.from(
+        chart.querySelectorAll<HTMLElement>("[data-contribution-tooltip]"),
+      );
+      let tooltipHideTimer = 0;
+      let tooltipFrame = 0;
+      let activeTooltipDay: HTMLElement | null = null;
+      let hasTooltipPosition = false;
+      let currentTooltipX = 0;
+      let currentTooltipY = 0;
+      let targetTooltipX = 0;
+      let targetTooltipY = 0;
+      let contributionDayCenters: Array<{
+        day: HTMLElement;
+        x: number;
+        y: number;
+      }> = [];
+
+      const clamp = (value: number, min: number, max: number) =>
+        Math.min(max, Math.max(min, value));
+
+      const setTooltipPosition = (x: number, y: number) => {
+        tooltip.style.setProperty("--tooltip-x", `${x}px`);
+        tooltip.style.setProperty("--tooltip-y", `${y}px`);
+      };
+
+      const animateTooltipToCursor = () => {
+        const deltaX = targetTooltipX - currentTooltipX;
+        const deltaY = targetTooltipY - currentTooltipY;
+        const distance = Math.hypot(deltaX, deltaY);
+        const tilt = clamp(-deltaX / 5, -15, 15);
+
+        currentTooltipX += deltaX * 0.1;
+        currentTooltipY += deltaY * 0.1;
+        setTooltipPosition(currentTooltipX, currentTooltipY);
+        tooltip.style.setProperty("--tooltip-tilt", `${tilt}deg`);
+
+        if (distance > 0.35 && tooltip.dataset.visible === "true") {
+          tooltipFrame = window.requestAnimationFrame(animateTooltipToCursor);
+          return;
+        }
+
+        currentTooltipX = targetTooltipX;
+        currentTooltipY = targetTooltipY;
+        setTooltipPosition(currentTooltipX, currentTooltipY);
+        tooltip.style.setProperty("--tooltip-tilt", "0deg");
+        tooltipFrame = 0;
+      };
+
+      const startTooltipAnimation = () => {
+        if (tooltipFrame) return;
+
+        tooltipFrame = window.requestAnimationFrame(animateTooltipToCursor);
+      };
+
+      const measureContributionDayCenters = () => {
+        contributionDayCenters = contributionDays.map((day) => {
+          const rect = day.getBoundingClientRect();
+          return {
+            day,
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+          };
+        });
+      };
+
+      const getNearestDay = (clientX: number, clientY: number) => {
+        let nearestDay: HTMLElement | null = null;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+
+        if (contributionDayCenters.length === 0) {
+          measureContributionDayCenters();
+        }
+
+        contributionDayCenters.forEach(({ day, x, y }) => {
+          const deltaX = clientX - x;
+          const deltaY = clientY - y;
+          const distance = deltaX * deltaX + deltaY * deltaY;
+
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestDay = day;
+          }
+        });
+
+        return nearestDay;
+      };
+
+      const hideTooltip = () => {
+        window.clearTimeout(tooltipHideTimer);
+        if (tooltipFrame) {
+          window.cancelAnimationFrame(tooltipFrame);
+          tooltipFrame = 0;
+        }
+
+        activeTooltipDay = null;
+        hasTooltipPosition = false;
+        tooltip.dataset.visible = "false";
+        tooltip.style.setProperty("--tooltip-tilt", "0deg");
+      };
+      const setTooltipData = (day: HTMLElement) => {
+        if (day === activeTooltipDay) return;
+
+        const date = day.dataset.contributionDate;
+        const count = day.dataset.contributionCount;
+
+        if (!date || !count) return;
+
+        activeTooltipDay = day;
+        tooltipCount.textContent = count;
+        tooltipDate.textContent = date;
+      };
+
+      const moveTooltip = (event: PointerEvent) => {
+        const day = getNearestDay(event.clientX, event.clientY);
+        const cardRect = card.getBoundingClientRect();
+
+        if (!day) return;
+
+        window.clearTimeout(tooltipHideTimer);
+        setTooltipData(day);
+
+        targetTooltipX = event.clientX - cardRect.left;
+        targetTooltipY = event.clientY - cardRect.top - 6;
+
+        if (!hasTooltipPosition) {
+          currentTooltipX = targetTooltipX;
+          currentTooltipY = targetTooltipY;
+          setTooltipPosition(currentTooltipX, currentTooltipY);
+          hasTooltipPosition = true;
+        }
+
+        tooltip.dataset.visible = "true";
+        startTooltipAnimation();
+      };
+      const scheduleTooltipHide = () => {
+        window.clearTimeout(tooltipHideTimer);
+        tooltipHideTimer = window.setTimeout(hideTooltip, 400);
+      };
+
+      chart.addEventListener("pointerenter", (event) => {
+        window.clearTimeout(tooltipHideTimer);
+        measureContributionDayCenters();
+        moveTooltip(event);
+      });
+      chart.addEventListener("pointermove", moveTooltip);
+      chart.addEventListener("pointerleave", scheduleTooltipHide);
+      card.addEventListener("pointerleave", () => {
+        window.clearTimeout(tooltipHideTimer);
+        hideTooltip();
+      });
+    });
+  }
+
+  initGitHubContributionRipple();
+  document.addEventListener("astro:page-load", initGitHubContributionRipple);
+</script>
+
+<style>
+  .github-contribution-hover-card {
+    display: inline-block;
+    position: relative;
+  }
+
+  .github-contribution-hover-card::before {
+    bottom: 100%;
+    clip-path: polygon(0 100%, 2.75rem 0, 100% 0, 100% 100%);
+    content: "";
+    height: 1rem;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: min(35rem, calc(100vw - 1rem));
+  }
+
+  .github-contribution-hover-card[data-open="true"]::before {
+    pointer-events: auto;
+  }
+
+  .github-contribution-hover-card__card {
+    background: var(--theme-lab-solid-bg, var(--color-ivory));
+    border: 1px solid var(--theme-lab-border, color-mix(in srgb, var(--color-accent) 20%, transparent));
+    bottom: calc(100% + 0.625rem);
+    box-shadow: 0 18px 44px var(--theme-lab-shadow, rgb(24 24 27 / 0.12));
+    color: var(--theme-lab-ink, var(--color-zinc-900));
+    left: 0;
+    opacity: 0;
+    padding: 0.75rem;
+    pointer-events: none;
+    position: absolute;
+    transform: translateY(0.25rem) scale(0.985);
+    transform-origin: 2.5rem bottom;
+    transition:
+      opacity 160ms ease 100ms,
+      transform 160ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+    width: max-content;
+    z-index: 80;
+  }
+
+  .github-contribution-hover-card__card::after {
+    background: inherit;
+    border-bottom: 1px solid var(--theme-lab-border, color-mix(in srgb, var(--color-accent) 20%, transparent));
+    border-right: 1px solid var(--theme-lab-border, color-mix(in srgb, var(--color-accent) 20%, transparent));
+    bottom: -0.3125rem;
+    content: "";
+    height: 0.5625rem;
+    left: 2.5rem;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 0.5625rem;
+  }
+
+  .github-contribution-hover-card[data-open="true"]
+    .github-contribution-hover-card__card {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0ms;
+  }
+
+  .github-contribution-hover-card__header {
+    align-items: flex-start;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+
+  .github-contribution-hover-card__eyebrow,
+  .github-contribution-hover-card__meta,
+  .github-contribution-hover-card__days,
+  .github-contribution-hover-card__month {
+    color: var(--theme-lab-muted, var(--color-zinc-500));
+    font-family: var(--font-geist-mono);
+    font-size: 0.5625rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .github-contribution-hover-card__eyebrow {
+    display: block;
+    letter-spacing: 0.16em;
+    margin-bottom: 0.3125rem;
+  }
+
+  .github-contribution-hover-card__user,
+  .github-contribution-hover-card__total {
+    color: var(--theme-lab-ink, var(--color-zinc-900));
+    display: block;
+    font-family: var(--font-geist-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .github-contribution-hover-card__total {
+    color: var(--color-accent);
+  }
+
+  .github-contribution-hover-card__meta {
+    display: block;
+    letter-spacing: 0.08em;
+    margin-top: 0.3125rem;
+  }
+
+  .github-contribution-hover-card__stats {
+    display: grid;
+    gap: 0.375rem;
+    grid-template-columns: repeat(5, minmax(4rem, 1fr));
+    margin-top: 0.75rem;
+  }
+
+  .github-contribution-hover-card__stat {
+    border: 1px solid var(--theme-lab-border, color-mix(in srgb, var(--color-accent) 20%, transparent));
+    display: grid;
+    gap: 0.1875rem;
+    min-width: 0;
+    padding: 0.4375rem 0.5rem;
+  }
+
+  .github-contribution-hover-card__stat-value,
+  .github-contribution-hover-card__stat-label,
+  .github-contribution-hover-card__stat-detail {
+    display: block;
+    font-family: var(--font-geist-mono);
+    line-height: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .github-contribution-hover-card__stat-value {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .github-contribution-hover-card__stat-label {
+    color: var(--theme-lab-ink, var(--color-zinc-900));
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .github-contribution-hover-card__stat-detail {
+    color: var(--theme-lab-muted, var(--color-zinc-500));
+    font-size: 0.5625rem;
+  }
+
+  .github-contribution-hover-card__months {
+    display: grid;
+    gap: 0.125rem;
+    grid-template-columns: repeat(var(--github-contribution-week-count), 0.5rem);
+    margin-left: 1.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .github-contribution-hover-card__month {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .github-contribution-hover-card__body {
+    display: flex;
+    gap: 0.3125rem;
+    margin-top: 0.25rem;
+  }
+
+  .github-contribution-hover-card__days {
+    display: grid;
+    grid-template-rows: repeat(7, 0.5rem);
+    letter-spacing: 0;
+    row-gap: 0.125rem;
+    text-align: right;
+    width: 1.1875rem;
+  }
+
+  .github-contribution-hover-card__days span:nth-child(1) {
+    grid-row: 2;
+  }
+
+  .github-contribution-hover-card__days span:nth-child(2) {
+    grid-row: 4;
+  }
+
+  .github-contribution-hover-card__days span:nth-child(3) {
+    grid-row: 6;
+  }
+
+  .github-contribution-hover-card__weeks {
+    display: grid;
+    gap: 0.125rem;
+    grid-template-columns: repeat(var(--github-contribution-week-count), 0.5rem);
+  }
+
+  .github-contribution-hover-card__week {
+    display: grid;
+    gap: 0.125rem;
+    grid-template-rows: repeat(7, 0.5rem);
+  }
+
+  .github-contribution-hover-card__day {
+    background: color-mix(in srgb, var(--theme-lab-muted, var(--color-zinc-500)) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--theme-lab-border, var(--color-zinc-300)) 70%, transparent);
+    display: block;
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+
+  .github-contribution-hover-card__day[data-active="true"] {
+    background: color-mix(
+      in srgb,
+      var(--color-accent) calc(var(--github-contribution-opacity) * 100%),
+      var(--theme-lab-solid-bg, var(--color-ivory))
+    );
+    border-color: color-mix(in srgb, var(--color-accent) 42%, transparent);
+  }
+
+  .github-contribution-hover-card__square-tooltip {
+    background: color-mix(
+      in srgb,
+      var(--color-accent) 8%,
+      var(--theme-lab-solid-bg, var(--color-ivory))
+    );
+    border: 1px solid color-mix(in srgb, var(--color-accent) 38%, var(--theme-lab-border, transparent));
+    box-shadow:
+      0 12px 30px var(--theme-lab-shadow, rgb(24 24 27 / 0.18)),
+      inset 0 1px 0 color-mix(in srgb, var(--color-accent) 18%, transparent);
+    color: var(--theme-lab-ink, var(--color-zinc-900));
+    display: grid;
+    gap: 0.25rem;
+    left: var(--tooltip-x, 0);
+    min-width: 8.25rem;
+    opacity: 0;
+    padding: 0.5625rem 0.625rem;
+    pointer-events: none;
+    position: absolute;
+    top: var(--tooltip-y, 0);
+    transform: translate(-50%, calc(-100% - 0.4375rem)) rotate(var(--tooltip-tilt, 0deg)) scale(0.96);
+    transform-origin: center bottom;
+    transition:
+      opacity 120ms ease,
+      transform 180ms cubic-bezier(0.18, 1.2, 0.28, 1);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .github-contribution-hover-card__square-tooltip::after {
+    background: inherit;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 38%, var(--theme-lab-border, transparent));
+    border-right: 1px solid color-mix(in srgb, var(--color-accent) 38%, var(--theme-lab-border, transparent));
+    bottom: -0.25rem;
+    content: "";
+    height: 0.4375rem;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%) rotate(45deg);
+    width: 0.4375rem;
+  }
+
+  .github-contribution-hover-card__square-tooltip[data-visible="true"] {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 0.5625rem)) rotate(var(--tooltip-tilt, 0deg)) scale(1);
+  }
+
+  .github-contribution-hover-card__square-tooltip-count,
+  .github-contribution-hover-card__square-tooltip-date {
+    display: block;
+    font-family: var(--font-geist-mono);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .github-contribution-hover-card__square-tooltip-count {
+    color: var(--color-accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .github-contribution-hover-card__square-tooltip-date {
+    color: var(--theme-lab-muted, var(--color-zinc-500));
+    font-size: 0.625rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .github-contribution-hover-card__card[data-ripple="true"]
+    .github-contribution-hover-card__day {
+    animation: github-contribution-day-ripple 760ms
+      cubic-bezier(0.16, 1, 0.3, 1)
+      both;
+    animation-delay: var(--github-contribution-delay);
+  }
+
+  @keyframes github-contribution-day-ripple {
+    0% {
+      opacity: 0;
+      transform: translateX(-0.35rem) scale(0.62);
+    }
+
+    45% {
+      opacity: 1;
+      transform: translateX(0.0625rem) scale(1.18);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  :global(.dark) .github-contribution-hover-card__card {
+    background: var(--theme-lab-solid-bg, var(--color-zinc-950));
+    color: var(--theme-lab-ink, var(--color-zinc-50));
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .github-contribution-hover-card {
+      display: inline;
+    }
+
+    .github-contribution-hover-card::before,
+    .github-contribution-hover-card__card,
+    .github-contribution-hover-card__square-tooltip {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .github-contribution-hover-card__card {
+      transition: opacity 120ms ease;
+      transform: none;
+    }
+
+    .github-contribution-hover-card[data-open="true"]
+      .github-contribution-hover-card__card {
+      transform: none;
+    }
+
+    .github-contribution-hover-card__card[data-ripple="true"]
+      .github-contribution-hover-card__day {
+      animation: none;
+    }
+
+    .github-contribution-hover-card__square-tooltip {
+      transition: opacity 120ms ease;
+      transform: translate(-50%, calc(-100% - 0.4375rem));
+    }
+
+    .github-contribution-hover-card__square-tooltip[data-visible="true"] {
+      transform: translate(-50%, calc(-100% - 0.4375rem));
+    }
+  }
+</style>

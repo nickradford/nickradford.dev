@@ -7,8 +7,10 @@ import HomepageBlog from "../components/HomepageBlog.astro";
 import { DecodeText } from "../components/DecodeText";
 import { links } from "../../navigationLinks";
 import ExternalLink from "src/components/ExternalLink.astro";
+import GitHubContributionHoverCard from "src/components/GitHubContributionHoverCard.astro";
 import PageHeader from "src/components/PageHeader.astro";
 
+const personalGitHubHref = "https://github.com/nickradford";
 const nowBuilding = [
   {
     href: "https://usesumi.ink",
@@ -84,16 +86,24 @@ const nowBuilding = [
           <nav class="flex divide-x divide-accent/20 dark:divide-zinc-800">
             <div class="w-8 shrink-0 md:w-16" aria-hidden="true"></div>
             {
-              links.map(([href, label, icon, download]) => (
-                <ExternalLink
-                  href={href}
-                  icon={icon}
-                  download={download}
-                  class="block bg-ivory px-8 py-6 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-accent dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-accent md:px-4"
-                >
-                  {label}
-                </ExternalLink>
-              ))
+              links.map(([href, label, icon, download]) =>
+                href === personalGitHubHref ? (
+                  <GitHubContributionHoverCard
+                    href={href}
+                    label={label}
+                    class="block bg-ivory px-8 py-6 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-accent dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-accent md:px-4"
+                  />
+                ) : (
+                  <ExternalLink
+                    href={href}
+                    icon={icon}
+                    download={download}
+                    class="block bg-ivory px-8 py-6 text-sm font-geist-mono font-medium text-zinc-600 transition-colors hover:text-accent dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-accent md:px-4"
+                  >
+                    {label}
+                  </ExternalLink>
+                ),
+              )
             }
             <div class="w-8 shrink-0 md:w-16" aria-hidden="true"></div>
           </nav>
@@ -107,13 +117,23 @@ const nowBuilding = [
           {
             links.map(([href, label, , download]) => (
               <li class="flex-1 py-6 items-center flex justify-center">
-                <a
-                  href={href}
-                  download={download}
-                  class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent transition-colors"
-                >
-                  {label}
-                </a>
+                {
+                  href === personalGitHubHref ? (
+                    <GitHubContributionHoverCard
+                      href={href}
+                      label={label}
+                      class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent transition-colors"
+                    />
+                  ) : (
+                    <a
+                      href={href}
+                      download={download}
+                      class="text-sm font-geist-mono font-medium text-zinc-600 hover:text-accent dark:text-zinc-400 dark:hover:text-accent transition-colors"
+                    >
+                      {label}
+                    </a>
+                  )
+                }
               </li>
             ))
           }
