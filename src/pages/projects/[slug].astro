@@ -5,6 +5,7 @@ import BackButton from "../../components/BackButton.astro";
 import ImageGallery from "src/components/mdx/ImageGallery.astro";
 import { DecodeText } from "../../components/DecodeText";
 import ExternalLink from "../../components/ExternalLink.astro";
+import ProjectScreenshotGallery from "../../components/ProjectScreenshotGallery.astro";
 import { getCollection, getEntry } from "astro:content";
 
 export const prerender = true;
@@ -74,16 +75,10 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
           <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
             <div class="site-left-rail hidden md:block" />
             <div class="max-w-4xl w-full px-8 md:px-16 py-8">
-              <div class="grid grid-cols-1 gap-4">
-                {entry.data.screenshots.map((src) => (
-                  <img
-                    src={src}
-                    alt={entry.data.name}
-                    loading="lazy"
-                    class="w-full rounded-lg ring-1 ring-accent/20 dark:ring-zinc-700 bg-zinc-100 dark:bg-zinc-900"
-                  />
-                ))}
-              </div>
+              <ProjectScreenshotGallery
+                projectName={entry.data.name}
+                screenshots={entry.data.screenshots}
+              />
             </div>
             <div class="site-right-rail hidden md:block" />
           </div>

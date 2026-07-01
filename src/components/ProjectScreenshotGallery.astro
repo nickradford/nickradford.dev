@@ -1,0 +1,352 @@
+---
+interface Props {
+  projectName: string;
+  screenshots: string[];
+}
+
+const { projectName, screenshots } = Astro.props;
+---
+
+<div class="project-screenshot-gallery" data-project-screenshot-gallery>
+  <div class="columns-1 gap-4 md:columns-2">
+    {
+      screenshots.map((src, index) => {
+        const alt = `${projectName} screenshot ${index + 1}`;
+
+        return (
+          <button
+            type="button"
+            class="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg bg-zinc-100 text-left ring-1 ring-accent/20 transition hover:ring-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:bg-zinc-900 dark:ring-zinc-700 dark:hover:ring-accent/50"
+            data-project-gallery-trigger
+            data-project-gallery-index={index}
+            data-project-gallery-src={src}
+            data-project-gallery-alt={alt}
+            aria-label={`Open ${alt}`}
+          >
+            <img
+              src={src}
+              alt={alt}
+              loading="lazy"
+              class="w-full bg-zinc-100 transition duration-200 group-hover:scale-[1.015] dark:bg-zinc-900"
+            />
+          </button>
+        );
+      })
+    }
+  </div>
+
+  <div
+    class="project-screenshot-lightbox fixed inset-0 z-50 px-4 py-6 sm:px-8"
+    data-project-gallery-lightbox
+    hidden
+    aria-hidden="true"
+  >
+    <button
+      type="button"
+      class="absolute inset-0 cursor-default bg-zinc-950/80 backdrop-blur-sm"
+      data-project-gallery-backdrop
+      aria-label="Close image viewer"
+    >
+    </button>
+
+    <div
+      class="project-screenshot-lightbox__panel relative z-10 flex min-h-full items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${projectName} screenshot viewer`}
+      tabindex="-1"
+      data-project-gallery-panel
+    >
+      <button
+        type="button"
+        class="absolute right-0 top-0 inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-100 shadow-lg transition hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-2 sm:top-2"
+        data-project-gallery-close
+        aria-label="Close image viewer"
+      >
+        <i class="ph ph-x text-xl" aria-hidden="true"></i>
+      </button>
+
+      <button
+        type="button"
+        class="absolute left-0 top-1/2 z-20 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-100 shadow-lg transition hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:left-2"
+        data-project-gallery-prev
+        aria-label="Previous image"
+      >
+        <i class="ph ph-caret-left text-2xl" aria-hidden="true"></i>
+      </button>
+
+      <img
+        src={screenshots[0]}
+        alt={`${projectName} screenshot 1`}
+        class="max-h-[82vh] max-w-[88vw] rounded-lg bg-zinc-950 object-contain shadow-2xl ring-1 ring-white/10"
+        data-project-gallery-image
+      />
+
+      <button
+        type="button"
+        class="absolute right-0 top-1/2 z-20 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-100 shadow-lg transition hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-2"
+        data-project-gallery-next
+        aria-label="Next image"
+      >
+        <i class="ph ph-caret-right text-2xl" aria-hidden="true"></i>
+      </button>
+
+      <div
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-zinc-950/70 px-3 py-1.5 font-geist-mono text-xs font-medium text-zinc-100 shadow-lg sm:bottom-2"
+        data-project-gallery-counter
+        aria-live="polite"
+      >
+        1 / {screenshots.length}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  type GalleryElement = HTMLElement & {
+    _projectScreenshotGalleryCleanup?: () => void;
+  };
+
+  type GalleryImage = {
+    src: string;
+    alt: string;
+  };
+
+  function initProjectScreenshotGalleries() {
+    document
+      .querySelectorAll<GalleryElement>("[data-project-screenshot-gallery]")
+      .forEach((gallery) => {
+        if (gallery._projectScreenshotGalleryCleanup) return;
+
+        const abortController = new AbortController();
+        const { signal } = abortController;
+        const triggers = Array.from(
+          gallery.querySelectorAll<HTMLButtonElement>("[data-project-gallery-trigger]"),
+        );
+        const lightbox = gallery.querySelector<HTMLElement>("[data-project-gallery-lightbox]");
+        const panel = gallery.querySelector<HTMLElement>("[data-project-gallery-panel]");
+        const image = gallery.querySelector<HTMLImageElement>("[data-project-gallery-image]");
+        const counter = gallery.querySelector<HTMLElement>("[data-project-gallery-counter]");
+        const closeButton = gallery.querySelector<HTMLButtonElement>("[data-project-gallery-close]");
+        const backdrop = gallery.querySelector<HTMLButtonElement>(
+          "[data-project-gallery-backdrop]",
+        );
+        const previousButton = gallery.querySelector<HTMLButtonElement>(
+          "[data-project-gallery-prev]",
+        );
+        const nextButton = gallery.querySelector<HTMLButtonElement>("[data-project-gallery-next]");
+
+        if (
+          triggers.length === 0 ||
+          !lightbox ||
+          !panel ||
+          !image ||
+          !counter ||
+          !closeButton ||
+          !backdrop ||
+          !previousButton ||
+          !nextButton
+        ) {
+          return;
+        }
+
+        const images: GalleryImage[] = triggers.map((trigger, index) => ({
+          src: trigger.dataset.projectGallerySrc ?? "",
+          alt: trigger.dataset.projectGalleryAlt ?? `Project screenshot ${index + 1}`,
+        }));
+
+        let activeIndex = 0;
+        let activeTrigger: HTMLButtonElement | null = null;
+        let closeTimer = 0;
+        let originalBodyOverflow: string | null = null;
+
+        const setBodyLocked = (locked: boolean) => {
+          if (locked) {
+            if (originalBodyOverflow === null) {
+              originalBodyOverflow = document.body.style.overflow;
+            }
+            document.body.style.overflow = "hidden";
+            return;
+          }
+
+          if (originalBodyOverflow !== null) {
+            document.body.style.overflow = originalBodyOverflow;
+            originalBodyOverflow = null;
+          }
+        };
+
+        const updateImage = () => {
+          const current = images[activeIndex];
+          if (!current) return;
+
+          image.src = current.src;
+          image.alt = current.alt;
+          counter.textContent = `${activeIndex + 1} / ${images.length}`;
+        };
+
+        const showImage = (index: number) => {
+          activeIndex = (index + images.length) % images.length;
+          updateImage();
+        };
+
+        const openLightbox = (index: number, trigger: HTMLButtonElement) => {
+          window.clearTimeout(closeTimer);
+          activeTrigger = trigger;
+          showImage(index);
+          setBodyLocked(true);
+          lightbox.hidden = false;
+          lightbox.setAttribute("aria-hidden", "false");
+
+          window.requestAnimationFrame(() => {
+            lightbox.dataset.open = "true";
+            closeButton.focus();
+          });
+        };
+
+        const closeLightbox = (restoreFocus = true, immediate = false) => {
+          if (lightbox.hidden) return;
+
+          window.clearTimeout(closeTimer);
+          delete lightbox.dataset.open;
+          lightbox.setAttribute("aria-hidden", "true");
+          setBodyLocked(false);
+
+          const finishClose = () => {
+            lightbox.hidden = true;
+            if (restoreFocus) {
+              activeTrigger?.focus();
+            }
+            activeTrigger = null;
+          };
+
+          if (immediate) {
+            finishClose();
+          } else {
+            closeTimer = window.setTimeout(finishClose, 180);
+          }
+        };
+
+        const goPrevious = () => {
+          showImage(activeIndex - 1);
+        };
+
+        const goNext = () => {
+          showImage(activeIndex + 1);
+        };
+
+        triggers.forEach((trigger, index) => {
+          trigger.addEventListener(
+            "click",
+            () => {
+              openLightbox(index, trigger);
+            },
+            { signal },
+          );
+        });
+
+        closeButton.addEventListener("click", () => closeLightbox(), { signal });
+        backdrop.addEventListener("click", () => closeLightbox(), { signal });
+        panel.addEventListener(
+          "click",
+          (event) => {
+            if (event.target === panel) {
+              closeLightbox();
+            }
+          },
+          { signal },
+        );
+        previousButton.addEventListener("click", goPrevious, { signal });
+        nextButton.addEventListener("click", goNext, { signal });
+
+        document.addEventListener(
+          "keydown",
+          (event) => {
+            if (lightbox.hidden) return;
+
+            if (event.key === "Escape") {
+              event.preventDefault();
+              closeLightbox();
+              return;
+            }
+
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              goPrevious();
+              return;
+            }
+
+            if (event.key === "ArrowRight") {
+              event.preventDefault();
+              goNext();
+            }
+          },
+          { signal },
+        );
+
+        gallery._projectScreenshotGalleryCleanup = () => {
+          abortController.abort();
+          closeLightbox(false, true);
+          delete gallery._projectScreenshotGalleryCleanup;
+        };
+      });
+  }
+
+  function destroyProjectScreenshotGalleries() {
+    document
+      .querySelectorAll<GalleryElement>("[data-project-screenshot-gallery]")
+      .forEach((gallery) => {
+        gallery._projectScreenshotGalleryCleanup?.();
+      });
+  }
+
+  if (!(window as typeof window & { __projectScreenshotGalleryEventsBound?: boolean })
+    .__projectScreenshotGalleryEventsBound) {
+    (window as typeof window & { __projectScreenshotGalleryEventsBound?: boolean })
+      .__projectScreenshotGalleryEventsBound = true;
+    document.addEventListener("astro:page-load", initProjectScreenshotGalleries);
+    document.addEventListener("astro:before-swap", destroyProjectScreenshotGalleries);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initProjectScreenshotGalleries, { once: true });
+  } else {
+    initProjectScreenshotGalleries();
+  }
+</script>
+
+<style>
+  .project-screenshot-lightbox {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .project-screenshot-lightbox[data-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .project-screenshot-lightbox__panel {
+    opacity: 0;
+    transform: scale(0.97);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  .project-screenshot-lightbox[data-open="true"] .project-screenshot-lightbox__panel {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-screenshot-lightbox,
+    .project-screenshot-lightbox__panel {
+      transition: none;
+    }
+
+    .project-screenshot-lightbox__panel {
+      transform: none;
+    }
+  }
+</style>
