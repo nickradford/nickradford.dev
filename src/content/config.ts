@@ -22,6 +22,7 @@ const project = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string(),
+    draft: z.boolean().optional(),
     screenshots: z.array(z.string()).default([]),
     ogImage: z.string().optional().nullable(),
     publicUrl: z.string().url().optional().nullable(),

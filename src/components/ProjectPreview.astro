@@ -74,6 +74,16 @@ const isVideoPreview = previewMedia?.toLowerCase().split("?")[0].endsWith(".mp4"
           backgroundSize: "12px 12px",
         }}
       >
+        {project.publicUrl && (
+          <a
+            href={project.publicUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-accent/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent hover:border-accent/40 dark:hover:border-accent/40 transition-colors bg-ivory dark:bg-zinc-900"
+          >
+            Visit <i class="ph ph-arrow-square-out" />
+          </a>
+        )}
         {project.githubUrl && (
           <a
             href={project.githubUrl}
@@ -82,16 +92,6 @@ const isVideoPreview = previewMedia?.toLowerCase().split("?")[0].endsWith(".mp4"
             class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-accent/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent hover:border-accent/40 dark:hover:border-accent/40 transition-colors bg-ivory dark:bg-zinc-900"
           >
             <i class="ph ph-github-logo" /> GitHub
-          </a>
-        )}
-        {project.publicUrl && (
-          <a
-            href={project.publicUrl}
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center gap-1.5 text-xs font-geist-mono px-2.5 py-1 rounded border border-accent/20 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent hover:border-accent/40 dark:hover:border-accent/40 transition-colors bg-ivory dark:bg-zinc-900"
-          >
-            <i class="ph ph-globe" /> Live
           </a>
         )}
       </div>

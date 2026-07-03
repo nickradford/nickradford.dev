@@ -131,7 +131,7 @@ h6 {
 
 ::selection {
   background-color: var(--color-accent);
-  color: #000000;
+  color: var(--theme-accent-foreground, #000000);
 }
 
 pre {

@@ -29,6 +29,7 @@ export default config({
           label: "Description",
           multiline: true,
         }),
+        draft: fields.checkbox({ label: "Draft" }),
         screenshots: fields.array(
           fields.text({
             label: "Media path",

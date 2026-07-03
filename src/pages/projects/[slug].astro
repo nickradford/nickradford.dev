@@ -11,7 +11,7 @@ import { getCollection, getEntry } from "astro:content";
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const projects = await getCollection("project");
+  const projects = await getCollection("project", ({ data }) => !data.draft);
   return projects.map((p) => ({ params: { slug: p.slug } }));
 }
 
@@ -45,22 +45,22 @@ const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl pr
             </p>
             <div class="flex items-center gap-3">
               {
+                entry.data.publicUrl && (
+                  <ExternalLink
+                    href={entry.data.publicUrl}
+                    class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-geist-mono font-medium text-zinc-900 bg-accent hover:bg-accent/90 transition-colors whitespace-nowrap squircle"
+                  >
+                    Visit <i class="ph ph-arrow-square-out text-base" />
+                  </ExternalLink>
+                )
+              }
+              {
                 entry.data.githubUrl && (
                   <ExternalLink
                     href={entry.data.githubUrl}
                     class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
                   >
                     <i class="ph ph-github-logo text-base" /> GitHub
-                  </ExternalLink>
-                )
-              }
-              {
-                entry.data.publicUrl && (
-                  <ExternalLink
-                    href={entry.data.publicUrl}
-                    class="inline-flex items-center gap-1.5 text-sm font-geist-mono text-zinc-600 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
-                  >
-                    <i class="ph ph-globe text-base" /> Visit
                   </ExternalLink>
                 )
               }
