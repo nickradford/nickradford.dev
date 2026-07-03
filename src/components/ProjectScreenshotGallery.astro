@@ -5,30 +5,54 @@ interface Props {
 }
 
 const { projectName, screenshots } = Astro.props;
+const mediaItems = screenshots.map((src, index) => {
+  const srcWithoutQuery = src.toLowerCase().split("?")[0];
+  const type = srcWithoutQuery.endsWith(".mp4") ? "video" : "image";
+
+  return {
+    src,
+    type,
+    alt: `${projectName} ${type === "video" ? "video" : "screenshot"} ${index + 1}`,
+  };
+});
 ---
 
 <div class="project-screenshot-gallery" data-project-screenshot-gallery>
   <div class="columns-1 gap-4 md:columns-2">
     {
-      screenshots.map((src, index) => {
-        const alt = `${projectName} screenshot ${index + 1}`;
-
+      mediaItems.map((item, index) => {
         return (
           <button
             type="button"
             class="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg bg-zinc-100 text-left ring-1 ring-accent/20 transition hover:ring-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:bg-zinc-900 dark:ring-zinc-700 dark:hover:ring-accent/50"
             data-project-gallery-trigger
             data-project-gallery-index={index}
-            data-project-gallery-src={src}
-            data-project-gallery-alt={alt}
-            aria-label={`Open ${alt}`}
+            data-project-gallery-src={item.src}
+            data-project-gallery-type={item.type}
+            data-project-gallery-alt={item.alt}
+            aria-label={`Open ${item.alt}`}
           >
-            <img
-              src={src}
-              alt={alt}
-              loading="lazy"
-              class="w-full bg-zinc-100 transition duration-200 group-hover:scale-[1.015] dark:bg-zinc-900"
-            />
+            {
+              item.type === "video" ? (
+                <video
+                  src={item.src}
+                  aria-label={item.alt}
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  class="w-full bg-zinc-100 transition duration-200 group-hover:scale-[1.015] dark:bg-zinc-900"
+                />
+              ) : (
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  class="w-full bg-zinc-100 transition duration-200 group-hover:scale-[1.015] dark:bg-zinc-900"
+                />
+              )
+            }
           </button>
         );
       })
@@ -53,7 +77,7 @@ const { projectName, screenshots } = Astro.props;
       class="project-screenshot-lightbox__panel relative z-10 flex min-h-full items-center justify-center"
       role="dialog"
       aria-modal="true"
-      aria-label={`${projectName} screenshot viewer`}
+      aria-label={`${projectName} media viewer`}
       tabindex="-1"
       data-project-gallery-panel
     >
@@ -70,23 +94,35 @@ const { projectName, screenshots } = Astro.props;
         type="button"
         class="absolute left-0 top-1/2 z-20 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-100 shadow-lg transition hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:left-2"
         data-project-gallery-prev
-        aria-label="Previous image"
+        aria-label="Previous media"
       >
         <i class="ph ph-caret-left text-2xl" aria-hidden="true"></i>
       </button>
 
       <img
-        src={screenshots[0]}
-        alt={`${projectName} screenshot 1`}
+        src={mediaItems[0]?.type === "image" ? mediaItems[0].src : undefined}
+        alt={mediaItems[0]?.alt ?? `${projectName} screenshot 1`}
         class="max-h-[82vh] max-w-[88vw] rounded-lg bg-zinc-950 object-contain shadow-2xl ring-1 ring-white/10"
         data-project-gallery-image
       />
+      <video
+        src={mediaItems[0]?.type === "video" ? mediaItems[0].src : undefined}
+        aria-label={mediaItems[0]?.alt ?? `${projectName} video 1`}
+        autoplay
+        muted
+        controls
+        playsinline
+        class="max-h-[82vh] max-w-[88vw] rounded-lg bg-zinc-950 object-contain shadow-2xl ring-1 ring-white/10"
+        data-project-gallery-video
+        hidden
+      >
+      </video>
 
       <button
         type="button"
         class="absolute right-0 top-1/2 z-20 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-100 shadow-lg transition hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-2"
         data-project-gallery-next
-        aria-label="Next image"
+        aria-label="Next media"
       >
         <i class="ph ph-caret-right text-2xl" aria-hidden="true"></i>
       </button>
@@ -107,9 +143,10 @@ const { projectName, screenshots } = Astro.props;
     _projectScreenshotGalleryCleanup?: () => void;
   };
 
-  type GalleryImage = {
+  type GalleryItem = {
     src: string;
     alt: string;
+    type: "image" | "video";
   };
 
   function initProjectScreenshotGalleries() {
@@ -126,6 +163,7 @@ const { projectName, screenshots } = Astro.props;
         const lightbox = gallery.querySelector<HTMLElement>("[data-project-gallery-lightbox]");
         const panel = gallery.querySelector<HTMLElement>("[data-project-gallery-panel]");
         const image = gallery.querySelector<HTMLImageElement>("[data-project-gallery-image]");
+        const video = gallery.querySelector<HTMLVideoElement>("[data-project-gallery-video]");
         const counter = gallery.querySelector<HTMLElement>("[data-project-gallery-counter]");
         const closeButton = gallery.querySelector<HTMLButtonElement>("[data-project-gallery-close]");
         const backdrop = gallery.querySelector<HTMLButtonElement>(
@@ -141,6 +179,7 @@ const { projectName, screenshots } = Astro.props;
           !lightbox ||
           !panel ||
           !image ||
+          !video ||
           !counter ||
           !closeButton ||
           !backdrop ||
@@ -150,9 +189,10 @@ const { projectName, screenshots } = Astro.props;
           return;
         }
 
-        const images: GalleryImage[] = triggers.map((trigger, index) => ({
+        const items: GalleryItem[] = triggers.map((trigger, index) => ({
           src: trigger.dataset.projectGallerySrc ?? "",
           alt: trigger.dataset.projectGalleryAlt ?? `Project screenshot ${index + 1}`,
+          type: trigger.dataset.projectGalleryType === "video" ? "video" : "image",
         }));
 
         let activeIndex = 0;
@@ -175,24 +215,62 @@ const { projectName, screenshots } = Astro.props;
           }
         };
 
-        const updateImage = () => {
-          const current = images[activeIndex];
-          if (!current) return;
-
-          image.src = current.src;
-          image.alt = current.alt;
-          counter.textContent = `${activeIndex + 1} / ${images.length}`;
+        const pauseVideo = () => {
+          video.pause();
+          video.removeAttribute("src");
+          video.load();
         };
 
-        const showImage = (index: number) => {
-          activeIndex = (index + images.length) % images.length;
-          updateImage();
+        const updateMedia = () => {
+          const current = items[activeIndex];
+          if (!current) return;
+
+          if (current.type === "video") {
+            image.hidden = true;
+            image.removeAttribute("src");
+            video.hidden = false;
+            video.src = current.src;
+            video.setAttribute("aria-label", current.alt);
+            video.play().catch(() => undefined);
+          } else {
+            pauseVideo();
+            video.hidden = true;
+            image.hidden = false;
+            image.src = current.src;
+            image.alt = current.alt;
+          }
+
+          counter.textContent = `${activeIndex + 1} / ${items.length}`;
+        };
+
+        const showMedia = (index: number) => {
+          activeIndex = (index + items.length) % items.length;
+          updateMedia();
+        };
+
+        const syncVideoFromTrigger = (trigger: HTMLButtonElement) => {
+          const thumbnailVideo = trigger.querySelector<HTMLVideoElement>("video");
+          if (!thumbnailVideo || video.hidden) return;
+
+          const syncCurrentTime = () => {
+            if (Number.isFinite(thumbnailVideo.currentTime)) {
+              video.currentTime = thumbnailVideo.currentTime;
+            }
+            video.play().catch(() => undefined);
+          };
+
+          if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+            syncCurrentTime();
+          } else {
+            video.addEventListener("loadedmetadata", syncCurrentTime, { once: true });
+          }
         };
 
         const openLightbox = (index: number, trigger: HTMLButtonElement) => {
           window.clearTimeout(closeTimer);
           activeTrigger = trigger;
-          showImage(index);
+          showMedia(index);
+          syncVideoFromTrigger(trigger);
           setBodyLocked(true);
           lightbox.hidden = false;
           lightbox.setAttribute("aria-hidden", "false");
@@ -213,6 +291,7 @@ const { projectName, screenshots } = Astro.props;
 
           const finishClose = () => {
             lightbox.hidden = true;
+            pauseVideo();
             if (restoreFocus) {
               activeTrigger?.focus();
             }
@@ -227,11 +306,11 @@ const { projectName, screenshots } = Astro.props;
         };
 
         const goPrevious = () => {
-          showImage(activeIndex - 1);
+          showMedia(activeIndex - 1);
         };
 
         const goNext = () => {
-          showImage(activeIndex + 1);
+          showMedia(activeIndex + 1);
         };
 
         triggers.forEach((trigger, index) => {

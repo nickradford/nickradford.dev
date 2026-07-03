@@ -30,16 +30,19 @@ export default config({
           multiline: true,
         }),
         screenshots: fields.array(
-          fields.image({
-            label: "Screenshot",
-            directory: "public/projects",
-            publicPath: "/projects",
+          fields.text({
+            label: "Media path",
+            description: "Use a public path to a PNG, JPG, WebP, or MP4 file.",
           }),
           {
-            label: "Screenshots",
+            label: "Screenshots and videos",
             itemLabel: (item) => (typeof item.value === "string" ? item.value : null) ?? "Screenshot",
           }
         ),
+        ogImage: fields.text({
+          label: "OG Image",
+          validation: { isRequired: false },
+        }),
         publicUrl: fields.url({
           label: "Public URL",
           validation: { isRequired: false },

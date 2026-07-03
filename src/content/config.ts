@@ -23,6 +23,7 @@ const project = defineCollection({
     name: z.string(),
     description: z.string(),
     screenshots: z.array(z.string()).default([]),
+    ogImage: z.string().optional().nullable(),
     publicUrl: z.string().url().optional().nullable(),
     githubUrl: z.string().url().optional().nullable(),
   }),

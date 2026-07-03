@@ -22,7 +22,7 @@ const { Content } = await entry.render();
 const articleClasses = `relative prose prose-zinc dark:prose-invert max-w-4xl prose-headings:font-geist-mono prose-headings:font-bold font-geist text-lg dark:prose-headings:!text-zinc-100 prose-blockquote:border-s-accent prose-hr:border-accent/25 dark:prose-hr:border-zinc-700`;
 ---
 
-<Base title={entry.data.name} description={entry.data.description}>
+<Base title={entry.data.name} description={entry.data.description} og={entry.data.ogImage}>
   <Page>
     <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full flex flex-col divide-y divide-accent/20 dark:divide-zinc-800">
       <div class="flex md:divide-x divide-accent/20 dark:divide-zinc-800">
