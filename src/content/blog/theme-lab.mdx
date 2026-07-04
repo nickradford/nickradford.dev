@@ -14,6 +14,16 @@ tags:
 
 I thought my website was too yellow.
 
+<figure className="not-prose my-10">
+  <img
+    src="/theme-lab/website-too-yellow.png"
+    alt="A warm yellow light mode screenshot of nickradford.dev."
+    width={2720}
+    height={1708}
+    className="block w-full rounded-lg"
+  />
+</figure>
+
 This was around midnight, so not exactly peak brain-performance hours, but I was staring at light mode and getting annoyed that the background felt too warm. Too cream. Too much like someone had spilled chamomile tea into the CSS.
 
 Naturally, I asked Codex to fix it.
@@ -82,6 +92,23 @@ It was a tiny theme toy.
 
 Theme Lab has a normal mode and a slightly weirder mode.
 
+<figure className="not-prose my-10 grid gap-4 md:grid-cols-2">
+  <img
+    src="/theme-lab/theme-lab-light-controls.png"
+    alt="Theme Lab light mode controls showing presets and editable color values."
+    width={818}
+    height={1502}
+    className="block w-full rounded-lg"
+  />
+  <img
+    src="/theme-lab/theme-lab-dark-controls.png"
+    alt="Theme Lab dark mode controls showing presets and editable color values."
+    width={820}
+    height={1504}
+    className="block w-full rounded-lg"
+  />
+</figure>
+
 The normal mode is token-based. It exposes the handful of colors the site actually cares about:
 
 - `base`
@@ -108,6 +135,23 @@ The whole thing persists locally. No backend. No account. No sync. Just `localSt
 There is also a second easter egg inside the easter egg.
 
 Double-click the Theme Lab title and it reveals a hidden Mood tab.
+
+<figure className="not-prose my-10 grid gap-4 md:grid-cols-2">
+  <img
+    src="/theme-lab/theme-lab-mood-light.png"
+    alt="Theme Lab light mode Mood editor with a two-axis mood pad and glow slider."
+    width={812}
+    height={1532}
+    className="block w-full rounded-lg"
+  />
+  <img
+    src="/theme-lab/theme-lab-mood-dark.png"
+    alt="Theme Lab dark mode Mood editor with a two-axis mood pad and glow slider."
+    width={818}
+    height={1536}
+    className="block w-full rounded-lg"
+  />
+</figure>
 
 The Mood tab is where the feature gets more interesting. Instead of editing eight color inputs directly, it gives me a little field with three abstract controls:
 
@@ -136,6 +180,22 @@ More energy. Less chaos. More glow. Colder. Softer. Weirder.
 That is closer to how I actually experience the site.
 
 ## The real site is the preview
+
+<figure className="not-prose my-10">
+  <video
+    src="/theme-lab/theme-lab-light-loop.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    aria-label="Theme Lab light mode demo looping through color palettes"
+    className="block w-full rounded-lg"
+  />
+  <figcaption className="mt-3 font-geist-mono text-sm text-zinc-600 dark:text-zinc-400">
+    {"The real page is the preview; Theme Lab changes the palette in place."}
+  </figcaption>
+</figure>
 
 The implementation detail I care about most is that Theme Lab edits the real design tokens.
 
@@ -225,3 +285,188 @@ The takeaway is not "build a theme picker."
 The takeaway is: when you notice yourself repeating the same vague request over and over, look for the interface hiding inside it.
 
 And when the interface turns into something fun, maybe let it.
+
+<section
+  aria-label="Theme gallery"
+  className="not-prose mt-16 border-t border-accent/20 pt-10 dark:border-zinc-800"
+>
+  <div className="theme-gallery-slider relative aspect-[2720/1708] overflow-hidden rounded-lg">
+    <img
+      src="/theme-lab/theme-gallery-light-aqua-orange.png"
+      alt="Theme Lab generated light palette with pale aqua surfaces and orange accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-light-blue-pink.png"
+      alt="Theme Lab generated light palette with blue links and soft pink lines."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-light-mint-magenta.png"
+      alt="Theme Lab generated light palette with mint lines and magenta accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-light-mint-green.png"
+      alt="Theme Lab generated light palette with mint accents and a white surface."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-dark-green-magenta.png"
+      alt="Theme Lab generated dark palette with green surfaces and magenta accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-dark-violet-lime.png"
+      alt="Theme Lab generated dark palette with violet surfaces and lime accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-dark-indigo-lime.png"
+      alt="Theme Lab generated dark palette with indigo surfaces and lime accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+    <img
+      src="/theme-lab/theme-gallery-dark-teal-orange.png"
+      alt="Theme Lab generated dark palette with teal surfaces and orange accents."
+      width={2720}
+      height={1708}
+      loading="lazy"
+      decoding="async"
+      className="theme-gallery-slider__image absolute inset-0 size-full object-cover"
+    />
+  </div>
+  <style>{`
+    .theme-gallery-slider__image {
+      opacity: 1;
+      transform: translate3d(calc(100% + 2px), 0, 0);
+      visibility: hidden;
+      z-index: 0;
+    }
+
+    .theme-gallery-slider__image:first-child {
+      transform: translate3d(0, 0, 0);
+      visibility: visible;
+      z-index: 2;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .theme-gallery-slider__image {
+        animation: theme-gallery-slide-over 40s infinite both cubic-bezier(0.76, 0, 0.24, 1);
+        will-change: transform;
+      }
+
+      .theme-gallery-slider__image:nth-child(1) {
+        animation-delay: -1s;
+      }
+
+      .theme-gallery-slider__image:nth-child(2) {
+        animation-delay: 4s;
+      }
+
+      .theme-gallery-slider__image:nth-child(3) {
+        animation-delay: 9s;
+      }
+
+      .theme-gallery-slider__image:nth-child(4) {
+        animation-delay: 14s;
+      }
+
+      .theme-gallery-slider__image:nth-child(5) {
+        animation-delay: 19s;
+      }
+
+      .theme-gallery-slider__image:nth-child(6) {
+        animation-delay: 24s;
+      }
+
+      .theme-gallery-slider__image:nth-child(7) {
+        animation-delay: 29s;
+      }
+
+      .theme-gallery-slider__image:nth-child(8) {
+        animation-delay: 34s;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .theme-gallery-slider {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        aspect-ratio: auto;
+        overflow: visible;
+      }
+
+      .theme-gallery-slider__image,
+      .theme-gallery-slider__image:first-child {
+        position: static;
+        inset: auto;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2720 / 1708;
+        border-radius: 0.375rem;
+        object-fit: cover;
+        transform: none;
+        visibility: visible;
+        z-index: auto;
+      }
+    }
+
+    @keyframes theme-gallery-slide-over {
+      0% {
+        z-index: 3;
+        transform: translate3d(calc(100% + 2px), 0, 0);
+        visibility: visible;
+      }
+
+      2% {
+        z-index: 3;
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+      }
+
+      2.01%,
+      14.5% {
+        z-index: 2;
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+      }
+
+      14.51%,
+      100% {
+        z-index: 0;
+        transform: translate3d(calc(100% + 2px), 0, 0);
+        visibility: hidden;
+      }
+    }
+  `}</style>
+</section>
