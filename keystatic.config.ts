@@ -72,6 +72,16 @@ export default config({
       entryLayout: "content",
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
+        ogTitle: fields.text({
+          label: "OG Title",
+          description: "Optional title override for generated social images.",
+          validation: { isRequired: false },
+        }),
+        ogSubtitle: fields.text({
+          label: "OG Subtitle",
+          description: "Optional subtitle rendered below the title on generated social images.",
+          validation: { isRequired: false },
+        }),
         draft: fields.checkbox({ label: "Draft" }),
         date: fields.date({ label: "Published Date" }),
         lastUpdated: fields.date({
