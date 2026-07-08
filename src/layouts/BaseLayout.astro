@@ -92,6 +92,11 @@ const themeLabPreloadScript = getThemeLabPreloadScript();
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link
+      rel="sitemap"
+      type="application/xml"
+      href={new URL("sitemap-index.xml", Astro.site)}
+    />
+    <link
       rel="alternate"
       type="application/rss+xml"
       title="Nick Radford (dot) Dev"
