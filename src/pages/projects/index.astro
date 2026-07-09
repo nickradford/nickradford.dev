@@ -28,10 +28,12 @@ const projects = [
   <Page>
     <article class="border-l border-r border-accent/20 dark:border-zinc-800 w-full">
       <PageHeader>
+        <h1 slot="title" class="sr-only">Projects</h1>
         <DecodeText
           slot="title"
           client:load
           value="Projects"
+          decorative
           className="text-4xl md:text-5xl font-geist-mono font-bold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50"
         />
         <Text slot="description">{description}</Text>
