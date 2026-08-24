@@ -73,7 +73,7 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-US", {
                 aria-hidden="true"
               />
               {href ? (
-                <a href={href} class="block no-underline">
+                <a href={href} class="block no-underline" data-traks-event="blog_nav" data-traks-prop-source="adjacent">
                   {content}
                 </a>
               ) : (

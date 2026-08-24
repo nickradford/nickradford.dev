@@ -37,6 +37,8 @@ const getSummary = (post: BlogPost) => post.description ?? post.excerpt;
           <li>
             <a
               href={`/blog/${post.slug}`}
+              data-traks-event="blog_nav"
+              data-traks-prop-source="related"
               class:list={[
                 "group block py-4 no-underline",
                 index === displayItems.length - 1
