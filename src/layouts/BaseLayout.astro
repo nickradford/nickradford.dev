@@ -269,7 +269,21 @@ const themeLabPreloadScript = getThemeLabPreloadScript();
             is:inline
             defer
             data-site="pb_live_y1kyhuopwt37ulyepz33g9au"
+            data-404={Astro.url.pathname === "/404" ? "" : undefined}
             src="https://traks-collect.nickradford.dev/t.js"></script>
+          <script is:inline>
+            // Traks queues calls made before the script loads, so this is safe inline.
+            document.addEventListener("click", (e) => {
+              const target = e.target instanceof Element ? e.target.closest("[data-traks-event]") : null;
+              if (!target) return;
+              const props = Object.fromEntries(
+                Array.from(target.attributes)
+                  .filter((a) => a.name.startsWith("data-traks-prop-"))
+                  .map((a) => [a.name.slice("data-traks-prop-".length), a.value]),
+              );
+              window.traks?.(target.dataset.traksEvent, props);
+            });
+          </script>
         </>
       )
     }

@@ -106,8 +106,8 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
             href="/nick-radford-resume-2026-06-18.pdf"
             download="Nick Radford Resume.pdf"
             class="inline-flex items-center gap-2 px-6 py-3 text-sm font-geist-mono font-medium text-zinc-900 bg-accent hover:bg-accent/90 transition-colors whitespace-nowrap flex-shrink-0 squircle"
-            data-umami-event="Download Resume"
-            data-umami-event-resume-version="nick-radford-resume-2026-06-18.pdf"
+            data-traks-event="resume_download"
+            data-traks-prop-version="nick-radford-resume-2026-06-18.pdf"
           >
             Download resume <i class="ph ph-file-pdf text-lg"></i>
           </a>
@@ -737,6 +737,7 @@ const formatDateRange = (startDate: string, endDate: string, index: number) => {
         toggle.dataset.workViewBound = "true";
         toggle.addEventListener("click", () => {
           const expanded = toggle.dataset.workView === "detailed";
+          (window as any).traks?.("work_view", { view: toggle.dataset.workView ?? "minimal" });
           setExpanded(expanded, true, expanded);
         });
       });

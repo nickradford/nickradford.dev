@@ -137,7 +137,7 @@ const exampleSearchTerms = ["Cloudflare", "React", "Sumi"];
         updateQuery(query);
         if (query) {
           instance.triggerSearch(query);
-          (window as any).umami?.track("search", { query });
+          (window as any).traks?.("search", { query });
         } else {
           resultsEl.innerHTML = '';
           resultCountEl.classList.add('hidden');

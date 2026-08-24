@@ -63,3 +63,4 @@ public/pagefind
 .env*
 !.env.example
 .wrangler/
+.mcp.json
