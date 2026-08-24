@@ -83,6 +83,11 @@ export default config({
           validation: { isRequired: false },
         }),
         draft: fields.checkbox({ label: "Draft" }),
+        aiAssisted: fields.checkbox({
+          label: "AI Assisted",
+          description:
+            "Mark this post as written or edited with the help of AI. Shows an AI badge on the post.",
+        }),
         date: fields.date({ label: "Published Date" }),
         lastUpdated: fields.date({
           label: "Last Updated",

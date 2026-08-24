@@ -1,5 +1,6 @@
 ---
 import Frame from "./Frame.astro";
+import AiAssistedBadge from "./AiAssistedBadge.astro";
 import type { BlogPost } from "../lib/content";
 import { formatDate } from "../lib/format-date";
 
@@ -30,6 +31,11 @@ const { post, lastPost } = Astro.props;
             <span class="text-xs uppercase tracking-widest font-geist-mono font-medium px-2 py-1 bg-accent/20 dark:bg-accent/10 text-accent rounded">
               Draft
             </span>
+          )
+        }
+        {
+          post.aiAssisted && (
+            <AiAssistedBadge id={`preview-${post.slug}`} />
           )
         }
       </div>

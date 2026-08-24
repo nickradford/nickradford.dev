@@ -32,6 +32,7 @@ export type BlogPost = {
   readingTime: ReadingTime;
   changelog?: ChangelogEntry[];
   draft?: boolean;
+  aiAssisted?: boolean;
   tags?: string[];
 };
 

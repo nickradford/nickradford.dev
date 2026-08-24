@@ -33,6 +33,7 @@ const currentPost = {
   excerpt: "",
   readingTime,
   tags: entry.data.tags,
+  aiAssisted: entry.data.aiAssisted,
 };
 const { posts } = await getLatestPosts();
 const adjacentPosts = getAdjacentPosts(posts, currentPost.slug);

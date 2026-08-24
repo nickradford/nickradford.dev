@@ -1,0 +1,165 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  class?: string;
+  dotAnimation?: "spin" | "ticker";
+}
+
+const { class: className, dotAnimation = "ticker", ...rest } = Astro.props;
+---
+
+<div
+  {...rest}
+  data-dot-animation={dotAnimation}
+  class:list={["hovercard-panel", className]}
+>
+  <slot />
+</div>
+
+<style>
+  .hovercard-panel {
+    --hovercard-inset: 0.875rem;
+    --hovercard-gutter: 1rem;
+    --hovercard-dot-color: rgb(113 113 122 / 0.22);
+    --hovercard-dot-row: 0.375rem;
+    --hovercard-dot-rest-y: 0.125rem;
+    --hovercard-dot-tick-y: -0.625rem;
+    --hovercard-dot-tick-overshoot-y: -0.7rem;
+    --hovercard-dot-tick-rebound-y: -0.59rem;
+
+    position: relative;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+    background-color: var(--color-ivory);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    padding: var(--hovercard-gutter);
+    padding-left: calc(var(--hovercard-inset) + var(--hovercard-gutter));
+    text-align: left;
+  }
+
+  :global(.dark) .hovercard-panel {
+    --hovercard-dot-color: rgb(113 113 122 / 0.32);
+
+    border-color: var(--color-zinc-800);
+    background-color: var(--color-zinc-950);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.4),
+      0 8px 10px -6px rgb(0 0 0 / 0.4);
+  }
+
+  .hovercard-panel::before {
+    content: "";
+    position: absolute;
+    inset: 1px auto 1px 1px;
+    width: calc(var(--hovercard-inset) + 3px);
+    background-color: var(--color-ivory);
+    background-image: linear-gradient(
+      color-mix(in srgb, var(--color-zinc-300) 80%, transparent),
+      color-mix(in srgb, var(--color-zinc-300) 80%, transparent)
+    );
+    background-position: calc(var(--hovercard-inset) + 2px) 0;
+    background-repeat: no-repeat;
+    background-size: 1px 100%;
+    pointer-events: none;
+  }
+
+  :global(.dark) .hovercard-panel::before {
+    background-color: var(--color-zinc-950);
+    background-image: linear-gradient(
+      color-mix(in srgb, var(--color-zinc-800) 86%, transparent),
+      color-mix(in srgb, var(--color-zinc-800) 86%, transparent)
+    );
+  }
+
+  .hovercard-panel::after {
+    content: "";
+    position: absolute;
+    inset: 1px auto 1px 1px;
+    width: var(--hovercard-inset);
+    background-image: radial-gradient(
+      circle,
+      var(--hovercard-dot-color) 0.0625rem,
+      transparent 0.078125rem
+    );
+    background-position: 0.125rem var(--hovercard-dot-rest-y);
+    background-size: var(--hovercard-dot-row) var(--hovercard-dot-row);
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(0 0 0) 16%,
+      rgb(0 0 0) 84%,
+      transparent
+    );
+    pointer-events: none;
+    will-change: background-position;
+  }
+
+  .hovercard-panel[data-dot-animation="spin"] {
+    --hovercard-dot-start-y: 36.125rem;
+  }
+
+  :global(.group:hover) .hovercard-panel,
+  :global(.group:focus-within) .hovercard-panel {
+    animation: hovercard-panel-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  :global(.group:hover) .hovercard-panel::after,
+  :global(.group:focus-within) .hovercard-panel::after {
+    animation: hovercard-dots-tick 1000ms infinite;
+  }
+
+  :global(.group:hover) .hovercard-panel[data-dot-animation="spin"]::after,
+  :global(.group:focus-within)
+    .hovercard-panel[data-dot-animation="spin"]::after {
+    animation: hovercard-dots-spin 3000ms cubic-bezier(0.08, 0.82, 0.12, 1)
+      both;
+  }
+
+  @keyframes hovercard-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.25rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes hovercard-dots-spin {
+    from {
+      background-position: 0.125rem var(--hovercard-dot-start-y);
+    }
+    to {
+      background-position: 0.125rem var(--hovercard-dot-rest-y);
+    }
+  }
+
+  @keyframes hovercard-dots-tick {
+    0% {
+      background-position: 0.125rem var(--hovercard-dot-rest-y);
+    }
+    62% {
+      background-position: 0.125rem var(--hovercard-dot-tick-overshoot-y);
+      animation-timing-function: cubic-bezier(0.18, 0.9, 0.2, 1.35);
+    }
+    82% {
+      background-position: 0.125rem var(--hovercard-dot-tick-rebound-y);
+      animation-timing-function: cubic-bezier(0.2, 0.85, 0.22, 1);
+    }
+    100% {
+      background-position: 0.125rem var(--hovercard-dot-tick-y);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.group:hover) .hovercard-panel,
+    :global(.group:focus-within) .hovercard-panel,
+    :global(.group:hover) .hovercard-panel::after,
+    :global(.group:focus-within) .hovercard-panel::after {
+      animation: none;
+    }
+  }
+</style>

@@ -1,7 +1,18 @@
 ---
 import { SocialCard } from "../components/social-card";
 import { getCollection } from "astro:content";
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection("blog", ({ data }) => !data.draft).then(
+  (entries) =>
+    entries.map((entry) => ({
+      slug: entry.slug,
+      data: {
+        title: entry.data.title,
+        ogTitle: entry.data.ogTitle,
+        ogSubtitle: entry.data.ogSubtitle,
+        date: entry.data.date,
+      },
+    })),
+);
 ---
 
 <SocialCard posts={posts} client:only="react" />

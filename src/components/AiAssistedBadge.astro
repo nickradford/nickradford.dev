@@ -1,0 +1,39 @@
+---
+import HoverCardPanel from "./HoverCardPanel.astro";
+
+interface Props {
+  id?: string;
+}
+
+const { id = "default" } = Astro.props;
+const tooltipId = `ai-badge-tooltip-${id}`;
+---
+
+<span class="group relative inline-flex items-center">
+  <span
+    aria-describedby={tooltipId}
+    class="relative top-px inline-flex h-5 w-5 items-center justify-center rounded-none bg-accent text-[10px] font-medium font-geist-mono text-zinc-950 cursor-default"
+  >
+    AI
+  </span>
+  <span
+    class="invisible !absolute top-full left-0 z-50 pt-2 group-hover:visible"
+  >
+    <HoverCardPanel
+      id={tooltipId}
+      role="tooltip"
+      class="w-64"
+      style="--hovercard-gutter: 0.875rem; --hovercard-inset: 0.875rem;"
+    >
+    <span
+      class="block font-geist-mono text-[0.625rem] uppercase leading-4 tracking-[0.18em] text-zinc-500 dark:text-zinc-500"
+    >
+      AI assisted
+    </span>
+    <p class="mt-1 font-geist leading-relaxed text-zinc-700 dark:text-zinc-300">
+      This post was written or edited with the help of AI. See
+      <a href="/blog/reflecting-on-ai-writing" class="underline text-accent hover:text-accent/80">Reflecting on AI Writing</a>.
+    </p>
+    </HoverCardPanel>
+  </span>
+</span>

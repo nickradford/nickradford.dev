@@ -20,6 +20,7 @@ export async function getLatestPosts(options?: { includeDrafts?: boolean }): Pro
     description: e.data.description,
     date: e.data.date,
     draft: e.data.draft ?? false,
+    aiAssisted: e.data.aiAssisted ?? false,
     tags: e.data.tags ?? [],
     slug: e.slug,
     excerpt: e.data.description ?? toExcerpt(e.body),
