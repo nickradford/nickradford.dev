@@ -12,6 +12,7 @@ import {
 } from "../../lib/blog-recommendations";
 import { getOgImageUrl } from "../../lib/og";
 import ImageGallery from "src/components/mdx/ImageGallery.astro";
+import SelectionShare from "../../components/SelectionShare.astro";
 
 export const prerender = true;
 
@@ -89,9 +90,11 @@ const blogPostingStructuredData = {
     headings={headings}
     adjacentPosts={adjacentPosts}
   >
-    <div data-pagefind-body>
-      <Content components={{ ImageGallery }} />
-    </div>
+    <SelectionShare url={canonicalUrl} title={pageTitle}>
+      <div data-pagefind-body>
+        <Content components={{ ImageGallery }} />
+      </div>
+    </SelectionShare>
     <BlogRelatedPosts
       slot="footer"
       items={relatedItems}

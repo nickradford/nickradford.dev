@@ -1,0 +1,296 @@
+---
+interface Props {
+  url: string;
+  title: string;
+}
+
+const { url, title } = Astro.props;
+---
+
+<div
+  data-selection-share-scope
+  data-selection-share-url={url}
+  data-selection-share-title={title}
+>
+  <slot />
+</div>
+
+<div
+  data-selection-share-card
+  role="dialog"
+  aria-label="Share selection"
+  style="display:none"
+  class="fixed z-50 flex items-center gap-0.5 rounded-lg border border-accent/20 dark:border-zinc-800 bg-ivory dark:bg-zinc-950 shadow-lg shadow-zinc-950/10 px-1 py-1"
+>
+  <button
+    type="button"
+    data-share="copy"
+    class="flex items-center gap-1.5 rounded-md px-2 py-1 font-geist-mono text-xs font-medium text-zinc-600 hover:bg-accent/10 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
+  >
+    <i class="ph ph-copy" aria-hidden="true"></i>
+    <span data-share-copy-label>Copy</span>
+  </button>
+  <a
+    data-share="x"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Post selection to X"
+    class="flex items-center gap-1.5 rounded-md px-2 py-1 font-geist-mono text-xs font-medium text-zinc-600 hover:bg-accent/10 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
+  >
+    <i class="ph ph-x-logo" aria-hidden="true"></i>
+    <span>Post</span>
+  </a>
+  <a
+    data-share="linkedin"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Share selection on LinkedIn"
+    class="flex items-center gap-1.5 rounded-md px-2 py-1 font-geist-mono text-xs font-medium text-zinc-600 hover:bg-accent/10 hover:text-accent dark:text-zinc-300 dark:hover:text-accent transition-colors"
+  >
+    <i class="ph ph-linkedin-logo" aria-hidden="true"></i>
+    <span>Share</span>
+  </a>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      __selectionShareBound?: boolean;
+    }
+  }
+
+  function getScope() {
+    return document.querySelector<HTMLElement>("[data-selection-share-scope]");
+  }
+
+  function shareUrl() {
+    return getScope()?.dataset.selectionShareUrl ?? "";
+  }
+
+  function shareTitle() {
+    return getScope()?.dataset.selectionShareTitle ?? "";
+  }
+
+  function getCard() {
+    return document.querySelector<HTMLDivElement>("[data-selection-share-card]");
+  }
+
+  function trimQuote(quote: string, max: number) {
+    const cleaned = quote.replace(/\s+/g, " ").trim();
+    return cleaned.length > max ? `${cleaned.slice(0, max - 1)}…` : cleaned;
+  }
+
+  function copyText(quote: string) {
+    return `“${trimQuote(quote, 240)}” — ${shareTitle()} (${shareUrl()})`;
+  }
+
+  function postText(quote: string) {
+    return `“${trimQuote(quote, 200)}” — ${shareUrl()}`;
+  }
+
+  function hide() {
+    const card = getCard();
+    if (!card) {
+      return;
+    }
+
+    card.style.display = "none";
+    const label = card.querySelector<HTMLElement>("[data-share-copy-label]");
+
+    if (label) {
+      label.textContent = "Copy";
+    }
+  }
+
+  function position(anchor?: { x: number; y: number }) {
+    const card = getCard();
+    if (!card) {
+      return;
+    }
+
+    let x: number;
+    let y: number;
+
+    if (anchor) {
+      x = anchor.x;
+      y = anchor.y;
+    } else {
+      // Fallback (keyboard selection): the end of the selection.
+      const selection = window.getSelection();
+
+      if (!selection || selection.rangeCount === 0) {
+        return;
+      }
+
+      const endRange = selection.getRangeAt(0).cloneRange();
+      endRange.collapse(false);
+      const rect = endRange.getBoundingClientRect();
+
+      if (rect.top === 0 && rect.left === 0 && rect.bottom === 0) {
+        const full = selection.getRangeAt(0).getBoundingClientRect();
+        x = full.left;
+        y = full.top;
+      } else {
+        x = rect.left;
+        y = rect.top;
+      }
+    }
+
+    const gap = 10;
+    const cardWidth = card.offsetWidth;
+    const cardHeight = card.offsetHeight;
+    let top = y - cardHeight - gap;
+
+    if (top < 8) {
+      top = y + gap;
+    }
+
+    let left = x - cardWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - cardWidth - 8));
+    card.style.top = `${Math.round(top)}px`;
+    card.style.left = `${Math.round(left)}px`;
+  }
+
+  function show(quote: string, anchor?: { x: number; y: number }) {
+    const card = getCard();
+
+    if (!card) {
+      return;
+    }
+
+    const xLink = card.querySelector<HTMLAnchorElement>('[data-share="x"]');
+    const linkedinLink = card.querySelector<HTMLAnchorElement>(
+      '[data-share="linkedin"]',
+    );
+
+    if (xLink) {
+      xLink.href = `https://x.com/intent/tweet?text=${encodeURIComponent(postText(quote))}`;
+    }
+
+    if (linkedinLink) {
+      linkedinLink.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl())}`;
+    }
+
+    const wasVisible = card.style.display === "flex";
+    card.dataset.quote = copyText(quote);
+    card.style.display = "flex";
+
+    // A new mouse-up anchor always repositions; a trailing selectionchange
+    // (no anchor) just refreshes the links and keeps the current spot.
+    if (anchor || !wasVisible) {
+      position(anchor);
+    }
+  }
+
+  function maybeShow(anchor?: { x: number; y: number }) {
+    const selection = window.getSelection();
+    const scope = getScope();
+
+    if (
+      !selection ||
+      selection.isCollapsed ||
+      !scope ||
+      !selection.anchorNode ||
+      !scope.contains(selection.anchorNode) ||
+      !scope.contains(selection.focusNode)
+    ) {
+      return;
+    }
+
+    const quote = selection.toString().replace(/\s+/g, " ").trim();
+
+    if (quote) {
+      show(quote, anchor);
+    }
+  }
+
+  function setup() {
+    const card = getCard();
+
+    if (card && card.parentElement !== document.body) {
+      document.body.appendChild(card);
+    }
+
+    hide();
+  }
+
+  setup();
+  document.addEventListener("astro:page-load", setup);
+
+  // Bind global listeners once; handlers query the DOM live so they survive
+  // Astro client-side navigations between pages.
+  if (!window.__selectionShareBound) {
+    window.__selectionShareBound = true;
+    let pointerSelecting = false;
+
+    document.addEventListener("pointerdown", (event) => {
+      pointerSelecting = true;
+      const card = getCard();
+
+      if (card && event.target instanceof Node && !card.contains(event.target)) {
+        hide();
+      }
+    });
+
+    document.addEventListener("pointerup", (event) => {
+      pointerSelecting = false;
+      const anchor = { x: event.clientX, y: event.clientY };
+      window.setTimeout(() => maybeShow(anchor), 0);
+    });
+
+    // Keyboard selection (shift+arrows) and re-selection after copy.
+    document.addEventListener("selectionchange", () => {
+      if (!pointerSelecting) {
+        maybeShow();
+      }
+    });
+
+    document.addEventListener("click", async (event) => {
+      const card = getCard();
+
+      if (!card || !(event.target instanceof Element)) {
+        return;
+      }
+
+      const target = event.target.closest("[data-share]");
+
+      if (!target || !card.contains(target)) {
+        return;
+      }
+
+      if (target.getAttribute("data-share") === "copy") {
+        event.preventDefault();
+        const label = card.querySelector<HTMLElement>("[data-share-copy-label]");
+
+        try {
+          await navigator.clipboard.writeText(card.dataset.quote ?? "");
+
+          if (label) {
+            label.textContent = "Copied";
+          }
+        } catch {
+          if (label) {
+            label.textContent = "Failed";
+          }
+        }
+
+        window.setTimeout(() => {
+          if (label) {
+            label.textContent = "Copy";
+          }
+        }, 1500);
+        return; // Keep the card visible for the feedback.
+      }
+
+      hide();
+    });
+
+    window.addEventListener("scroll", hide, true);
+    window.addEventListener("resize", hide);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        hide();
+      }
+    });
+  }
+</script>
