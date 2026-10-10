@@ -15,6 +15,10 @@
 		// markdown via Accept-header negotiation.
 		"run_worker_first": ["/blog/*"],
 	},
+	// Worker Previews (branch builds): empty is fine — no vars/secrets/bindings
+	// to diverge from production. Assets, compatibility, and routes stay at
+	// the top level; routes always target production.
+	"previews": {},
 	// Widen to "nickradford.dev/*" at cutover. Until then only blog traffic
 	// moves off Vercel.
 	"routes": [{ "pattern": "nickradford.dev/blog/*", "zone_name": "nickradford.dev" }],
