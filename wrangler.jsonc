@@ -19,7 +19,8 @@
 	// to diverge from production. Assets, compatibility, and routes stay at
 	// the top level; routes always target production.
 	"previews": {},
-	// Widen to "nickradford.dev/*" at cutover. Until then only blog traffic
-	// moves off Vercel.
-	"routes": [{ "pattern": "nickradford.dev/blog/*", "zone_name": "nickradford.dev" }],
+	"routes": [
+		{ "pattern": "nickradford.dev/*", "zone_name": "nickradford.dev" },
+		{ "pattern": "www.nickradford.dev/*", "zone_name": "nickradford.dev" },
+	],
 }

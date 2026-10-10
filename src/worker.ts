@@ -39,6 +39,12 @@ export function createExports(manifest: SSRManifest) {
   const fetch = async (request: Request, env: Env, context: ExecutionContext): Promise<Response> => {
     const url = new URL(request.url);
 
+    // www → apex (was Vercel's job before the cutover)
+    if (url.hostname === "www.nickradford.dev") {
+      const redirectTo = new URL(url.pathname + url.search, "https://nickradford.dev");
+      return Response.redirect(redirectTo.toString(), 301);
+    }
+
     // trailingSlash: "never" — the ASSETS binding fetch bypasses
     // html_handling redirects, so normalize blog paths here.
     if (url.pathname.startsWith("/blog/") && url.pathname.endsWith("/")) {
