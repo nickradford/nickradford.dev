@@ -1,9 +1,14 @@
 import type { APIRoute } from "astro";
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import { calculateReadingTime } from "../../lib/content";
 import { formatDate } from "@lib/format-date";
 
-export const prerender = false;
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
 
 export const GET: APIRoute = async ({ params }) => {
   const slug = params.slug;
@@ -13,10 +18,6 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   const entry = await getEntry("blog", slug);
-
-  if (!entry || entry.data.draft) {
-    return new Response("Not found", { status: 404 });
-  }
 
   const baseUrl = "https://nickradford.dev";
   const canonicalUrl = `${baseUrl}/blog/${entry.slug}`;

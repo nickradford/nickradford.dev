@@ -36,7 +36,7 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# vercel
+# vercel (legacy, can be removed after cutover)
 .vercel
 
 # typescript

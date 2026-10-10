@@ -5,16 +5,10 @@ export default config({
   ui: {
     brand: { name: "Nick Radford (dot) dev" },
   },
-  storage:
-    import.meta.env.NODE_ENV === "PRODUCTION"
-      ? {
-          kind: "github",
-          repo: "nickradford/nickradford.dev",
-          branchPrefix: "post/",
-        }
-      : {
-          kind: "local",
-        },
+  // Keystatic is local-dev only: content is edited locally and shipped via git.
+  storage: {
+    kind: "local",
+  },
   collections: {
     projects: collection({
       label: "Projects",

@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "nickradford-dev-worker",
+	"compatibility_date": "2026-02-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+		"enabled": true,
+	},
+	"main": "dist/_worker.js/index.js",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"html_handling": "drop-trailing-slash",
+		// Blog routes must invoke the Worker so the entrypoint can serve
+		// markdown via Accept-header negotiation.
+		"run_worker_first": ["/blog/*"],
+	},
+	// Widen to "nickradford.dev/*" at cutover. Until then only blog traffic
+	// moves off Vercel.
+	"routes": [{ "pattern": "nickradford.dev/blog/*", "zone_name": "nickradford.dev" }],
+}

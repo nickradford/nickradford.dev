@@ -2,8 +2,9 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
+import type { PluginOption } from "vite";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
+import cloudflare from "@astrojs/cloudflare";
 
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -18,8 +19,9 @@ import metaTags from "astro-meta-tags";
 import { astroGrab } from "astro-grab";
 import whichly from "@whichly/astro";
 
-const showWhichlyPicker =
-  process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV === "preview";
+// Keystatic is for local dev only — it never ships in production builds.
+const showWhichlyPicker = process.env.NODE_ENV !== "production";
+const isDev = showWhichlyPicker;
 
 function phosphorRegularWoff2Only() {
   return {
@@ -44,7 +46,7 @@ export default defineConfig({
   site: "https://nickradford.dev",
   trailingSlash: "never",
   vite: {
-    plugins: [phosphorRegularWoff2Only(), tailwindcss()],
+    plugins: [phosphorRegularWoff2Only(), tailwindcss() as unknown as PluginOption],
     optimizeDeps: {
       include: [
         "@keystatic/core",
@@ -60,7 +62,9 @@ export default defineConfig({
       },
     },
   },
-  adapter: vercel(),
+  adapter: cloudflare({
+    workerEntryPoint: { path: "src/worker.ts" },
+  }),
   output: "static",
   devToolbar: { enabled: true },
   integrations: [
@@ -89,7 +93,7 @@ export default defineConfig({
       },
     }),
     markdoc(),
-    keystatic(),
+    ...(isDev ? [keystatic()] : []),
     metaTags(),
     astroGrab(),
     whichly({ floating: showWhichlyPicker }),

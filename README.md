@@ -2,8 +2,6 @@
 
 Personal portfolio site for Nick Radford, a software engineer from San Francisco.
 
-[![Deploy Cloudflare Worker](https://github.com/nickradford/nickradford.dev/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/nickradford/nickradford.dev/actions/workflows/deploy-worker.yml)
-
 ## Features
 
 - **Blog**: Articles about software engineering, UI/UX, and web development
@@ -16,15 +14,15 @@ Personal portfolio site for Nick Radford, a software engineer from San Francisco
 
 - **Framework**: [Astro](https://astro.build/) with static generation
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Content**: Markdown and MDX blog posts, authored with [Keystatic CMS](https://keystatic.com)
-- **Hosting**: [Vercel](https://vercel.com/)
+- **Content**: Markdown and MDX blog posts, authored with [Keystatic CMS](https://keystatic.com) (local dev only)
+- **Hosting**: [Cloudflare Workers](https://developers.cloudflare.com/workers/) via Workers Builds; `bun run deploy` with Wrangler works locally too
 
 ## Development
 
 ```bash
 bun dev         # Start development server
-bun run build   # Build for production
-bun preview     # Preview production build
+bun run build   # Build for production (pagefind indexing included)
+bun preview     # Preview production build (workerd)
 bun lint        # Run type checks and linting
 ```
 

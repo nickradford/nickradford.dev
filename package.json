@@ -5,22 +5,22 @@
   "scripts": {
     "check-types": "tsc --noemit",
     "dev": "astro dev",
-    "build": "astro build && pagefind --site .vercel/output/static",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "lint": "astro check && bun check-types",
     "prepare": "husky install",
     "og": "bun scripts/social-card.ts",
     "og:regen": "bun og:clean; bun og",
     "og:clean": "rm public/og/*",
-    "deploy:worker": "cd worker && bun run deploy"
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "@astrojs/markdoc": "^0.15.9",
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "4.0.14",
     "@astrojs/sitemap": "3.6.0",
-    "@astrojs/vercel": "^9.0.1",
     "@fontsource/geist": "^5.2.8",
     "@fontsource/geist-mono": "^5.2.7",
     "@keystatic/astro": "^5.0.6",
@@ -54,17 +54,18 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@whichly/astro": "^1.0.1",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^24.10.1",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@types/sanitize-html": "^2.16.0",
+    "@whichly/astro": "^1.0.1",
     "husky": "^8.0.0",
     "pagefind": "^1.4.0",
     "puppeteer": "^24.31.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.149.0"
   },
   "packageManager": "bun@1.3.9"
 }
