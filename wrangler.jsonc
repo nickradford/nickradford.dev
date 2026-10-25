@@ -11,9 +11,10 @@
 		"directory": "./dist",
 		"binding": "ASSETS",
 		"html_handling": "drop-trailing-slash",
-		// Blog routes must invoke the Worker so the entrypoint can serve
-		// markdown via Accept-header negotiation.
-		"run_worker_first": ["/blog/*"],
+		// Pages must invoke the Worker so the entrypoint can redirect www →
+		// apex and serve blog markdown via Accept-header negotiation. Hashed
+		// bundles and the search index skip it — nothing links to them on www.
+		"run_worker_first": ["/*", "!/_astro/*", "!/pagefind/*"],
 	},
 	// Worker Previews (branch builds): empty is fine — no vars/secrets/bindings
 	// to diverge from production. Assets, compatibility, and routes stay at

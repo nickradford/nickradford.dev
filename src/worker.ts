@@ -46,8 +46,8 @@ export function createExports(manifest: SSRManifest) {
     }
 
     // trailingSlash: "never" — the ASSETS binding fetch bypasses
-    // html_handling redirects, so normalize blog paths here.
-    if (url.pathname.startsWith("/blog/") && url.pathname.endsWith("/")) {
+    // html_handling redirects, so normalize paths here.
+    if (url.pathname !== "/" && url.pathname.endsWith("/")) {
       const redirectTo = new URL(url.pathname.replace(/\/+$/, "") + url.search, url.origin);
       return Response.redirect(redirectTo.toString(), 301);
     }
