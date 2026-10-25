@@ -11,6 +11,7 @@ interface JobItemProps {
   logoTreatment?: "contain";
 }
 
+import mondrio from "./src/images/mondrio.png";
 import heyday from "./src/images/heyday.png";
 import govalo from "./src/images/govalo.png";
 import cruise from "./src/images/cruise.png";
@@ -21,6 +22,27 @@ import walmart from "./src/images/walmart.png";
 import dell from "./src/images/dell.png";
 
 const jobs: JobItemProps[] = [
+  {
+    company: "Mondrio",
+    role: "Founding Design Engineer",
+    startDate: "Oct 2026",
+    endDate: "Present",
+    img: mondrio,
+    summary:
+      "Establishing design patterns for agentic pricing interactions and defining channel-native design for multi-channel agent interactions.",
+    technologies: [
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Storybook",
+      "Paper.design",
+      "Claude",
+      "Eve",
+      "Vitest",
+      "WorkOS",
+      "Pulumi",
+    ],
+  },
   {
     company: "Sumi",
     role: "Founder",
